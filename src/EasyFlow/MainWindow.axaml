@@ -1,0 +1,61 @@
+<suki:SukiWindow
+    x:Class="EasyFlow.MainWindow"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:icons="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+    xmlns:local="clr-namespace:EasyFlow"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:models="clr-namespace:SukiUI.Models;assembly=SukiUI"
+    xmlns:suki="clr-namespace:SukiUI.Controls;assembly=SukiUI"
+    Title="EasyFlow"
+    Width="1280"
+    Height="720"
+    MinWidth="620"
+    MinHeight="400"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    x:DataType="local:MainViewModel"
+    BackgroundAnimationEnabled="True"
+    CanResize="True"
+    Icon="/Assets/avalonia-logo.ico"
+    IsMenuVisible="True"
+    WindowStartupLocation="CenterScreen"
+    mc:Ignorable="d">
+    <suki:SukiWindow.LogoContent>
+        <icons:MaterialIcon
+            Width="20"
+            Height="20"
+            VerticalAlignment="Center"
+            Foreground="{DynamicResource SukiPrimaryColor}"
+            Kind="Panda">
+            <icons:MaterialIcon.Transitions>
+                <Transitions>
+                    <BrushTransition Property="Foreground" Duration="{DynamicResource ShortAnimationDuration}" />
+                </Transitions>
+            </icons:MaterialIcon.Transitions>
+        </icons:MaterialIcon>
+    </suki:SukiWindow.LogoContent>
+
+    <suki:SukiWindow.MenuItems>
+        <MenuItem Header="Theme">
+            <MenuItem Command="{Binding ToggleBaseThemeCommand}" Header="{Binding BaseTheme}">
+                <MenuItem.Icon>
+                    <icons:MaterialIcon Kind="Lightbulb" />
+                </MenuItem.Icon>
+            </MenuItem>
+            <MenuItem Header="-" />
+            <MenuItem
+                Click="MenuItem_OnClick"
+                Header="Switch To..."
+                ItemsSource="{Binding Themes}">
+                <MenuItem.DataTemplates>
+                    <DataTemplate DataType="{x:Type models:SukiColorTheme}">
+                        <TextBlock Foreground="{Binding PrimaryBrush}" Text="{Binding DisplayName}" />
+                    </DataTemplate>
+                </MenuItem.DataTemplates>
+            </MenuItem>
+        </MenuItem>
+    </suki:SukiWindow.MenuItems>
+    <local:MainView />
+</suki:SukiWindow>
