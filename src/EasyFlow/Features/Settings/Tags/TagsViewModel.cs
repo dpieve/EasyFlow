@@ -13,19 +13,17 @@ public partial class TagsViewModel : ViewModelBase
 {
     public TagsViewModel()
     {
-        
+        MessageBus.Current.Listen<DeletedTagMessage>().Subscribe(Receive);
     }
 
     public ObservableCollection<TagItemViewModel> Tags { get; } = [];
 
     public void Activate()
     {
-        MessageBus.Current.Listen<DeletedTagMessage>().Subscribe(Receive);
     }
     
     public void Deactivate()
     {
-
     }
 
     [RelayCommand]
