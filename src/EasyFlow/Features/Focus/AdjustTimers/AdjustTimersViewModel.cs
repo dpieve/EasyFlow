@@ -1,13 +1,16 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using EasyFlow.Common;
+using EasyFlow.Data;
 using EasyFlow.Features.Focus.RunningTimer;
-using EasyFlow.Features.Settings.Tags;
+using EasyFlow.Services;
 using SimpleRouter;
 using SukiUI.Controls;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Linq;
 
 namespace EasyFlow.Features.Focus.AdjustTimers;
 
@@ -26,6 +29,8 @@ public sealed partial class AdjustTimersViewModel : ViewModelBase, IRoute, IActi
     private const int _maxLongBreakTime = 40;
     private const int _minLongBreakTime = 1;
 
+    private readonly ITagService _tagService;
+
     private int _timesBeforeLongBreak = 5;
 
     [ObservableProperty]
@@ -38,41 +43,40 @@ public sealed partial class AdjustTimersViewModel : ViewModelBase, IRoute, IActi
     private int _longBreakTimeMinutes = 10;
 
     [ObservableProperty]
-    private Tag _selectedTag;
+    private Tag? _selectedTag;
 
     [ObservableProperty]
     private bool _isStartLoading;
 
-    public AdjustTimersViewModel(IRouterHost routerHost)
+    public AdjustTimersViewModel(IRouterHost routerHost, ITagService? tagService = null)
     {
         RouterHost = routerHost ?? throw new ArgumentNullException(nameof(routerHost));
-
-        Tags = new ObservableCollection<Tag>
-        {
-            new Tag("Study"),
-            new Tag("Work"),
-            new Tag("Exercise"),
-            new Tag("Meditate"),
-        };
-
-        SelectedTag = Tags[0];
+        _tagService = tagService ?? throw new ArgumentNullException(nameof(tagService));
     }
 
-    public ObservableCollection<Tag> Tags { get; }
+    public ObservableCollection<Tag> Tags { get; } = new();
 
     void IActivatableRoute.OnActivated()
     {
-        Debug.WriteLine("Activated SetupTimer");
+        var result = _tagService.GetAll();
+        if (result.Error is not null)
+        {
+            SukiHost.ShowToast("Failed to load", "Failed to load the tags");
+        }
+        else
+        {
+            var tags = result.Value!;
+            Reload(tags);
 
-        //Observable.StartAsync(LoadFocus)
-        //    .Subscribe(x =>
-        //    {
-        //    });
+            SelectedTag = tags.FirstOrDefault();
+        }
+
+        Debug.WriteLine("Activated AdjustTimersViewModel");
     }
 
     void IActivatableRoute.OnDeactivated()
     {
-        Debug.WriteLine("Deactivated SetupTimer");
+        Debug.WriteLine("Deactivated AdjustTimersViewModel");
     }
 
     public string RouteName => nameof(AdjustTimersViewModel);
@@ -170,5 +174,14 @@ public sealed partial class AdjustTimersViewModel : ViewModelBase, IRoute, IActi
     private void EditedLoadBreakSettings(int longBreakSessions)
     {
         _timesBeforeLongBreak = longBreakSessions;
+    }
+
+    private void Reload(List<Tag> tags)
+    {
+        Tags.Clear();
+        foreach (var tag in tags)
+        {
+            Tags.Add(tag);
+        }
     }
 }

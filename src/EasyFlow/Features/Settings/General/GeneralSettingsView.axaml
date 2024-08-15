@@ -9,6 +9,7 @@
     xmlns:suki="clr-namespace:SukiUI.Controls;assembly=SukiUI"
     d:DesignHeight="450"
     d:DesignWidth="800"
+    x:DataType="local:GeneralSettingsViewModel"
     mc:Ignorable="d">
     <suki:GlassCard
         Height="310"
@@ -17,12 +18,13 @@
 
         <suki:GroupBox Header="General">
             <StackPanel>
-                <Grid Margin="0,0,0,0">
+                <Grid>
                     <ToggleButton
                         HorizontalAlignment="Right"
                         VerticalAlignment="Center"
                         Classes="Switch"
-                        IsChecked="True" />
+                        IsChecked="{Binding IsNotificationEnabled, Mode=TwoWay}" />
+
                     <TextBlock
                         HorizontalAlignment="Left"
                         VerticalAlignment="Top"
@@ -45,7 +47,8 @@
                         HorizontalAlignment="Right"
                         VerticalAlignment="Center"
                         Classes="Switch"
-                        IsChecked="True" />
+                        IsChecked="{Binding IsWorkSoundEnabled, Mode=TwoWay}" />
+
                     <TextBlock
                         HorizontalAlignment="Left"
                         VerticalAlignment="Top"
@@ -68,7 +71,8 @@
                         HorizontalAlignment="Right"
                         VerticalAlignment="Center"
                         Classes="Switch"
-                        IsChecked="True" />
+                        IsChecked="{Binding IsBreakSoundEnabled, Mode=TwoWay}" />
+
                     <TextBlock
                         HorizontalAlignment="Left"
                         VerticalAlignment="Top"

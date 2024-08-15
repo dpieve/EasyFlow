@@ -1,65 +1,72 @@
 ﻿using CommunityToolkit.Mvvm.Input;
 using EasyFlow.Common;
-using ReactiveUI;
 using SukiUI.Controls;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System;
-using System.Threading.Tasks;
+using EasyFlow.Services;
+using EasyFlow.Data;
+using System.Diagnostics;
 
 namespace EasyFlow.Features.Settings.Tags;
+
 public partial class TagsViewModel : ViewModelBase
 {
-    public TagsViewModel()
+    private readonly ITagService _tagService;
+
+    public TagsViewModel(ITagService tagService)
     {
-        MessageBus.Current.Listen<DeletedTagMessage>().Subscribe(Receive);
+        _tagService = tagService;
     }
 
     public ObservableCollection<TagItemViewModel> Tags { get; } = [];
 
     public void Activate()
     {
+        var tags = _tagService.GetAll();
+
+        if (tags.Error is not null)
+        {
+            SukiHost.ShowToast("Failed to load tags", tags.Error.Message!, SukiUI.Enums.NotificationType.Error);
+            return;
+        }
+
+        Reload(tags.Value!);
+
+        Debug.WriteLine("Activated TagsViewModel");
     }
     
     public void Deactivate()
     {
+        Debug.WriteLine("Deactivated TagsViewModel");
     }
 
     [RelayCommand]
-    private async Task AddTag()
+    private void AddTag()
     {
-        SukiHost.ShowDialog(new AddTagViewModel(returnedTag: AddedTag), allowBackgroundClose: false);
-        await Realod();
+        SukiHost.ShowDialog(new AddTagViewModel(_tagService, onOk: OnOkAddTag), allowBackgroundClose: false);
     }
 
-    private void AddedTag(Tags.Tag tag)
+    private void OnOkAddTag(Tag tag)
     {
-        Tags.Add(new TagItemViewModel(tag));
+        Tags.Add(new TagItemViewModel(tag, _tagService, onDeletedTag: OnDeletedTag));
     }
 
-    private Task Realod()
+    public void OnDeletedTag(Tag tag)
     {
-        return Task.CompletedTask;
-    }
-
-    private List<TagItemViewModel> CreateTags()
-    {
-        return new List<TagItemViewModel>
+        var tagItem = Tags.FirstOrDefault(x => x.Tag.Id == tag.Id);
+        if (tagItem is not null)
         {
-            new TagItemViewModel(new Tags.Tag("Study")),
-            new TagItemViewModel(new Tags.Tag("Work")),
-            new TagItemViewModel(new Tags.Tag("Read")),
-            new TagItemViewModel(new Tags.Tag("Meditate")),
-        };
+            Tags.Remove(tagItem);
+        }
     }
 
-    public void Receive(DeletedTagMessage message)
+    private void Reload(List<Tag> tags)
     {
-        var tag = Tags.FirstOrDefault(t => t.Name == message.Value.Name);
-        if (tag is not null)
+        Tags.Clear();
+        foreach (var tag in tags)
         {
-            Tags.Remove(tag);
+            Tags.Add(new TagItemViewModel(tag, _tagService, onDeletedTag: OnDeletedTag));
         }
     }
 }

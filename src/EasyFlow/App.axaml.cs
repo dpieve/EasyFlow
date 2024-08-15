@@ -4,9 +4,12 @@ using Avalonia.Data.Core.Plugins;
 using Avalonia.Markup.Xaml;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using EasyFlow.Data;
+using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 
 namespace EasyFlow;
 
@@ -15,7 +18,7 @@ public partial class App : Application
     public static readonly string FolderPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
     public static readonly string DbName = "EasyFlow.ds";
     public static readonly string DbFullPath = Path.Combine(FolderPath, DbName);
-    
+
     public override void Initialize()
     {
         AvaloniaXamlLoader.Load(this);
@@ -23,6 +26,9 @@ public partial class App : Application
 
     public override void OnFrameworkInitializationCompleted()
     {
+        _ = CreateDatabase();
+        InitialDatabaseSeed();
+
         var mainViewModel = Ioc.Default.GetRequiredService<MainViewModel>();
 
         switch (ApplicationLifetime)
@@ -50,8 +56,19 @@ public partial class App : Application
 
     private void OnStartup(object? sender, ControlledApplicationLifetimeStartupEventArgs e)
     {
+        Debug.WriteLine("Startup application");
+    }
+
+    private void OnExit(object? sender, ControlledApplicationLifetimeExitEventArgs e)
+    {
+        Debug.WriteLine("Exit application");
+    }
+
+    private static bool CreateDatabase()
+    {
         using var context = new AppDbContext();
         var result = context.Database.EnsureCreated();
+        context.Database.Migrate();
         if (!result)
         {
             Debug.WriteLine("Db already created.");
@@ -60,9 +77,33 @@ public partial class App : Application
         {
             Debug.WriteLine("Db created.");
         }
+
+        return result;
     }
-    private void OnExit(object? sender, ControlledApplicationLifetimeExitEventArgs e)
+
+    private static void InitialDatabaseSeed()
     {
-        Debug.WriteLine("Exit application");
+        using var context = new AppDbContext();
+
+        var generalSettingsExist = context.GeneralSettings.Any();
+
+        if (!generalSettingsExist)
+        {
+            var defaultSettings = new GeneralSettings();
+
+            context.GeneralSettings.Add(defaultSettings);
+
+            var initialTags = new List<Tag>
+            {
+                new() { Name = "Work" },
+                new() { Name = "Study" },
+                new() { Name = "Meditate" },
+                new() { Name = "Exercises" },
+            };
+
+            context.Tags.AddRange(initialTags);
+
+            context.SaveChanges();
+        }
     }
 }
