@@ -6,7 +6,6 @@ public sealed class GeneralSettings
     }
 
     public int Id { get; set; }
-    public bool IsNotificationEnabled { get; set; } = true;
     public bool IsWorkSoundEnabled { get; set; } = true;
     public bool IsBreakSoundEnabled { get; set; } = true;
     public int WorkDurationMinutes { get; set; } = 25;
@@ -17,6 +16,8 @@ public sealed class GeneralSettings
     public ColorTheme SelectedColorTheme { get; set; } = ColorTheme.Red;
     public int SelectedTagId { get; set; }
     public Tag SelectedTag { get; set; }
+
+    public bool IsNotificationEnabled { get; set; } = true;
 }
 
 public enum Theme
