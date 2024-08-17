@@ -1,6 +1,5 @@
 ﻿using EasyFlow.Data;
 using NAudio.Wave;
-using System;
 using System.IO;
 using System.Linq;
 
@@ -44,8 +43,8 @@ public sealed class PlaySoundService : IPlaySoundService
 
         var assets = "Assets";
         var fileName = GetFileName(type);
-        var filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, assets, fileName);
-        
+        var filePath = Path.Combine(App.BasePath, assets, fileName);
+
         WaveOutEvent outputDevice = new();
         AudioFileReader audioFile = new(filePath);
 

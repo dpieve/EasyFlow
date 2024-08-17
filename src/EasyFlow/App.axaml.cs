@@ -3,7 +3,6 @@ using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Data.Core.Plugins;
 using Avalonia.Markup.Xaml;
 using CommunityToolkit.Mvvm.DependencyInjection;
-using EasyFlow.Common;
 using EasyFlow.Data;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -14,9 +13,9 @@ namespace EasyFlow;
 
 public partial class App : Application
 {
-    public static readonly string FolderPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
     public static readonly string DbName = "EasyFlow.ds";
-    public static readonly string DbFullPath = Path.Combine(FolderPath, DbName);
+    public static readonly string BasePath = AppDomain.CurrentDomain.BaseDirectory;
+    public static readonly string DbFullPath = Path.Combine(BasePath, DbName);
 
     public override void Initialize()
     {
