@@ -8,20 +8,21 @@ namespace EasyFlow.Features.Focus.AdjustTimers;
 
 public sealed partial class LongBreakSettingsViewModel : ViewModelBase
 {
-    private readonly Action<int> _longBreakSessionsResult;
+    private readonly Action<int> _onOk;
 
     [ObservableProperty]
     private int _longBreakSessions = 5;
 
-    public LongBreakSettingsViewModel(Action<int> longBreakSessionsResult)
+    public LongBreakSettingsViewModel(int longBreakSessions, Action<int> onOk)
     {
-        _longBreakSessionsResult = longBreakSessionsResult;
+        LongBreakSessions = longBreakSessions;
+        _onOk = onOk;
     }
 
     [RelayCommand]
     private void OkButton()
     {
-        _longBreakSessionsResult(LongBreakSessions);
+        _onOk(LongBreakSessions);
         CloseButton();
     }
 

@@ -11,22 +11,26 @@ namespace EasyFlow.Features.Focus;
 
 public sealed partial class FocusViewModel : PageViewModelBase, IRouterHost
 {
-    [ObservableProperty]
-    private IRoute? _currentRoute;
     private readonly IGeneralSettingsService _settingsService;
     private readonly ITagService _tagService;
+    private readonly IPlaySoundService _playSoundService;
+
+    [ObservableProperty]
+    private IRoute? _currentRoute;
 
     public FocusViewModel(
         IGeneralSettingsService settingsService,
-        ITagService tagService)
+        ITagService tagService,
+        IPlaySoundService playSoundService)
         : base("Focus", Material.Icons.MaterialIconKind.Timer, (int)PageOrder.Focus)
     {
         _settingsService = settingsService;
         _tagService = tagService;
-
+        _playSoundService = playSoundService;
+        
         Router = new Router(new RouteFactory(CreateRoutes));
         Router.OnRouteChanged += OnRouteChanged;
-        Router.NavigateToAndReset(new AdjustTimersViewModel(this, _tagService));
+        Router.NavigateToAndReset(new AdjustTimersViewModel(this, _tagService, _settingsService));
     }
 
     public IRouter Router { get; }
@@ -63,8 +67,8 @@ public sealed partial class FocusViewModel : PageViewModelBase, IRouterHost
     {
         return routeType.Name switch
         {
-            nameof(AdjustTimersViewModel) => new AdjustTimersViewModel((FocusViewModel)parameters[0], tagService: _tagService),
-            nameof(RunningTimerViewModel) => new RunningTimerViewModel((FocusViewModel)parameters[0], (FocusSettings)parameters[1]),
+            nameof(AdjustTimersViewModel) => new AdjustTimersViewModel((FocusViewModel)parameters[0], tagService: _tagService, generalSettingsService: _settingsService),
+            nameof(RunningTimerViewModel) => new RunningTimerViewModel((FocusViewModel)parameters[0], tagService: _tagService, generalSettingsService: _settingsService, playSoundService: _playSoundService),
             _ => null,
         };
     }

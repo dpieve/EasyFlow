@@ -14,9 +14,21 @@ public partial class MainWindow : SukiWindow
 
     private void MenuItem_OnClick(object? sender, RoutedEventArgs e)
     {
-        if (DataContext is not MainViewModel vm) return;
-        if (e.Source is not MenuItem mItem) return;
-        if (mItem.DataContext is not SukiColorTheme cTheme) return;
-        vm.ChangeTheme(cTheme);
+        if (DataContext is not MainViewModel vm)
+        {
+            return;
+        }
+
+        if (e.Source is not MenuItem menuItem)
+        {     
+            return;
+        }
+
+        if (menuItem.DataContext is not SukiColorTheme colorTheme)
+        {
+            return;
+        }
+
+        vm.ChangeTheme(colorTheme);
     }
 }

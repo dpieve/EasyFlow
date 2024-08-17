@@ -18,30 +18,6 @@
 
         <suki:GroupBox Header="General">
             <StackPanel>
-                <Grid>
-                    <ToggleButton
-                        HorizontalAlignment="Right"
-                        VerticalAlignment="Center"
-                        Classes="Switch"
-                        IsChecked="{Binding IsNotificationEnabled, Mode=TwoWay}" />
-
-                    <TextBlock
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Top"
-                        FontWeight="DemiBold"
-                        Text="Toast Notifications" />
-
-                    <TextBlock
-                        Width="300"
-                        Margin="0,22,0,0"
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Bottom"
-                        FontSize="13"
-                        Foreground="{DynamicResource SukiLowText}"
-                        Text="Receive toast notifications."
-                        TextWrapping="Wrap" />
-                </Grid>
-
                 <Grid Margin="0,30,0,0">
                     <ToggleButton
                         HorizontalAlignment="Right"

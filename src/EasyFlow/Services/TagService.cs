@@ -18,7 +18,7 @@ public sealed class TagService : ITagService
     public async Task<Result<int, Error>> CreateAsync(Tag tag)
     {
         using var context = new AppDbContext();
-        var added = await context.Tags.AddAsync(tag);
+        _ = await context.Tags.AddAsync(tag);
         var result = await context.SaveChangesAsync();
         if (result == 0)
         {
@@ -29,8 +29,18 @@ public sealed class TagService : ITagService
 
     public async Task<Result<int, Error>> DeleteAsync(Tag tag)
     {
+        _ = RemoveSelection(tag);
+
         using var context = new AppDbContext();
-        var removed = context.Tags.Remove(tag);
+
+        var numTags = context.Tags.Count();
+        if (numTags <= 1)
+        {
+            return TagServiceErrors.CannotDeleteLessThanTwo;
+        }
+
+        _ = context.Tags.Remove(tag);
+        
         var result = await context.SaveChangesAsync();
         if (result == 0)
         {
@@ -57,6 +67,28 @@ public sealed class TagService : ITagService
         }
         return result;
     }
+
+    private async Task<bool> RemoveSelection(Tag tag)
+    {
+        using var context = new AppDbContext();
+
+        var settings = context.GeneralSettings.FirstOrDefault();
+        if (settings is null)
+        {
+            return false;
+        }
+        var selectedTagId = settings.SelectedTagId;
+        if (selectedTagId != tag.Id)
+        {
+            return false;
+        }
+
+        var firstTag = context.Tags.FirstOrDefault();
+        settings.SelectedTag = firstTag!;
+        settings.SelectedTagId = firstTag!.Id;
+        var result = await context.SaveChangesAsync();
+        return result != 0;
+    }
 }
 
 public static class TagServiceErrors
@@ -66,4 +98,7 @@ public static class TagServiceErrors
 
     public static readonly Error NotFound = new("Tag.NotFound",
       "No tag found.");
+
+    public static readonly Error CannotDeleteLessThanTwo = new("Tag.CannotDeleteLessThanTwo",
+      "There must exist at least one tag.");
 }

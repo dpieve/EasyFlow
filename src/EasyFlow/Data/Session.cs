@@ -12,7 +12,6 @@ public sealed class Session
     public int DurationMinutes { get; set; }
     public SessionType SessionType { get; set; }
     public DateTime FinishedDate { get; set; }
-
     public int TagId { get; set; }
     public Tag Tag { get; set; }
 }

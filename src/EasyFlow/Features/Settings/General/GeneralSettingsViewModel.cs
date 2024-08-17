@@ -11,30 +11,29 @@ using System.Reactive.Linq;
 using System.Threading.Tasks;
 
 namespace EasyFlow.Features.Settings.General;
+
 public partial class GeneralSettingsViewModel : ViewModelBase
 {
     private readonly IGeneralSettingsService _generalSettingsService;
 
-    private GeneralSettings? _generalSettings;
+    [ObservableProperty]
+    private bool _isWorkSoundEnabled;
 
     [ObservableProperty]
-    private bool _isWorkSoundEnabled = false;
-
-    [ObservableProperty]
-    private bool _isBreakSoundEnabled = false;
-
-    [ObservableProperty]
-    private bool _isNotificationEnabled = false;
+    private bool _isBreakSoundEnabled;
 
     public GeneralSettingsViewModel(IGeneralSettingsService generalSettingsService)
     {
         _generalSettingsService = generalSettingsService;
 
+        var settings = LoadSettings();
+        IsWorkSoundEnabled = settings.IsWorkSoundEnabled;
+        IsBreakSoundEnabled = settings.IsBreakSoundEnabled;
+
         this.WhenAnyValue(
-                vm => vm.IsWorkSoundEnabled, 
-                vm => vm.IsBreakSoundEnabled, 
-                vm => vm.IsNotificationEnabled)
-            .Skip(4)
+                vm => vm.IsWorkSoundEnabled,
+                vm => vm.IsBreakSoundEnabled)
+            .Skip(1)
             .Select(_ => Unit.Default)
             .InvokeCommand(PersistSettingsCommand);
     }
@@ -42,19 +41,6 @@ public partial class GeneralSettingsViewModel : ViewModelBase
     public void Activate()
     {
         Debug.WriteLine("Activated GeneralSettingsViewModel");
-
-        var result = _generalSettingsService.Get();
-        if (result.Error is not null)
-        {
-            SukiHost.ShowToast("Failed to load", "Failed to load the settings", SukiUI.Enums.NotificationType.Error);
-            return;
-        }
-
-        _generalSettings = result.Value!;
-
-        IsWorkSoundEnabled = _generalSettings.IsWorkSoundEnabled;
-        IsBreakSoundEnabled = _generalSettings.IsBreakSoundEnabled;
-        IsNotificationEnabled = _generalSettings.IsNotificationEnabled;
     }
 
     public void Deactivate()
@@ -65,23 +51,40 @@ public partial class GeneralSettingsViewModel : ViewModelBase
     [RelayCommand]
     private async Task PersistSettings()
     {
-        if (_generalSettings is null)
+        var result = _generalSettingsService.Get();
+
+        if (result.Error is not null)
         {
+            await SukiHost.ShowToast("Failed to load", "Failed to load the settings", SukiUI.Enums.NotificationType.Error);
             return;
         }
 
-        _generalSettings.IsWorkSoundEnabled = IsWorkSoundEnabled;
-        _generalSettings.IsBreakSoundEnabled = IsBreakSoundEnabled;
-        _generalSettings.IsNotificationEnabled = IsNotificationEnabled;
+        var settings = result.Value!;
 
-        var result = await _generalSettingsService.UpdateAsync(_generalSettings);
-        if (result.Error is not null)
+        settings.IsWorkSoundEnabled = IsWorkSoundEnabled;
+        settings.IsBreakSoundEnabled = IsBreakSoundEnabled;
+
+        var resultUpdate = await _generalSettingsService.UpdateAsync(settings);
+        if (resultUpdate.Error is not null)
         {
             await SukiHost.ShowToast("Failed to update", "Failed to update the settings", SukiUI.Enums.NotificationType.Error);
+            return;
         }
-        else
+        
+        Debug.WriteLine("Persisted settings");
+    }
+
+    private GeneralSettings LoadSettings()
+    {
+        var result = _generalSettingsService.Get();
+
+        if (result.Error is not null)
         {
-            Debug.WriteLine("Persisted settings");
+            SukiHost.ShowToast("Failed to load", "Failed to load the settings", SukiUI.Enums.NotificationType.Error);
+            return new();
         }
+
+        var settings = result.Value!;
+        return settings;
     }
 }

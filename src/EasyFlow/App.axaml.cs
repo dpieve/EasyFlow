@@ -68,7 +68,7 @@ public partial class App : Application
     {
         using var context = new AppDbContext();
         var result = context.Database.EnsureCreated();
-        context.Database.Migrate();
+        //context.Database.Migrate();
         if (!result)
         {
             Debug.WriteLine("Db already created.");
@@ -83,15 +83,28 @@ public partial class App : Application
 
     private static void InitialDatabaseSeed()
     {
-        using var context = new AppDbContext();
+        bool isDbInitialized = false;
 
-        var generalSettingsExist = context.GeneralSettings.Any();
-
-        if (!generalSettingsExist)
         {
-            var defaultSettings = new GeneralSettings();
+            using var context = new AppDbContext();
+            isDbInitialized = context.GeneralSettings.Any();
 
-            context.GeneralSettings.Add(defaultSettings);
+            if (!isDbInitialized)
+            {
+                var defaultSettings = new GeneralSettings();
+
+                context.GeneralSettings.Add(defaultSettings);
+                context.SaveChanges();
+            }
+        }
+
+        if (isDbInitialized)
+        {
+            return;
+        }
+
+        {
+            using var context = new AppDbContext();
 
             var initialTags = new List<Tag>
             {
@@ -102,8 +115,21 @@ public partial class App : Application
             };
 
             context.Tags.AddRange(initialTags);
-
             context.SaveChanges();
         }
+
+        {
+            using var context = new AppDbContext();
+
+            var tag = context.Tags.FirstOrDefault();
+            var settings = context.GeneralSettings.FirstOrDefault();
+            if (settings is not null && tag is not null)
+            {
+                settings.SelectedTagId = tag.Id;
+                settings.SelectedTag = tag;
+                context.GeneralSettings.Update(settings);
+            }
+        }
+        
     }
 }

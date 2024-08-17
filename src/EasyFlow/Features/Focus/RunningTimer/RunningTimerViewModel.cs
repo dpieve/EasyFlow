@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using EasyFlow.Common;
+using EasyFlow.Data;
 using EasyFlow.Features.Focus.AdjustTimers;
 using EasyFlow.Services;
 using Material.Icons;
@@ -11,20 +12,19 @@ using System;
 using System.Diagnostics;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
+using System.Threading.Tasks;
 
 namespace EasyFlow.Features.Focus.RunningTimer;
 
-public enum TimerState
-{
-    Focus,
-    Break,
-    LongBreak,
-}
-
-public sealed record TimerInterval(int FocusMinutes, int BreakMinutes, int LongBreakMinutes);
-
 public sealed partial class RunningTimerViewModel : ViewModelBase, IRoute, IActivatableRoute
 {
+    private readonly ITagService _tagService;
+    private readonly IGeneralSettingsService _generalSettingsService;
+    private readonly IPlaySoundService _playSound;
+    private CompositeDisposable? _disposables;
+
+    private GeneralSettings? _generalSettings;
+    
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(ProgressText))]
     private int _completedTimers = 0;
@@ -52,100 +52,59 @@ public sealed partial class RunningTimerViewModel : ViewModelBase, IRoute, IActi
     private int _secondsLeft;
 
     [ObservableProperty]
-    private string _timerText;
+    private string _timerText = string.Empty;
 
     [ObservableProperty]
     private double _progressValue = 100;
 
     [ObservableProperty]
-    private string _selectedTagName;
+    private string _selectedTagName = string.Empty;
 
-    private readonly FocusSettings _focusSettings;
-
-    private readonly IPlaySoundService _playSound;
-
-    public RunningTimerViewModel(IRouterHost routerHost, FocusSettings focusSettings)
+    public RunningTimerViewModel(
+        IRouterHost routerHost,
+        ITagService? tagService = null,
+        IGeneralSettingsService? generalSettingsService = null,
+        IPlaySoundService? playSoundService = null)
     {
-        _playSound = new PlaySoundService();
-
-        _focusSettings = focusSettings;
-        _timersBeforeLongBreak = _focusSettings.TimersBeforeLongBreak;
         RouterHost = routerHost;
+        _tagService = tagService ?? throw new ArgumentNullException(nameof(tagService));
+        _generalSettingsService = generalSettingsService ?? throw new ArgumentNullException(nameof(generalSettingsService));
+        _playSound = playSoundService ?? throw new ArgumentNullException(nameof(playSoundService));
 
-        var totalMinutes = _focusSettings.WorkTime.TotalMinutes;
-        TotalSeconds = totalMinutes * 60;
-
-        SecondsLeft = TotalSeconds;
-
-        var minutes = TotalSeconds / 60;
-        var seconds = TotalSeconds % 60;
-        TimerText = $"{minutes:D2}:{seconds:D2}";
-
-        SelectedTagName = _focusSettings.Tag.Name;
+        LoadSettings();
 
         this.WhenAnyValue(vm => vm.SecondsLeft)
             .DistinctUntilChanged()
             .Subscribe(secondsLeft =>
             {
                 Debug.WriteLine($"Seconds Left: {secondsLeft}");
-                minutes = secondsLeft / 60;
-                seconds = secondsLeft % 60;
+                var minutes = secondsLeft / 60;
+                var seconds = secondsLeft % 60;
                 TimerText = $"{minutes:D2}:{seconds:D2}";
 
                 ProgressValue = (double)secondsLeft / TotalSeconds * 100;
             });
 
         this.WhenAnyValue(vm => vm.TimerState)
-            .Subscribe(state =>
-            {
-                OnStateChanged(state);
-            });
+            .Subscribe(OnStateChanged);
     }
 
-    private void OnStateChanged(TimerState state)
-    {
-        if (state == TimerState.Focus)
-        {
-            var totalMinutes = _focusSettings.WorkTime.TotalMinutes;
-            TotalSeconds = totalMinutes * 60;
 
-            SecondsLeft = TotalSeconds;
-        }
-        else if (state == TimerState.Break)
-        {
-            var totalMinutes = _focusSettings.BreakTime.TotalMinutes;
-            TotalSeconds = totalMinutes * 60;
+    public string RouteName => nameof(RunningTimerViewModel);
 
-            SecondsLeft = TotalSeconds;
-        }
-        else if (state == TimerState.LongBreak)
-        {
-            var totalMinutes = _focusSettings.LongBreakTime.TotalMinutes;
-            TotalSeconds = totalMinutes * 60;
+    public IRouterHost RouterHost { get; }
 
-            SecondsLeft = TotalSeconds;
-        }
+    public string SkipButtonText => IsBreak ? "Skip to Focus" : "Skip to Break";
 
-        // TEST
-        SecondsLeft = 5;
+    public string ProgressText => $"{CompletedTimers}/{TimersBeforeLongBreak}";
 
-        if (state == TimerState.Focus)
-        {
-            IsBreak = false;
-        }
-        else
-        {
-            IsBreak = true;
-        }
-
-        IsRunning = true;
-    }
+    public MaterialIconKind StartButtonIcon => IsRunning ? MaterialIconKind.Pause : MaterialIconKind.Play;
 
     void IActivatableRoute.OnActivated()
     {
         Debug.WriteLine("Activated RunTimer");
 
-        Disposables ??= new();
+        _disposables ??= [];
 
         Observable.Interval(TimeSpan.FromSeconds(1))
             .Where(_ => IsRunning)
@@ -182,31 +141,81 @@ public sealed partial class RunningTimerViewModel : ViewModelBase, IRoute, IActi
                     SecondsLeft--;
                 }
             })
-            .DisposeWith(Disposables);
+            .DisposeWith(_disposables);
     }
 
     void IActivatableRoute.OnDeactivated()
     {
         Debug.WriteLine("Deactivated RunTimer");
 
-        Disposables?.Dispose();
-        Disposables = null;
+        _disposables?.Dispose();
+        _disposables = null;
     }
 
-    public CompositeDisposable? Disposables { get; set; }
 
-    public string RouteName => nameof(RunningTimerViewModel);
+    private void LoadSettings()
+    {
+        var result = _generalSettingsService.Get();
+        if (result.Error is not null)
+        {
+            return;
+        }
 
-    public IRouterHost RouterHost { get; }
+        var settings = result.Value!;
+        _generalSettings = settings;
 
-    public string SkipButtonText => IsBreak ? "Skip to Focus" : "Skip to Break";
+        TimersBeforeLongBreak = settings.WorkSessionsBeforeLongBreak;
 
-    public string ProgressText => $"{CompletedTimers}/{TimersBeforeLongBreak}";
+        var totalMinutes = settings.WorkDurationMinutes;
+        TotalSeconds = totalMinutes * 60;
 
-    public MaterialIconKind StartButtonIcon => IsRunning ? MaterialIconKind.Pause : MaterialIconKind.Play;
+        SecondsLeft = TotalSeconds;
+
+        var minutes = TotalSeconds / 60;
+        var seconds = TotalSeconds % 60;
+        TimerText = $"{minutes:D2}:{seconds:D2}";
+
+        var getTagResult = _generalSettingsService.GetSelectedTag();
+        if (getTagResult.Error is not null)
+        {
+            return;
+        }
+        
+        var selectedTag = getTagResult.Value!;
+
+        SelectedTagName = selectedTag.Name;
+    }
+
+    private void OnStateChanged(TimerState state)
+    {
+        var settings = _generalSettings;
+        if (settings is null)
+        {
+            return;
+        }
+
+        var totalMinutes = state switch
+        {
+            TimerState.Focus => settings.WorkDurationMinutes,
+            TimerState.Break => settings.BreakDurationMinutes,
+            TimerState.LongBreak => settings.LongBreakDurationMinutes,
+            _ => throw new ArgumentOutOfRangeException(nameof(state))
+        };
+
+        TotalSeconds = totalMinutes * 60;
+        SecondsLeft = TotalSeconds;
+
+        // TEST, remove:
+        SecondsLeft = 2;
+        // end TEST.
+
+        IsBreak = state != TimerState.Focus;
+
+        IsRunning = true;
+    }
 
     [RelayCommand]
-    private void NavigateToSetupTimer() => RouterHost.Router.NavigateTo(new AdjustTimersViewModel(RouterHost));
+    private void EndSession() => RouterHost.Router.NavigateTo(new AdjustTimersViewModel(RouterHost, _tagService, _generalSettingsService));
 
     [RelayCommand]
     private void SkipToBreak()

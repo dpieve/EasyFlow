@@ -15,7 +15,8 @@ public sealed class GeneralSettings
     public int WorkSessionsBeforeLongBreak { get; set; } = 5;
     public Theme SelectedTheme { get; set; } = Theme.Dark;
     public ColorTheme SelectedColorTheme { get; set; } = ColorTheme.Red;
-    public Tag? SelectedTag { get; set; }
+    public int SelectedTagId { get; set; }
+    public Tag SelectedTag { get; set; }
 }
 
 public enum Theme
@@ -26,8 +27,8 @@ public enum Theme
 
 public enum ColorTheme
 {
+    Orange,
     Red,
     Green,
-    Blue,
-    Orange
+    Blue
 }

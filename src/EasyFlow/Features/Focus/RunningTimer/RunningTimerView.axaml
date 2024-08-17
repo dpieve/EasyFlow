@@ -32,7 +32,7 @@
                         BorderThickness="0">
                         <Button.Flyout>
                             <MenuFlyout>
-                                <MenuItem Command="{Binding NavigateToSetupTimerCommand}" Header="End session">
+                                <MenuItem Command="{Binding EndSessionCommand}" Header="End session">
                                     <MenuItem.Icon>
                                         <icons:MaterialIcon
                                             Width="20"
