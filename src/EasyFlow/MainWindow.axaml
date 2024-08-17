@@ -18,7 +18,7 @@
     x:DataType="local:MainViewModel"
     BackgroundAnimationEnabled="True"
     CanResize="True"
-    Icon="/Assets/avalonia-logo.ico"
+    Icon="/Assets/panda.ico"
     IsMenuVisible="True"
     WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
