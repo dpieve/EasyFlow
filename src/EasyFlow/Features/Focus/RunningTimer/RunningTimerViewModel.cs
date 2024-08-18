@@ -12,7 +12,6 @@ using System;
 using System.Diagnostics;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
-using System.Threading.Tasks;
 
 namespace EasyFlow.Features.Focus.RunningTimer;
 
@@ -225,16 +224,12 @@ public sealed partial class RunningTimerViewModel : ViewModelBase, IRoute, IActi
     private void StartOrPauseTimer()
     {
         IsRunning = !IsRunning;
-
-        var msg = IsRunning ? "Started" : "Paused";
-        SukiHost.ShowToast($"Timer {msg}", $"The timer was {msg}.");
     }
 
     [RelayCommand]
     private void RestartTimer()
     {
         OnStateChanged(TimerState);
-        SukiHost.ShowToast("Timer Restarted", "The timer was restarted.");
     }
 
     private void GoToNextState()
