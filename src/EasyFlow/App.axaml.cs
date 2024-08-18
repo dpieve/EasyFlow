@@ -12,10 +12,10 @@ namespace EasyFlow;
 
 public partial class App : Application
 {
-    public static readonly string FolderPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
     public static readonly string DbName = "EasyFlow.ds";
-    public static readonly string DbFullPath = Path.Combine(FolderPath, DbName);
-    
+    public static readonly string BasePath = AppDomain.CurrentDomain.BaseDirectory;
+    public static readonly string DbFullPath = Path.Combine(BasePath, DbName);
+
     public override void Initialize()
     {
         AvaloniaXamlLoader.Load(this);
@@ -23,6 +23,9 @@ public partial class App : Application
 
     public override void OnFrameworkInitializationCompleted()
     {
+        var migrator = Ioc.Default.GetRequiredService<IDatabaseManager>();
+        migrator.Migrate();
+
         var mainViewModel = Ioc.Default.GetRequiredService<MainViewModel>();
 
         switch (ApplicationLifetime)
@@ -50,17 +53,9 @@ public partial class App : Application
 
     private void OnStartup(object? sender, ControlledApplicationLifetimeStartupEventArgs e)
     {
-        using var context = new AppDbContext();
-        var result = context.Database.EnsureCreated();
-        if (!result)
-        {
-            Debug.WriteLine("Db already created.");
-        }
-        else
-        {
-            Debug.WriteLine("Db created.");
-        }
+        Debug.WriteLine("Startup application");
     }
+
     private void OnExit(object? sender, ControlledApplicationLifetimeExitEventArgs e)
     {
         Debug.WriteLine("Exit application");

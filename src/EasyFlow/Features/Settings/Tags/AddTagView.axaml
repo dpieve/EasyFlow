@@ -14,6 +14,7 @@
 
         <TextBox
             Width="250"
+            MaxLength="90"
             Text="{Binding TagName}"
             Watermark="Tag name" />
 

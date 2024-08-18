@@ -12,7 +12,12 @@
     <StackPanel Margin="10" Spacing="7">
         <TextBlock Text="Sessions before long time break" />
 
-        <NumericUpDown Watermark="Sessions" Value="{Binding LongBreakSessions}" />
+        <NumericUpDown
+            FormatString="{}{0:0}"
+            Maximum="500"
+            Minimum="1"
+            Watermark="Sessions"
+            Value="{Binding LongBreakSessions, Mode=TwoWay}" />
 
         <StackPanel
             Margin="0,10,0,0"

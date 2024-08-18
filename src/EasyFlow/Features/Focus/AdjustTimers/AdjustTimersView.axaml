@@ -40,19 +40,19 @@
                 <suki:GlassCard Margin="0,5,30,0">
                     <suki:GroupBox Header="Work time">
                         <StackPanel Orientation="Vertical">
-                            <TextBlock Classes="Timer" Text="{Binding WorkTimeMinutes, StringFormat='{}{0}min'}" />
+                            <TextBlock Classes="Timer" Text="{Binding Timers.WorkMinutes, StringFormat='{}{0}min'}" />
 
                             <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
                                 <Button
                                     Margin="0,0,20,0"
                                     Classes="Adjust"
-                                    Command="{Binding DecreaseTimeCommand}"
-                                    CommandParameter="Work"
+                                    Command="{Binding DecreaseTimerCommand}"
+                                    CommandParameter="{x:Static local:TimerType.Work}"
                                     Content="-" />
                                 <Button
                                     Classes="Adjust"
-                                    Command="{Binding IncreaseTimeCommand}"
-                                    CommandParameter="Work"
+                                    Command="{Binding IncreaseTimerCommand}"
+                                    CommandParameter="{x:Static local:TimerType.Work}"
                                     Content="+" />
                             </StackPanel>
                         </StackPanel>
@@ -62,19 +62,19 @@
                 <suki:GlassCard Margin="0,5,30,0">
                     <suki:GroupBox Header="Break time">
                         <StackPanel Orientation="Vertical">
-                            <TextBlock Classes="Timer" Text="{Binding BreakTimeMinutes, StringFormat='{}{0}min'}" />
+                            <TextBlock Classes="Timer" Text="{Binding Timers.BreakMinutes, StringFormat='{}{0}min'}" />
 
                             <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
                                 <Button
                                     Margin="0,0,20,0"
                                     Classes="Adjust"
-                                    Command="{Binding DecreaseTimeCommand}"
-                                    CommandParameter="Break"
+                                    Command="{Binding DecreaseTimerCommand}"
+                                    CommandParameter="{x:Static local:TimerType.Break}"
                                     Content="-" />
                                 <Button
                                     Classes="Adjust"
-                                    Command="{Binding IncreaseTimeCommand}"
-                                    CommandParameter="Break"
+                                    Command="{Binding IncreaseTimerCommand}"
+                                    CommandParameter="{x:Static local:TimerType.Break}"
                                     Content="+" />
                             </StackPanel>
                         </StackPanel>
@@ -106,19 +106,19 @@
                             </Grid>
                         </suki:GroupBox.Header>
                         <StackPanel Orientation="Vertical">
-                            <TextBlock Classes="Timer" Text="{Binding LongBreakTimeMinutes, StringFormat='{}{0}min'}" />
+                            <TextBlock Classes="Timer" Text="{Binding Timers.LongBreakMinutes, StringFormat='{}{0}min'}" />
 
                             <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
                                 <Button
                                     Margin="0,0,20,0"
                                     Classes="Adjust"
-                                    Command="{Binding DecreaseTimeCommand}"
-                                    CommandParameter="LongBreak"
+                                    Command="{Binding DecreaseTimerCommand}"
+                                    CommandParameter="{x:Static local:TimerType.LongBreak}"
                                     Content="-" />
                                 <Button
                                     Classes="Adjust"
-                                    Command="{Binding IncreaseTimeCommand}"
-                                    CommandParameter="LongBreak"
+                                    Command="{Binding IncreaseTimerCommand}"
+                                    CommandParameter="{x:Static local:TimerType.LongBreak}"
                                     Content="+" />
                             </StackPanel>
                         </StackPanel>
@@ -130,22 +130,15 @@
                 Width="200"
                 DisplayMemberBinding="{Binding Name}"
                 ItemsSource="{Binding Tags}"
-                SelectedIndex="0"
-                SelectedItem="{Binding SelectedTag, Mode=TwoWay}">
-                <!--<ComboBox.ItemTemplate>
-                    <DataTemplate>
-                        <TextBlock Text="{Binding Name}" />
-                    </DataTemplate>
-                </ComboBox.ItemTemplate>-->
-            </ComboBox>
+                SelectedItem="{Binding SelectedTag, Mode=TwoWay}" />
 
             <Button
                 Grid.Row="1"
                 Width="200"
                 Margin="0,0,0,5"
-                theme:ButtonExtensions.ShowProgress="{Binding IsStartLoading}"
+                theme:ButtonExtensions.ShowProgress="False"
                 Classes="Flat"
-                Command="{Binding NavigateToRunTimerCommand}"
+                Command="{Binding StartCommand}"
                 Content="Start" />
         </StackPanel>
     </ScrollViewer>
