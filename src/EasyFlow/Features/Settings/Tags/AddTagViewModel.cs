@@ -5,6 +5,7 @@ using EasyFlow.Data;
 using EasyFlow.Services;
 using SukiUI.Controls;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace EasyFlow.Features.Settings.Tags;
@@ -33,6 +34,17 @@ public sealed partial class AddTagViewModel : ViewModelBase
     [RelayCommand]
     private async Task OkButton()
     {
+        if (string.IsNullOrEmpty(TagName) 
+            || string.IsNullOrWhiteSpace(TagName)
+            || TagName.Length < 3
+            || TagName.Length > 90
+            || TagName.Any(ch => !char.IsLetterOrDigit(ch)))
+        {
+            await SukiHost.ShowToast("Invalid tag name", "Try a different name.", SukiUI.Enums.NotificationType.Warning);
+            CloseDialog();
+            return;
+        }
+
         _tag.Name = TagName;
 
         var saved = await PersistTag();
