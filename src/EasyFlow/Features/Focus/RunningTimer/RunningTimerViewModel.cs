@@ -10,8 +10,10 @@ using SimpleRouter;
 using SukiUI.Controls;
 using System;
 using System.Diagnostics;
+using System.Reactive;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
+using System.Threading.Tasks;
 
 namespace EasyFlow.Features.Focus.RunningTimer;
 
@@ -20,10 +22,12 @@ public sealed partial class RunningTimerViewModel : ViewModelBase, IRoute, IActi
     private readonly ITagService _tagService;
     private readonly IGeneralSettingsService _generalSettingsService;
     private readonly IPlaySoundService _playSound;
+    private readonly ISessionService _sessionService;
+
     private CompositeDisposable? _disposables;
 
     private GeneralSettings? _generalSettings;
-    
+
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(ProgressText))]
     private int _completedTimers = 0;
@@ -63,12 +67,14 @@ public sealed partial class RunningTimerViewModel : ViewModelBase, IRoute, IActi
         IRouterHost routerHost,
         ITagService? tagService = null,
         IGeneralSettingsService? generalSettingsService = null,
-        IPlaySoundService? playSoundService = null)
+        IPlaySoundService? playSoundService = null,
+        ISessionService? sessionService = null)
     {
         RouterHost = routerHost;
         _tagService = tagService ?? throw new ArgumentNullException(nameof(tagService));
         _generalSettingsService = generalSettingsService ?? throw new ArgumentNullException(nameof(generalSettingsService));
         _playSound = playSoundService ?? throw new ArgumentNullException(nameof(playSoundService));
+        _sessionService = sessionService ?? throw new ArgumentNullException(nameof(sessionService));
 
         LoadSettings();
 
@@ -88,7 +94,6 @@ public sealed partial class RunningTimerViewModel : ViewModelBase, IRoute, IActi
             .Subscribe(OnStateChanged);
     }
 
-
     public string RouteName => nameof(RunningTimerViewModel);
 
     public IRouterHost RouterHost { get; }
@@ -107,39 +112,9 @@ public sealed partial class RunningTimerViewModel : ViewModelBase, IRoute, IActi
 
         Observable.Interval(TimeSpan.FromSeconds(1))
             .Where(_ => IsRunning)
+            .Select(_ => Unit.Default)
             .ObserveOn(RxApp.MainThreadScheduler)
-            .Subscribe(_ =>
-            {
-                if (SecondsLeft == 0)
-                {
-                    IsRunning = false;
-
-                    if (TimerState == TimerState.Focus)
-                    {
-                        _playSound.Play(SoundType.Break);
-
-                        SukiHost.ShowToast("Focus Completed", "Well done! You can rest now.", SukiUI.Enums.NotificationType.Success);
-                    }
-                    else if (TimerState == TimerState.Break)
-                    {
-                        _playSound.Play(SoundType.Work);
-
-                        SukiHost.ShowToast("Break Completed", "Time to focus!", SukiUI.Enums.NotificationType.Success);
-                    }
-                    else if (TimerState == TimerState.LongBreak)
-                    {
-                        _playSound.Play(SoundType.Work);
-
-                        SukiHost.ShowToast("Long Break Completed", "Enough rest, time to focus!", SukiUI.Enums.NotificationType.Success);
-                    }
-
-                    GoToNextState();
-                }
-                if (SecondsLeft > 0)
-                {
-                    SecondsLeft--;
-                }
-            })
+            .InvokeCommand(TimerTickCommand)
             .DisposeWith(_disposables);
     }
 
@@ -150,7 +125,6 @@ public sealed partial class RunningTimerViewModel : ViewModelBase, IRoute, IActi
         _disposables?.Dispose();
         _disposables = null;
     }
-
 
     private void LoadSettings()
     {
@@ -179,7 +153,7 @@ public sealed partial class RunningTimerViewModel : ViewModelBase, IRoute, IActi
         {
             return;
         }
-        
+
         var selectedTag = getTagResult.Value!;
 
         SelectedTagName = selectedTag.Name;
@@ -204,18 +178,55 @@ public sealed partial class RunningTimerViewModel : ViewModelBase, IRoute, IActi
         TotalSeconds = totalMinutes * 60;
         SecondsLeft = TotalSeconds;
 
+        // TEST:
+        SecondsLeft = 4;
+
         IsBreak = state != TimerState.Focus;
 
         IsRunning = true;
     }
 
     [RelayCommand]
+    private async Task TimerTick()
+    {
+        if (SecondsLeft > 0)
+        {
+            SecondsLeft--;
+        }
+        else if (SecondsLeft == 0)
+        {
+            IsRunning = false;
+
+            if (TimerState == TimerState.Focus)
+            {
+                _playSound.Play(SoundType.Break);
+
+                await SukiHost.ShowToast("Focus Completed", "Well done! You can rest now.", SukiUI.Enums.NotificationType.Success);
+            }
+            else if (TimerState == TimerState.Break)
+            {
+                _playSound.Play(SoundType.Work);
+
+                await SukiHost.ShowToast("Break Completed", "Time to focus!", SukiUI.Enums.NotificationType.Success);
+            }
+            else if (TimerState == TimerState.LongBreak)
+            {
+                _playSound.Play(SoundType.Work);
+
+                await SukiHost.ShowToast("Long Break Completed", "Enough rest, time to focus!", SukiUI.Enums.NotificationType.Success);
+            }
+
+            await GoToNextState(isSkipping: false);
+        }
+    }
+
+    [RelayCommand]
     private void EndSession() => RouterHost.Router.NavigateTo(new AdjustTimersViewModel(RouterHost, _tagService, _generalSettingsService));
 
     [RelayCommand]
-    private void SkipToBreak()
+    private async Task SkipToBreak()
     {
-        GoToNextState();
+        await GoToNextState(isSkipping: true);
 
         Debug.WriteLine($"Timer State = {TimerState}");
     }
@@ -232,8 +243,42 @@ public sealed partial class RunningTimerViewModel : ViewModelBase, IRoute, IActi
         OnStateChanged(TimerState);
     }
 
-    private void GoToNextState()
+    private async Task GoToNextState(bool isSkipping)
     {
+        if (!isSkipping)
+        {
+            var sessionsType = TimerState switch
+            {
+                TimerState.Focus => SessionType.Work,
+                TimerState.Break => SessionType.Break,
+                TimerState.LongBreak => SessionType.LongBreak,
+                _ => SessionType.Work
+            };
+
+            var duration = TimerState switch
+            {
+                TimerState.Focus => _generalSettings!.WorkDurationMinutes,
+                TimerState.Break => _generalSettings!.BreakDurationMinutes,
+                TimerState.LongBreak => _generalSettings!.LongBreakDurationMinutes,
+                _ => _generalSettings!.WorkDurationMinutes
+            };
+
+            var session = new Session
+            {
+                DurationMinutes = duration,
+                SessionType = sessionsType,
+                FinishedDate = DateTime.Now,
+                TagId = _generalSettings!.SelectedTagId,
+                Tag = _generalSettings.SelectedTag,
+            };
+
+            var result = await _sessionService.CreateAsync(session);
+            if (result.Error is not null)
+            {
+                await SukiHost.ShowToast("Failed to save session", "Failed to save the session to the database", SukiUI.Enums.NotificationType.Error);
+            }
+        }
+
         if (TimerState == TimerState.LongBreak)
         {
             CompletedTimers = 0;

@@ -41,6 +41,7 @@ public static class AppBuilderExtensions
             .AddTransient(typeof(IGeneralSettingsService), typeof(GeneralSettingsService))
             .AddTransient(typeof(ITagService), typeof(TagService))
             .AddTransient(typeof(IPlaySoundService), typeof(PlaySoundService))
+            .AddTransient(typeof(ISessionService), typeof(SessionService))
             // Pages
             .AddTransient(typeof(PageViewModelBase), typeof(FocusViewModel))
             .AddTransient(typeof(PageViewModelBase), typeof(SettingsViewModel));

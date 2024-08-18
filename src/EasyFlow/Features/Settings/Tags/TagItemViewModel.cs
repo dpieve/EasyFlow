@@ -3,7 +3,6 @@ using CommunityToolkit.Mvvm.Input;
 using EasyFlow.Common;
 using EasyFlow.Data;
 using EasyFlow.Services;
-using ReactiveUI;
 using SukiUI.Controls;
 using System;
 using System.Threading.Tasks;
@@ -44,6 +43,13 @@ public sealed partial class TagItemViewModel : ViewModelBase
     [RelayCommand]
     private async Task DeleteTag()
     {
+        var resultCount = await _tagService.CountSessions(Tag.Id, SessionType.Work);
+        var numSessions = 0;
+        if (resultCount.Error is null)
+        {
+            numSessions = resultCount.Value!;
+        }
+
         var result = await _tagService.DeleteAsync(Tag);
         if (result.Error is not null)
         {
@@ -51,6 +57,11 @@ public sealed partial class TagItemViewModel : ViewModelBase
             return;
         }
 
+        var msg = numSessions > 0
+            ? $"Tag '{Tag.Name}' has been deleted. {numSessions} work sessions were deleted."
+            : $"Tag '{Tag.Name}' has been deleted.";
+
+        await SukiHost.ShowToast("Tag deleted", msg, SukiUI.Enums.NotificationType.Success);
         _onDeletedTag(Tag);
     }
 }

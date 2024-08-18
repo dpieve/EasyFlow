@@ -10,17 +10,25 @@ namespace EasyFlow.Services;
 public interface ITagService
 {
     public Task<Result<int, Error>> CreateAsync(Tag tag);
+
     public Task<Result<int, Error>> DeleteAsync(Tag tag);
+
     public Task<Result<int, Error>> UpdateAsync(Tag tag);
+
     public Result<List<Tag>, Error> GetAll();
+
+    public Task<Result<int, Error>> CountSessions(int tagId, SessionType? sessionType = null);
 }
+
 public sealed class TagService : ITagService
 {
     private readonly IDbContextFactory<AppDbContext> _contextFactory;
+
     public TagService(IDbContextFactory<AppDbContext> contextFactory)
     {
         _contextFactory = contextFactory;
     }
+
     public async Task<Result<int, Error>> CreateAsync(Tag tag)
     {
         using var context = await _contextFactory.CreateDbContextAsync();
@@ -46,7 +54,7 @@ public sealed class TagService : ITagService
         using var context = await _contextFactory.CreateDbContextAsync();
 
         _ = context.Tags.Remove(tag);
-        
+
         var result = await context.SaveChangesAsync();
         if (result == 0)
         {
@@ -58,7 +66,7 @@ public sealed class TagService : ITagService
     public Result<List<Tag>, Error> GetAll()
     {
         using var context = _contextFactory.CreateDbContext();
-        var tags = context.Tags.ToList();
+        var tags = context.Tags.Include(t => t.Sessions).ToList();
         return tags;
     }
 
@@ -72,6 +80,27 @@ public sealed class TagService : ITagService
             return TagServiceErrors.NoEntityModified;
         }
         return result;
+    }
+
+    public async Task<Result<int, Error>> CountSessions(int tagId, SessionType? sessionType = null)
+    {
+        using var context = await _contextFactory.CreateDbContextAsync();
+        var tag = await context.Tags
+                    .Where(t => t.Id == tagId)
+                    .Include(t => t.Sessions)
+                    .FirstOrDefaultAsync();
+
+        if (tag is null)
+        {
+            return TagServiceErrors.NotFound;
+        }
+
+        if (sessionType is null)
+        {
+            return tag.Sessions.Count;
+        }
+
+        return tag.Sessions.Count(s => s.SessionType == sessionType);
     }
 
     private async Task<bool> RemoveSelection(Tag tag)
