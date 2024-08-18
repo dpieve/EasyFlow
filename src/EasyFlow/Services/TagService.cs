@@ -1,5 +1,6 @@
 ﻿using EasyFlow.Common;
 using EasyFlow.Data;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -15,9 +16,14 @@ public interface ITagService
 }
 public sealed class TagService : ITagService
 {
+    private readonly IDbContextFactory<AppDbContext> _contextFactory;
+    public TagService(IDbContextFactory<AppDbContext> contextFactory)
+    {
+        _contextFactory = contextFactory;
+    }
     public async Task<Result<int, Error>> CreateAsync(Tag tag)
     {
-        using var context = new AppDbContext();
+        using var context = await _contextFactory.CreateDbContextAsync();
         _ = await context.Tags.AddAsync(tag);
         var result = await context.SaveChangesAsync();
         if (result == 0)
@@ -31,9 +37,9 @@ public sealed class TagService : ITagService
     {
         _ = RemoveSelection(tag);
 
-        using var context = new AppDbContext();
+        using var context = await _contextFactory.CreateDbContextAsync();
 
-        var numTags = context.Tags.Count();
+        var numTags = await context.Tags.CountAsync();
         if (numTags <= 1)
         {
             return TagServiceErrors.CannotDeleteLessThanTwo;
@@ -51,14 +57,14 @@ public sealed class TagService : ITagService
 
     public Result<List<Tag>, Error> GetAll()
     {
-        using var context = new AppDbContext();
+        using var context = _contextFactory.CreateDbContext();
         var tags = context.Tags.ToList();
         return tags;
     }
 
     public async Task<Result<int, Error>> UpdateAsync(Tag tag)
     {
-        using var context = new AppDbContext();
+        using var context = await _contextFactory.CreateDbContextAsync();
         context.Tags.Update(tag);
         var result = await context.SaveChangesAsync();
         if (result == 0)
@@ -70,9 +76,9 @@ public sealed class TagService : ITagService
 
     private async Task<bool> RemoveSelection(Tag tag)
     {
-        using var context = new AppDbContext();
+        using var context = await _contextFactory.CreateDbContextAsync();
 
-        var settings = context.GeneralSettings.FirstOrDefault();
+        var settings = await context.GeneralSettings.FirstOrDefaultAsync();
         if (settings is null)
         {
             return false;
@@ -83,7 +89,7 @@ public sealed class TagService : ITagService
             return false;
         }
 
-        var firstTag = context.Tags.FirstOrDefault();
+        var firstTag = await context.Tags.FirstOrDefaultAsync();
         settings.SelectedTag = firstTag!;
         settings.SelectedTagId = firstTag!.Id;
         var result = await context.SaveChangesAsync();

@@ -2,11 +2,25 @@
 
 namespace EasyFlow.Data;
 
-public sealed class AppDbContext : DbContext
+public class AppDbContext : DbContext
 {
     public DbSet<GeneralSettings> GeneralSettings { get; set; }
     public DbSet<Tag> Tags { get; set; }
     public DbSet<Session> Sessions { get; set; }
+
+    public AppDbContext()
+    {
+    }
+
+    public AppDbContext(DbContextOptions<AppDbContext> options)
+        : base(options)
+    {
+    }
+
+    protected AppDbContext(DbContextOptions options)
+        : base(options)
+    {
+    }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {

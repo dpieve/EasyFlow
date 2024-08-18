@@ -1,4 +1,5 @@
 ﻿using EasyFlow.Data;
+using Microsoft.EntityFrameworkCore;
 using NAudio.Wave;
 using System.IO;
 using System.Linq;
@@ -17,9 +18,15 @@ public interface IPlaySoundService
 }
 public sealed class PlaySoundService : IPlaySoundService
 {
+    private readonly IDbContextFactory<AppDbContext> _contextFactory;
+    public PlaySoundService(IDbContextFactory<AppDbContext> contextFactory)
+    {
+        _contextFactory = contextFactory;
+    }
+
     public void Play(SoundType type)
     {
-        using var context = new AppDbContext();
+        using var context = _contextFactory.CreateDbContext();
         var settings = context.GeneralSettings.FirstOrDefault();
 
         if (settings is null)

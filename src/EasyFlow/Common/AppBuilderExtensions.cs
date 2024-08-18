@@ -1,8 +1,10 @@
 ﻿using Avalonia;
 using CommunityToolkit.Mvvm.DependencyInjection;
+using EasyFlow.Data;
 using EasyFlow.Features.Focus;
 using EasyFlow.Features.Settings;
 using EasyFlow.Services;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace EasyFlow.Common;
@@ -21,8 +23,19 @@ public static class AppBuilderExtensions
     {
         var services = new ServiceCollection();
 
+        services.AddDbContextFactory<AppDbContext>(
+            options =>
+                {  
+                    options.UseSqlite($"Data Source={App.DbFullPath}"); 
+                    options.EnableDetailedErrors();
+                    options.EnableSensitiveDataLogging();
+                }, 
+            lifetime: ServiceLifetime.Scoped);
+
         services.AddSingleton<MainViewModel>();
         
+        services.AddSingleton<DatabaseMigrator>();
+
         services
             // Services
             .AddTransient(typeof(IGeneralSettingsService), typeof(GeneralSettingsService))

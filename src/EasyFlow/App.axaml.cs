@@ -4,7 +4,6 @@ using Avalonia.Data.Core.Plugins;
 using Avalonia.Markup.Xaml;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using EasyFlow.Data;
-using Microsoft.EntityFrameworkCore;
 using System;
 using System.Diagnostics;
 using System.IO;
@@ -24,7 +23,8 @@ public partial class App : Application
 
     public override void OnFrameworkInitializationCompleted()
     {
-        CreateDatabase();
+        var migrator = Ioc.Default.GetRequiredService<DatabaseMigrator>();
+        migrator.MigrateDatabase();
 
         var mainViewModel = Ioc.Default.GetRequiredService<MainViewModel>();
 
@@ -59,11 +59,5 @@ public partial class App : Application
     private void OnExit(object? sender, ControlledApplicationLifetimeExitEventArgs e)
     {
         Debug.WriteLine("Exit application");
-    }
-
-    private static void CreateDatabase()
-    {
-        using var context = new AppDbContext();
-        context.Database.Migrate();
     }
 }
