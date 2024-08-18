@@ -45,6 +45,31 @@ public sealed partial class TimersViewModel : ViewModelBase
     public void Adjust(TimerType timerType, AdjustFactor adjust)
     {
         var (success, newValue) = GetNewValue(timerType, adjust);
+
+        if (timerType == TimerType.Work && newValue < BreakMinutes)
+        {
+            newValue = BreakMinutes;
+            SukiHost.ShowToast("Adjust timer", "Focus time must be greater or equal break time", SukiUI.Enums.NotificationType.Warning);
+        }
+
+        if (timerType == TimerType.LongBreak && newValue < BreakMinutes)
+        {
+            newValue = BreakMinutes;
+            SukiHost.ShowToast("Adjust timer", "Long break time must be greater or equal Break time", SukiUI.Enums.NotificationType.Warning);
+        }
+
+        if (timerType == TimerType.Break && newValue > LongBreakMinutes)
+        {
+            newValue = LongBreakMinutes;
+            SukiHost.ShowToast("Adjust timer", "Break time must be smaller or equal Long break time", SukiUI.Enums.NotificationType.Warning);
+        }
+
+        if (timerType == TimerType.Break && newValue > WorkMinutes)
+        {
+            newValue = WorkMinutes;
+            SukiHost.ShowToast("Adjust timer", "Break time must be smaller or equal Focus time", SukiUI.Enums.NotificationType.Warning);
+        }
+
         if (success)
         {
             SetNewValue(timerType, newValue);
