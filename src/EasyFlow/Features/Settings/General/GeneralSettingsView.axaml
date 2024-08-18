@@ -66,6 +66,14 @@
                         TextWrapping="Wrap" />
                 </Grid>
 
+                <Grid Margin="0,30,0,0">
+                    <Button
+                        HorizontalAlignment="Right"
+                        Classes="Flat"
+                        Command="{Binding ClearDataCommand}"
+                        Content="Clear data" />
+                </Grid>
+
             </StackPanel>
         </suki:GroupBox>
     </suki:GlassCard>

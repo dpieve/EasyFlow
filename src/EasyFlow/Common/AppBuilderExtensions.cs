@@ -34,8 +34,8 @@ public static class AppBuilderExtensions
 
         services.AddSingleton<MainViewModel>();
         
-        services.AddSingleton<DatabaseMigrator>();
-
+        services.AddSingleton<IDatabaseManager, DatabaseManager>();
+        
         services
             // Services
             .AddTransient(typeof(IGeneralSettingsService), typeof(GeneralSettingsService))

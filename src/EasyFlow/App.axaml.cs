@@ -23,8 +23,8 @@ public partial class App : Application
 
     public override void OnFrameworkInitializationCompleted()
     {
-        var migrator = Ioc.Default.GetRequiredService<DatabaseMigrator>();
-        migrator.MigrateDatabase();
+        var migrator = Ioc.Default.GetRequiredService<IDatabaseManager>();
+        migrator.Migrate();
 
         var mainViewModel = Ioc.Default.GetRequiredService<MainViewModel>();
 

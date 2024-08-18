@@ -206,7 +206,7 @@ public sealed partial class RunningTimerViewModel : ViewModelBase, IRoute, IActi
         SecondsLeft = TotalSeconds;
 
         // TEST, remove:
-        //SecondsLeft = 2;
+        SecondsLeft = 2;
         // end TEST.
 
         IsBreak = state != TimerState.Focus;

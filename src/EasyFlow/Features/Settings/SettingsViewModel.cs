@@ -1,7 +1,9 @@
 ﻿using EasyFlow.Common;
+using EasyFlow.Data;
 using EasyFlow.Features.Settings.General;
 using EasyFlow.Features.Settings.Tags;
 using EasyFlow.Services;
+using ReactiveUI;
 using System.Diagnostics;
 
 namespace EasyFlow.Features.Settings;
@@ -13,14 +15,15 @@ public sealed partial class SettingsViewModel : PageViewModelBase
 
     public SettingsViewModel(
         IGeneralSettingsService settingsService, 
-        ITagService tagService)
+        ITagService tagService,
+        IDatabaseManager databaseMigrator)
         : base("Settings", Material.Icons.MaterialIconKind.Cog, (int)PageOrder.Settings)
     {
         _generalSettingsService = settingsService;
         _tagService = tagService;
         
         Tags = new(_tagService);
-        GeneralSettings = new(_generalSettingsService);
+        GeneralSettings = new(_generalSettingsService, databaseMigrator);
     }
     public TagsViewModel Tags { get; }
     public GeneralSettingsViewModel GeneralSettings { get; }

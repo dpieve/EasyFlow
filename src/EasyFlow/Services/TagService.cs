@@ -35,15 +35,15 @@ public sealed class TagService : ITagService
 
     public async Task<Result<int, Error>> DeleteAsync(Tag tag)
     {
-        _ = RemoveSelection(tag);
-
-        using var context = await _contextFactory.CreateDbContextAsync();
-
-        var numTags = await context.Tags.CountAsync();
-        if (numTags <= 1)
+        var canDeleteTag = await CanDeleteTag();
+        if (!canDeleteTag)
         {
             return TagServiceErrors.CannotDeleteLessThanTwo;
         }
+
+        _ = RemoveSelection(tag);
+
+        using var context = await _contextFactory.CreateDbContextAsync();
 
         _ = context.Tags.Remove(tag);
         
@@ -89,11 +89,23 @@ public sealed class TagService : ITagService
             return false;
         }
 
-        var firstTag = await context.Tags.FirstOrDefaultAsync();
+        var firstTag = await context.Tags.FirstOrDefaultAsync(t => t.Id != tag.Id);
         settings.SelectedTag = firstTag!;
         settings.SelectedTagId = firstTag!.Id;
         var result = await context.SaveChangesAsync();
         return result != 0;
+    }
+
+    private async Task<bool> CanDeleteTag()
+    {
+        using var context = await _contextFactory.CreateDbContextAsync();
+
+        var numTags = await context.Tags.CountAsync();
+        if (numTags <= 1)
+        {
+            return false;
+        }
+        return true;
     }
 }
 

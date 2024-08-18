@@ -15,6 +15,7 @@ namespace EasyFlow.Features.Settings.General;
 public partial class GeneralSettingsViewModel : ViewModelBase
 {
     private readonly IGeneralSettingsService _generalSettingsService;
+    private readonly IDatabaseManager _databaseMigrator;
 
     [ObservableProperty]
     private bool _isWorkSoundEnabled;
@@ -22,10 +23,13 @@ public partial class GeneralSettingsViewModel : ViewModelBase
     [ObservableProperty]
     private bool _isBreakSoundEnabled;
 
-    public GeneralSettingsViewModel(IGeneralSettingsService generalSettingsService)
+    public GeneralSettingsViewModel(
+        IGeneralSettingsService generalSettingsService,
+        IDatabaseManager databaseMigrator)
     {
         _generalSettingsService = generalSettingsService;
-
+        _databaseMigrator = databaseMigrator;
+        
         var settings = LoadSettings();
         IsWorkSoundEnabled = settings.IsWorkSoundEnabled;
         IsBreakSoundEnabled = settings.IsBreakSoundEnabled;
@@ -72,6 +76,16 @@ public partial class GeneralSettingsViewModel : ViewModelBase
         }
         
         Debug.WriteLine("Persisted settings");
+    }
+
+    [RelayCommand]
+    private void ClearData()
+    {
+        SukiHost.ShowDialog(new ClearDataViewModel(_databaseMigrator, () =>
+        {
+            SukiHost.ShowToast("Data cleared", "All data has been cleared. Restart the software to complete the deletion.", SukiUI.Enums.NotificationType.Success);
+        }),
+        allowBackgroundClose: false);
     }
 
     private GeneralSettings LoadSettings()
