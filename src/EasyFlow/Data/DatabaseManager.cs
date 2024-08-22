@@ -1,4 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
 
 namespace EasyFlow.Data;
@@ -27,8 +29,9 @@ public class DatabaseManager : IDatabaseManager
 
     public void Migrate()
     {
-        using var context = _contextFactory.CreateDbContext();
-        context.Database.Migrate();
+        Reset();
+        //using var context = _contextFactory.CreateDbContext();
+        //context.Database.Migrate();
     }
 
     public bool Reset()

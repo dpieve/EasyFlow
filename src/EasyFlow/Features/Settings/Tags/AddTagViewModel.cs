@@ -50,7 +50,6 @@ public sealed partial class AddTagViewModel : ViewModelBase
         var saved = await PersistTag();
         if (!saved)
         {
-            await SukiHost.ShowToast("Failed to save tag", "Failed to add the new tag to the database.", SukiUI.Enums.NotificationType.Error);
             CloseDialog();
             return;
         }
@@ -70,6 +69,7 @@ public sealed partial class AddTagViewModel : ViewModelBase
         
         if (result.Error is not null)
         {
+            await SukiHost.ShowToast("Failed to save tag", $"Failed to add the new tag. {result.Error.Message}", SukiUI.Enums.NotificationType.Error);
             return false;
         }
 

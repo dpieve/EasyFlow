@@ -63,6 +63,9 @@ public sealed partial class RunningTimerViewModel : ViewModelBase, IRoute, IActi
     [ObservableProperty]
     private string _selectedTagName = string.Empty;
 
+    [ObservableProperty]
+    private bool _isFocusDescriptionVisible = true;
+
     public RunningTimerViewModel(
         IRouterHost routerHost,
         ITagService? tagService = null,
@@ -91,6 +94,7 @@ public sealed partial class RunningTimerViewModel : ViewModelBase, IRoute, IActi
             });
 
         this.WhenAnyValue(vm => vm.TimerState)
+            .Skip(1)
             .Subscribe(OnStateChanged);
     }
 
@@ -144,6 +148,9 @@ public sealed partial class RunningTimerViewModel : ViewModelBase, IRoute, IActi
 
         SecondsLeft = TotalSeconds;
 
+        // Test
+        SecondsLeft = 4;
+
         var minutes = TotalSeconds / 60;
         var seconds = TotalSeconds % 60;
         TimerText = $"{minutes:D2}:{seconds:D2}";
@@ -179,11 +186,11 @@ public sealed partial class RunningTimerViewModel : ViewModelBase, IRoute, IActi
         SecondsLeft = TotalSeconds;
 
         // TEST:
-        SecondsLeft = 4;
+        SecondsLeft = 3;
 
         IsBreak = state != TimerState.Focus;
 
-        IsRunning = true;
+        IsRunning = false;
     }
 
     [RelayCommand]
@@ -249,10 +256,10 @@ public sealed partial class RunningTimerViewModel : ViewModelBase, IRoute, IActi
         {
             var sessionsType = TimerState switch
             {
-                TimerState.Focus => SessionType.Work,
+                TimerState.Focus => SessionType.Focus,
                 TimerState.Break => SessionType.Break,
                 TimerState.LongBreak => SessionType.LongBreak,
-                _ => SessionType.Work
+                _ => SessionType.Focus
             };
 
             var duration = TimerState switch
@@ -272,11 +279,27 @@ public sealed partial class RunningTimerViewModel : ViewModelBase, IRoute, IActi
                 Tag = _generalSettings.SelectedTag,
             };
 
+            var description = string.Empty;
+
+            var isDescriptionEnabled = _generalSettingsService.IsFocusDescriptionEnabled();
+            if (isDescriptionEnabled)
+            {
+                SukiHost.ShowDialog(new EditDescriptionViewModel((string notes) =>
+                {
+                    description = notes;
+                }),
+                allowBackgroundClose: false);
+            }
+
+            session.Description = description;
+
             var result = await _sessionService.CreateAsync(session);
             if (result.Error is not null)
             {
                 await SukiHost.ShowToast("Failed to save session", "Failed to save the session to the database", SukiUI.Enums.NotificationType.Error);
+                return;
             }
+            
         }
 
         if (TimerState == TimerState.LongBreak)

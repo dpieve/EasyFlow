@@ -56,6 +56,7 @@ public sealed class PlaySoundService : IPlaySoundService
         AudioFileReader audioFile = new(filePath);
 
         outputDevice.Init(audioFile);
+        outputDevice.Volume = 0.1f; // TODO: make this a setting
         outputDevice.Play();
     }
 

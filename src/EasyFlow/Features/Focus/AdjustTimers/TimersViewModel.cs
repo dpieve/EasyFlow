@@ -88,7 +88,7 @@ public sealed partial class TimersViewModel : ViewModelBase
             _ => SessionsBeforeLongBreak
         };
 
-        var newValue = baseValue + factor * limits.Delta;
+        var newValue = baseValue + factor * limits.Step;
 
         if (newValue < limits.Min)
         {

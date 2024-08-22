@@ -32,6 +32,12 @@ public sealed class TagService : ITagService
     public async Task<Result<int, Error>> CreateAsync(Tag tag)
     {
         using var context = await _contextFactory.CreateDbContextAsync();
+
+        var numTags = await context.Tags.CountAsync();
+        if (numTags >= Tag.MaxNumTags)
+        {
+            return TagServiceErrors.CannotCreateMoreThanTen;
+        }
         _ = await context.Tags.AddAsync(tag);
         var result = await context.SaveChangesAsync();
         if (result == 0)
@@ -148,4 +154,7 @@ public static class TagServiceErrors
 
     public static readonly Error CannotDeleteLessThanTwo = new("Tag.CannotDeleteLessThanTwo",
       "There must exist at least one tag.");
+
+    public static readonly Error CannotCreateMoreThanTen = new("Tag.CannotCreateMoreThanTen",
+      "There is a limit of 10 tags.");
 }

@@ -16,7 +16,7 @@
     d:DesignHeight="450"
     d:DesignWidth="800"
     x:DataType="local:MainViewModel"
-    BackgroundAnimationEnabled="True"
+    BackgroundAnimationEnabled="False"
     CanResize="True"
     Icon="/Assets/panda.ico"
     IsMenuVisible="True"
@@ -55,6 +55,10 @@
                     </DataTemplate>
                 </MenuItem.DataTemplates>
             </MenuItem>
+        </MenuItem>
+        <MenuItem Header="Languages">
+            <MenuItem Header="English" />
+            <MenuItem Header="Portuguese" />
         </MenuItem>
     </suki:SukiWindow.MenuItems>
     <local:MainView />

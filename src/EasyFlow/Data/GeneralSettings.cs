@@ -16,8 +16,7 @@ public sealed class GeneralSettings
     public ColorTheme SelectedColorTheme { get; set; } = ColorTheme.Red;
     public int SelectedTagId { get; set; }
     public Tag SelectedTag { get; set; }
-
-    public bool IsNotificationEnabled { get; set; } = true;
+    public bool IsFocusDescriptionEnabled { get; set; } = true;
 }
 
 public enum Theme

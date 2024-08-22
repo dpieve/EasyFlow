@@ -17,4 +17,6 @@ public sealed class Tag
     {
         return Id == 0;
     }
+
+    public static readonly int MaxNumTags = 10;
 }

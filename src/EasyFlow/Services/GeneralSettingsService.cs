@@ -21,6 +21,8 @@ public interface IGeneralSettingsService
     public Result<Tag, Error> GetSelectedTag();
     public void UpdateSelectedTheme(Theme theme);
     public void UpdateSelectedColorTheme(ColorTheme colorTheme);
+
+    public bool IsFocusDescriptionEnabled();
 }
 
 public class GeneralSettingsService : IGeneralSettingsService
@@ -153,6 +155,17 @@ public class GeneralSettingsService : IGeneralSettingsService
         settings.SelectedColorTheme = colorTheme;
         context.GeneralSettings.Update(settings);
         _ = context.SaveChanges();
+    }
+
+    public bool IsFocusDescriptionEnabled()
+    {
+        using var context = _contextFactory.CreateDbContext();
+        var settings = context.GeneralSettings.FirstOrDefault();
+        if (settings is null)
+        {
+            return false;
+        }
+        return settings.IsFocusDescriptionEnabled;
     }
 }
 

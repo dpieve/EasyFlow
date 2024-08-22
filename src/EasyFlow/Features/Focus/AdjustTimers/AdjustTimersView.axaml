@@ -15,9 +15,9 @@
 
     <UserControl.Styles>
         <Style Selector="TextBlock.Timer">
-            <Setter Property="FontSize" Value="40" />
-            <Setter Property="Width" Value="140" />
-            <Setter Property="Margin" Value="50" />
+            <Setter Property="FontSize" Value="45" />
+            <Setter Property="Width" Value="200" />
+            <Setter Property="Margin" Value="30,40, 30, 40" />
             <Setter Property="HorizontalAlignment" Value="Center" />
             <Setter Property="VerticalAlignment" Value="Center" />
             <Setter Property="TextAlignment" Value="Center" />
@@ -28,6 +28,7 @@
             <Setter Property="BorderThickness" Value="0" />
             <Setter Property="FontSize" Value="20" />
         </Style>
+
     </UserControl.Styles>
 
     <ScrollViewer>
@@ -38,23 +39,71 @@
             Spacing="40">
             <WrapPanel Classes="PageContainer">
                 <suki:GlassCard Margin="0,5,30,0">
-                    <suki:GroupBox Header="Work time">
+                    <suki:GroupBox Header="Focus time">
                         <StackPanel Orientation="Vertical">
                             <TextBlock Classes="Timer" Text="{Binding Timers.WorkMinutes, StringFormat='{}{0}min'}" />
 
-                            <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                            <Grid ColumnDefinitions="*, *, *, *">
                                 <Button
-                                    Margin="0,0,20,0"
+                                    Grid.Column="0"
+                                    Margin="0,0,8,0"
                                     Classes="Adjust"
                                     Command="{Binding DecreaseTimerCommand}"
-                                    CommandParameter="{x:Static local:TimerType.Work}"
-                                    Content="-" />
+                                    CommandParameter="{x:Static local:TimerType.Work}">
+                                    <icons:MaterialIcon
+                                        Width="22"
+                                        Height="22"
+                                        Margin="0"
+                                        Padding="0"
+                                        VerticalAlignment="Center"
+                                        Foreground="{DynamicResource SukiLowText}"
+                                        Kind="PageFirst" />
+                                </Button>
                                 <Button
+                                    Grid.Column="1"
+                                    Margin="0,0,8,0"
+                                    Classes="Adjust"
+                                    Command="{Binding DecreaseTimerCommand}"
+                                    CommandParameter="{x:Static local:TimerType.Work}">
+                                    <icons:MaterialIcon
+                                        Width="22"
+                                        Height="22"
+                                        Margin="0"
+                                        Padding="0"
+                                        VerticalAlignment="Center"
+                                        Foreground="{DynamicResource SukiLowText}"
+                                        Kind="Minus" />
+                                </Button>
+                                <Button
+                                    Grid.Column="2"
+                                    Margin="0,0,8,0"
                                     Classes="Adjust"
                                     Command="{Binding IncreaseTimerCommand}"
-                                    CommandParameter="{x:Static local:TimerType.Work}"
-                                    Content="+" />
-                            </StackPanel>
+                                    CommandParameter="{x:Static local:TimerType.Work}">
+                                    <icons:MaterialIcon
+                                        Width="22"
+                                        Height="22"
+                                        Margin="0"
+                                        Padding="0"
+                                        VerticalAlignment="Center"
+                                        Foreground="{DynamicResource SukiLowText}"
+                                        Kind="Plus" />
+                                </Button>
+                                <Button
+                                    Grid.Column="3"
+                                    Classes="Adjust"
+                                    Command="{Binding IncreaseTimerCommand}"
+                                    CommandParameter="{x:Static local:TimerType.Work}">
+                                    <icons:MaterialIcon
+                                        Width="22"
+                                        Height="22"
+                                        Margin="0"
+                                        Padding="0"
+                                        VerticalAlignment="Center"
+                                        Foreground="{DynamicResource SukiLowText}"
+                                        Kind="PageLast" />
+                                </Button>
+                            </Grid>
                         </StackPanel>
                     </suki:GroupBox>
                 </suki:GlassCard>
@@ -64,19 +113,67 @@
                         <StackPanel Orientation="Vertical">
                             <TextBlock Classes="Timer" Text="{Binding Timers.BreakMinutes, StringFormat='{}{0}min'}" />
 
-                            <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                            <Grid ColumnDefinitions="*, *, *, *">
                                 <Button
-                                    Margin="0,0,20,0"
+                                    Grid.Column="0"
+                                    Margin="0,0,8,0"
                                     Classes="Adjust"
                                     Command="{Binding DecreaseTimerCommand}"
-                                    CommandParameter="{x:Static local:TimerType.Break}"
-                                    Content="-" />
+                                    CommandParameter="{x:Static local:TimerType.Work}">
+                                    <icons:MaterialIcon
+                                        Width="22"
+                                        Height="22"
+                                        Margin="0"
+                                        Padding="0"
+                                        VerticalAlignment="Center"
+                                        Foreground="{DynamicResource SukiLowText}"
+                                        Kind="PageFirst" />
+                                </Button>
                                 <Button
+                                    Grid.Column="1"
+                                    Margin="0,0,8,0"
+                                    Classes="Adjust"
+                                    Command="{Binding DecreaseTimerCommand}"
+                                    CommandParameter="{x:Static local:TimerType.Work}">
+                                    <icons:MaterialIcon
+                                        Width="22"
+                                        Height="22"
+                                        Margin="0"
+                                        Padding="0"
+                                        VerticalAlignment="Center"
+                                        Foreground="{DynamicResource SukiLowText}"
+                                        Kind="Minus" />
+                                </Button>
+                                <Button
+                                    Grid.Column="2"
+                                    Margin="0,0,8,0"
                                     Classes="Adjust"
                                     Command="{Binding IncreaseTimerCommand}"
-                                    CommandParameter="{x:Static local:TimerType.Break}"
-                                    Content="+" />
-                            </StackPanel>
+                                    CommandParameter="{x:Static local:TimerType.Work}">
+                                    <icons:MaterialIcon
+                                        Width="22"
+                                        Height="22"
+                                        Margin="0"
+                                        Padding="0"
+                                        VerticalAlignment="Center"
+                                        Foreground="{DynamicResource SukiLowText}"
+                                        Kind="Plus" />
+                                </Button>
+                                <Button
+                                    Grid.Column="3"
+                                    Classes="Adjust"
+                                    Command="{Binding IncreaseTimerCommand}"
+                                    CommandParameter="{x:Static local:TimerType.Work}">
+                                    <icons:MaterialIcon
+                                        Width="22"
+                                        Height="22"
+                                        Margin="0"
+                                        Padding="0"
+                                        VerticalAlignment="Center"
+                                        Foreground="{DynamicResource SukiLowText}"
+                                        Kind="PageLast" />
+                                </Button>
+                            </Grid>
                         </StackPanel>
                     </suki:GroupBox>
                 </suki:GlassCard>
@@ -85,7 +182,13 @@
                     <suki:GroupBox>
                         <suki:GroupBox.Header>
                             <Grid ColumnDefinitions="*, auto">
-                                <TextBlock Grid.Column="0" Text="Long break time" />
+                                <Grid Grid.Column="0">
+                                    <TextBlock HorizontalAlignment="Left" Text="Long break time" />
+                                    <TextBlock
+                                        Margin="0,0,10,0"
+                                        HorizontalAlignment="Right"
+                                        Text="{Binding Timers.SessionsBeforeLongBreak, StringFormat='#{0} sessions'}" />
+                                </Grid>
                                 <Button
                                     Grid.Column="1"
                                     Width="20"
@@ -108,33 +211,81 @@
                         <StackPanel Orientation="Vertical">
                             <TextBlock Classes="Timer" Text="{Binding Timers.LongBreakMinutes, StringFormat='{}{0}min'}" />
 
-                            <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                            <Grid ColumnDefinitions="*, *, *, *">
                                 <Button
-                                    Margin="0,0,20,0"
+                                    Grid.Column="0"
+                                    Margin="0,0,8,0"
                                     Classes="Adjust"
                                     Command="{Binding DecreaseTimerCommand}"
-                                    CommandParameter="{x:Static local:TimerType.LongBreak}"
-                                    Content="-" />
+                                    CommandParameter="{x:Static local:TimerType.Work}">
+                                    <icons:MaterialIcon
+                                        Width="22"
+                                        Height="22"
+                                        Margin="0"
+                                        Padding="0"
+                                        VerticalAlignment="Center"
+                                        Foreground="{DynamicResource SukiLowText}"
+                                        Kind="PageFirst" />
+                                </Button>
                                 <Button
+                                    Grid.Column="1"
+                                    Margin="0,0,8,0"
+                                    Classes="Adjust"
+                                    Command="{Binding DecreaseTimerCommand}"
+                                    CommandParameter="{x:Static local:TimerType.Work}">
+                                    <icons:MaterialIcon
+                                        Width="22"
+                                        Height="22"
+                                        Margin="0"
+                                        Padding="0"
+                                        VerticalAlignment="Center"
+                                        Foreground="{DynamicResource SukiLowText}"
+                                        Kind="Minus" />
+                                </Button>
+                                <Button
+                                    Grid.Column="2"
+                                    Margin="0,0,8,0"
                                     Classes="Adjust"
                                     Command="{Binding IncreaseTimerCommand}"
-                                    CommandParameter="{x:Static local:TimerType.LongBreak}"
-                                    Content="+" />
-                            </StackPanel>
+                                    CommandParameter="{x:Static local:TimerType.Work}">
+                                    <icons:MaterialIcon
+                                        Width="22"
+                                        Height="22"
+                                        Margin="0"
+                                        Padding="0"
+                                        VerticalAlignment="Center"
+                                        Foreground="{DynamicResource SukiLowText}"
+                                        Kind="Plus" />
+                                </Button>
+                                <Button
+                                    Grid.Column="3"
+                                    Classes="Adjust"
+                                    Command="{Binding IncreaseTimerCommand}"
+                                    CommandParameter="{x:Static local:TimerType.Work}">
+                                    <icons:MaterialIcon
+                                        Width="22"
+                                        Height="22"
+                                        Margin="0"
+                                        Padding="0"
+                                        VerticalAlignment="Center"
+                                        Foreground="{DynamicResource SukiLowText}"
+                                        Kind="PageLast" />
+                                </Button>
+                            </Grid>
                         </StackPanel>
                     </suki:GroupBox>
                 </suki:GlassCard>
             </WrapPanel>
 
             <ComboBox
-                Width="200"
+                Width="260"
                 DisplayMemberBinding="{Binding Name}"
                 ItemsSource="{Binding Tags}"
                 SelectedItem="{Binding SelectedTag, Mode=TwoWay}" />
 
             <Button
                 Grid.Row="1"
-                Width="200"
+                Width="260"
                 Margin="0,0,0,5"
                 theme:ButtonExtensions.ShowProgress="False"
                 Classes="Flat"

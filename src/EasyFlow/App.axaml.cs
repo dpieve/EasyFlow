@@ -7,6 +7,7 @@ using EasyFlow.Data;
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace EasyFlow;
 
@@ -56,8 +57,9 @@ public partial class App : Application
         Debug.WriteLine("Startup application");
     }
 
-    private void OnExit(object? sender, ControlledApplicationLifetimeExitEventArgs e)
+    private async void OnExit(object? sender, ControlledApplicationLifetimeExitEventArgs e)
     {
+        await Task.Delay(200);
         Debug.WriteLine("Exit application");
     }
 }

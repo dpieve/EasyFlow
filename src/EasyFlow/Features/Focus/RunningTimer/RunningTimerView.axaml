@@ -17,110 +17,128 @@
         <converters:StringFromTimerState x:Key="StringFromTimerState" />
     </UserControl.Resources>
 
-    <suki:GlassCard
-        Margin="0,5,40,0"
-        HorizontalAlignment="Center"
-        VerticalAlignment="Center">
-        <suki:GroupBox>
-            <suki:GroupBox.Header>
-                <Grid ColumnDefinitions="*, auto">
-                    <TextBlock Grid.Column="0" Text="{Binding TimerState, Converter={StaticResource StringFromTimerState}}" />
-                    <Button
-                        Grid.Column="1"
-                        Padding="2"
-                        BorderBrush="Transparent"
-                        BorderThickness="0">
-                        <Button.Flyout>
-                            <MenuFlyout>
-                                <MenuItem Command="{Binding EndSessionCommand}" Header="End session">
-                                    <MenuItem.Icon>
-                                        <icons:MaterialIcon
-                                            Width="20"
-                                            Height="20"
-                                            VerticalAlignment="Center"
-                                            Foreground="{DynamicResource SukiPrimaryColor}"
-                                            Kind="TimerStop" />
-                                    </MenuItem.Icon>
-                                </MenuItem>
-                                <MenuItem Command="{Binding SkipToBreakCommand}" Header="{Binding SkipButtonText}">
-                                    <MenuItem.Icon>
-                                        <icons:MaterialIcon
-                                            Width="20"
-                                            Height="20"
-                                            VerticalAlignment="Center"
-                                            Foreground="{DynamicResource SukiPrimaryColor}"
-                                            Kind="SkipForward" />
-                                    </MenuItem.Icon>
-                                </MenuItem>
-                            </MenuFlyout>
-                        </Button.Flyout>
-                        <icons:MaterialIcon
-                            Width="20"
-                            Height="20"
-                            VerticalAlignment="Center"
-                            Foreground="{DynamicResource SukiPrimaryColor}"
-                            Kind="DotsHorizontal" />
-                    </Button>
-                </Grid>
-            </suki:GroupBox.Header>
-            <StackPanel Spacing="20">
-                <suki:CircleProgressBar
-                    Width="130"
-                    Height="130"
-                    Margin="30"
-                    Classes.Accent="{Binding IsBreak}"
-                    IsIndeterminate="False"
-                    StrokeWidth="11"
-                    Value="{Binding ProgressValue}">
-                    <TextBlock
-                        Margin="0,2,0,0"
-                        Classes="h2"
-                        Text="{Binding TimerText}" />
-                </suki:CircleProgressBar>
+    <Grid>
+        <suki:GlassCard
+            Margin="0,5,40,0"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center">
+            <suki:GroupBox>
+                <suki:GroupBox.Header>
+                    <Grid ColumnDefinitions="*, auto">
+                        <TextBlock Grid.Column="0" Text="{Binding TimerState, Converter={StaticResource StringFromTimerState}}" />
+                        <Button
+                            Grid.Column="1"
+                            Padding="2"
+                            BorderBrush="Transparent"
+                            BorderThickness="0">
+                            <Button.Flyout>
+                                <MenuFlyout>
+                                    <MenuItem Command="{Binding EndSessionCommand}" Header="End session">
+                                        <MenuItem.Icon>
+                                            <icons:MaterialIcon
+                                                Width="20"
+                                                Height="20"
+                                                VerticalAlignment="Center"
+                                                Foreground="{DynamicResource SukiPrimaryColor}"
+                                                Kind="TimerStop" />
+                                        </MenuItem.Icon>
+                                    </MenuItem>
+                                    <MenuItem Command="{Binding SkipToBreakCommand}" Header="{Binding SkipButtonText}">
+                                        <MenuItem.Icon>
+                                            <icons:MaterialIcon
+                                                Width="20"
+                                                Height="20"
+                                                VerticalAlignment="Center"
+                                                Foreground="{DynamicResource SukiPrimaryColor}"
+                                                Kind="SkipForward" />
+                                        </MenuItem.Icon>
+                                    </MenuItem>
+                                </MenuFlyout>
+                            </Button.Flyout>
+                            <icons:MaterialIcon
+                                Width="20"
+                                Height="20"
+                                VerticalAlignment="Center"
+                                Foreground="{DynamicResource SukiPrimaryColor}"
+                                Kind="DotsHorizontal" />
+                        </Button>
+                    </Grid>
+                </suki:GroupBox.Header>
+                <StackPanel Spacing="20">
+                    <suki:CircleProgressBar
+                        Width="180"
+                        Height="180"
+                        Margin="30"
+                        Classes.Accent="{Binding IsBreak}"
+                        IsIndeterminate="False"
+                        StrokeWidth="11"
+                        Value="{Binding ProgressValue}">
+                        <TextBlock
+                            Margin="0,2,0,0"
+                            Classes="h1"
+                            Text="{Binding TimerText}" />
+                    </suki:CircleProgressBar>
 
-                <StackPanel Spacing="5">
-                    <TextBlock
+                    <StackPanel Spacing="5">
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Classes.Accent="{Binding !IsBreak}"
+                            FontSize="16"
+                            Text="{Binding SelectedTagName}" />
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Classes="Caption"
+                            FontSize="14"
+                            Text="{Binding ProgressText}" />
+                    </StackPanel>
+
+                    <StackPanel
+                        Margin="30"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
-                        Classes.Accent="{Binding !IsBreak}"
-                        FontSize="16"
-                        Text="{Binding SelectedTagName}" />
-                    <TextBlock
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Classes="Caption"
-                        FontSize="14"
-                        Text="{Binding ProgressText}" />
+                        Orientation="Horizontal"
+                        Spacing="20">
+                        <Button
+                            BorderBrush="Transparent"
+                            BorderThickness="0"
+                            Command="{Binding StartOrPauseTimerCommand}">
+                            <icons:MaterialIcon
+                                Width="20"
+                                Height="20"
+                                VerticalAlignment="Center"
+                                Foreground="{DynamicResource SukiPrimaryColor}"
+                                Kind="{Binding StartButtonIcon}" />
+                        </Button>
+                        <Button
+                            BorderBrush="Transparent"
+                            BorderThickness="0"
+                            Command="{Binding RestartTimerCommand}">
+                            <icons:MaterialIcon
+                                Width="20"
+                                Height="20"
+                                VerticalAlignment="Center"
+                                Foreground="{DynamicResource SukiPrimaryColor}"
+                                Kind="Restart" />
+                        </Button>
+                    </StackPanel>
                 </StackPanel>
+            </suki:GroupBox>
+        </suki:GlassCard>
 
-                <StackPanel
-                    Margin="30"
-                    Orientation="Horizontal"
-                    Spacing="20">
-                    <Button
-                        BorderBrush="Transparent"
-                        BorderThickness="0"
-                        Command="{Binding StartOrPauseTimerCommand}">
-                        <icons:MaterialIcon
-                            Width="20"
-                            Height="20"
-                            VerticalAlignment="Center"
-                            Foreground="{DynamicResource SukiPrimaryColor}"
-                            Kind="{Binding StartButtonIcon}" />
-                    </Button>
-                    <Button
-                        BorderBrush="Transparent"
-                        BorderThickness="0"
-                        Command="{Binding RestartTimerCommand}">
-                        <icons:MaterialIcon
-                            Width="20"
-                            Height="20"
-                            VerticalAlignment="Center"
-                            Foreground="{DynamicResource SukiPrimaryColor}"
-                            Kind="Restart" />
-                    </Button>
-                </StackPanel>
-            </StackPanel>
-        </suki:GroupBox>
-    </suki:GlassCard>
+        <Button
+            Grid.Row="1"
+            Margin="0,0,30,30"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Bottom"
+            Classes="Flat"
+            IsVisible="{Binding IsFocusDescriptionVisible}">
+            <icons:MaterialIcon
+                Width="17"
+                Height="17"
+                Kind="NoteAdd" />
+        </Button>
+    </Grid>
+
 </UserControl>

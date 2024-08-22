@@ -1,6 +1,7 @@
 ﻿using Avalonia;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using EasyFlow.Data;
+using EasyFlow.Features.Dashboard;
 using EasyFlow.Features.Focus;
 using EasyFlow.Features.Settings;
 using EasyFlow.Services;
@@ -44,6 +45,7 @@ public static class AppBuilderExtensions
             .AddTransient(typeof(ISessionService), typeof(SessionService))
             // Pages
             .AddTransient(typeof(PageViewModelBase), typeof(FocusViewModel))
+            .AddTransient(typeof(PageViewModelBase), typeof(DashboardViewModel))
             .AddTransient(typeof(PageViewModelBase), typeof(SettingsViewModel));
 
         return services.BuildServiceProvider();
