@@ -8,13 +8,17 @@ namespace EasyFlow.Features.Focus.RunningTimer;
 public sealed partial class EditDescriptionViewModel : ViewModelBase
 {
     private readonly Action<string>? _onOk;
+    private readonly Action? _onCancel;
 
     [ObservableProperty]
     private string _description = string.Empty;
 
-    public EditDescriptionViewModel(Action<string>? onOk = null)
+    public EditDescriptionViewModel(string description, Action<string>? onOk = null, Action? onCancel = null)
     {
+        Description = description;
+
         _onOk = onOk;
+        _onCancel = onCancel;
     }
 
     [RelayCommand]
@@ -29,5 +33,12 @@ public sealed partial class EditDescriptionViewModel : ViewModelBase
     }
 
     [RelayCommand]
-    private static void Cancel() => SukiHost.CloseDialog();
+    private void Cancel()
+    {
+        if (_onCancel is not null)
+        {
+            _onCancel();
+        }
+        SukiHost.CloseDialog();
+    }
 }

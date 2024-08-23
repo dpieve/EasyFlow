@@ -48,6 +48,12 @@ public sealed class PlaySoundService : IPlaySoundService
             return;
         }
 
+        var volume = settings.SoundVolume;
+        if (volume == 0)
+        {
+            return;
+        }
+
         var assets = "Assets";
         var fileName = GetFileName(type);
         var filePath = Path.Combine(App.BasePath, assets, fileName);
@@ -56,7 +62,7 @@ public sealed class PlaySoundService : IPlaySoundService
         AudioFileReader audioFile = new(filePath);
 
         outputDevice.Init(audioFile);
-        outputDevice.Volume = 0.1f; // TODO: make this a setting
+        outputDevice.Volume = volume / 100.0f; 
         outputDevice.Play();
     }
 

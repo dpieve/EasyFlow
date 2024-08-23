@@ -14,7 +14,6 @@ using System.Reactive.Linq;
 using System.Threading.Tasks;
 using System;
 using System.IO;
-using Avalonia;
 
 namespace EasyFlow.Features.Settings.General;
 
@@ -24,10 +23,16 @@ public partial class GeneralSettingsViewModel : ViewModelBase
     private readonly IDatabaseManager _databaseMigrator;
 
     [ObservableProperty]
+    private bool _isFocusDescriptionEnabled;
+
+    [ObservableProperty]
     private bool _isWorkSoundEnabled;
 
     [ObservableProperty]
     private bool _isBreakSoundEnabled;
+
+    [ObservableProperty]
+    private int _volume;
 
     public GeneralSettingsViewModel(
         IGeneralSettingsService generalSettingsService,
@@ -37,12 +42,16 @@ public partial class GeneralSettingsViewModel : ViewModelBase
         _databaseMigrator = databaseMigrator;
         
         var settings = LoadSettings();
+        IsFocusDescriptionEnabled = settings.IsFocusDescriptionEnabled;
         IsWorkSoundEnabled = settings.IsWorkSoundEnabled;
         IsBreakSoundEnabled = settings.IsBreakSoundEnabled;
+        Volume = settings.SoundVolume;
 
         this.WhenAnyValue(
                 vm => vm.IsWorkSoundEnabled,
-                vm => vm.IsBreakSoundEnabled)
+                vm => vm.IsBreakSoundEnabled,
+                vm => vm.IsFocusDescriptionEnabled,
+                vm => vm.Volume)
             .Skip(1)
             .Select(_ => Unit.Default)
             .InvokeCommand(PersistSettingsCommand);
@@ -71,8 +80,10 @@ public partial class GeneralSettingsViewModel : ViewModelBase
 
         var settings = result.Value!;
 
+        settings.IsFocusDescriptionEnabled = IsFocusDescriptionEnabled;
         settings.IsWorkSoundEnabled = IsWorkSoundEnabled;
         settings.IsBreakSoundEnabled = IsBreakSoundEnabled;
+        settings.SoundVolume = Volume;
 
         var resultUpdate = await _generalSettingsService.UpdateAsync(settings);
         if (resultUpdate.Error is not null)
@@ -93,8 +104,6 @@ public partial class GeneralSettingsViewModel : ViewModelBase
             SukiHost.ShowToast("Data cleared", "All data was deleted", SukiUI.Enums.NotificationType.Success);
             
             SukiHost.ShowToast("Restarting the software", "Required to restart the software.", SukiUI.Enums.NotificationType.Info);
-
-            Task.Delay(2000).Wait();
             
             string exePath = Process.GetCurrentProcess().MainModule.FileName;
             Process.Start(exePath);

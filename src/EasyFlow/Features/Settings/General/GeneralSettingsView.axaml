@@ -20,7 +20,7 @@
                         HorizontalAlignment="Right"
                         VerticalAlignment="Center"
                         Classes="Switch"
-                        IsChecked="{Binding IsWorkSoundEnabled, Mode=TwoWay}" />
+                        IsChecked="{Binding IsFocusDescriptionEnabled, Mode=TwoWay}" />
 
                     <TextBlock
                         HorizontalAlignment="Left"
@@ -93,7 +93,7 @@
                         VerticalAlignment="Center"
                         Maximum="100"
                         Minimum="0"
-                        Value="30" />
+                        Value="{Binding Volume}" />
 
                     <TextBlock
                         HorizontalAlignment="Left"
@@ -108,7 +108,7 @@
                         VerticalAlignment="Bottom"
                         FontSize="13"
                         Foreground="{DynamicResource SukiLowText}"
-                        Text="Sound volume is set to 30%."
+                        Text="{Binding Volume, StringFormat='Sound volume is set to {0}%.'}"
                         TextWrapping="Wrap" />
                 </Grid>
 

@@ -112,16 +112,29 @@
                 Margin="5,10,25,5">
                 <suki:GroupBox Header="{Binding InfoTitle}">
                     <StackPanel HorizontalAlignment="Stretch">
+
                         <lvc:CartesianChart
                             Width="750"
                             Height="330"
+                            IsVisible="{Binding IsPlotVisible}"
                             Series="{Binding SeriePlot}"
                             XAxes="{Binding XAxes}"
                             YAxes="{Binding YAxes}"
                             ZoomMode="X" />
+
+                        <TextBlock
+                            Margin="0,150,0,0"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            FontSize="20"
+                            IsVisible="{Binding !IsPlotVisible}"
+                            Text="No sessions available for these controls&#x0a;Go Focus and come back later"
+                            TextAlignment="Center" />
+
                     </StackPanel>
                 </suki:GroupBox>
             </suki:GlassCard>
+
 
         </WrapPanel>
     </ScrollViewer>

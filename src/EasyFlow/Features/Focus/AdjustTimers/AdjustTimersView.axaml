@@ -48,7 +48,7 @@
                                     Grid.Column="0"
                                     Margin="0,0,8,0"
                                     Classes="Adjust"
-                                    Command="{Binding DecreaseTimerCommand}"
+                                    Command="{Binding LongStepBackwardCommand}"
                                     CommandParameter="{x:Static local:TimerType.Work}">
                                     <icons:MaterialIcon
                                         Width="22"
@@ -63,7 +63,7 @@
                                     Grid.Column="1"
                                     Margin="0,0,8,0"
                                     Classes="Adjust"
-                                    Command="{Binding DecreaseTimerCommand}"
+                                    Command="{Binding StepBackwardCommand}"
                                     CommandParameter="{x:Static local:TimerType.Work}">
                                     <icons:MaterialIcon
                                         Width="22"
@@ -78,7 +78,7 @@
                                     Grid.Column="2"
                                     Margin="0,0,8,0"
                                     Classes="Adjust"
-                                    Command="{Binding IncreaseTimerCommand}"
+                                    Command="{Binding StepForwardCommand}"
                                     CommandParameter="{x:Static local:TimerType.Work}">
                                     <icons:MaterialIcon
                                         Width="22"
@@ -92,7 +92,7 @@
                                 <Button
                                     Grid.Column="3"
                                     Classes="Adjust"
-                                    Command="{Binding IncreaseTimerCommand}"
+                                    Command="{Binding LongStepForwardCommand}"
                                     CommandParameter="{x:Static local:TimerType.Work}">
                                     <icons:MaterialIcon
                                         Width="22"
@@ -118,8 +118,8 @@
                                     Grid.Column="0"
                                     Margin="0,0,8,0"
                                     Classes="Adjust"
-                                    Command="{Binding DecreaseTimerCommand}"
-                                    CommandParameter="{x:Static local:TimerType.Work}">
+                                    Command="{Binding LongStepBackwardCommand}"
+                                    CommandParameter="{x:Static local:TimerType.Break}">
                                     <icons:MaterialIcon
                                         Width="22"
                                         Height="22"
@@ -133,8 +133,8 @@
                                     Grid.Column="1"
                                     Margin="0,0,8,0"
                                     Classes="Adjust"
-                                    Command="{Binding DecreaseTimerCommand}"
-                                    CommandParameter="{x:Static local:TimerType.Work}">
+                                    Command="{Binding StepBackwardCommand}"
+                                    CommandParameter="{x:Static local:TimerType.Break}">
                                     <icons:MaterialIcon
                                         Width="22"
                                         Height="22"
@@ -148,8 +148,8 @@
                                     Grid.Column="2"
                                     Margin="0,0,8,0"
                                     Classes="Adjust"
-                                    Command="{Binding IncreaseTimerCommand}"
-                                    CommandParameter="{x:Static local:TimerType.Work}">
+                                    Command="{Binding StepForwardCommand}"
+                                    CommandParameter="{x:Static local:TimerType.Break}">
                                     <icons:MaterialIcon
                                         Width="22"
                                         Height="22"
@@ -162,8 +162,8 @@
                                 <Button
                                     Grid.Column="3"
                                     Classes="Adjust"
-                                    Command="{Binding IncreaseTimerCommand}"
-                                    CommandParameter="{x:Static local:TimerType.Work}">
+                                    Command="{Binding LongStepForwardCommand}"
+                                    CommandParameter="{x:Static local:TimerType.Break}">
                                     <icons:MaterialIcon
                                         Width="22"
                                         Height="22"
@@ -216,8 +216,8 @@
                                     Grid.Column="0"
                                     Margin="0,0,8,0"
                                     Classes="Adjust"
-                                    Command="{Binding DecreaseTimerCommand}"
-                                    CommandParameter="{x:Static local:TimerType.Work}">
+                                    Command="{Binding LongStepBackwardCommand}"
+                                    CommandParameter="{x:Static local:TimerType.LongBreak}">
                                     <icons:MaterialIcon
                                         Width="22"
                                         Height="22"
@@ -231,8 +231,8 @@
                                     Grid.Column="1"
                                     Margin="0,0,8,0"
                                     Classes="Adjust"
-                                    Command="{Binding DecreaseTimerCommand}"
-                                    CommandParameter="{x:Static local:TimerType.Work}">
+                                    Command="{Binding StepBackwardCommand}"
+                                    CommandParameter="{x:Static local:TimerType.LongBreak}">
                                     <icons:MaterialIcon
                                         Width="22"
                                         Height="22"
@@ -246,8 +246,8 @@
                                     Grid.Column="2"
                                     Margin="0,0,8,0"
                                     Classes="Adjust"
-                                    Command="{Binding IncreaseTimerCommand}"
-                                    CommandParameter="{x:Static local:TimerType.Work}">
+                                    Command="{Binding StepForwardCommand}"
+                                    CommandParameter="{x:Static local:TimerType.LongBreak}">
                                     <icons:MaterialIcon
                                         Width="22"
                                         Height="22"
@@ -260,8 +260,8 @@
                                 <Button
                                     Grid.Column="3"
                                     Classes="Adjust"
-                                    Command="{Binding IncreaseTimerCommand}"
-                                    CommandParameter="{x:Static local:TimerType.Work}">
+                                    Command="{Binding LongStepForwardCommand}"
+                                    CommandParameter="{x:Static local:TimerType.LongBreak}">
                                     <icons:MaterialIcon
                                         Width="22"
                                         Height="22"
@@ -278,14 +278,14 @@
             </WrapPanel>
 
             <ComboBox
-                Width="260"
+                Width="250"
                 DisplayMemberBinding="{Binding Name}"
                 ItemsSource="{Binding Tags}"
                 SelectedItem="{Binding SelectedTag, Mode=TwoWay}" />
 
             <Button
                 Grid.Row="1"
-                Width="260"
+                Width="250"
                 Margin="0,0,0,5"
                 theme:ButtonExtensions.ShowProgress="False"
                 Classes="Flat"

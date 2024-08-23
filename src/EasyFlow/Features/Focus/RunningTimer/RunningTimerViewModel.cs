@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using Avalonia;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using EasyFlow.Common;
 using EasyFlow.Data;
@@ -26,8 +27,6 @@ public sealed partial class RunningTimerViewModel : ViewModelBase, IRoute, IActi
 
     private CompositeDisposable? _disposables;
 
-    private GeneralSettings? _generalSettings;
-
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(ProgressText))]
     private int _completedTimers = 0;
@@ -46,7 +45,7 @@ public sealed partial class RunningTimerViewModel : ViewModelBase, IRoute, IActi
 
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(StartButtonIcon))]
-    private bool _isRunning = true;
+    private bool _isRunning;
 
     [ObservableProperty]
     private int _totalSeconds;
@@ -66,6 +65,9 @@ public sealed partial class RunningTimerViewModel : ViewModelBase, IRoute, IActi
     [ObservableProperty]
     private bool _isFocusDescriptionVisible = true;
 
+    [ObservableProperty]
+    private string _description = string.Empty;
+
     public RunningTimerViewModel(
         IRouterHost routerHost,
         ITagService? tagService = null,
@@ -80,6 +82,8 @@ public sealed partial class RunningTimerViewModel : ViewModelBase, IRoute, IActi
         _sessionService = sessionService ?? throw new ArgumentNullException(nameof(sessionService));
 
         LoadSettings();
+
+        IsRunning = true;
 
         this.WhenAnyValue(vm => vm.SecondsLeft)
             .DistinctUntilChanged()
@@ -114,6 +118,8 @@ public sealed partial class RunningTimerViewModel : ViewModelBase, IRoute, IActi
 
         _disposables ??= [];
 
+        LoadSettings();
+
         Observable.Interval(TimeSpan.FromSeconds(1))
             .Where(_ => IsRunning)
             .Select(_ => Unit.Default)
@@ -139,21 +145,9 @@ public sealed partial class RunningTimerViewModel : ViewModelBase, IRoute, IActi
         }
 
         var settings = result.Value!;
-        _generalSettings = settings;
 
+        IsFocusDescriptionVisible = settings.IsFocusDescriptionEnabled;
         TimersBeforeLongBreak = settings.WorkSessionsBeforeLongBreak;
-
-        var totalMinutes = settings.WorkDurationMinutes;
-        TotalSeconds = totalMinutes * 60;
-
-        SecondsLeft = TotalSeconds;
-
-        // Test
-        SecondsLeft = 4;
-
-        var minutes = TotalSeconds / 60;
-        var seconds = TotalSeconds % 60;
-        TimerText = $"{minutes:D2}:{seconds:D2}";
 
         var getTagResult = _generalSettingsService.GetSelectedTag();
         if (getTagResult.Error is not null)
@@ -162,17 +156,37 @@ public sealed partial class RunningTimerViewModel : ViewModelBase, IRoute, IActi
         }
 
         var selectedTag = getTagResult.Value!;
-
         SelectedTagName = selectedTag.Name;
+
+        if (IsRunning)
+        {
+            return;
+        }
+
+        var totalMinutes = settings.WorkDurationMinutes;
+        TotalSeconds = totalMinutes * 60;
+
+        var minutes = TotalSeconds / 60;
+        var seconds = TotalSeconds % 60;
+        TimerText = $"{minutes:D2}:{seconds:D2}";
+
+        SecondsLeft = TotalSeconds;
+
+        // Test
+        SecondsLeft = 4;
     }
 
     private void OnStateChanged(TimerState state)
     {
-        var settings = _generalSettings;
-        if (settings is null)
+        var result = _generalSettingsService.Get();
+        if (result.Error is not null)
         {
             return;
         }
+
+        Description = string.Empty;
+
+        var settings = result.Value!;
 
         var totalMinutes = state switch
         {
@@ -190,7 +204,7 @@ public sealed partial class RunningTimerViewModel : ViewModelBase, IRoute, IActi
 
         IsBreak = state != TimerState.Focus;
 
-        IsRunning = false;
+        IsRunning = true;
     }
 
     [RelayCommand]
@@ -250,10 +264,36 @@ public sealed partial class RunningTimerViewModel : ViewModelBase, IRoute, IActi
         OnStateChanged(TimerState);
     }
 
+    [RelayCommand]
+    private void OpenNotes()
+    {
+        IsRunning = false;
+
+        var isDescriptionEnabled = _generalSettingsService.IsFocusDescriptionEnabled();
+        if (isDescriptionEnabled)
+        {
+            SukiHost.ShowDialog(new EditDescriptionViewModel(Description, (string notes) =>
+            {
+                Description = notes;
+                IsRunning = true;
+            },
+            () => IsRunning = true),
+            allowBackgroundClose: false);
+        }
+    }
+
     private async Task GoToNextState(bool isSkipping)
     {
         if (!isSkipping)
         {
+            var resultSettings = _generalSettingsService.Get();
+            if (resultSettings.Error is not null)
+            {
+                return;
+            }
+
+            var settings = resultSettings.Value!;
+
             var sessionsType = TimerState switch
             {
                 TimerState.Focus => SessionType.Focus,
@@ -264,10 +304,10 @@ public sealed partial class RunningTimerViewModel : ViewModelBase, IRoute, IActi
 
             var duration = TimerState switch
             {
-                TimerState.Focus => _generalSettings!.WorkDurationMinutes,
-                TimerState.Break => _generalSettings!.BreakDurationMinutes,
-                TimerState.LongBreak => _generalSettings!.LongBreakDurationMinutes,
-                _ => _generalSettings!.WorkDurationMinutes
+                TimerState.Focus => settings!.WorkDurationMinutes,
+                TimerState.Break => settings!.BreakDurationMinutes,
+                TimerState.LongBreak => settings!.LongBreakDurationMinutes,
+                _ => settings!.WorkDurationMinutes
             };
 
             var session = new Session
@@ -275,23 +315,15 @@ public sealed partial class RunningTimerViewModel : ViewModelBase, IRoute, IActi
                 DurationMinutes = duration,
                 SessionType = sessionsType,
                 FinishedDate = DateTime.Now,
-                TagId = _generalSettings!.SelectedTagId,
-                Tag = _generalSettings.SelectedTag,
+                TagId = settings!.SelectedTagId,
+                Tag = settings.SelectedTag,
             };
 
-            var description = string.Empty;
-
             var isDescriptionEnabled = _generalSettingsService.IsFocusDescriptionEnabled();
-            if (isDescriptionEnabled)
+            if (isDescriptionEnabled && TimerState == TimerState.Focus)
             {
-                SukiHost.ShowDialog(new EditDescriptionViewModel((string notes) =>
-                {
-                    description = notes;
-                }),
-                allowBackgroundClose: false);
+                OpenNotes();
             }
-
-            session.Description = description;
 
             var result = await _sessionService.CreateAsync(session);
             if (result.Error is not null)
@@ -299,7 +331,6 @@ public sealed partial class RunningTimerViewModel : ViewModelBase, IRoute, IActi
                 await SukiHost.ShowToast("Failed to save session", "Failed to save the session to the database", SukiUI.Enums.NotificationType.Error);
                 return;
             }
-            
         }
 
         if (TimerState == TimerState.LongBreak)

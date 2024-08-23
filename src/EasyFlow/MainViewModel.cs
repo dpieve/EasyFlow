@@ -84,6 +84,12 @@ public partial class MainViewModel : ViewModelBase
         _theme.SwitchBaseTheme();
     }
 
+    [RelayCommand]
+    private void ChangeLanguage(SupportedLanguages selectedLanguage)
+    {
+        SukiHost.ShowToast("Changed language", $"Selected language {selectedLanguage}", SukiUI.Enums.NotificationType.Success);
+    }
+
     private ThemeVariant LoadTheme()
     {
         var result = _generalSettingsService.Get();

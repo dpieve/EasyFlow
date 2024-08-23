@@ -1,4 +1,6 @@
-﻿namespace EasyFlow.Data;
+﻿using EasyFlow.Common;
+
+namespace EasyFlow.Data;
 public sealed class GeneralSettings
 {
     public GeneralSettings()
@@ -17,6 +19,8 @@ public sealed class GeneralSettings
     public int SelectedTagId { get; set; }
     public Tag SelectedTag { get; set; }
     public bool IsFocusDescriptionEnabled { get; set; } = true;
+    public int SoundVolume { get; set; } = 50;
+    public SupportedLanguages SelectedLanguage { get; set; } = SupportedLanguages.English;
 }
 
 public enum Theme

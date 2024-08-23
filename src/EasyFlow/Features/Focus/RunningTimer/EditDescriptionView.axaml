@@ -32,6 +32,7 @@
                         AcceptsReturn="True"
                         Classes="FlatTextBox"
                         CornerRadius="5"
+                        Text="{Binding Description}"
                         TextWrapping="Wrap"
                         Watermark="Suggestions&#x0a;&#x0a;What did you focus on?&#x0a;&#x0a;What did you complete?&#x0a;&#x0a;What were the challenges?&#x0a;" />
                 </ScrollViewer>

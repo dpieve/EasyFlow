@@ -39,6 +39,9 @@ public partial class DashboardViewModel : PageViewModelBase
     [ObservableProperty]
     private string _infoTitle;
 
+    [ObservableProperty]
+    private bool _isPlotVisible;
+
     public DashboardViewModel(
         ITagService tagService,
         ISessionService sessionService)
@@ -170,9 +173,11 @@ public partial class DashboardViewModel : PageViewModelBase
 
         var selectedSessions = sessionSummaries;
 
+        IsPlotVisible = true;
         if (!selectedSessions.Any())
         {
             await SukiHost.ShowToast("There are no sessions", "No sessions found for these settings.");
+            IsPlotVisible = false;
         }
 
         var values = new ObservableCollection<DateTimePoint>();

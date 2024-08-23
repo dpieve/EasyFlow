@@ -10,8 +10,10 @@ public enum TimerType
 
 public enum AdjustFactor
 {
-    Decrease = -1,
-    Increase = 1,
+    StepForward,
+    LongStepForward,
+    StepBackward,
+    LongStepBackward
 }
 
 public sealed record TimerTypeLimit(int Min, int Max, int Step, int LongStep);
