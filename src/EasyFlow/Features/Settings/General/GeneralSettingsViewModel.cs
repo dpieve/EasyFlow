@@ -100,17 +100,11 @@ public partial class GeneralSettingsViewModel : ViewModelBase
     {
         SukiHost.ShowDialog(new ClearDataViewModel(_databaseMigrator, () =>
         {
-
-            SukiHost.ShowToast("Data cleared", "All data was deleted", SukiUI.Enums.NotificationType.Success);
-            
-            SukiHost.ShowToast("Restarting the software", "Required to restart the software.", SukiUI.Enums.NotificationType.Info);
-            
             string exePath = Process.GetCurrentProcess().MainModule.FileName;
             Process.Start(exePath);
-
             Process.GetCurrentProcess().Kill();
         }),
-        allowBackgroundClose: false);
+        allowBackgroundClose: true);
     }
 
     [RelayCommand]

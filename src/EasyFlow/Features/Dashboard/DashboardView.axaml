@@ -8,6 +8,7 @@
     xmlns:lvc="using:LiveChartsCore.SkiaSharpView.Avalonia"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:suki="clr-namespace:SukiUI.Controls;assembly=SukiUI"
+    xmlns:theme="clr-namespace:SukiUI.Theme;assembly=SukiUI"
     d:DesignHeight="800"
     d:DesignWidth="800"
     x:DataType="local:DashboardViewModel"
@@ -74,7 +75,7 @@
                             Width="200"
                             SelectedIndex="0">
                             <ComboBoxItem Content="Bar chart" />
-                            <ComboBoxItem Content="Sessions list" />
+                            <!--<ComboBoxItem Content="Sessions list" />-->
                         </ComboBox>
 
                         <Button
@@ -83,17 +84,18 @@
                             Margin="30,0,0,0"
                             HorizontalAlignment="Right"
                             VerticalAlignment="Center"
-                            Classes="Rounded Flat">
+                            theme:ButtonExtensions.ShowProgress="{Binding IsGeneratingReport}"
+                            Classes="Rounded Flat"
+                            Command="{Binding FullReportCommand}">
                             <StackPanel Orientation="Horizontal">
+                                <TextBlock Margin="0,0,10,0" Text="Report" />
                                 <icons:MaterialIcon
                                     Width="16"
                                     Height="16"
-                                    Margin="0,0,10,0"
                                     Padding="0"
                                     VerticalAlignment="Center"
                                     Foreground="{DynamicResource SukiLowText}"
-                                    Kind="Database" />
-                                <TextBlock Text="Report" />
+                                    Kind="FileChart" />
                             </StackPanel>
 
                         </Button>
@@ -107,27 +109,29 @@
                 Height="400"
                 Margin="5,10,25,5">
                 <suki:GroupBox Header="{Binding InfoTitle}">
-                    <StackPanel HorizontalAlignment="Stretch">
+                    <suki:BusyArea BusyText="Loading..." IsBusy="{Binding IsPlotLoading}">
+                        <StackPanel HorizontalAlignment="Stretch">
 
-                        <lvc:CartesianChart
-                            Width="750"
-                            Height="330"
-                            IsVisible="{Binding IsPlotVisible}"
-                            Series="{Binding SeriePlot}"
-                            XAxes="{Binding XAxes}"
-                            YAxes="{Binding YAxes}"
-                            ZoomMode="X" />
+                            <lvc:CartesianChart
+                                Width="750"
+                                Height="330"
+                                IsVisible="{Binding IsPlotVisible}"
+                                Series="{Binding SeriePlot}"
+                                XAxes="{Binding XAxes}"
+                                YAxes="{Binding YAxes}"
+                                ZoomMode="X" />
 
-                        <TextBlock
-                            Margin="0,150,0,0"
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Center"
-                            FontSize="20"
-                            IsVisible="{Binding !IsPlotVisible}"
-                            Text="No sessions available for these controls&#x0a;Go Focus and come back later"
-                            TextAlignment="Center" />
+                            <TextBlock
+                                Margin="0,150,0,0"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                FontSize="20"
+                                IsVisible="{Binding !IsPlotVisible}"
+                                Text="No sessions available for these controls&#x0a;Go Focus and come back later"
+                                TextAlignment="Center" />
 
-                    </StackPanel>
+                        </StackPanel>
+                    </suki:BusyArea>
                 </suki:GroupBox>
             </suki:GlassCard>
 

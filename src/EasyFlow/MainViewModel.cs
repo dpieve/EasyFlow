@@ -8,7 +8,7 @@ using SukiUI;
 using SukiUI.Controls;
 using SukiUI.Models;
 using System.Collections.Generic;
-using System.Globalization;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -89,16 +89,31 @@ public partial class MainViewModel : ViewModelBase
     [RelayCommand]
     private async Task ChangeLanguage(SupportedLanguage selectedLanguage)
     {
+        var resultSelectedLanguage = _generalSettingsService.GetSelectedLanguage();
+        if (resultSelectedLanguage.Error is not null)
+        {
+            await SukiHost.ShowToast("Failed to update the language", $"Selected language {selectedLanguage.Name}", SukiUI.Enums.NotificationType.Error);
+            return;
+        }
+        
+        var language = resultSelectedLanguage.Value!;
+        if (language.Code == selectedLanguage.Code)
+        {
+            await SukiHost.ShowToast("Language already selected", "No changes made", SukiUI.Enums.NotificationType.Info);
+            return;
+        }
+
         var result = await _generalSettingsService.UpdateSelectedLanguage(selectedLanguage);
         if (result.Error is not null)
         {
             await SukiHost.ShowToast("Failed to update the language", $"Selected language {selectedLanguage.Name}", SukiUI.Enums.NotificationType.Error);
             return;
         }
-
         await SukiHost.ShowToast("Changed language", $"Selected language {selectedLanguage.Name}", SukiUI.Enums.NotificationType.Success);
-
-        await SukiHost.ShowToast("Required restart", "Restart the app to change the language", SukiUI.Enums.NotificationType.Info);
+        
+        string exePath = Process.GetCurrentProcess().MainModule.FileName;
+        Process.Start(exePath);
+        Process.GetCurrentProcess().Kill();
     }
 
     private ThemeVariant LoadTheme()

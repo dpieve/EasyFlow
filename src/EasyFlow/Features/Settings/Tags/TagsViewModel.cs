@@ -50,7 +50,7 @@ public partial class TagsViewModel : ViewModelBase
     [RelayCommand]
     private void AddTag()
     {
-        SukiHost.ShowDialog(new AddTagViewModel(_tagService, onOk: OnOkAddTag), allowBackgroundClose: false);
+        SukiHost.ShowDialog(new AddTagViewModel(_tagService, onOk: OnOkAddTag), allowBackgroundClose: true);
     }
 
     private void OnOkAddTag(Tag tag)

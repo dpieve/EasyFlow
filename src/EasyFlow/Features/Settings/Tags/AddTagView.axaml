@@ -13,6 +13,7 @@
         <TextBlock Text="Name" />
 
         <TextBox
+            x:Name="TagNameTextBox"
             Width="250"
             MaxLength="90"
             Text="{Binding TagName}"
@@ -22,11 +23,15 @@
             HorizontalAlignment="Right"
             Orientation="Horizontal"
             Spacing="10">
-            <Button Command="{Binding OkButtonCommand}" Content="Ok" />
+            <Button
+                Command="{Binding CloseDialogCommand}"
+                Content="_Cancel"
+                HotKey="Escape" />
             <Button
                 Classes="Flat Accent"
-                Command="{Binding CloseDialogCommand}"
-                Content="Cancel" />
+                Command="{Binding OkButtonCommand}"
+                Content="_Ok"
+                HotKey="Enter" />
         </StackPanel>
     </StackPanel>
 </UserControl>

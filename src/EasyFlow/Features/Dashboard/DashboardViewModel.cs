@@ -19,6 +19,12 @@ using System.Reactive;
 using System.Linq;
 using LiveChartsCore.SkiaSharpView.Painting;
 using SkiaSharp;
+using Avalonia.Controls.ApplicationLifetimes;
+using Avalonia.Controls;
+using Avalonia.Platform.Storage;
+using System.IO;
+using System.Text;
+using System.Linq.Expressions;
 
 namespace EasyFlow.Features.Dashboard;
 
@@ -41,8 +47,13 @@ public partial class DashboardViewModel : PageViewModelBase
     private bool _isPlotVisible;
 
     [ObservableProperty]
+    private bool _isPlotLoading;
+
+    [ObservableProperty]
     private FilterPeriod _selectedFilterPeriod = FilterPeriod.Days7;
 
+    [ObservableProperty]
+    private bool _isGeneratingReport = false;
     public DashboardViewModel(
         ITagService tagService,
         ISessionService sessionService)
@@ -52,6 +63,8 @@ public partial class DashboardViewModel : PageViewModelBase
         _sessionService = sessionService;
         
         _selectedSessionType = SessionType.Focus;
+
+        IsPlotLoading = true;
 
         SessionTypes.Add(SessionType.Focus);
         SessionTypes.Add(SessionType.Break);
@@ -83,6 +96,8 @@ public partial class DashboardViewModel : PageViewModelBase
                 {
                     InfoTitle = "Change the controls to see the info";
                 }
+
+                IsPlotLoading = true;
             })
             .InvokeCommand(ReloadPlotCommand);
     }
@@ -149,6 +164,97 @@ public partial class DashboardViewModel : PageViewModelBase
     }
 
     [RelayCommand]
+    private async Task FullReport()
+    {
+        try
+        {
+            IsGeneratingReport = true;
+
+            var topLevel = TopLevel.GetTopLevel(((IClassicDesktopStyleApplicationLifetime)App.Current.ApplicationLifetime).MainWindow);
+
+            if (topLevel is null)
+            {
+                await SukiHost.ShowToast("Failed to save", "Failed to save the report file. It didn't find the window", SukiUI.Enums.NotificationType.Error);
+                return;
+            }
+
+            var dateTime = DateTime.Now;
+            var dateTimeString = dateTime.ToString("MMM-dd-yyyy");
+
+            var fileOptions = new FilePickerSaveOptions()
+            {
+                Title = "Choose a name and a path to save the report file",
+                DefaultExtension = "csv",
+                ShowOverwritePrompt = true,
+                SuggestedFileName = $"EasyFlow-Report-{dateTimeString}",
+                FileTypeChoices = [
+                    new("Report file (.csv)")
+                    {
+                        Patterns = [ "csv" ],
+                        MimeTypes = ["csv" ]
+                    }
+                ]
+            };
+
+            var files = await topLevel.StorageProvider.SaveFilePickerAsync(fileOptions);
+
+            if (files is not null)
+            {
+                var path = files.TryGetLocalPath();
+
+                if (path is not null)
+                {
+                    await GenerateCsvFile(path);
+                }
+                else
+                {
+                    Debug.WriteLine("Couldn't find the path to backup the file");
+                }
+
+            }
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine(ex);
+            await SukiHost.ShowToast("Failed to backup", "Failed to save a backup file. Try again.", SukiUI.Enums.NotificationType.Error);
+        }
+        finally
+        {
+            IsGeneratingReport = false;
+        }
+    }
+
+    private async Task GenerateCsvFile(string path)
+    {
+        var result = await _sessionService.GetSessionsByPeriod(FilterPeriod.Years5);
+
+        if (result.Error is not null)
+        {
+            await SukiHost.ShowToast("Failed to get sessions", result.Error.Message!, SukiUI.Enums.NotificationType.Error);
+            return;
+        }
+
+        var sessions = result.Value!;
+
+        var csvContent = new StringBuilder();
+        csvContent.AppendLine("Date,Duration (Minutes),Tag,Session Type");
+
+        foreach (var session in sessions)
+        {
+            var date = session.FinishedDate.ToString("yyyy-MM-dd");
+            var duration = session.DurationMinutes.ToString();
+            var tag = session.Tag?.Name ?? "N/A";
+            var sessionType = session.SessionType.ToString();
+
+            csvContent.AppendLine($"{date},{duration},{tag},{sessionType}");
+        }
+
+        await File.WriteAllTextAsync(path, csvContent.ToString());
+
+        await SukiHost.ShowToast("CSV file generated", $"CSV file generated successfully at {path}", SukiUI.Enums.NotificationType.Success);
+    }
+
+    [RelayCommand]
     private async Task ReloadPlot()
     {
         var result = await _sessionService.GetSessionsByPeriod(SelectedFilterPeriod);
@@ -206,5 +312,6 @@ public partial class DashboardViewModel : PageViewModelBase
         SeriePlot = [ columnSeries ];
 
         Debug.WriteLine("Reloaded plot");
+        IsPlotLoading = false;
     }
 }

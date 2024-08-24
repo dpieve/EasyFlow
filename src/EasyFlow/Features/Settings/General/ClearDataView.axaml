@@ -18,10 +18,13 @@
             Orientation="Horizontal"
             Spacing="10">
             <Button
+                Command="{Binding CancelCommand}"
+                Content="Cancel"
+                HotKey="Escape" />
+            <Button
                 Classes="Flat"
                 Command="{Binding OkCommand}"
                 Content="Delete" />
-            <Button Command="{Binding CancelCommand}" Content="Cancel" />
         </StackPanel>
     </StackPanel>
 </UserControl>

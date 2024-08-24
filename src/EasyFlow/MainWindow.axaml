@@ -62,10 +62,10 @@
                 Command="{Binding ChangeLanguageCommand}"
                 CommandParameter="{x:Static common:SupportedLanguage.English}"
                 Header="English" />
-            <MenuItem
+            <!--<MenuItem
                 Command="{Binding ChangeLanguageCommand}"
                 CommandParameter="{x:Static common:SupportedLanguage.Portuguese}"
-                Header="Portuguese" />
+                Header="Portuguese" />-->
         </MenuItem>
     </suki:SukiWindow.MenuItems>
     <local:MainView />

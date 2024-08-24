@@ -82,10 +82,6 @@ public sealed partial class RunningTimerViewModel : ViewModelBase, IRoute, IActi
         _playSound = playSoundService ?? throw new ArgumentNullException(nameof(playSoundService));
         _sessionService = sessionService ?? throw new ArgumentNullException(nameof(sessionService));
 
-        LoadSettings();
-
-        IsRunning = true;
-
         this.WhenAnyValue(vm => vm.SecondsLeft)
             .DistinctUntilChanged()
             .Subscribe(secondsLeft =>
@@ -101,6 +97,9 @@ public sealed partial class RunningTimerViewModel : ViewModelBase, IRoute, IActi
         this.WhenAnyValue(vm => vm.TimerState)
             .Skip(1)
             .Subscribe(OnStateChanged);
+
+        this.WhenAnyValue(vm => vm.TimerState)
+            .InvokeCommand(UpdateNotesVisibleCommand);
     }
 
     public string RouteName => nameof(RunningTimerViewModel);
@@ -120,6 +119,8 @@ public sealed partial class RunningTimerViewModel : ViewModelBase, IRoute, IActi
         _disposables ??= [];
 
         LoadSettings();
+
+        IsRunning = true;
 
         Observable.Interval(TimeSpan.FromSeconds(1))
             .Where(_ => IsRunning)
@@ -204,8 +205,6 @@ public sealed partial class RunningTimerViewModel : ViewModelBase, IRoute, IActi
         SecondsLeft = 3;
 
         IsBreak = state != TimerState.Focus;
-
-        IsRunning = true;
     }
 
     [RelayCommand]
@@ -217,8 +216,6 @@ public sealed partial class RunningTimerViewModel : ViewModelBase, IRoute, IActi
         }
         else if (SecondsLeft == 0)
         {
-            IsRunning = false;
-
             if (TimerState == TimerState.Focus)
             {
                 _playSound.Play(SoundType.Break);
@@ -266,8 +263,9 @@ public sealed partial class RunningTimerViewModel : ViewModelBase, IRoute, IActi
     }
 
     [RelayCommand]
-    private void OpenNotes()
+    private void OpenNotes(Session? session = null)
     {
+        var previousRunningState = IsRunning;
         IsRunning = false;
 
         var isDescriptionEnabled = _generalSettingsService.IsFocusDescriptionEnabled();
@@ -276,11 +274,30 @@ public sealed partial class RunningTimerViewModel : ViewModelBase, IRoute, IActi
             SukiHost.ShowDialog(new EditDescriptionViewModel(Description, (string notes) =>
             {
                 Description = notes;
-                IsRunning = true;
+                IsRunning = previousRunningState;
+            
+                if (session is not null)
+                {
+                    session.Description = notes;
+                    _sessionService.UpdateAsync(session).GetAwaiter().GetResult();
+                }
             },
-            () => IsRunning = true),
+            () => IsRunning = previousRunningState),
             allowBackgroundClose: false);
         }
+    }
+
+    [RelayCommand]
+    private void UpdateNotesVisible()
+    {
+        var result = _generalSettingsService.Get();
+        if (result.Error is not null)
+        {
+            return;
+        }
+
+        var settings = result.Value!;
+        IsFocusDescriptionVisible = settings.IsFocusDescriptionEnabled && TimerState == TimerState.Focus;
     }
 
     private async Task GoToNextState(bool isSkipping)
@@ -322,19 +339,20 @@ public sealed partial class RunningTimerViewModel : ViewModelBase, IRoute, IActi
                 FinishedDate = newDateTime,
                 TagId = settings!.SelectedTagId,
                 Tag = settings.SelectedTag,
+                Description = sessionsType != SessionType.Focus ? " - " : Description
             };
-
-            var isDescriptionEnabled = _generalSettingsService.IsFocusDescriptionEnabled();
-            if (isDescriptionEnabled && TimerState == TimerState.Focus)
-            {
-                OpenNotes();
-            }
 
             var result = await _sessionService.CreateAsync(session);
             if (result.Error is not null)
             {
                 await SukiHost.ShowToast("Failed to save session", "Failed to save the session to the database", SukiUI.Enums.NotificationType.Error);
                 return;
+            }
+
+            var isDescriptionEnabled = _generalSettingsService.IsFocusDescriptionEnabled();
+            if (isDescriptionEnabled && TimerState == TimerState.Focus)
+            {
+                OpenNotes(session);
             }
         }
 

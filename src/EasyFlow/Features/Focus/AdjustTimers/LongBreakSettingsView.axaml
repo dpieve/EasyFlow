@@ -13,6 +13,9 @@
         <TextBlock Text="Sessions before long time break" />
 
         <NumericUpDown
+            x:Name="LongBreakSessionsNumericUpDown"
+            AllowSpin="False"
+            Focusable="True"
             FormatString="{}{0:0}"
             Maximum="500"
             Minimum="1"
@@ -24,11 +27,15 @@
             HorizontalAlignment="Right"
             Orientation="Horizontal"
             Spacing="10">
-            <Button Command="{Binding OkButtonCommand}" Content="Ok" />
+            <Button
+                Command="{Binding CloseButtonCommand}"
+                Content="Cancel"
+                HotKey="Escape" />
             <Button
                 Classes="Flat Accent"
-                Command="{Binding CloseButtonCommand}"
-                Content="Cancel" />
+                Command="{Binding OkButtonCommand}"
+                Content="Ok"
+                HotKey="Enter" />
         </StackPanel>
     </StackPanel>
 </UserControl>

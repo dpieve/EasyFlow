@@ -105,7 +105,7 @@ public sealed partial class AdjustTimersViewModel : ViewModelBase, IRoute, IActi
         {
             Timers.SessionsBeforeLongBreak = longBreakSessions;
         }), 
-        allowBackgroundClose: false);
+        allowBackgroundClose: true);
     }
 
     [RelayCommand]

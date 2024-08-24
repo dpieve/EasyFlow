@@ -68,6 +68,7 @@ public sealed class SessionService : ISessionService
         var startDate = currentDate.AddDays(-filterPeriod.NumDays);
         var sessions = await context.Sessions
                                 .Where(s => s.FinishedDate >= startDate)
+                                .Include(s => s.Tag)
                                 .ToListAsync();
         return sessions;
     }
