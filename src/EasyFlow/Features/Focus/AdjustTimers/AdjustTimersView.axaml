@@ -2,6 +2,7 @@
     x:Class="EasyFlow.Features.Focus.AdjustTimers.AdjustTimersView"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:assets="clr-namespace:EasyFlow.Assets"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:icons="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
     xmlns:local="clr-namespace:EasyFlow.Features.Focus.AdjustTimers"
@@ -290,7 +291,7 @@
                 theme:ButtonExtensions.ShowProgress="False"
                 Classes="Flat"
                 Command="{Binding StartCommand}"
-                Content="Start" />
+                Content="{x:Static assets:Resources.Start}" />
         </StackPanel>
     </ScrollViewer>
 </UserControl>

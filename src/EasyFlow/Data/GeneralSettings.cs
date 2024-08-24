@@ -20,7 +20,7 @@ public sealed class GeneralSettings
     public Tag SelectedTag { get; set; }
     public bool IsFocusDescriptionEnabled { get; set; } = true;
     public int SoundVolume { get; set; } = 50;
-    public SupportedLanguages SelectedLanguage { get; set; } = SupportedLanguages.English;
+    public string SelectedLanguage { get; set; } = SupportedLanguage.English.Code;
 }
 
 public enum Theme

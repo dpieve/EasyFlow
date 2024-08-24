@@ -8,7 +8,9 @@ using SukiUI;
 using SukiUI.Controls;
 using SukiUI.Models;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace EasyFlow;
 
@@ -85,9 +87,18 @@ public partial class MainViewModel : ViewModelBase
     }
 
     [RelayCommand]
-    private void ChangeLanguage(SupportedLanguages selectedLanguage)
+    private async Task ChangeLanguage(SupportedLanguage selectedLanguage)
     {
-        SukiHost.ShowToast("Changed language", $"Selected language {selectedLanguage}", SukiUI.Enums.NotificationType.Success);
+        var result = await _generalSettingsService.UpdateSelectedLanguage(selectedLanguage);
+        if (result.Error is not null)
+        {
+            await SukiHost.ShowToast("Failed to update the language", $"Selected language {selectedLanguage.Name}", SukiUI.Enums.NotificationType.Error);
+            return;
+        }
+
+        await SukiHost.ShowToast("Changed language", $"Selected language {selectedLanguage.Name}", SukiUI.Enums.NotificationType.Success);
+
+        await SukiHost.ShowToast("Required restart", "Restart the app to change the language", SukiUI.Enums.NotificationType.Info);
     }
 
     private ThemeVariant LoadTheme()

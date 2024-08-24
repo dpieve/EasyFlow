@@ -23,6 +23,9 @@ public interface IGeneralSettingsService
     public void UpdateSelectedColorTheme(ColorTheme colorTheme);
 
     public bool IsFocusDescriptionEnabled();
+
+    public Task<Result<bool, Error>> UpdateSelectedLanguage(SupportedLanguage selectedLanguage);
+    public Result<SupportedLanguage, Error> GetSelectedLanguage();
 }
 
 public class GeneralSettingsService : IGeneralSettingsService
@@ -166,6 +169,39 @@ public class GeneralSettingsService : IGeneralSettingsService
             return false;
         }
         return settings.IsFocusDescriptionEnabled;
+    }
+
+    public async Task<Result<bool, Error>> UpdateSelectedLanguage(SupportedLanguage selectedLanguage)
+    {
+        using var context = await _contextFactory.CreateDbContextAsync();
+        var settings = await context.GeneralSettings.FirstOrDefaultAsync();
+        if (settings is null)
+        {
+            return GeneralSettingsServiceErrors.NotFound;
+        }
+
+        settings.SelectedLanguage = selectedLanguage.Code;
+        context.GeneralSettings.Update(settings);
+        var result = await context.SaveChangesAsync();
+        if (result == 0)
+        {
+            return GeneralSettingsServiceErrors.NoEntityModified;
+        }
+
+        return result != 0;
+    }
+
+    public Result<SupportedLanguage, Error> GetSelectedLanguage()
+    {
+        using var context = _contextFactory.CreateDbContext();
+        var settings = context.GeneralSettings.FirstOrDefault();
+        if (settings is null)
+        {
+            return GeneralSettingsServiceErrors.NotFound;
+        }
+
+        var language = SupportedLanguage.FromCode(settings.SelectedLanguage);
+        return language;
     }
 }
 
