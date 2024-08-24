@@ -7,15 +7,21 @@ using System.Linq;
 using EasyFlow.Services;
 using EasyFlow.Data;
 using System.Diagnostics;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace EasyFlow.Features.Settings.Tags;
 
 public partial class TagsViewModel : ViewModelBase
 {
+    private readonly IGeneralSettingsService _generalSettingsService;
     private readonly ITagService _tagService;
 
-    public TagsViewModel(ITagService tagService)
+    [ObservableProperty]
+    public int _numTags;
+
+    public TagsViewModel(IGeneralSettingsService generalSettingsService, ITagService tagService)
     {
+        _generalSettingsService = generalSettingsService;
         _tagService = tagService;
     }
 
@@ -44,12 +50,13 @@ public partial class TagsViewModel : ViewModelBase
     [RelayCommand]
     private void AddTag()
     {
-        SukiHost.ShowDialog(new AddTagViewModel(_tagService, onOk: OnOkAddTag), allowBackgroundClose: false);
+        SukiHost.ShowDialog(new AddTagViewModel(_tagService, onOk: OnOkAddTag), allowBackgroundClose: true);
     }
 
     private void OnOkAddTag(Tag tag)
     {
-        Tags.Add(new TagItemViewModel(tag, _tagService, onDeletedTag: OnDeletedTag));
+        Tags.Add(new TagItemViewModel(tag, _generalSettingsService, _tagService, onDeletedTag: OnDeletedTag));
+        NumTags = Tags.Count;
     }
 
     public void OnDeletedTag(Tag tag)
@@ -59,6 +66,7 @@ public partial class TagsViewModel : ViewModelBase
         {
             Tags.Remove(tagItem);
         }
+        NumTags = Tags.Count;
     }
 
     private void Reload(List<Tag> tags)
@@ -66,7 +74,8 @@ public partial class TagsViewModel : ViewModelBase
         Tags.Clear();
         foreach (var tag in tags)
         {
-            Tags.Add(new TagItemViewModel(tag, _tagService, onDeletedTag: OnDeletedTag));
+            Tags.Add(new TagItemViewModel(tag, _generalSettingsService, _tagService, onDeletedTag: OnDeletedTag));
         }
+        NumTags = Tags.Count;
     }
 }

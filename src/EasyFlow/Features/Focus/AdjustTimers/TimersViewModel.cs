@@ -78,8 +78,17 @@ public sealed partial class TimersViewModel : ViewModelBase
 
     private (bool success, int newValue) GetNewValue(TimerType timerType, AdjustFactor adjust)
     {
-        var factor = (int)adjust;
         var limits = Constants.TimerTypeLimits[timerType];
+
+        var factor = adjust switch
+        {
+            AdjustFactor.StepForward => 1 * limits.Step,
+            AdjustFactor.LongStepForward => 1 * limits.LongStep,
+            AdjustFactor.StepBackward => -1 * limits.Step,
+            AdjustFactor.LongStepBackward => -1 * limits.LongStep,
+            _ => 0
+        };
+
         var baseValue = timerType switch
         {
             TimerType.Work => WorkMinutes,
@@ -88,7 +97,7 @@ public sealed partial class TimersViewModel : ViewModelBase
             _ => SessionsBeforeLongBreak
         };
 
-        var newValue = baseValue + factor * limits.Delta;
+        var newValue = baseValue + factor * limits.Step;
 
         if (newValue < limits.Min)
         {

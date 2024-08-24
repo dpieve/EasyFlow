@@ -69,15 +69,27 @@ public sealed partial class AdjustTimersViewModel : ViewModelBase, IRoute, IActi
     }
 
     [RelayCommand]
-    private void IncreaseTimer(TimerType timerType)
+    private void StepForward(TimerType timerType)
     {
-        Timers.Adjust(timerType, AdjustFactor.Increase);
+        Timers.Adjust(timerType, AdjustFactor.StepForward);
     }
 
     [RelayCommand]
-    private void DecreaseTimer(TimerType timerType)
+    private void StepBackward(TimerType timerType)
     {
-        Timers.Adjust(timerType, AdjustFactor.Decrease);
+        Timers.Adjust(timerType, AdjustFactor.StepBackward);
+    }
+
+    [RelayCommand]
+    private void LongStepForward(TimerType timerType)
+    {
+        Timers.Adjust(timerType, AdjustFactor.LongStepForward);
+    }
+
+    [RelayCommand]
+    private void LongStepBackward(TimerType timerType)
+    {
+        Timers.Adjust(timerType, AdjustFactor.LongStepBackward);
     }
 
     [RelayCommand]
@@ -93,7 +105,7 @@ public sealed partial class AdjustTimersViewModel : ViewModelBase, IRoute, IActi
         {
             Timers.SessionsBeforeLongBreak = longBreakSessions;
         }), 
-        allowBackgroundClose: false);
+        allowBackgroundClose: true);
     }
 
     [RelayCommand]

@@ -3,10 +3,14 @@ using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Data.Core.Plugins;
 using Avalonia.Markup.Xaml;
 using CommunityToolkit.Mvvm.DependencyInjection;
+using EasyFlow.Common;
 using EasyFlow.Data;
+using EasyFlow.Services;
 using System;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace EasyFlow;
 
@@ -27,6 +31,19 @@ public partial class App : Application
         migrator.Migrate();
 
         var mainViewModel = Ioc.Default.GetRequiredService<MainViewModel>();
+
+        var generalSettingsService = Ioc.Default.GetRequiredService<IGeneralSettingsService>();
+        var result = generalSettingsService.GetSelectedLanguage();
+        if (result.Error is not null)
+        {
+            Assets.Resources.Culture = new CultureInfo(SupportedLanguage.English.Code);
+            Debug.WriteLine("Failed to get the selected language");
+        }
+        else
+        {
+            var selectedLanguage = result!.Value!.Code;
+            Assets.Resources.Culture = new CultureInfo(selectedLanguage);
+        }
 
         switch (ApplicationLifetime)
         {
@@ -56,8 +73,9 @@ public partial class App : Application
         Debug.WriteLine("Startup application");
     }
 
-    private void OnExit(object? sender, ControlledApplicationLifetimeExitEventArgs e)
+    private async void OnExit(object? sender, ControlledApplicationLifetimeExitEventArgs e)
     {
+        await Task.Delay(200);
         Debug.WriteLine("Exit application");
     }
 }

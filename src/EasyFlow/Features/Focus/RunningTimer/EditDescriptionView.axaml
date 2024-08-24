@@ -1,0 +1,60 @@
+<UserControl
+    x:Class="EasyFlow.Features.Focus.RunningTimer.EditDescriptionView"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:EasyFlow.Features.Focus.RunningTimer"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:suki="clr-namespace:SukiUI.Controls;assembly=SukiUI"
+    d:DesignHeight="500"
+    d:DesignWidth="400"
+    x:DataType="local:EditDescriptionViewModel"
+    mc:Ignorable="d">
+    <suki:GlassCard Width="400" Height="500">
+        <suki:GroupBox Header="Description">
+            <Grid RowDefinitions="auto, *, auto">
+
+                <StackPanel Grid.Row="0" Margin="0,10,0,0">
+                    <TextBlock Text="Write your notes about the last session." />
+                    <TextBlock
+                        Classes="Caption"
+                        Text="It will show in the report."
+                        TextWrapping="Wrap" />
+                </StackPanel>
+
+                <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                    <TextBox
+                        x:Name="DescriptionTextBox"
+                        Width="370"
+                        Height="305"
+                        Margin="0,10,0,0"
+                        VerticalAlignment="Top"
+                        VerticalContentAlignment="Top"
+                        AcceptsReturn="True"
+                        Classes="FlatTextBox"
+                        CornerRadius="5"
+                        Text="{Binding Description}"
+                        TextWrapping="Wrap"
+                        Watermark="Suggestions&#x0a;&#x0a;What did you focus on?&#x0a;&#x0a;What did you complete?&#x0a;&#x0a;What were the challenges?&#x0a;" />
+                </ScrollViewer>
+
+                <StackPanel
+                    Grid.Row="2"
+                    Margin="0,10,0,0"
+                    HorizontalAlignment="Right"
+                    Orientation="Horizontal"
+                    Spacing="10">
+                    <Button
+                        Command="{Binding CancelCommand}"
+                        Content="Cancel"
+                        HotKey="Escape" />
+                    <Button
+                        Classes="Flat Accent"
+                        Command="{Binding OkCommand}"
+                        Content="Save"
+                        HotKey="Enter" />
+                </StackPanel>
+            </Grid>
+        </suki:GroupBox>
+    </suki:GlassCard>
+</UserControl>

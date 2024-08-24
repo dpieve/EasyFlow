@@ -20,13 +20,13 @@
             VerticalAlignment="Center"
             Orientation="Horizontal">
             <tags:TagsView
-                Width="350"
-                Height="310"
+                Width="400"
+                Height="370"
                 Margin="5,10,25,5"
                 DataContext="{Binding Tags}" />
             <general:GeneralSettingsView
-                Width="350"
-                Height="310"
+                Width="400"
+                Height="370"
                 Margin="5,10,5,5"
                 DataContext="{Binding GeneralSettings}" />
         </WrapPanel>

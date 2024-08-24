@@ -11,15 +11,17 @@ namespace EasyFlow.Features.Settings.Tags;
 
 public sealed partial class TagItemViewModel : ViewModelBase
 {
+    private readonly IGeneralSettingsService _generalSettingsService;
     private readonly ITagService _tagService;
     private readonly Action<Tag> _onDeletedTag;
 
     [ObservableProperty]
     private string _name;
 
-    public TagItemViewModel(Tag tag, ITagService tagService, Action<Tag> onDeletedTag)
+    public TagItemViewModel(Tag tag, IGeneralSettingsService generalSettingsService, ITagService tagService, Action<Tag> onDeletedTag)
     {
         Tag = tag;
+        _generalSettingsService = generalSettingsService;
         _tagService = tagService;
         _onDeletedTag = onDeletedTag;
 
@@ -43,7 +45,21 @@ public sealed partial class TagItemViewModel : ViewModelBase
     [RelayCommand]
     private async Task DeleteTag()
     {
-        var resultCount = await _tagService.CountSessions(Tag.Id, SessionType.Work);
+        var resultSelectedTag = _generalSettingsService.GetSelectedTag();
+        if (resultSelectedTag.Error is not null)
+        {
+            await SukiHost.ShowToast("Failed to delete tag", resultSelectedTag.Error.Message!, SukiUI.Enums.NotificationType.Error);
+            return;
+        }
+
+        var selectedTag = resultSelectedTag.Value!;
+        if (selectedTag is not null && selectedTag.Id == Tag.Id)
+        {
+            await SukiHost.ShowToast("Failed to delete tag", "Cannot delete the selected tag", SukiUI.Enums.NotificationType.Error);
+            return;
+        }
+
+        var resultCount = await _tagService.CountSessions(Tag.Id, SessionType.Focus);
         var numSessions = 0;
         if (resultCount.Error is null)
         {

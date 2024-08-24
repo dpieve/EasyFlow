@@ -2,6 +2,7 @@
     x:Class="EasyFlow.MainWindow"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:common="clr-namespace:EasyFlow.Common"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:icons="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
     xmlns:local="clr-namespace:EasyFlow"
@@ -16,7 +17,7 @@
     d:DesignHeight="450"
     d:DesignWidth="800"
     x:DataType="local:MainViewModel"
-    BackgroundAnimationEnabled="True"
+    BackgroundAnimationEnabled="False"
     CanResize="True"
     Icon="/Assets/panda.ico"
     IsMenuVisible="True"
@@ -55,6 +56,16 @@
                     </DataTemplate>
                 </MenuItem.DataTemplates>
             </MenuItem>
+        </MenuItem>
+        <MenuItem Header="Languages">
+            <MenuItem
+                Command="{Binding ChangeLanguageCommand}"
+                CommandParameter="{x:Static common:SupportedLanguage.English}"
+                Header="English" />
+            <!--<MenuItem
+                Command="{Binding ChangeLanguageCommand}"
+                CommandParameter="{x:Static common:SupportedLanguage.Portuguese}"
+                Header="Portuguese" />-->
         </MenuItem>
     </suki:SukiWindow.MenuItems>
     <local:MainView />

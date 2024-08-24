@@ -1,19 +1,22 @@
+using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
+using Avalonia.Markup.Xaml;
 
-namespace EasyFlow.Features.Settings.Tags;
+namespace EasyFlow.Features.Focus.RunningTimer;
 
-public partial class AddTagView : UserControl
+public partial class EditDescriptionView : UserControl
 {
-    public AddTagView()
+    public EditDescriptionView()
     {
         InitializeComponent();
     }
+
     protected override void OnLoaded(RoutedEventArgs e)
     {
         base.OnLoaded(e);
 
-        var tb = TagNameTextBox;
+        var tb = DescriptionTextBox;
 
         tb.Focus();
 

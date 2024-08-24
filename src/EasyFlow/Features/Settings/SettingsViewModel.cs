@@ -3,7 +3,6 @@ using EasyFlow.Data;
 using EasyFlow.Features.Settings.General;
 using EasyFlow.Features.Settings.Tags;
 using EasyFlow.Services;
-using ReactiveUI;
 using System.Diagnostics;
 
 namespace EasyFlow.Features.Settings;
@@ -22,7 +21,7 @@ public sealed partial class SettingsViewModel : PageViewModelBase
         _generalSettingsService = settingsService;
         _tagService = tagService;
         
-        Tags = new(_tagService);
+        Tags = new(settingsService, _tagService);
         GeneralSettings = new(_generalSettingsService, databaseMigrator);
     }
     public TagsViewModel Tags { get; }
