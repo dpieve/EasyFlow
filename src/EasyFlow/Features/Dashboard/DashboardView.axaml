@@ -57,14 +57,10 @@
                             Grid.Row="0"
                             Grid.Column="3"
                             Width="200"
-                            SelectedIndex="0">
-                            <ComboBoxItem Content="Past 48 hours" />
-                            <ComboBoxItem Content="Past 7 days" />
-                            <ComboBoxItem Content="Past 30 days" />
-                            <ComboBoxItem Content="Past 90 days" />
-                            <ComboBoxItem Content="Past year" />
-                            <ComboBoxItem Content="Past 5 years" />
-                        </ComboBox>
+                            DisplayMemberBinding="{Binding Text}"
+                            ItemsSource="{x:Static local:FilterPeriod.Filters}"
+                            SelectedIndex="1"
+                            SelectedItem="{Binding SelectedFilterPeriod}" />
 
                         <TextBlock
                             Grid.Row="1"

@@ -1,6 +1,8 @@
 ﻿using EasyFlow.Common;
 using EasyFlow.Data;
+using EasyFlow.Features.Dashboard;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,6 +18,7 @@ public interface ISessionService
     public Task<Result<int, Error>> UpdateAsync(Session session);
 
     public Result<List<Session>, Error> GetAll();
+    public Task<Result<List<Session>, Error>> GetSessionsByPeriod(FilterPeriod filterPeriod);
 }
 
 public sealed class SessionService : ISessionService
@@ -56,6 +59,17 @@ public sealed class SessionService : ISessionService
     {
         var context = _contextFactory.CreateDbContext();
         return context.Sessions.ToList();
+    }
+
+    public async Task<Result<List<Session>, Error>> GetSessionsByPeriod(FilterPeriod filterPeriod)
+    {
+        var context = await _contextFactory.CreateDbContextAsync();
+        var currentDate = DateTime.Now;
+        var startDate = currentDate.AddDays(-filterPeriod.NumDays);
+        var sessions = await context.Sessions
+                                .Where(s => s.FinishedDate >= startDate)
+                                .ToListAsync();
+        return sessions;
     }
 
     public async Task<Result<int, Error>> UpdateAsync(Session session)

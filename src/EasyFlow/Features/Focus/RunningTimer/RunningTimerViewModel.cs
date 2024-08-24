@@ -15,6 +15,7 @@ using System.Reactive;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace EasyFlow.Features.Focus.RunningTimer;
 
@@ -310,11 +311,15 @@ public sealed partial class RunningTimerViewModel : ViewModelBase, IRoute, IActi
                 _ => settings!.WorkDurationMinutes
             };
 
+
+            var currentDate = DateTime.Now;
+            DateTime newDateTime = new(currentDate.Year, currentDate.Month, currentDate.Day, 0, 0, 0, DateTimeKind.Utc);
+
             var session = new Session
             {
                 DurationMinutes = duration,
                 SessionType = sessionsType,
-                FinishedDate = DateTime.Now,
+                FinishedDate = newDateTime,
                 TagId = settings!.SelectedTagId,
                 Tag = settings.SelectedTag,
             };

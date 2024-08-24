@@ -28,8 +28,6 @@ public partial class DashboardViewModel : PageViewModelBase
     private readonly ISessionService _sessionService;
     private CompositeDisposable? _disposables;
 
-    //private readonly Tag _allTag = new() { Name = "All", Id = -1 };
-
     [ObservableProperty]
     private Tag? _selectedTag;
 
@@ -41,6 +39,9 @@ public partial class DashboardViewModel : PageViewModelBase
 
     [ObservableProperty]
     private bool _isPlotVisible;
+
+    [ObservableProperty]
+    private FilterPeriod _selectedFilterPeriod = FilterPeriod.Days7;
 
     public DashboardViewModel(
         ITagService tagService,
@@ -56,9 +57,17 @@ public partial class DashboardViewModel : PageViewModelBase
         SessionTypes.Add(SessionType.Break);
         SessionTypes.Add(SessionType.LongBreak);
 
+        var filters = FilterPeriod.Filters;
+        foreach (var filter in filters)
+        {
+            FilterPeriods.Add(filter);
+        }
+
         SeriePlot = [];
 
-        this.WhenAnyValue(vm => vm.SelectedTag, vm => vm.SelectedSessionType)
+        this.WhenAnyValue(vm => vm.SelectedTag, 
+                vm => vm.SelectedSessionType,
+                vm => vm.SelectedFilterPeriod)
             .Skip(1)
             .WhereNotNull()
             .Throttle(TimeSpan.FromMilliseconds(500))
@@ -68,7 +77,7 @@ public partial class DashboardViewModel : PageViewModelBase
             {
                 if (SelectedTag is not null && SelectedSessionType is not null)
                 {
-                    InfoTitle = $"{SelectedTag.Name} - {SelectedSessionType}";
+                    InfoTitle = $"{SelectedTag.Name} - {SelectedSessionType} - {SelectedFilterPeriod.Text}";
                 }
                 else
                 {
@@ -82,7 +91,7 @@ public partial class DashboardViewModel : PageViewModelBase
 
     public Axis[] XAxes { get; set; } =
     {
-        new DateTimeAxis(TimeSpan.FromDays(1), date => date.ToString("MMM dd"))
+        new DateTimeAxis(TimeSpan.FromDays(1), date => date.ToString("MMM dd yyyy"))
     };
     public Axis[] YAxes { get; set; } =
     {
@@ -100,6 +109,7 @@ public partial class DashboardViewModel : PageViewModelBase
 
     public ObservableCollection<Tag> Tags { get; } = [];
     public ObservableCollection<SessionType> SessionTypes { get; } = [];
+    public ObservableCollection<FilterPeriod> FilterPeriods { get; } = [];
     protected override void OnActivated()
     {
         Debug.WriteLine("Activated DashboardViewModel");
@@ -111,7 +121,6 @@ public partial class DashboardViewModel : PageViewModelBase
             .Subscribe(tags =>
             {
                 Tags.Clear();
-                //Tags.Add(_allTag);
                 foreach (var tag in tags)
                 {
                     Tags.Add(tag);
@@ -142,7 +151,8 @@ public partial class DashboardViewModel : PageViewModelBase
     [RelayCommand]
     private async Task ReloadPlot()
     {
-        var result = _sessionService.GetAll();
+        var result = await _sessionService.GetSessionsByPeriod(SelectedFilterPeriod);
+
         if (result.Error is not null)
         {
             await SukiHost.ShowToast("Failed to get sessions", result.Error.Message!, SukiUI.Enums.NotificationType.Error);
@@ -162,7 +172,7 @@ public partial class DashboardViewModel : PageViewModelBase
             selectedSessionsByType.Where(s => s.TagId == SelectedTag.Id);
 
         var sessionSummaries = selectedSessionsByTag
-            .GroupBy(s => s.FinishedDate.Day)
+            .GroupBy(s => s.FinishedDate)
             .Select(group =>
             {
                 var duration = group.Sum(s => s.DurationMinutes);
