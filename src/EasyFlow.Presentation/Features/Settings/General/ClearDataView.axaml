@@ -1,0 +1,30 @@
+<UserControl
+    x:Class="EasyFlow.Presentation.Features.Settings.General.ClearDataView"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:EasyFlow.Presentation.Features.Settings.General"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    x:DataType="local:ClearDataViewModel"
+    mc:Ignorable="d">
+    <StackPanel Margin="10" Spacing="7">
+        <TextBlock Text="Are you sure you want to delete all data?" />
+
+        <StackPanel
+            Margin="0,10,0,0"
+            HorizontalAlignment="Right"
+            Orientation="Horizontal"
+            Spacing="10">
+            <Button
+                Command="{Binding CancelCommand}"
+                Content="Cancel"
+                HotKey="Escape" />
+            <Button
+                Classes="Flat"
+                Command="{Binding OkCommand}"
+                Content="Delete" />
+        </StackPanel>
+    </StackPanel>
+</UserControl>

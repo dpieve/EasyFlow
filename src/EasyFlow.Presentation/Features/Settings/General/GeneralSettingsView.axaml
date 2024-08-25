@@ -1,0 +1,151 @@
+<UserControl
+    x:Class="EasyFlow.Presentation.Features.Settings.General.GeneralSettingsView"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:icons="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+    xmlns:local="clr-namespace:EasyFlow.Presentation.Features.Settings.General"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:suki="clr-namespace:SukiUI.Controls;assembly=SukiUI"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    x:DataType="local:GeneralSettingsViewModel"
+    mc:Ignorable="d">
+    <suki:GlassCard>
+
+        <suki:GroupBox Header="General">
+            <StackPanel>
+                <Grid Margin="0,15,0,0">
+                    <ToggleButton
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        Classes="Switch"
+                        IsChecked="{Binding IsFocusDescriptionEnabled, Mode=TwoWay}" />
+
+                    <TextBlock
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        FontWeight="DemiBold"
+                        Text="Focus Description" />
+
+                    <TextBlock
+                        Width="300"
+                        Margin="0,22,0,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Bottom"
+                        FontSize="13"
+                        Foreground="{DynamicResource SukiLowText}"
+                        Text="Add a description to Focus sessions."
+                        TextWrapping="Wrap" />
+                </Grid>
+                <Grid Margin="0,15,0,0">
+                    <ToggleButton
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        Classes="Switch"
+                        IsChecked="{Binding IsWorkSoundEnabled, Mode=TwoWay}" />
+
+                    <TextBlock
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        FontWeight="DemiBold"
+                        Text="Work Alarm Sounds" />
+
+                    <TextBlock
+                        Width="300"
+                        Margin="0,22,0,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Bottom"
+                        FontSize="13"
+                        Foreground="{DynamicResource SukiLowText}"
+                        Text="Play alarm sounds after work sessions."
+                        TextWrapping="Wrap" />
+                </Grid>
+
+                <Grid Margin="0,15,0,0">
+                    <ToggleButton
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        Classes="Switch"
+                        IsChecked="{Binding IsBreakSoundEnabled, Mode=TwoWay}" />
+
+                    <TextBlock
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        FontWeight="DemiBold"
+                        Text="Break Alarm Sounds" />
+
+                    <TextBlock
+                        Width="300"
+                        Margin="0,22,0,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Bottom"
+                        FontSize="13"
+                        Foreground="{DynamicResource SukiLowText}"
+                        Text="Play alarm sounds after break sessions."
+                        TextWrapping="Wrap" />
+                </Grid>
+
+                <Grid Margin="0,15,0,0">
+                    <Slider
+                        Width="100"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        Maximum="100"
+                        Minimum="0"
+                        Value="{Binding Volume}" />
+
+                    <TextBlock
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        FontWeight="DemiBold"
+                        Text="Sound volume" />
+
+                    <TextBlock
+                        Width="300"
+                        Margin="0,22,0,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Bottom"
+                        FontSize="13"
+                        Foreground="{DynamicResource SukiLowText}"
+                        Text="{Binding Volume, StringFormat='Sound volume is set to {0}%.'}"
+                        TextWrapping="Wrap" />
+                </Grid>
+
+                <Grid
+                    Height="40"
+                    Margin="0,30,0,0"
+                    ColumnDefinitions="*, *, *">
+                    <Grid.Styles>
+                        <Style Selector="Button.Settings">
+                            <Setter Property="HorizontalAlignment" Value="Right" />
+                            <Setter Property="VerticalAlignment" Value="Bottom" />
+                            <Setter Property="Padding" Value="8" />
+                        </Style>
+                    </Grid.Styles>
+                    <!--<Button
+                        Grid.Column="0"
+                        Margin="0,0,10,0"
+                        Classes="Flat Accent Settings"
+                        Command="{Binding ClearDataCommand}"
+                        Content="Import data"
+                        ToolTip.Tip="Import a backup" />-->
+                    <Button
+                        Grid.Column="1"
+                        Margin="0,0,10,0"
+                        Classes="Flat Accent Settings"
+                        Command="{Binding SaveDataCommand}"
+                        Content="Backup data"
+                        ToolTip.Tip="Save your data" />
+                    <Button
+                        Grid.Column="2"
+                        Classes="Flat Settings"
+                        Command="{Binding ClearDataCommand}"
+                        Content="Clear data"
+                        ToolTip.Tip="Delete data" />
+                </Grid>
+
+            </StackPanel>
+        </suki:GroupBox>
+    </suki:GlassCard>
+</UserControl>

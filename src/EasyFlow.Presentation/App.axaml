@@ -1,0 +1,19 @@
+<Application
+    x:Class="EasyFlow.Presentation.App"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:common="using:EasyFlow.Presentation.Common"
+    xmlns:local="using:EasyFlow.Presentation"
+    xmlns:materialIcons="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+    xmlns:sukiUi="clr-namespace:SukiUI;assembly=SukiUI"
+    RequestedThemeVariant="Dark">
+
+    <Application.DataTemplates>
+        <common:ViewLocator />
+    </Application.DataTemplates>
+
+    <Application.Styles>
+        <sukiUi:SukiTheme ThemeColor="Red" />
+        <materialIcons:MaterialIconStyles />
+    </Application.Styles>
+</Application>
