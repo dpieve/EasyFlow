@@ -37,8 +37,8 @@ public partial class TagsViewModel : ViewModelBase
             .Select(tags => tags.Select(tag => new TagItemViewModel(tag, _mediator, onDeletedTag: DeletedTag)))
             .ObserveOn(RxApp.MainThreadScheduler)
             .Do(_ => Tags.Clear())
-            .Do(_ => NumTags = Tags.Count)
-            .Subscribe(tags => Tags.AddRange(tags));
+            .Do(tags => Tags.AddRange(tags))
+            .Subscribe(_ => NumTags = Tags.Count);
     }
 
     public void Deactivate()

@@ -42,6 +42,7 @@ public sealed partial class AddTagViewModel : ViewModelBase
         };
 
         var result = await _mediator.Send(command);
+
         if (result.IsSuccess)
         {
             _onOk(result.Value!);

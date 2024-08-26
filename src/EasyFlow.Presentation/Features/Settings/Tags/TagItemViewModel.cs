@@ -1,8 +1,10 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using EasyFlow.Application.Tags;
 using EasyFlow.Domain.Entities;
 using EasyFlow.Presentation.Common;
 using MediatR;
+using SukiUI.Controls;
 using System;
 using System.Threading.Tasks;
 
@@ -32,51 +34,30 @@ public sealed partial class TagItemViewModel : ViewModelBase
     [RelayCommand]
     private void EditTag()
     {
-        //SukiHost.ShowDialog(new AddTagViewModel(_tagService, OnOkEditTag, Tag), allowBackgroundClose: false);
-    }
-
-    private void OnOkEditTag(Tag tag)
-    {
-        //Tag.Name = tag.Name;
-        //Name = Tag.Name;
+        SukiHost.ShowDialog(new AddTagViewModel(_mediator, onOk: EditedTag, Tag), allowBackgroundClose: false);
     }
 
     [RelayCommand]
     private async Task DeleteTag()
     {
-        //var resultSelectedTag = _generalSettingsService.GetSelectedTag();
-        //if (resultSelectedTag.Error is not null)
-        //{
-        //    await SukiHost.ShowToast("Failed to delete tag", resultSelectedTag.Error.Message!, SukiUI.Enums.NotificationType.Error);
-        //    return;
-        //}
+        var command = new DeleteTagCommand
+        {
+            Tag = Tag
+        };
 
-        //var selectedTag = resultSelectedTag.Value!;
-        //if (selectedTag is not null && selectedTag.Id == Tag.Id)
-        //{
-        //    await SukiHost.ShowToast("Failed to delete tag", "Cannot delete the selected tag", SukiUI.Enums.NotificationType.Error);
-        //    return;
-        //}
+        var result = await _mediator.Send(command);
+        
+        if (!result.IsSuccess)
+        {
+            await SukiHost.ShowToast("Failed to delete the tag", result.Error.Message!, SukiUI.Enums.NotificationType.Info);
+            return;
+        }
 
-        //var resultCount = await _tagService.CountSessions(Tag.Id, SessionType.Focus);
-        //var numSessions = 0;
-        //if (resultCount.Error is null)
-        //{
-        //    numSessions = resultCount.Value!;
-        //}
-
-        //var result = await _tagService.DeleteAsync(Tag);
-        //if (result.Error is not null)
-        //{
-        //    await SukiHost.ShowToast("Failed to delete tag", result.Error.Message!, SukiUI.Enums.NotificationType.Error);
-        //    return;
-        //}
-
-        //var msg = numSessions > 0
-        //    ? $"Tag '{Tag.Name}' has been deleted. {numSessions} work sessions were deleted."
-        //    : $"Tag '{Tag.Name}' has been deleted.";
-
-        //await SukiHost.ShowToast("Tag deleted", msg, SukiUI.Enums.NotificationType.Success);
-        //_onDeletedTag(Tag);
+        _onDeletedTag(Tag);
+    }
+    private void EditedTag(Tag tag)
+    {
+        Tag.Name = tag.Name;
+        Name = Tag.Name;
     }
 }

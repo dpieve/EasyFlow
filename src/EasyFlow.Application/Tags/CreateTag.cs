@@ -21,9 +21,21 @@ public sealed class CreateTagCommandHandler : IRequestHandler<CreateTagCommand, 
 
     async Task<Result<Tag>> IRequestHandler<CreateTagCommand, Result<Tag>>.Handle(CreateTagCommand request, CancellationToken cancellationToken)
     {
-        var tagId = await _tagsRepository.CreateAsync(request.Tag!);
         var tag = request.Tag!;
-        tag.Id = tagId;
-        return Result<Tag>.Success(tag);
+        if (tag.Id == 0)
+        {
+            var tagId = await _tagsRepository.CreateAsync(tag);
+            tag.Id = tagId;
+            return Result<Tag>.Success(tag);
+        }
+
+        var success = await _tagsRepository.UpdateAsync(tag);
+        return success ? Result<Tag>.Success(tag) : Result<Tag>.Failure(TagsErrors.UpdateFail);
     }
+}
+
+public static partial class TagsErrors
+{
+    public static readonly Error UpdateFail = new($"Tag.UpdateFail",
+       "Failed to update the tag");
 }
