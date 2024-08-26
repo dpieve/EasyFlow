@@ -24,12 +24,12 @@
             Orientation="Horizontal"
             Spacing="10">
             <Button
-                Command="{Binding CloseDialogCommand}"
+                Command="{Binding CancelCommand}"
                 Content="_Cancel"
                 HotKey="Escape" />
             <Button
                 Classes="Flat Accent"
-                Command="{Binding OkButtonCommand}"
+                Command="{Binding OkCommand}"
                 Content="_Ok"
                 HotKey="Enter" />
         </StackPanel>

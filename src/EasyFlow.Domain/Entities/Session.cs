@@ -1,6 +1,5 @@
-﻿using System;
+﻿namespace EasyFlow.Domain.Entities;
 
-namespace EasyFlow.Presentation.Data;
 public sealed class Session
 {
     public Session()

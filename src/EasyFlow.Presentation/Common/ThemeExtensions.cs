@@ -1,5 +1,5 @@
 ﻿using Avalonia.Styling;
-using EasyFlow.Presentation.Data;
+using EasyFlow.Domain.Entities;
 using SukiUI.Models;
 
 namespace EasyFlow.Presentation.Common;

@@ -10,10 +10,9 @@
     xmlns:suki="clr-namespace:SukiUI.Controls;assembly=SukiUI"
     d:DesignHeight="450"
     d:DesignWidth="800"
-    x:DataType="local:RunningTimerViewModel"
     mc:Ignorable="d">
 
-    <UserControl.Resources>
+    <!--<UserControl.Resources>
         <converters:StringFromTimerState x:Key="StringFromTimerState" />
     </UserControl.Resources>
 
@@ -142,6 +141,6 @@
                 Height="17"
                 Kind="NoteAdd" />
         </Button>
-    </Grid>
+    </Grid>-->
 
 </UserControl>

@@ -1,81 +1,91 @@
-﻿using CommunityToolkit.Mvvm.Input;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using DynamicData;
+using EasyFlow.Application.Tags;
 using EasyFlow.Presentation.Common;
+using MediatR;
+using ReactiveUI;
 using SukiUI.Controls;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using EasyFlow.Presentation.Services;
-using EasyFlow.Presentation.Data;
-using System.Diagnostics;
-using CommunityToolkit.Mvvm.ComponentModel;
+using System.Reactive.Linq;
+using System.Threading.Tasks;
 
 namespace EasyFlow.Presentation.Features.Settings.Tags;
 
 public partial class TagsViewModel : ViewModelBase
 {
-    private readonly IGeneralSettingsService _generalSettingsService;
-    private readonly ITagService _tagService;
+    private readonly IMediator _mediator;
 
     [ObservableProperty]
-    public int _numTags;
+    private int _numTags;
 
-    public TagsViewModel(IGeneralSettingsService generalSettingsService, ITagService tagService)
+    public TagsViewModel(IMediator mediator)
     {
-        _generalSettingsService = generalSettingsService;
-        _tagService = tagService;
+        _mediator = mediator;
     }
 
     public ObservableCollection<TagItemViewModel> Tags { get; } = [];
 
     public void Activate()
     {
-        var tags = _tagService.GetAll();
-
-        if (tags.Error is not null)
-        {
-            SukiHost.ShowToast("Failed to load tags", tags.Error.Message!, SukiUI.Enums.NotificationType.Error);
-            return;
-        }
-
-        Reload(tags.Value!);
-
-        Debug.WriteLine("Activated TagsViewModel");
+        Observable
+            .StartAsync(GetTags)
+            .Where(tags => tags.Count > 0)
+            .Select(tags => tags.Select(tag => new TagItemViewModel(tag, _mediator, onDeletedTag: DeletedTag)))
+            .ObserveOn(RxApp.MainThreadScheduler)
+            .Do(_ => Tags.Clear())
+            .Do(_ => NumTags = Tags.Count)
+            .Subscribe(tags => Tags.AddRange(tags));
     }
-    
+
     public void Deactivate()
     {
-        Debug.WriteLine("Deactivated TagsViewModel");
     }
 
     [RelayCommand]
     private void AddTag()
     {
-        SukiHost.ShowDialog(new AddTagViewModel(_tagService, onOk: OnOkAddTag), allowBackgroundClose: true);
+        SukiHost.ShowDialog(new AddTagViewModel(_mediator, onOk: AddedTag), allowBackgroundClose: true);
     }
 
-    private void OnOkAddTag(Tag tag)
+    private void AddedTag(Domain.Entities.Tag tag)
     {
-        Tags.Add(new TagItemViewModel(tag, _generalSettingsService, _tagService, onDeletedTag: OnDeletedTag));
+        var newItem = new TagItemViewModel(tag, _mediator, onDeletedTag: DeletedTag);
+        Tags.Add(newItem);
         NumTags = Tags.Count;
     }
 
-    public void OnDeletedTag(Tag tag)
+    private void DeletedTag(Domain.Entities.Tag tag)
     {
-        var tagItem = Tags.FirstOrDefault(x => x.Tag.Id == tag.Id);
-        if (tagItem is not null)
+        var deletedItem = Tags.FirstOrDefault(x => x.Tag.Id == tag.Id);
+
+        if (deletedItem is null)
         {
-            Tags.Remove(tagItem);
+            return;
         }
+
+        var removed = Tags.Remove(deletedItem);
+        if (!removed)
+        {
+            SukiHost.ShowToast("Failed to remove", "Please reload to remove the tag.", SukiUI.Enums.NotificationType.Error);
+        }
+
         NumTags = Tags.Count;
     }
 
-    private void Reload(List<Tag> tags)
+    private async Task<List<Domain.Entities.Tag>> GetTags()
     {
-        Tags.Clear();
-        foreach (var tag in tags)
+        var result = await _mediator.Send(new GetTagsQuery());
+
+        if (result.IsSuccess)
         {
-            Tags.Add(new TagItemViewModel(tag, _generalSettingsService, _tagService, onDeletedTag: OnDeletedTag));
+            return result.Value;
         }
-        NumTags = Tags.Count;
+
+        await SukiHost.ShowToast("Failed to load", "Tags couldn't be loaded.", SukiUI.Enums.NotificationType.Error);
+        return [];
     }
 }

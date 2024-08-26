@@ -1,7 +1,6 @@
 ﻿using Avalonia;
 using Avalonia.ReactiveUI;
 using EasyFlow.Presentation;
-using EasyFlow.Presentation.Common;
 using System;
 
 namespace EasyFlow;
@@ -18,7 +17,7 @@ internal sealed class Program
     // Avalonia configuration, don't remove; also used by visual designer.
     public static AppBuilder BuildAvaloniaApp()
         => AppBuilder.Configure<App>()
-            .RegisterAppServices()
+            .RegisterServices()
             .UsePlatformDetect()
             .WithInterFont()
             .LogToTrace()

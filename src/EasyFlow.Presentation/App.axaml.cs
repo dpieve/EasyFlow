@@ -1,12 +1,10 @@
-using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Data.Core.Plugins;
 using Avalonia.Markup.Xaml;
 using CommunityToolkit.Mvvm.DependencyInjection;
+using EasyFlow.Domain.Repositories;
 using EasyFlow.Presentation.Common;
-using EasyFlow.Presentation.Data;
-using EasyFlow.Presentation.Services;
-using System;
+using Microsoft.Extensions.DependencyInjection;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
@@ -14,12 +12,8 @@ using System.Threading.Tasks;
 
 namespace EasyFlow.Presentation;
 
-public partial class App : Application
+public partial class App : Avalonia.Application
 {
-    public static readonly string DbName = "EasyFlow.ds";
-    public static readonly string BasePath = AppDomain.CurrentDomain.BaseDirectory;
-    public static readonly string DbFullPath = Path.Combine(BasePath, DbName);
-
     public override void Initialize()
     {
         AvaloniaXamlLoader.Load(this);
@@ -27,23 +21,23 @@ public partial class App : Application
 
     public override void OnFrameworkInitializationCompleted()
     {
-        var migrator = Ioc.Default.GetRequiredService<IDatabaseManager>();
+        var migrator = Ioc.Default.GetRequiredService<IDatabaseManagerRepository>();
         migrator.Migrate();
 
-        var mainViewModel = Ioc.Default.GetRequiredService<MainViewModel>();
+        //var generalSettingsService = Ioc.Default.GetRequiredService<IGeneralSettingsService>();
+        //var result = generalSettingsService.GetSelectedLanguage();
+        //if (result.Error is not null)
+        //{
+        //    Assets.Resources.Culture = new CultureInfo(SupportedLanguage.English.Code);
+        //    Debug.WriteLine("Failed to get the selected language");
+        //}
+        //else
+        //{
+        //    var selectedLanguage = result!.Value!.Code;
+        //    Assets.Resources.Culture = new CultureInfo(selectedLanguage);
+        //}
 
-        var generalSettingsService = Ioc.Default.GetRequiredService<IGeneralSettingsService>();
-        var result = generalSettingsService.GetSelectedLanguage();
-        if (result.Error is not null)
-        {
-            Presentation.Assets.Resources.Culture = new CultureInfo(SupportedLanguage.English.Code);
-            Debug.WriteLine("Failed to get the selected language");
-        }
-        else
-        {
-            var selectedLanguage = result!.Value!.Code;
-            Presentation.Assets.Resources.Culture = new CultureInfo(selectedLanguage);
-        }
+        var mainViewModel = Ioc.Default.GetRequiredService<MainViewModel>();
 
         switch (ApplicationLifetime)
         {

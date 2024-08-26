@@ -2,7 +2,6 @@
 using EasyFlow.Presentation.Common;
 using EasyFlow.Presentation.Features.Focus.AdjustTimers;
 using EasyFlow.Presentation.Features.Focus.RunningTimer;
-using EasyFlow.Presentation.Services;
 using SimpleRouter;
 using System;
 using System.Diagnostics;
@@ -11,29 +10,17 @@ namespace EasyFlow.Presentation.Features.Focus;
 
 public sealed partial class FocusViewModel : PageViewModelBase, IRouterHost
 {
-    private readonly IGeneralSettingsService _settingsService;
-    private readonly ITagService _tagService;
-    private readonly IPlaySoundService _playSoundService;
-    private readonly ISessionService _sessionService;
+  
 
     [ObservableProperty]
     private IRoute? _currentRoute;
 
-    public FocusViewModel(
-        IGeneralSettingsService settingsService,
-        ITagService tagService,
-        IPlaySoundService playSoundService,
-        ISessionService sessionService)
+    public FocusViewModel()
         : base("Focus", Material.Icons.MaterialIconKind.Timer, (int)PageOrder.Focus)
     {
-        _settingsService = settingsService;
-        _tagService = tagService;
-        _playSoundService = playSoundService;
-        _sessionService = sessionService;
-
-        Router = new Router(new RouteFactory(CreateRoutes));
+        //Router = new Router(new RouteFactory(CreateRoutes));
         Router.OnRouteChanged += OnRouteChanged;
-        Router.NavigateToAndReset(new AdjustTimersViewModel(this, _tagService, _settingsService));
+        //Router.NavigateToAndReset(new AdjustTimersViewModel(this, _tagService, _settingsService));
     }
 
     public IRouter Router { get; }
@@ -66,13 +53,13 @@ public sealed partial class FocusViewModel : PageViewModelBase, IRouterHost
         }
     }
 
-    private IRoute? CreateRoutes(Type routeType, object[] parameters)
-    {
-        return routeType.Name switch
-        {
-            nameof(AdjustTimersViewModel) => new AdjustTimersViewModel((FocusViewModel)parameters[0], tagService: _tagService, generalSettingsService: _settingsService),
-            nameof(RunningTimerViewModel) => new RunningTimerViewModel((FocusViewModel)parameters[0], tagService: _tagService, generalSettingsService: _settingsService, playSoundService: _playSoundService, sessionService: _sessionService),
-            _ => null,
-        };
-    }
+    //private IRoute? CreateRoutes(Type routeType, object[] parameters)
+    //{
+    //    return routeType.Name switch
+    //    {
+    //        nameof(AdjustTimersViewModel) => new AdjustTimersViewModel((FocusViewModel)parameters[0], tagService: _tagService, generalSettingsService: _settingsService),
+    //        nameof(RunningTimerViewModel) => new RunningTimerViewModel((FocusViewModel)parameters[0], tagService: _tagService, generalSettingsService: _settingsService, playSoundService: _playSoundService, sessionService: _sessionService),
+    //        _ => null,
+    //    };
+    //}
 }

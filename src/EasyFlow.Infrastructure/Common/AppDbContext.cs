@@ -1,6 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using EasyFlow.Domain.Entities;
+using Microsoft.EntityFrameworkCore;
 
-namespace EasyFlow.Presentation.Data;
+namespace EasyFlow.Infrastructure.Common;
 
 public class AppDbContext : DbContext
 {
@@ -24,7 +25,12 @@ public class AppDbContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        optionsBuilder.UseSqlite($"Data Source={App.DbFullPath}");
+        if (optionsBuilder.IsConfigured)
+        {
+            return;
+        }
+
+        optionsBuilder.UseSqlite($"Data Source={Paths.DbName}");
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

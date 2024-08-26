@@ -1,18 +1,15 @@
 ﻿using CommunityToolkit.Mvvm.Input;
 using EasyFlow.Presentation.Common;
-using EasyFlow.Presentation.Data;
 using SukiUI.Controls;
 using System;
 
 namespace EasyFlow.Presentation.Features.Settings.General;
 public sealed partial class ClearDataViewModel : ViewModelBase
 {
-    private readonly IDatabaseManager _databaseMigrator;
     private readonly Action? _onOk;
 
-    public ClearDataViewModel(IDatabaseManager databaseMigrator, Action? onOk = null)
+    public ClearDataViewModel( Action? onOk = null)
     {
-        _databaseMigrator = databaseMigrator;
         _onOk = onOk;
     }
 
@@ -21,11 +18,11 @@ public sealed partial class ClearDataViewModel : ViewModelBase
     {
         try 
         {
-            var result = _databaseMigrator.Reset();
-            if (result && _onOk is not null)
-            {
+            //var result = _databaseMigrator.Reset();
+            //if (result && _onOk is not null)
+            //{
                 _onOk();
-            }
+            //}
         }
         catch(Exception e)
         {

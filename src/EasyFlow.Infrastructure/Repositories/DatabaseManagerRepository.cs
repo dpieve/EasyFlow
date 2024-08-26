@@ -1,20 +1,14 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System.Threading.Tasks;
+﻿using EasyFlow.Domain.Repositories;
+using EasyFlow.Infrastructure.Common;
+using Microsoft.EntityFrameworkCore;
 
-namespace EasyFlow.Presentation.Data;
+namespace EasyFlow.Infrastructure.Repositories;
 
-public interface IDatabaseManager
-{
-    public Task MigrateAsync();
-    public void Migrate();
-    public bool Reset();
-}
-
-public class DatabaseManager : IDatabaseManager
+public class DatabaseManagerRepository : IDatabaseManagerRepository
 {
     private readonly IDbContextFactory<AppDbContext> _contextFactory;
 
-    public DatabaseManager(IDbContextFactory<AppDbContext> contextFactory)
+    public DatabaseManagerRepository(IDbContextFactory<AppDbContext> contextFactory)
     {
         _contextFactory = contextFactory;
     }

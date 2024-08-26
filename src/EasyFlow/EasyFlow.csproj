@@ -24,6 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\EasyFlow.Infrastructure\EasyFlow.Infrastructure.csproj" />
     <ProjectReference Include="..\EasyFlow.Presentation\EasyFlow.Presentation.csproj" />
   </ItemGroup>
 </Project>

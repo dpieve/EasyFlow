@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace EasyFlow.Presentation.Common;
+﻿namespace EasyFlow.Domain.Entities;
 
 public sealed record SupportedLanguage(string Name, string Code)
 {

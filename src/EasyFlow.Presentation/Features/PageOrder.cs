@@ -5,7 +5,7 @@
 /// </summary>
 public enum PageOrder
 {
-    Focus = 0,
+    Settings = 0,
     Dashboard = 1,
-    Settings = 2,
+    Focus = 2,
 }
