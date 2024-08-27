@@ -4,8 +4,8 @@
 /// Specifies the order of the pages in the side menu.
 /// </summary>
 public enum PageOrder
-{
-    Settings = 0,
-    Dashboard = 1,
-    Focus = 2,
+{ 
+    Focus = 0,
+    Settings = 1,
+    Dashboard = 2,
 }

@@ -2,12 +2,12 @@ using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Data.Core.Plugins;
 using Avalonia.Markup.Xaml;
 using CommunityToolkit.Mvvm.DependencyInjection;
+using EasyFlow.Application.Settings;
+using EasyFlow.Domain.Entities;
 using EasyFlow.Domain.Repositories;
-using EasyFlow.Presentation.Common;
-using Microsoft.Extensions.DependencyInjection;
+using MediatR;
 using System.Diagnostics;
 using System.Globalization;
-using System.IO;
 using System.Threading.Tasks;
 
 namespace EasyFlow.Presentation;
@@ -22,20 +22,9 @@ public partial class App : Avalonia.Application
     public override void OnFrameworkInitializationCompleted()
     {
         var migrator = Ioc.Default.GetRequiredService<IDatabaseManagerRepository>();
-        migrator.Migrate();
+        migrator.MigrateAsync().GetAwaiter().GetResult();
 
-        //var generalSettingsService = Ioc.Default.GetRequiredService<IGeneralSettingsService>();
-        //var result = generalSettingsService.GetSelectedLanguage();
-        //if (result.Error is not null)
-        //{
-        //    Assets.Resources.Culture = new CultureInfo(SupportedLanguage.English.Code);
-        //    Debug.WriteLine("Failed to get the selected language");
-        //}
-        //else
-        //{
-        //    var selectedLanguage = result!.Value!.Code;
-        //    Assets.Resources.Culture = new CultureInfo(selectedLanguage);
-        //}
+        SetupLanguage();
 
         var mainViewModel = Ioc.Default.GetRequiredService<MainViewModel>();
 
@@ -71,5 +60,21 @@ public partial class App : Avalonia.Application
     {
         await Task.Delay(200);
         Debug.WriteLine("Exit application");
+    }
+
+    private static void SetupLanguage()
+    {
+        var mediator = Ioc.Default.GetRequiredService<IMediator>();
+        var result = mediator.Send(new GetSettingsQuery()).GetAwaiter().GetResult();
+        if (result.IsSuccess)
+        {
+            var settings = result.Value;
+            var selectedLanguage = settings.SelectedLanguage;
+            Assets.Resources.Culture = new CultureInfo(selectedLanguage);
+        }
+        else
+        {
+            Assets.Resources.Culture = new CultureInfo(SupportedLanguage.English.Code);
+        }
     }
 }

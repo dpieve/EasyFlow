@@ -2,61 +2,102 @@
 using Avalonia.Styling;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using EasyFlow.Application.Settings;
 using EasyFlow.Domain.Entities;
 using EasyFlow.Presentation.Common;
+using ReactiveUI;
 using SukiUI;
 using SukiUI.Controls;
 using SukiUI.Models;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
+using System.Reactive.Linq;
 using System.Threading.Tasks;
+using System;
+using System.Diagnostics;
+using MediatR;
+using LiveChartsCore.Themes;
+using Avalonia.Controls.Primitives;
 
 namespace EasyFlow.Presentation;
 
 public partial class MainViewModel : ViewModelBase
 {
     private readonly SukiTheme _theme;
+    private readonly IMediator _mediator;
 
     [ObservableProperty]
     private ThemeVariant _baseTheme;
 
     [ObservableProperty]
+    private SukiColorTheme _selectedTheme;
+
+    [ObservableProperty]
     private PageViewModelBase? _activePage;
 
-    public MainViewModel(IEnumerable<PageViewModelBase> pages)
+    [ObservableProperty]
+    private SupportedLanguage _selectedLanguage;
+
+    public MainViewModel(
+        IEnumerable<PageViewModelBase> pages,
+        IMediator mediator)
     {
         Pages = new AvaloniaList<PageViewModelBase>(pages.OrderBy(x => x.Index));
-
+        _mediator = mediator;
         _theme = SukiTheme.GetInstance();
         Themes = _theme.ColorThemes;
 
-        //var savedTheme = LoadTheme();
-        //if (savedTheme.ToString() != _theme.ActiveBaseTheme.ToString())
-        //{
-        //    ToggleBaseTheme();
-        //}
+        var settings = GetSettings().GetAwaiter().GetResult();
+        SelectedLanguage = SupportedLanguage.FromCode(settings.SelectedLanguage);
 
+        var colorTheme = _theme.ColorThemes.First(theme => theme.DisplayName == settings.SelectedColorTheme.ToString());
+        SelectedTheme = colorTheme;
+
+        var savedTheme = settings.SelectedTheme.ToThemeVariant();
+        if (savedTheme.ToString() != _theme.ActiveBaseTheme.ToString())
+        {
+            ToggleBaseTheme();
+        }
+        
         BaseTheme = _theme.ActiveBaseTheme;
-
-        //var colorTheme = LoadColorTheme();
-        //ChangeTheme(colorTheme);
-
+        
         _theme.OnBaseThemeChanged += variant =>
         {
-            //_generalSettingsService.UpdateSelectedTheme(variant.ToTheme());
-
             BaseTheme = variant;
             SukiHost.ShowToast("Successfully Changed Theme", $"Changed Theme To {variant}", SukiUI.Enums.NotificationType.Success);
         };
 
         _theme.OnColorThemeChanged += theme =>
         {
-            //_generalSettingsService.UpdateSelectedColorTheme(theme.ToColorTheme());
             SukiHost.ShowToast("Successfully Changed Color", $"Changed Color To {theme.DisplayName}.", SukiUI.Enums.NotificationType.Success);
         };
+
+        this.WhenAnyValue(
+                vm => vm.SelectedTheme, 
+                vm => vm.BaseTheme, 
+                vm => vm.SelectedLanguage)
+            .Skip(1)
+            .Select(_ => System.Reactive.Unit.Default)
+            .ObserveOn(RxApp.MainThreadScheduler)
+            .InvokeCommand(UpdateSettingsCommand);
+
+        this.WhenAnyValue(vm => vm.SelectedTheme)
+            .Subscribe(ChangeTheme);
     }
 
+    private async Task<GeneralSettings> GetSettings()
+    {
+        var result = await _mediator.Send(new GetSettingsQuery());
+
+        if (result.IsSuccess)
+        {
+            return result.Value;
+        }
+
+        await SukiHost.ShowToast("Failed to load", "Settings couldn't be loaded.", SukiUI.Enums.NotificationType.Error);
+        return new GeneralSettings();
+    }
+    
     partial void OnActivePageChanged(PageViewModelBase? oldValue, PageViewModelBase? newValue)
     {
         if (oldValue is not null)
@@ -73,10 +114,41 @@ public partial class MainViewModel : ViewModelBase
     public IAvaloniaReadOnlyList<PageViewModelBase> Pages { get; }
 
     public IAvaloniaReadOnlyList<SukiColorTheme> Themes { get; }
+
     public void ChangeTheme(SukiColorTheme theme)
     {
         _theme.ChangeColorTheme(theme);
     }
+
+    [RelayCommand]
+    private async Task UpdateSettings()
+    {
+        var settings = await GetSettings();
+
+        settings.SelectedTheme = BaseTheme.ToTheme();
+        settings.SelectedColorTheme = SelectedTheme.ToColorTheme();
+
+        var prevLanguage = settings.SelectedLanguage;
+
+        settings.SelectedLanguage = SelectedLanguage.Code;
+
+        var command = new UpdateSettingsCommand
+        {
+            GeneralSettings = settings
+        };
+
+        var result = await _mediator.Send(command);
+        if (!result.IsSuccess)
+        {
+            await SukiHost.ShowToast("Failed to update", "Failed to update the settings", SukiUI.Enums.NotificationType.Error);
+        }
+
+        if (prevLanguage != SelectedLanguage.Code)
+        {
+            RestartApp();
+        }
+    }
+
 
     [RelayCommand]
     private void ToggleBaseTheme()
@@ -85,57 +157,29 @@ public partial class MainViewModel : ViewModelBase
     }
 
     [RelayCommand]
-    private async Task ChangeLanguage(SupportedLanguage selectedLanguage)
+    private void ChangeLanguage(SupportedLanguage selectedLanguage)
     {
-        //var resultSelectedLanguage = _generalSettingsService.GetSelectedLanguage();
-        //if (resultSelectedLanguage.Error is not null)
-        //{
-        //    await SukiHost.ShowToast("Failed to update the language", $"Selected language {selectedLanguage.Name}", SukiUI.Enums.NotificationType.Error);
-        //    return;
-        //}
-        
-        //var language = resultSelectedLanguage.Value!;
-        //if (language.Code == selectedLanguage.Code)
-        //{
-        //    await SukiHost.ShowToast("Language already selected", "No changes made", SukiUI.Enums.NotificationType.Info);
-        //    return;
-        //}
-
-        //var result = await _generalSettingsService.UpdateSelectedLanguage(selectedLanguage);
-        //if (result.Error is not null)
-        //{
-        //    await SukiHost.ShowToast("Failed to update the language", $"Selected language {selectedLanguage.Name}", SukiUI.Enums.NotificationType.Error);
-        //    return;
-        //}
-        //await SukiHost.ShowToast("Changed language", $"Selected language {selectedLanguage.Name}", SukiUI.Enums.NotificationType.Success);
-        
-        //string exePath = Process.GetCurrentProcess().MainModule.FileName;
-        //Process.Start(exePath);
-        //Process.GetCurrentProcess().Kill();
+        SelectedLanguage = selectedLanguage;
     }
 
-    //private ThemeVariant LoadTheme()
-    //{
-    //    var result = _generalSettingsService.Get();
-    //    if (result.Error is not null)
-    //    {
-    //        return ThemeVariant.Dark;
-    //    }
-    //    var settings = result.Value!;
-    //    return settings.SelectedTheme.ToThemeVariant();
-    //}
+    private static void RestartApp()
+    {
+        try
+        {
+            var mainModule = Process.GetCurrentProcess().MainModule;
+            if (mainModule is null)
+            {
+                return;
+            }
 
-    //private SukiColorTheme LoadColorTheme()
-    //{
-    //   var result = _generalSettingsService.Get();
-    //    if (result.Error is not null)
-    //    {
-    //        return _theme.ColorThemes.First(theme => theme.DisplayName == "Red");
-    //    }
-    //    var settings = result.Value!;
-    //    var selectedTheme = settings.SelectedColorTheme;
+            string exePath = mainModule.FileName;
+            Process.Start(exePath);
 
-    //    var colorTheme = _theme.ColorThemes.First(theme => theme.DisplayName == selectedTheme.ToString());
-    //    return colorTheme;
-    //}
+            Process.GetCurrentProcess().Kill();
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine(ex.Message);
+        }
+    }
 }

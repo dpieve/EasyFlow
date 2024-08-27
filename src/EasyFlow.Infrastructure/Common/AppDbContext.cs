@@ -55,7 +55,8 @@ public class AppDbContext : DbContext
                     WorkSessionsBeforeLongBreak = 4,
                     SelectedTheme = Theme.Dark,
                     SelectedColorTheme = ColorTheme.Red,
-                    SelectedTagId = 1
+                    SelectedTagId = 1,
+                    SelectedLanguage = "en-US",
                 });
     }
 }

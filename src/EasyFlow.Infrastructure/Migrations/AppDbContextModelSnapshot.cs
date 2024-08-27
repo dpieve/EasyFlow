@@ -76,7 +76,7 @@ namespace EasyFlow.Infrastructure.Migrations
                             IsWorkSoundEnabled = true,
                             LongBreakDurationMinutes = 10,
                             SelectedColorTheme = 1,
-                            SelectedLanguage = "",
+                            SelectedLanguage = "en-US",
                             SelectedTagId = 1,
                             SelectedTheme = 0,
                             SoundVolume = 50,

@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EasyFlow.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240826000815_InitialMigration")]
+    [Migration("20240827213309_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
@@ -79,7 +79,7 @@ namespace EasyFlow.Infrastructure.Migrations
                             IsWorkSoundEnabled = true,
                             LongBreakDurationMinutes = 10,
                             SelectedColorTheme = 1,
-                            SelectedLanguage = "",
+                            SelectedLanguage = "en-US",
                             SelectedTagId = 1,
                             SelectedTheme = 0,
                             SoundVolume = 50,

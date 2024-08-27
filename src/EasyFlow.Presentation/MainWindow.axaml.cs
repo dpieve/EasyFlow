@@ -29,6 +29,6 @@ public partial class MainWindow : SukiWindow
             return;
         }
 
-        vm.ChangeTheme(colorTheme);
+        vm.SelectedTheme = colorTheme;
     }
 }

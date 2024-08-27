@@ -93,7 +93,7 @@ namespace EasyFlow.Infrastructure.Migrations
             migrationBuilder.InsertData(
                 table: "GeneralSettings",
                 columns: new[] { "Id", "BreakDurationMinutes", "IsBreakSoundEnabled", "IsFocusDescriptionEnabled", "IsWorkSoundEnabled", "LongBreakDurationMinutes", "SelectedColorTheme", "SelectedLanguage", "SelectedTagId", "SelectedTheme", "SoundVolume", "WorkDurationMinutes", "WorkSessionsBeforeLongBreak" },
-                values: new object[] { 1, 5, true, true, true, 10, 1, "", 1, 0, 50, 25, 4 });
+                values: new object[] { 1, 5, true, true, true, 10, 1, "en-US", 1, 0, 50, 25, 4 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_GeneralSettings_SelectedTagId",
