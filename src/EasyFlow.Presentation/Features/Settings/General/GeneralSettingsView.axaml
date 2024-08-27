@@ -134,15 +134,15 @@
                         Grid.Column="1"
                         Margin="0,0,10,0"
                         Classes="Flat Accent Settings"
-                        Command="{Binding SaveDataCommand}"
+                        Command="{Binding BackupDataCommand}"
                         Content="Backup data"
                         ToolTip.Tip="Save your data" />
                     <Button
                         Grid.Column="2"
                         Classes="Flat Settings"
-                        Command="{Binding ClearDataCommand}"
-                        Content="Clear data"
-                        ToolTip.Tip="Delete data" />
+                        Command="{Binding DeleteDataCommand}"
+                        Content="Delete data"
+                        ToolTip.Tip="Delete all data" />
                 </Grid>
 
             </StackPanel>

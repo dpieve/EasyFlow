@@ -61,6 +61,9 @@
     <Compile Update="Features\Focus\RunningTimer\RunningTimerView.axaml.cs">
       <DependentUpon>RunningTimerView.axaml</DependentUpon>
     </Compile>
+    <Compile Update="Features\Settings\General\DeleteDataView.axaml.cs">
+      <DependentUpon>DeleteDataView.axaml</DependentUpon>
+    </Compile>
   </ItemGroup>
 
   <ItemGroup>

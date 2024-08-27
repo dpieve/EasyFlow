@@ -1,16 +1,16 @@
-﻿using Avalonia.Controls.ApplicationLifetimes;
-using Avalonia.Controls;
-using Avalonia.Platform.Storage;
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using EasyFlow.Presentation.Common;
 using SukiUI.Controls;
-using System.Diagnostics;
 using System.Threading.Tasks;
 using System;
-using System.IO;
 using EasyFlow.Domain.Entities;
 using MediatR;
+using System.Reactive.Linq;
+using EasyFlow.Application.Settings;
+using ReactiveUI;
+using EasyFlow.Presentation.Services;
+using System.Diagnostics;
 
 namespace EasyFlow.Presentation.Features.Settings.General;
 
@@ -34,139 +34,112 @@ public partial class GeneralSettingsViewModel : ViewModelBase
     {
         _mediator = mediator;
 
-        //var settings = LoadSettings();
-        //IsFocusDescriptionEnabled = settings.IsFocusDescriptionEnabled;
-        //IsWorkSoundEnabled = settings.IsWorkSoundEnabled;
-        //IsBreakSoundEnabled = settings.IsBreakSoundEnabled;
-        //Volume = settings.SoundVolume;
-
-        //this.WhenAnyValue(
-        //        vm => vm.IsWorkSoundEnabled,
-        //        vm => vm.IsBreakSoundEnabled,
-        //        vm => vm.IsFocusDescriptionEnabled,
-        //        vm => vm.Volume)
-        //    .Skip(1)
-        //    .Select(_ => System.Reactive.Unit.Default)
-        //    .InvokeCommand(PersistSettingsCommand);
+        this.WhenAnyValue(
+                vm => vm.IsWorkSoundEnabled,
+                vm => vm.IsBreakSoundEnabled,
+                vm => vm.IsFocusDescriptionEnabled,
+                vm => vm.Volume)
+            .Skip(2)
+            .DistinctUntilChanged()
+            .Throttle(TimeSpan.FromMilliseconds(100))
+            .Select(_ => System.Reactive.Unit.Default)
+            .InvokeCommand(UpdateSettingsCommand);
     }
 
     public void Activate()
     {
-        Debug.WriteLine("Activated GeneralSettingsViewModel");
+        Observable
+            .StartAsync(GetSettings)
+            .Subscribe(settings =>
+            {
+                IsFocusDescriptionEnabled = settings.IsFocusDescriptionEnabled;
+                IsWorkSoundEnabled = settings.IsWorkSoundEnabled;
+                IsBreakSoundEnabled = settings.IsBreakSoundEnabled;
+                Volume = settings.SoundVolume;
+            });
     }
 
     public void Deactivate()
     {
-        Debug.WriteLine("Deactivated GeneralSettingsViewModel");
     }
 
     [RelayCommand]
-    private async Task PersistSettings()
+    private async Task UpdateSettings()
     {
-        //var result = _generalSettingsService.Get();
+        var settings = await GetSettings();
 
-        //if (result.Error is not null)
-        //{
-        //    await SukiHost.ShowToast("Failed to load", "Failed to load the settings", SukiUI.Enums.NotificationType.Error);
-        //    return;
-        //}
+        settings.IsFocusDescriptionEnabled = IsFocusDescriptionEnabled;
+        settings.IsWorkSoundEnabled = IsWorkSoundEnabled;
+        settings.IsBreakSoundEnabled = IsBreakSoundEnabled;
+        settings.SoundVolume = Volume;
 
-        //var settings = result.Value!;
+        var command = new UpdateSettingsCommand
+        {
+            GeneralSettings = settings
+        };
 
-        //settings.IsFocusDescriptionEnabled = IsFocusDescriptionEnabled;
-        //settings.IsWorkSoundEnabled = IsWorkSoundEnabled;
-        //settings.IsBreakSoundEnabled = IsBreakSoundEnabled;
-        //settings.SoundVolume = Volume;
-
-        //var resultUpdate = await _generalSettingsService.UpdateAsync(settings);
-        //if (resultUpdate.Error is not null)
-        //{
-        //    await SukiHost.ShowToast("Failed to update", "Failed to update the settings", SukiUI.Enums.NotificationType.Error);
-        //    return;
-        //}
-        
-        Debug.WriteLine("Persisted settings");
+        var result = await _mediator.Send(command);
+        if (!result.IsSuccess)
+        {
+            await SukiHost.ShowToast("Failed to update", "Failed to update the settings", SukiUI.Enums.NotificationType.Error);
+        }
     }
 
     [RelayCommand]
-    private void ClearData()
+    private async Task BackupData()
     {
-        //SukiHost.ShowDialog(new ClearDataViewModel(_databaseMigrator, () =>
-        //{
-        //    string exePath = Process.GetCurrentProcess().MainModule.FileName;
-        //    Process.Start(exePath);
-        //    Process.GetCurrentProcess().Kill();
-        //}),
-        //allowBackgroundClose: true);
+        var result = await BackupDbQueryHandler.Handle();
+        if (result.IsSuccess)
+        {
+            await SukiHost.ShowToast("Backup saved", "Backup saved successfully", SukiUI.Enums.NotificationType.Success);
+        }
+        else
+        {
+            await SukiHost.ShowToast("Failed to Backup", "Backup failed", SukiUI.Enums.NotificationType.Error);
+        }
     }
 
     [RelayCommand]
-    private async Task SaveData()
+    private void DeleteData()
+    {
+        SukiHost.ShowDialog(new DeleteDataViewModel(_mediator, () =>
+        {
+            RestartApp();
+        })
+        , allowBackgroundClose: true);
+    }
+
+    private async Task<GeneralSettings> GetSettings()
+    {
+        var result = await _mediator.Send(new GetSettingsQuery());
+
+        if (result.IsSuccess)
+        {
+            return result.Value;
+        }
+
+        await SukiHost.ShowToast("Failed to load", "Settings couldn't be loaded.", SukiUI.Enums.NotificationType.Error);
+        return new GeneralSettings();
+    }
+
+    private void RestartApp()
     {
         try
         {
-            var topLevel = TopLevel.GetTopLevel(((IClassicDesktopStyleApplicationLifetime)App.Current.ApplicationLifetime).MainWindow);
-
-            if (topLevel is null)
+            var mainModule = Process.GetCurrentProcess().MainModule;
+            if (mainModule is null)
             {
-                await SukiHost.ShowToast("Failed to save", "Failed to save a backup file. It didn't find the window", SukiUI.Enums.NotificationType.Error);
                 return;
             }
 
-            var fileOptions = new FilePickerSaveOptions()
-            {
-                Title = "Choose a name and a path to save the data file",
-                DefaultExtension = "ds",
-                ShowOverwritePrompt = true,
-                SuggestedFileName = "EasyFlow",
-                FileTypeChoices = [
-                    new("Database file (.ds)")
-                    {
-                        Patterns = [ "ds" ],
-                        MimeTypes = ["ds" ]
-                    }
-                ]
-            };
+            string exePath = mainModule.FileName;
+            Process.Start(exePath);
 
-            var files = await topLevel.StorageProvider.SaveFilePickerAsync(fileOptions);
-
-            if (files is not null)
-            {
-                var path = files.TryGetLocalPath();
-
-                if (path is not null)
-                {
-                    Debug.WriteLine($"path is {path}");
-
-                    var dbPath = Paths.DbFullPath;
-                    File.Copy(dbPath, path, true);
-
-                    await SukiHost.ShowToast("Data saved successfully", $"Data saved to {path}", SukiUI.Enums.NotificationType.Success);
-                }
-                else
-                {
-                    Debug.WriteLine("Couldn't find the path to backup the file");
-                }
-            }
+            Process.GetCurrentProcess().Kill();
         }
         catch (Exception ex)
         {
-            Debug.WriteLine(ex);
-            await SukiHost.ShowToast("Failed to backup", "Failed to save a backup file. Try again.", SukiUI.Enums.NotificationType.Error);
+            Debug.WriteLine(ex.Message);
         }
     }
-
-    //private Presentation.Data.GeneralSettings LoadSettings()
-    //{
-    //    var result = _generalSettingsService.Get();
-
-    //    if (result.Error is not null)
-    //    {
-    //        SukiHost.ShowToast("Failed to load", "Failed to load the settings", SukiUI.Enums.NotificationType.Error);
-    //        return new();
-    //    }
-
-    //    var settings = result.Value!;
-    //    return settings;
-    //}
 }

@@ -2,9 +2,9 @@ using Avalonia.Controls;
 
 namespace EasyFlow.Presentation.Features.Settings.General;
 
-public partial class ClearDataView : UserControl
+public partial class DeleteDataView : UserControl
 {
-    public ClearDataView()
+    public DeleteDataView()
     {
         InitializeComponent();
     }

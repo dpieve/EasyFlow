@@ -19,6 +19,7 @@ public static class InfraExtensions
             lifetime: ServiceLifetime.Scoped);
 
         services.AddScoped<ITagsRepository, TagsRepository>();
+        services.AddScoped<IGeneralSettingsRepository, GeneralSettingsRepository>();
         services.AddScoped<IDatabaseManagerRepository, DatabaseManagerRepository>();
 
         return services;

@@ -24,11 +24,11 @@
                 Height="370"
                 Margin="5,10,25,5"
                 DataContext="{Binding Tags}" />
-            <!--<general:GeneralSettingsView
+            <general:GeneralSettingsView
                 Width="400"
                 Height="370"
                 Margin="5,10,5,5"
-                DataContext="{Binding GeneralSettings}" />-->
+                DataContext="{Binding GeneralSettings}" />
         </WrapPanel>
     </ScrollViewer>
 

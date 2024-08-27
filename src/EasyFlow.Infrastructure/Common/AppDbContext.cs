@@ -30,7 +30,7 @@ public class AppDbContext : DbContext
             return;
         }
 
-        optionsBuilder.UseSqlite($"Data Source={Paths.DbName}");
+        optionsBuilder.UseSqlite($"Data Source={Paths.DbFullPath}");
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
