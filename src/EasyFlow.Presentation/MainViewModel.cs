@@ -16,8 +16,6 @@ using System.Threading.Tasks;
 using System;
 using System.Diagnostics;
 using MediatR;
-using LiveChartsCore.Themes;
-using Avalonia.Controls.Primitives;
 
 namespace EasyFlow.Presentation;
 
