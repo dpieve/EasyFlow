@@ -70,7 +70,7 @@ public sealed class TagsRepository : ITagsRepository
     public async Task<List<Tag>> GetAsync()
     {
         using var context = await _contextFactory.CreateDbContextAsync();
-        var tags = await context.Tags.ToListAsync();
+        var tags = await context.Tags.Include(t => t.Sessions).ToListAsync();
         return tags;
     }
 

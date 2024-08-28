@@ -1,8 +1,12 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using EasyFlow.Application.Settings;
+using EasyFlow.Domain.Entities;
 using EasyFlow.Presentation.Common;
+using MediatR;
 using ReactiveUI;
 using SukiUI.Controls;
+using System;
 using System.Linq;
 using System.Reactive;
 using System.Reactive.Linq;
@@ -12,6 +16,8 @@ namespace EasyFlow.Presentation.Features.Focus.AdjustTimers;
 
 public sealed partial class TimersViewModel : ViewModelBase
 {
+    private readonly IMediator _mediator;
+
     [ObservableProperty]
     private int _workMinutes;
 
@@ -24,17 +30,47 @@ public sealed partial class TimersViewModel : ViewModelBase
     [ObservableProperty]
     private int _sessionsBeforeLongBreak;
 
-    public TimersViewModel()
+    public TimersViewModel(IMediator mediator, GeneralSettings settings)
     {
-        //(WorkMinutes, BreakMinutes, LongBreakMinutes, SessionsBeforeLongBreak) = LoadSettings();
+        _mediator = mediator;
 
-        this.WhenAnyValue(vm => vm.WorkMinutes,
+        WorkMinutes = settings.WorkDurationMinutes;
+        BreakMinutes = settings.BreakDurationMinutes;
+        LongBreakMinutes = settings.LongBreakDurationMinutes;
+        SessionsBeforeLongBreak = settings.WorkSessionsBeforeLongBreak;
+
+        this.WhenAnyValue(
+            vm => vm.WorkMinutes,
             vm => vm.BreakMinutes,
             vm => vm.LongBreakMinutes,
             vm => vm.SessionsBeforeLongBreak)
             .Skip(1)
-            .Select(_ => Unit.Default)
+            .Throttle(TimeSpan.FromMilliseconds(100))
+            .Select(_ => System.Reactive.Unit.Default)
             .InvokeCommand(SaveSettingsCommand);
+    }
+
+    [RelayCommand]
+    private async Task SaveSettings()
+    {
+        var result = await _mediator.Send(new GetSettingsQuery());
+        if (!result.IsSuccess)
+        {
+            await SukiHost.ShowToast("Failed to save", "Failed to save the adjusted settings");
+            return;
+        }
+
+        var settings = result.Value!;
+        settings.WorkDurationMinutes = WorkMinutes;
+        settings.BreakDurationMinutes = BreakMinutes;
+        settings.LongBreakDurationMinutes = LongBreakMinutes;
+        settings.WorkSessionsBeforeLongBreak = SessionsBeforeLongBreak;
+
+        var resultUpdate = await _mediator.Send(new UpdateSettingsCommand() { GeneralSettings = settings });
+        if (!resultUpdate.IsSuccess)
+        {
+            await SukiHost.ShowToast("Failed to update", "Failed to update the settings");
+        }
     }
 
     public void Adjust(TimerType timerType, AdjustFactor adjust)
@@ -123,42 +159,4 @@ public sealed partial class TimersViewModel : ViewModelBase
                 break;
         }
     }
-
-    [RelayCommand]
-    private async Task SaveSettings()
-    {
-        //var result = _generalSettingsService.Get();
-        //if (result.Error is not null)
-        //{
-        //    await SukiHost.ShowToast("Failed to save", "Failed to save the settings");
-        //    return;
-        //}
-        //var settings = result.Value!;
-        //settings.WorkDurationMinutes = WorkMinutes;
-        //settings.BreakDurationMinutes = BreakMinutes;
-        //settings.LongBreakDurationMinutes = LongBreakMinutes;
-        //settings.WorkSessionsBeforeLongBreak = SessionsBeforeLongBreak;
-
-        //var resultUpdate = await _generalSettingsService.UpdateAsync(settings);
-        //if (resultUpdate.Error is not null)
-        //{
-        //    await SukiHost.ShowToast("Failed to update", "Failed to update the settings");
-        //}
-    }
-
-    //private (int workDuration, int breakDuration, int longBreakDuration, int sessionsBeforeLongBreak) LoadSettings()
-    //{
-    //    var result = _generalSettingsService.Get();
-    //    if (result.Error is not null)
-    //    {
-    //        SukiHost.ShowToast("Failed to load", "Failed to load the settings", SukiUI.Enums.NotificationType.Error);
-    //        return (0,0,0,0);
-    //    }
-
-    //    var settings = result.Value!;
-    //    return (settings.WorkDurationMinutes,
-    //            settings.BreakDurationMinutes,
-    //            settings.LongBreakDurationMinutes,
-    //            settings.WorkSessionsBeforeLongBreak);
-    //}
 }

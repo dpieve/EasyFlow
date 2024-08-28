@@ -6,6 +6,6 @@
 public enum PageOrder
 { 
     Focus = 0,
-    Settings = 1,
-    Dashboard = 2,
+    Dashboard = 1,
+    Settings = 2,
 }

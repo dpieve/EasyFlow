@@ -16,7 +16,7 @@ public sealed class GeneralSettingsRepository : IGeneralSettingsRepository
     public async Task<List<GeneralSettings>> GetAsync()
     {
         var context = await _contextFactory.CreateDbContextAsync();
-        return await context.GeneralSettings.ToListAsync();
+        return await context.GeneralSettings.Include(gs => gs.SelectedTag).ToListAsync();
     }
 
     public async Task<bool> UpdateAsync(GeneralSettings settings)

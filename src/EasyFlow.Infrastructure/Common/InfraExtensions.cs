@@ -1,6 +1,8 @@
 ﻿using EasyFlow.Domain.Entities;
 using EasyFlow.Domain.Repositories;
+using EasyFlow.Domain.Services;
 using EasyFlow.Infrastructure.Repositories;
+using EasyFlow.Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -18,9 +20,14 @@ public static class InfraExtensions
             },
             lifetime: ServiceLifetime.Scoped);
 
-        services.AddScoped<ITagsRepository, TagsRepository>();
-        services.AddScoped<IGeneralSettingsRepository, GeneralSettingsRepository>();
-        services.AddScoped<IDatabaseManagerRepository, DatabaseManagerRepository>();
+        // Services
+        services.AddScoped<IPlaySoundService, PlaySoundService>();
+
+        // Repositories
+        services.AddScoped<ITagsRepository, TagsRepository>()
+                .AddScoped<IGeneralSettingsRepository, GeneralSettingsRepository>()
+                .AddScoped<IDatabaseManagerRepository, DatabaseManagerRepository>()
+                .AddScoped<ISessionsRepository, SessionsRepository>();
 
         return services;
     }

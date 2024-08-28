@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace EasyFlow.Presentation.Features.Dashboard;
+﻿namespace EasyFlow.Domain.Entities;
 
 public sealed record FilterPeriod(int NumDays, string Text)
 {
@@ -11,13 +9,13 @@ public sealed record FilterPeriod(int NumDays, string Text)
     public static readonly FilterPeriod Year1 = new(NumDays: 365, "Past year");
     public static readonly FilterPeriod Years5 = new(NumDays: 5 * 365, "Past 5 years");
 
-    public static readonly IReadOnlyList<FilterPeriod> Filters = new List<FilterPeriod>
-    {
+    public static readonly IReadOnlyList<FilterPeriod> Filters =
+    [
         Hours48,
         Days7,
         Days30,
         Days90,
         Year1,
         Years5
-    };
+    ];
 };

@@ -13,9 +13,4 @@ public sealed class Tag
 
     public static readonly int MaxNumTags = 10;
     public static readonly int MinNumTags = 1;
-
-    public bool IsNew()
-    {
-        return Id == 0;
-    }
 }

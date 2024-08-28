@@ -13,7 +13,10 @@ public sealed partial class EditDescriptionViewModel : ViewModelBase
     [ObservableProperty]
     private string _description = string.Empty;
 
-    public EditDescriptionViewModel(string description, Action<string>? onOk = null, Action? onCancel = null)
+    public EditDescriptionViewModel(
+        string description, 
+        Action<string>? onOk = null, 
+        Action? onCancel = null)
     {
         Description = description;
 
@@ -39,6 +42,7 @@ public sealed partial class EditDescriptionViewModel : ViewModelBase
         {
             _onCancel();
         }
+
         SukiHost.CloseDialog();
     }
 }
