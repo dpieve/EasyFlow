@@ -14,8 +14,8 @@ using System.Linq;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 using System;
-using System.Diagnostics;
 using MediatR;
+using EasyFlow.Presentation.Services;
 
 namespace EasyFlow.Presentation;
 
@@ -23,6 +23,8 @@ public partial class MainViewModel : ViewModelBase
 {
     private readonly SukiTheme _theme;
     private readonly IMediator _mediator;
+    private readonly IRestartAppService _restartAppService;
+    private readonly ILanguageService _languageService;
 
     [ObservableProperty]
     private ThemeVariant _baseTheme;
@@ -38,10 +40,15 @@ public partial class MainViewModel : ViewModelBase
 
     public MainViewModel(
         IEnumerable<PageViewModelBase> pages,
-        IMediator mediator)
+        IMediator mediator,
+        IRestartAppService restartAppService,
+        ILanguageService languageService)
     {
         Pages = new AvaloniaList<PageViewModelBase>(pages.OrderBy(x => x.Index));
         _mediator = mediator;
+        _restartAppService = restartAppService;
+        _languageService = languageService;
+
         _theme = SukiTheme.GetInstance();
         Themes = _theme.ColorThemes;
 
@@ -62,12 +69,12 @@ public partial class MainViewModel : ViewModelBase
         _theme.OnBaseThemeChanged += variant =>
         {
             BaseTheme = variant;
-            SukiHost.ShowToast("Successfully Changed Theme", $"Changed Theme To {variant}", SukiUI.Enums.NotificationType.Success);
+            SukiHost.ShowToast(_languageService.GetString("Success"), $"{_languageService.GetString("ChangedThemeTo")} {variant}", SukiUI.Enums.NotificationType.Success);
         };
 
         _theme.OnColorThemeChanged += theme =>
         {
-            SukiHost.ShowToast("Successfully Changed Color", $"Changed Color To {theme.DisplayName}.", SukiUI.Enums.NotificationType.Success);
+            SukiHost.ShowToast(_languageService.GetString("Success"), $"{_languageService.GetString("ChangedColorTo")} {theme.DisplayName}.", SukiUI.Enums.NotificationType.Success);
         };
 
         this.WhenAnyValue(
@@ -92,7 +99,6 @@ public partial class MainViewModel : ViewModelBase
             return result.Value;
         }
 
-        await SukiHost.ShowToast("Failed to load", "Settings couldn't be loaded.", SukiUI.Enums.NotificationType.Error);
         return new GeneralSettings();
     }
     
@@ -138,15 +144,14 @@ public partial class MainViewModel : ViewModelBase
         var result = await _mediator.Send(command);
         if (!result.IsSuccess)
         {
-            await SukiHost.ShowToast("Failed to update", "Failed to update the settings", SukiUI.Enums.NotificationType.Error);
+            return;
         }
 
         if (prevLanguage != SelectedLanguage.Code)
         {
-            RestartApp();
+           _restartAppService.Restart();
         }
     }
-
 
     [RelayCommand]
     private void ToggleBaseTheme()
@@ -158,26 +163,5 @@ public partial class MainViewModel : ViewModelBase
     private void ChangeLanguage(SupportedLanguage selectedLanguage)
     {
         SelectedLanguage = selectedLanguage;
-    }
-
-    private static void RestartApp()
-    {
-        try
-        {
-            var mainModule = Process.GetCurrentProcess().MainModule;
-            if (mainModule is null)
-            {
-                return;
-            }
-
-            string exePath = mainModule.FileName;
-            Process.Start(exePath);
-
-            Process.GetCurrentProcess().Kill();
-        }
-        catch (Exception ex)
-        {
-            Debug.WriteLine(ex.Message);
-        }
     }
 }

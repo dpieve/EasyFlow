@@ -14,7 +14,7 @@ public interface ILanguageService
 
 public class LanguageService : ILanguageService
 {
-    public event Action LanguageChanged;
+    public event Action? LanguageChanged;
 
     public string GetString(string key)
     {
@@ -27,12 +27,27 @@ public class LanguageService : ILanguageService
         var culture = new CultureInfo(language.Code);
         Thread.CurrentThread.CurrentUICulture = culture;
         Thread.CurrentThread.CurrentCulture = culture;
+        Assets.Resources.Culture = new CultureInfo(language.Code);
         OnLanguageChanged();
     }
 
     protected virtual void OnLanguageChanged()
     {
         LanguageChanged?.Invoke();
+    }
+
+    public static string GetDateFormat()
+    {
+        var culture = CultureInfo.CurrentCulture;
+        
+        if (culture.Name == SupportedLanguage.Portuguese.Code)
+        {
+            return "dd MMM yyyy";
+        }
+        else
+        {
+            return "MMM dd yyyy";
+        }
     }
 }
 
@@ -41,4 +56,21 @@ public static class  ConstantTranslation
     public static string SideMenuFocus => Assets.Resources.SideMenuFocus;
     public static string SideMenuDashboard => Assets.Resources.SideMenuDashboard;
     public static string SideMenuSettings => Assets.Resources.SideMenuSettings;
+    public static string Sessions => Assets.Resources.Sessions;
+    public static string SessionsMinutes => Assets.Resources.SessionsMinutes;
+    public static string VolumeSound => Assets.Resources.VolumeSound;
+    public static string ChooseWhereToSave => Assets.Resources.ChooseWhereToSave;
+    public static string Past48Hours => Assets.Resources.Past48Hours;
+    public static string Past7Days => Assets.Resources.Past7Days;
+    public static string Past30Days => Assets.Resources.Past30Days;
+    public static string Past90Days => Assets.Resources.Past90Days;
+    public static string PastYear => Assets.Resources.PastYear;
+    public static string Past5Years => Assets.Resources.Past5Years;
+    public static string Focus => Assets.Resources.Focus;
+    public static string Break => Assets.Resources.Break;
+    public static string LongBreak => Assets.Resources.LongBreak;
+    public static string SkipToFocus => Assets.Resources.SkipToFocus;
+    public static string SkipToBreak => Assets.Resources.SkipToBreak;
+    public static string ReportColumns => Assets.Resources.ReportColumns;
+    public static string Report => Assets.Resources.Report;
 }

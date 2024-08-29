@@ -14,7 +14,7 @@
     mc:Ignorable="d">
     <suki:GlassCard>
 
-        <suki:GroupBox Header="General">
+        <suki:GroupBox Header="{x:Static assets:Resources.General}">
             <StackPanel Height="340">
                 <Grid Margin="0,12,0,0">
                     <ToggleButton
@@ -109,7 +109,7 @@
                         VerticalAlignment="Bottom"
                         FontSize="13"
                         Foreground="{DynamicResource SukiLowText}"
-                        Text="{Binding Volume, StringFormat='Sound volume is set to {0}%.'}"
+                        Text="{Binding VolumeLabel}"
                         TextWrapping="Wrap" />
                 </Grid>
 
@@ -124,24 +124,19 @@
                             <Setter Property="Padding" Value="8" />
                         </Style>
                     </Grid.Styles>
-                    <!--<Button
-                        Grid.Column="0"
-                        Margin="0,0,10,0"
-                        Classes="Flat Accent Settings"
-                        Command="{Binding ClearDataCommand}"
-                        Content="Import data"
-                        ToolTip.Tip="Import a backup" />-->
+
+                    <Button
+                        Grid.Column="2"
+                        Classes="Flat Settings"
+                        Command="{Binding DeleteDataCommand}"
+                        Content="{x:Static assets:Resources.DeleteData}" />
+
                     <Button
                         Grid.Column="1"
                         Margin="0,0,10,0"
                         Classes="Flat Accent Settings"
                         Command="{Binding BackupDataCommand}"
                         Content="{x:Static assets:Resources.BackupData}" />
-                    <Button
-                        Grid.Column="2"
-                        Classes="Flat Settings"
-                        Command="{Binding DeleteDataCommand}"
-                        Content="{x:Static assets:Resources.DeleteData}" />
                 </Grid>
 
             </StackPanel>

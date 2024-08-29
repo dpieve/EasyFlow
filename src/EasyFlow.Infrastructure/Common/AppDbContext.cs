@@ -56,7 +56,7 @@ public class AppDbContext : DbContext
                     SelectedTheme = Theme.Dark,
                     SelectedColorTheme = ColorTheme.Red,
                     SelectedTagId = 1,
-                    SelectedLanguage = "en-US",
+                    SelectedLanguage = "en",
                 });
     }
 }

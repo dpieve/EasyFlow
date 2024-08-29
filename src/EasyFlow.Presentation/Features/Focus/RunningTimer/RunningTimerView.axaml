@@ -103,8 +103,7 @@
                         <Button
                             BorderBrush="Transparent"
                             BorderThickness="0"
-                            Command="{Binding StartOrPauseTimerCommand}"
-                            HotKey="Space">
+                            Command="{Binding StartOrPauseTimerCommand}">
                             <icons:MaterialIcon
                                 Width="24"
                                 Height="24"
@@ -135,7 +134,6 @@
             VerticalAlignment="Bottom"
             Classes="Flat"
             Command="{Binding OpenNotesCommand}"
-            HotKey="N"
             IsVisible="{Binding IsFocusDescriptionVisible}">
             <icons:MaterialIcon
                 Width="17"

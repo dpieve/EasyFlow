@@ -3,12 +3,12 @@ using CommunityToolkit.Mvvm.Input;
 using EasyFlow.Application.Settings;
 using EasyFlow.Domain.Entities;
 using EasyFlow.Presentation.Common;
+using EasyFlow.Presentation.Services;
 using MediatR;
 using ReactiveUI;
 using SukiUI.Controls;
 using System;
 using System.Linq;
-using System.Reactive;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 
@@ -17,7 +17,8 @@ namespace EasyFlow.Presentation.Features.Focus.AdjustTimers;
 public sealed partial class TimersViewModel : ViewModelBase
 {
     private readonly IMediator _mediator;
-
+    private readonly ILanguageService _languageService;
+    
     [ObservableProperty]
     private int _workMinutes;
 
@@ -28,12 +29,17 @@ public sealed partial class TimersViewModel : ViewModelBase
     private int _longBreakMinutes;
 
     [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(SessionsBeforeLongBreakText))]
     private int _sessionsBeforeLongBreak;
 
-    public TimersViewModel(IMediator mediator, GeneralSettings settings)
+    public TimersViewModel(
+        IMediator mediator, 
+        GeneralSettings settings, 
+        ILanguageService languageService)
     {
         _mediator = mediator;
-
+        _languageService = languageService;
+        
         WorkMinutes = settings.WorkDurationMinutes;
         BreakMinutes = settings.BreakDurationMinutes;
         LongBreakMinutes = settings.LongBreakDurationMinutes;
@@ -50,13 +56,14 @@ public sealed partial class TimersViewModel : ViewModelBase
             .InvokeCommand(SaveSettingsCommand);
     }
 
+    public string SessionsBeforeLongBreakText => $"{SessionsBeforeLongBreak} {ConstantTranslation.Sessions}";
+
     [RelayCommand]
     private async Task SaveSettings()
     {
         var result = await _mediator.Send(new GetSettingsQuery());
         if (!result.IsSuccess)
         {
-            await SukiHost.ShowToast("Failed to save", "Failed to save the adjusted settings");
             return;
         }
 
@@ -66,11 +73,7 @@ public sealed partial class TimersViewModel : ViewModelBase
         settings.LongBreakDurationMinutes = LongBreakMinutes;
         settings.WorkSessionsBeforeLongBreak = SessionsBeforeLongBreak;
 
-        var resultUpdate = await _mediator.Send(new UpdateSettingsCommand() { GeneralSettings = settings });
-        if (!resultUpdate.IsSuccess)
-        {
-            await SukiHost.ShowToast("Failed to update", "Failed to update the settings");
-        }
+        _ = await _mediator.Send(new UpdateSettingsCommand() { GeneralSettings = settings });
     }
 
     public void Adjust(TimerType timerType, AdjustFactor adjust)
@@ -80,25 +83,25 @@ public sealed partial class TimersViewModel : ViewModelBase
         if (timerType == TimerType.Work && newValue < BreakMinutes)
         {
             newValue = BreakMinutes;
-            SukiHost.ShowToast("Adjust timer", "Focus time must be greater or equal break time", SukiUI.Enums.NotificationType.Warning);
+            SukiHost.ShowToast(_languageService.GetString("Information"), _languageService.GetString("FocusGreaterOrEqualBreak"), SukiUI.Enums.NotificationType.Info);
         }
 
         if (timerType == TimerType.LongBreak && newValue < BreakMinutes)
         {
             newValue = BreakMinutes;
-            SukiHost.ShowToast("Adjust timer", "Long break time must be greater or equal Break time", SukiUI.Enums.NotificationType.Warning);
+            SukiHost.ShowToast(_languageService.GetString("Information"), _languageService.GetString("LongBreakGreaterOrEqualBreak"), SukiUI.Enums.NotificationType.Info);
         }
 
         if (timerType == TimerType.Break && newValue > LongBreakMinutes)
         {
             newValue = LongBreakMinutes;
-            SukiHost.ShowToast("Adjust timer", "Break time must be smaller or equal Long break time", SukiUI.Enums.NotificationType.Warning);
+            SukiHost.ShowToast(_languageService.GetString("Information"), _languageService.GetString("BreakSmallerOrEqualLongBreak"), SukiUI.Enums.NotificationType.Info);
         }
 
         if (timerType == TimerType.Break && newValue > WorkMinutes)
         {
             newValue = WorkMinutes;
-            SukiHost.ShowToast("Adjust timer", "Break time must be smaller or equal Focus time", SukiUI.Enums.NotificationType.Warning);
+            SukiHost.ShowToast(_languageService.GetString("Information"), _languageService.GetString("BreakSmallerOrEqualFocus"), SukiUI.Enums.NotificationType.Info);
         }
 
         if (success)

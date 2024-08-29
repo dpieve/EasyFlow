@@ -2,6 +2,7 @@
     x:Class="EasyFlow.Presentation.Features.Focus.AdjustTimers.LongBreakSettingsView"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:assets="clr-namespace:EasyFlow.Presentation.Assets"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:EasyFlow.Presentation.Features.Focus.AdjustTimers"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -10,7 +11,7 @@
     x:DataType="local:LongBreakSettingsViewModel"
     mc:Ignorable="d">
     <StackPanel Margin="10" Spacing="7">
-        <TextBlock Text="Sessions before long time break" />
+        <TextBlock Text="{x:Static assets:Resources.SessionsBeforeLongBreak}" />
 
         <NumericUpDown
             x:Name="LongBreakSessionsNumericUpDown"
@@ -19,7 +20,7 @@
             FormatString="{}{0:0}"
             Maximum="500"
             Minimum="1"
-            Watermark="Sessions"
+            Watermark="{x:Static assets:Resources.Sessions}"
             Value="{Binding LongBreakSessions, Mode=TwoWay}" />
 
         <StackPanel
@@ -28,14 +29,14 @@
             Orientation="Horizontal"
             Spacing="10">
             <Button
-                Command="{Binding CloseButtonCommand}"
-                Content="Cancel"
-                HotKey="Escape" />
-            <Button
                 Classes="Flat Accent"
                 Command="{Binding OkButtonCommand}"
                 Content="Ok"
                 HotKey="Enter" />
+            <Button
+                Command="{Binding CloseButtonCommand}"
+                Content="{x:Static assets:Resources.Cancel}"
+                HotKey="Escape" />
         </StackPanel>
     </StackPanel>
 </UserControl>

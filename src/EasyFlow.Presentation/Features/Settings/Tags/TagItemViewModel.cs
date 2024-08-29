@@ -49,7 +49,6 @@ public sealed partial class TagItemViewModel : ViewModelBase
         
         if (!result.IsSuccess)
         {
-            await SukiHost.ShowToast("Failed to delete the tag", result.Error.Message!, SukiUI.Enums.NotificationType.Info);
             return;
         }
 

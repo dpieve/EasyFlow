@@ -97,11 +97,47 @@ namespace EasyFlow.Presentation.Assets {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Break.
+        /// </summary>
+        public static string Break {
+            get {
+                return ResourceManager.GetString("Break", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Break Alarm Sounds.
         /// </summary>
         public static string BreakAlarmSounds {
             get {
                 return ResourceManager.GetString("BreakAlarmSounds", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Break completed. Time to focus!.
+        /// </summary>
+        public static string BreakCompleted {
+            get {
+                return ResourceManager.GetString("BreakCompleted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Break time must be smaller or equal Focus time.
+        /// </summary>
+        public static string BreakSmallerOrEqualFocus {
+            get {
+                return ResourceManager.GetString("BreakSmallerOrEqualFocus", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Break time must be smaller or equal Long break time.
+        /// </summary>
+        public static string BreakSmallerOrEqualLongBreak {
+            get {
+                return ResourceManager.GetString("BreakSmallerOrEqualLongBreak", resourceCulture);
             }
         }
         
@@ -115,6 +151,51 @@ namespace EasyFlow.Presentation.Assets {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cancel.
+        /// </summary>
+        public static string Cancel {
+            get {
+                return ResourceManager.GetString("Cancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Changed Color Theme To.
+        /// </summary>
+        public static string ChangedColorTo {
+            get {
+                return ResourceManager.GetString("ChangedColorTo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Changed Theme To.
+        /// </summary>
+        public static string ChangedThemeTo {
+            get {
+                return ResourceManager.GetString("ChangedThemeTo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to delete all data?.
+        /// </summary>
+        public static string CheckDelete {
+            get {
+                return ResourceManager.GetString("CheckDelete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Choose where to save.
+        /// </summary>
+        public static string ChooseWhereToSave {
+            get {
+                return ResourceManager.GetString("ChooseWhereToSave", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Controls.
         /// </summary>
         public static string Controls {
@@ -124,11 +205,22 @@ namespace EasyFlow.Presentation.Assets {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to No sessions available for these controls. Go Focus and come back later.
+        ///   Looks up a localized string similar to No sessions available for these controls. 
+        ///
+        ///Go Focus and come back later.
         /// </summary>
         public static string DashboardNoSessionAvailable {
             get {
                 return ResourceManager.GetString("DashboardNoSessionAvailable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete.
+        /// </summary>
+        public static string Delete {
+            get {
+                return ResourceManager.GetString("Delete", resourceCulture);
             }
         }
         
@@ -138,6 +230,15 @@ namespace EasyFlow.Presentation.Assets {
         public static string DeleteData {
             get {
                 return ResourceManager.GetString("DeleteData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Description.
+        /// </summary>
+        public static string Description {
+            get {
+                return ResourceManager.GetString("Description", resourceCulture);
             }
         }
         
@@ -160,11 +261,47 @@ namespace EasyFlow.Presentation.Assets {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Failure.
+        /// </summary>
+        public static string Failure {
+            get {
+                return ResourceManager.GetString("Failure", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The report couldn&apos;t be generated. Try again..
+        /// </summary>
+        public static string FailureGeneratedReport {
+            get {
+                return ResourceManager.GetString("FailureGeneratedReport", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Focus.
+        /// </summary>
+        public static string Focus {
+            get {
+                return ResourceManager.GetString("Focus", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Focus Alarm Sounds.
         /// </summary>
         public static string FocusAlarmSounds {
             get {
                 return ResourceManager.GetString("FocusAlarmSounds", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Focus completed. Well done! You can rest now..
+        /// </summary>
+        public static string FocusCompleted {
+            get {
+                return ResourceManager.GetString("FocusCompleted", resourceCulture);
             }
         }
         
@@ -178,6 +315,15 @@ namespace EasyFlow.Presentation.Assets {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Focus must be greater or equal break time.
+        /// </summary>
+        public static string FocusGreaterOrEqualBreak {
+            get {
+                return ResourceManager.GetString("FocusGreaterOrEqualBreak", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Focus Time.
         /// </summary>
         public static string FocusTime {
@@ -187,11 +333,56 @@ namespace EasyFlow.Presentation.Assets {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to General.
+        /// </summary>
+        public static string General {
+            get {
+                return ResourceManager.GetString("General", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Information.
+        /// </summary>
+        public static string Information {
+            get {
+                return ResourceManager.GetString("Information", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Loading....
         /// </summary>
         public static string Loading {
             get {
                 return ResourceManager.GetString("Loading", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Long Break.
+        /// </summary>
+        public static string LongBreak {
+            get {
+                return ResourceManager.GetString("LongBreak", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Long break completed. Enough rest, time to focus!.
+        /// </summary>
+        public static string LongBreakCompleted {
+            get {
+                return ResourceManager.GetString("LongBreakCompleted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Long Break time must be greater or equal Break time.
+        /// </summary>
+        public static string LongBreakGreaterOrEqualBreak {
+            get {
+                return ResourceManager.GetString("LongBreakGreaterOrEqualBreak", resourceCulture);
             }
         }
         
@@ -232,6 +423,69 @@ namespace EasyFlow.Presentation.Assets {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Minutes.
+        /// </summary>
+        public static string Minutes {
+            get {
+                return ResourceManager.GetString("Minutes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Past 30 days.
+        /// </summary>
+        public static string Past30Days {
+            get {
+                return ResourceManager.GetString("Past30Days", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Past 48 hours.
+        /// </summary>
+        public static string Past48Hours {
+            get {
+                return ResourceManager.GetString("Past48Hours", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Past 5 years.
+        /// </summary>
+        public static string Past5Years {
+            get {
+                return ResourceManager.GetString("Past5Years", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Past 7 days.
+        /// </summary>
+        public static string Past7Days {
+            get {
+                return ResourceManager.GetString("Past7Days", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Past 90 days.
+        /// </summary>
+        public static string Past90Days {
+            get {
+                return ResourceManager.GetString("Past90Days", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Past year.
+        /// </summary>
+        public static string PastYear {
+            get {
+                return ResourceManager.GetString("PastYear", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Play alarm sounds after break sessions.
         /// </summary>
         public static string PlaySoundsAfterBreak {
@@ -268,7 +522,61 @@ namespace EasyFlow.Presentation.Assets {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to SessionType.
+        ///   Looks up a localized string similar to Date,Duration (Minutes),Tag,Session Type.
+        /// </summary>
+        public static string ReportColumns {
+            get {
+                return ResourceManager.GetString("ReportColumns", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Restarting....
+        /// </summary>
+        public static string Restarting {
+            get {
+                return ResourceManager.GetString("Restarting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Save.
+        /// </summary>
+        public static string Save {
+            get {
+                return ResourceManager.GetString("Save", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sessions.
+        /// </summary>
+        public static string Sessions {
+            get {
+                return ResourceManager.GetString("Sessions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sessions before long time break.
+        /// </summary>
+        public static string SessionsBeforeLongBreak {
+            get {
+                return ResourceManager.GetString("SessionsBeforeLongBreak", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sessions (Minutes).
+        /// </summary>
+        public static string SessionsMinutes {
+            get {
+                return ResourceManager.GetString("SessionsMinutes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Session Type.
         /// </summary>
         public static string SessionType {
             get {
@@ -282,6 +590,15 @@ namespace EasyFlow.Presentation.Assets {
         public static string Show {
             get {
                 return ResourceManager.GetString("Show", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to It will show in the report..
+        /// </summary>
+        public static string ShowInTheReport {
+            get {
+                return ResourceManager.GetString("ShowInTheReport", resourceCulture);
             }
         }
         
@@ -313,6 +630,24 @@ namespace EasyFlow.Presentation.Assets {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Skip to Break.
+        /// </summary>
+        public static string SkipToBreak {
+            get {
+                return ResourceManager.GetString("SkipToBreak", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Skip to Focus.
+        /// </summary>
+        public static string SkipToFocus {
+            get {
+                return ResourceManager.GetString("SkipToFocus", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Sound Volume.
         /// </summary>
         public static string SoundVolume {
@@ -327,6 +662,66 @@ namespace EasyFlow.Presentation.Assets {
         public static string Start {
             get {
                 return ResourceManager.GetString("Start", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Success.
+        /// </summary>
+        public static string Success {
+            get {
+                return ResourceManager.GetString("Success", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Backup saved successfully.
+        /// </summary>
+        public static string SuccessGeneratedBackup {
+            get {
+                return ResourceManager.GetString("SuccessGeneratedBackup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The report was successfully generated.
+        /// </summary>
+        public static string SuccessGeneratedReport {
+            get {
+                return ResourceManager.GetString("SuccessGeneratedReport", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sound volume is set to.
+        /// </summary>
+        public static string VolumeSound {
+            get {
+                return ResourceManager.GetString("VolumeSound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Suggestions
+        ///
+        ///What did you focus on?
+        ///
+        ///What did you complete?
+        ///
+        ///What were the challenges?.
+        /// </summary>
+        public static string WatermarkDescriptionSuggestion {
+            get {
+                return ResourceManager.GetString("WatermarkDescriptionSuggestion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Write your notes about the last session..
+        /// </summary>
+        public static string WriteNotes {
+            get {
+                return ResourceManager.GetString("WriteNotes", resourceCulture);
             }
         }
     }

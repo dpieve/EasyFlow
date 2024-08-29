@@ -6,6 +6,7 @@ using EasyFlow.Application.Settings;
 using EasyFlow.Domain.Entities;
 using EasyFlow.Presentation.Common;
 using EasyFlow.Presentation.Features.Focus.AdjustTimers;
+using EasyFlow.Presentation.Services;
 using Material.Icons;
 using MediatR;
 using ReactiveUI;
@@ -22,6 +23,7 @@ namespace EasyFlow.Presentation.Features.Focus.RunningTimer;
 public sealed partial class RunningTimerViewModel : ViewModelBase, IRoute, IActivatableRoute
 {
     private readonly IMediator _mediator;
+    private readonly ILanguageService _languageService;
 
     private CompositeDisposable? _disposables;
 
@@ -68,11 +70,13 @@ public sealed partial class RunningTimerViewModel : ViewModelBase, IRoute, IActi
 
     public RunningTimerViewModel(
         IRouterHost routerHost,
-        IMediator mediator)
+        IMediator mediator,
+        ILanguageService languageService)
     {
         RouterHost = routerHost;
         _mediator = mediator;
-
+        _languageService = languageService;
+        
         this.WhenAnyValue(vm => vm.SecondsLeft)
             .DistinctUntilChanged()
             .Subscribe(secondsLeft =>
@@ -89,19 +93,13 @@ public sealed partial class RunningTimerViewModel : ViewModelBase, IRoute, IActi
 
         this.WhenAnyValue(vm => vm.TimerState)
             .InvokeCommand(UpdateNotesVisibleCommand);
-
-        this.WhenAnyValue(vm => vm.IsRunning)
-            .Subscribe(isRunning =>
-            {
-                Debug.WriteLine($"IsRunning: {isRunning}");
-            });
     }
 
     public string RouteName => nameof(RunningTimerViewModel);
 
     public IRouterHost RouterHost { get; }
 
-    public string SkipButtonText => IsBreak ? "Skip to Focus" : "Skip to Break";
+    public string SkipButtonText => IsBreak ? ConstantTranslation.SkipToFocus : ConstantTranslation.SkipToBreak;
 
     public string ProgressText => $"{CompletedTimers}/{TimersBeforeLongBreak}";
 
@@ -170,19 +168,19 @@ public sealed partial class RunningTimerViewModel : ViewModelBase, IRoute, IActi
             {
                 await _mediator.Send(new PlaySoundQuery() { SoundType = SoundType.Break });
 
-                await SukiHost.ShowToast("Focus Completed", "Well done! You can rest now.", SukiUI.Enums.NotificationType.Success);
+                await SukiHost.ShowToast(_languageService.GetString("Success"), _languageService.GetString("FocusCompleted"), SukiUI.Enums.NotificationType.Success);
             }
             else if (TimerState == TimerState.Break)
             {
                 await _mediator.Send(new PlaySoundQuery() { SoundType = SoundType.Work });
 
-                await SukiHost.ShowToast("Break Completed", "Time to focus!", SukiUI.Enums.NotificationType.Success);
+                await SukiHost.ShowToast(_languageService.GetString("Information"), _languageService.GetString("BreakCompleted"), SukiUI.Enums.NotificationType.Info);
             }
             else if (TimerState == TimerState.LongBreak)
             {
                 await _mediator.Send(new PlaySoundQuery() { SoundType = SoundType.Work });
 
-                await SukiHost.ShowToast("Long Break Completed", "Enough rest, time to focus!", SukiUI.Enums.NotificationType.Success);
+                await SukiHost.ShowToast(_languageService.GetString("Information"), _languageService.GetString("LongBreakCompleted"), SukiUI.Enums.NotificationType.Info);
             }
 
             await GoToNextState(isSkipping: false);
@@ -193,7 +191,7 @@ public sealed partial class RunningTimerViewModel : ViewModelBase, IRoute, IActi
     private async Task EndSession()
     {
         var result = await _mediator.Send(new GetSettingsQuery());
-        RouterHost.Router.NavigateTo(new AdjustTimersViewModel(result.Value, RouterHost, _mediator));
+        RouterHost.Router.NavigateTo(new AdjustTimersViewModel(result.Value, RouterHost, _mediator, _languageService));
     }
 
     [RelayCommand]

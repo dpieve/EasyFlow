@@ -188,7 +188,7 @@
                                     <TextBlock
                                         Margin="0,0,10,0"
                                         HorizontalAlignment="Right"
-                                        Text="{Binding Timers.SessionsBeforeLongBreak, StringFormat='#{0} sessions'}" />
+                                        Text="{Binding Timers.SessionsBeforeLongBreakText}" />
                                 </Grid>
                                 <Button
                                     Grid.Column="1"

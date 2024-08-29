@@ -6,7 +6,7 @@ using MediatR;
 namespace EasyFlow.Application.Sessions;
 public sealed class GetSessionsByPeriodQuery : IRequest<Result<List<Session>>>
 {
-    public FilterPeriod? FilterPeriod { get; set; }
+    public int NumDays { get; set; }
 }
 
 public sealed class GetSessionsByPeriodQueryHandler : IRequestHandler<GetSessionsByPeriodQuery, Result<List<Session>>>
@@ -22,10 +22,10 @@ public sealed class GetSessionsByPeriodQueryHandler : IRequestHandler<GetSession
     {
         var sessions = await _sessionsRepository.GetAllAsync();
 
-        var filter = request.FilterPeriod!;
+        var numDays = request.NumDays!;
 
         var now = DateTime.Now;
-        var start = now.AddDays(-filter.NumDays);
+        var start = now.AddDays(-numDays);
 
         var sessionsFiltered = sessions
                 .Where(sessions => sessions.FinishedDate >= start)

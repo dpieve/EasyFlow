@@ -24,13 +24,13 @@ public sealed partial class DeleteDataViewModel : ViewModelBase
     private async Task Ok()
     {
         var result = await _mediator.Send(new ResetDbQuery());
+        
+        Close();
 
         if (result.IsSuccess && _onOk is not null)
         {
             _onOk();
         }
-
-        Close();
     }
 
     [RelayCommand]

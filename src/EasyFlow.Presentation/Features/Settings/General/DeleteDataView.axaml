@@ -2,6 +2,7 @@
     x:Class="EasyFlow.Presentation.Features.Settings.General.DeleteDataView"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:assets="clr-namespace:EasyFlow.Presentation.Assets"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:EasyFlow.Presentation.Features.Settings.General"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -10,7 +11,7 @@
     x:DataType="local:DeleteDataViewModel"
     mc:Ignorable="d">
     <StackPanel Margin="10" Spacing="7">
-        <TextBlock Text="Are you sure you want to delete all data?" />
+        <TextBlock Text="{x:Static assets:Resources.CheckDelete}" />
 
         <StackPanel
             Margin="0,10,0,0"
@@ -18,13 +19,13 @@
             Orientation="Horizontal"
             Spacing="10">
             <Button
-                Command="{Binding CancelCommand}"
-                Content="Cancel"
-                HotKey="Escape" />
-            <Button
                 Classes="Flat"
                 Command="{Binding OkCommand}"
-                Content="Delete" />
+                Content="{x:Static assets:Resources.Delete}" />
+            <Button
+                Command="{Binding CancelCommand}"
+                Content="{x:Static assets:Resources.Cancel}"
+                HotKey="Escape" />
         </StackPanel>
     </StackPanel>
 </UserControl>

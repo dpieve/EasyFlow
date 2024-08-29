@@ -9,15 +9,17 @@ public static class PresentationExtensions
 {
     public static ServiceCollection AddPresentation(this ServiceCollection services)
     {
-        services.AddSingleton<MainViewModel>();
-
+        // Services
         services.AddSingleton<ILanguageService, LanguageService>();
+        services.AddSingleton<IRestartAppService, RestartAppService>();
 
         // Pages
         services
             .AddTransient(typeof(PageViewModelBase), typeof(SettingsViewModel))
             .AddTransient(typeof(PageViewModelBase), typeof(DashboardViewModel))
             .AddTransient(typeof(PageViewModelBase), typeof(FocusViewModel));
+
+        services.AddSingleton<MainViewModel>();
 
         return services;
     }

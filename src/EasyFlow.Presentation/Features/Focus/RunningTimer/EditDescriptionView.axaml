@@ -2,6 +2,7 @@
     x:Class="EasyFlow.Presentation.Features.Focus.RunningTimer.EditDescriptionView"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:assets="clr-namespace:EasyFlow.Presentation.Assets"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:EasyFlow.Presentation.Features.Focus.RunningTimer"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -11,14 +12,14 @@
     x:DataType="local:EditDescriptionViewModel"
     mc:Ignorable="d">
     <suki:GlassCard Width="400" Height="500">
-        <suki:GroupBox Header="Description">
+        <suki:GroupBox Header="{x:Static assets:Resources.Description}">
             <Grid RowDefinitions="auto, *, auto">
 
                 <StackPanel Grid.Row="0" Margin="0,10,0,0">
-                    <TextBlock Text="Write your notes about the last session." />
+                    <TextBlock Text="{x:Static assets:Resources.WriteNotes}" />
                     <TextBlock
                         Classes="Caption"
-                        Text="It will show in the report."
+                        Text="{x:Static assets:Resources.ShowInTheReport}"
                         TextWrapping="Wrap" />
                 </StackPanel>
 
@@ -35,7 +36,7 @@
                         CornerRadius="5"
                         Text="{Binding Description}"
                         TextWrapping="Wrap"
-                        Watermark="Suggestions&#x0a;&#x0a;What did you focus on?&#x0a;&#x0a;What did you complete?&#x0a;&#x0a;What were the challenges?&#x0a;" />
+                        Watermark="{x:Static assets:Resources.WatermarkDescriptionSuggestion}" />
                 </ScrollViewer>
 
                 <StackPanel
@@ -45,14 +46,14 @@
                     Orientation="Horizontal"
                     Spacing="10">
                     <Button
-                        Command="{Binding CancelCommand}"
-                        Content="Cancel"
-                        HotKey="Escape" />
-                    <Button
                         Classes="Flat Accent"
                         Command="{Binding OkCommand}"
-                        Content="Save"
+                        Content="{x:Static assets:Resources.Save}"
                         HotKey="Enter" />
+                    <Button
+                        Command="{Binding CancelCommand}"
+                        Content="{x:Static assets:Resources.Cancel}"
+                        HotKey="Escape" />
                 </StackPanel>
             </Grid>
         </suki:GroupBox>

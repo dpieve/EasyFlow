@@ -7,6 +7,7 @@ using EasyFlow.Application.Tags;
 using EasyFlow.Domain.Entities;
 using EasyFlow.Presentation.Common;
 using EasyFlow.Presentation.Features.Focus.RunningTimer;
+using EasyFlow.Presentation.Services;
 using MediatR;
 using ReactiveUI;
 using SimpleRouter;
@@ -23,17 +24,21 @@ namespace EasyFlow.Presentation.Features.Focus.AdjustTimers;
 public sealed partial class AdjustTimersViewModel : ViewModelBase, IRoute, IActivatableRoute
 {
     private readonly IMediator _mediator;
+    private readonly ILanguageService _languageService;
 
     [ObservableProperty] private Tag? _selectedTag;
 
     public AdjustTimersViewModel(
         GeneralSettings generalSettings,
         IRouterHost routerHost,
-        IMediator mediator)
+        IMediator mediator,
+        ILanguageService languageService)
     {
         RouterHost = routerHost ?? throw new ArgumentNullException(nameof(routerHost));
         _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
-        Timers = new TimersViewModel(_mediator, generalSettings);
+        _languageService = languageService;
+
+        Timers = new TimersViewModel(_mediator, generalSettings, languageService);
         
         this.WhenAnyValue(vm => vm.SelectedTag)
             .WhereNotNull()
@@ -73,31 +78,31 @@ public sealed partial class AdjustTimersViewModel : ViewModelBase, IRoute, IActi
     [RelayCommand]
     private void StepForward(TimerType timerType)
     {
-        Timers!.Adjust(timerType, AdjustFactor.StepForward);
+        Timers.Adjust(timerType, AdjustFactor.StepForward);
     }
 
     [RelayCommand]
     private void StepBackward(TimerType timerType)
     {
-        Timers!.Adjust(timerType, AdjustFactor.StepBackward);
+        Timers.Adjust(timerType, AdjustFactor.StepBackward);
     }
 
     [RelayCommand]
     private void LongStepForward(TimerType timerType)
     {
-        Timers!.Adjust(timerType, AdjustFactor.LongStepForward);
+        Timers.Adjust(timerType, AdjustFactor.LongStepForward);
     }
 
     [RelayCommand]
     private void LongStepBackward(TimerType timerType)
     {
-        Timers!.Adjust(timerType, AdjustFactor.LongStepBackward);
+        Timers.Adjust(timerType, AdjustFactor.LongStepBackward);
     }
 
     [RelayCommand]
     private void Start()
     {
-        RouterHost.Router.NavigateTo<RunningTimerViewModel>(RouterHost, _mediator);
+        RouterHost.Router.NavigateTo<RunningTimerViewModel>(RouterHost, _mediator, _languageService);
     }
 
     [RelayCommand]

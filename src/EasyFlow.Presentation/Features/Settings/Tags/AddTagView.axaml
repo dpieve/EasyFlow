@@ -2,6 +2,7 @@
     x:Class="EasyFlow.Presentation.Features.Settings.Tags.AddTagView"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:assets="clr-namespace:EasyFlow.Presentation.Assets"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:EasyFlow.Presentation.Features.Settings.Tags"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -24,14 +25,14 @@
             Orientation="Horizontal"
             Spacing="10">
             <Button
-                Command="{Binding CancelCommand}"
-                Content="_Cancel"
-                HotKey="Escape" />
-            <Button
                 Classes="Flat Accent"
                 Command="{Binding OkCommand}"
                 Content="_Ok"
                 HotKey="Enter" />
+            <Button
+                Command="{Binding CancelCommand}"
+                Content="{x:Static assets:Resources.Cancel}"
+                HotKey="Escape" />
         </StackPanel>
     </StackPanel>
 </UserControl>

@@ -10,14 +10,16 @@ namespace EasyFlow.Presentation.Features.Settings;
 public sealed partial class SettingsViewModel : PageViewModelBase
 {
     private readonly IMediator _mediator;
+    private readonly IRestartAppService _restartAppService;
 
-    public SettingsViewModel(IMediator mediator)
+    public SettingsViewModel(IMediator mediator, IRestartAppService restartAppService, ILanguageService languageService)
         : base(ConstantTranslation.SideMenuSettings, Material.Icons.MaterialIconKind.Cog, (int)PageOrder.Settings)
     {
         _mediator = mediator;
-
+        _restartAppService = restartAppService;
+        
         Tags = new TagsViewModel(_mediator);
-        GeneralSettings = new GeneralSettingsViewModel(_mediator);
+        GeneralSettings = new GeneralSettingsViewModel(_mediator, _restartAppService, languageService);
     }
 
     public TagsViewModel Tags { get; }

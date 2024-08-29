@@ -19,12 +19,16 @@ public sealed partial class FocusViewModel : PageViewModelBase, IRouterHost
     [ObservableProperty]
     private IRoute? _currentRoute;
     private readonly IMediator _mediator;
+    private readonly ILanguageService _languageService;
 
-    public FocusViewModel(IMediator mediator)
+    public FocusViewModel(
+        IMediator mediator, 
+        ILanguageService languageService)
         : base(ConstantTranslation.SideMenuFocus, Material.Icons.MaterialIconKind.Timer, (int)PageOrder.Focus)
     {
         _mediator = mediator;
-
+        _languageService = languageService;
+        
         Router = new Router(new RouteFactory(CreateRoutes));
         Router.OnRouteChanged += OnRouteChanged;
     }
@@ -37,7 +41,7 @@ public sealed partial class FocusViewModel : PageViewModelBase, IRouterHost
         {
             Observable
             .StartAsync(GetSettings)
-            .Select(settings => new AdjustTimersViewModel(settings, this, _mediator))
+            .Select(settings => new AdjustTimersViewModel(settings, this, _mediator, _languageService))
             .Subscribe(startVm =>
             {
                 Router.NavigateToAndReset(startVm);
@@ -81,8 +85,8 @@ public sealed partial class FocusViewModel : PageViewModelBase, IRouterHost
     {
         return routeType.Name switch
         {
-            nameof(AdjustTimersViewModel) => new AdjustTimersViewModel((GeneralSettings)parameters[0], (FocusViewModel)parameters[1], (IMediator)parameters[2]),
-            nameof(RunningTimerViewModel) => new RunningTimerViewModel((FocusViewModel)parameters[0], (IMediator)parameters[1]),
+            nameof(AdjustTimersViewModel) => new AdjustTimersViewModel((GeneralSettings)parameters[0], (FocusViewModel)parameters[1], (IMediator)parameters[2], (ILanguageService)parameters[3]),
+            nameof(RunningTimerViewModel) => new RunningTimerViewModel((FocusViewModel)parameters[0], (IMediator)parameters[1], (ILanguageService)parameters[2]),
             _ => null,
         };
     }

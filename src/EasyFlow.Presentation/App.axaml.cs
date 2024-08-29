@@ -5,9 +5,10 @@ using CommunityToolkit.Mvvm.DependencyInjection;
 using EasyFlow.Application.Settings;
 using EasyFlow.Domain.Entities;
 using EasyFlow.Domain.Repositories;
+using EasyFlow.Presentation.Services;
 using MediatR;
+using System;
 using System.Diagnostics;
-using System.Globalization;
 using System.Threading.Tasks;
 
 namespace EasyFlow.Presentation;
@@ -17,15 +18,15 @@ public partial class App : Avalonia.Application
     public override void Initialize()
     {
         AvaloniaXamlLoader.Load(this);
+
+        AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
     }
 
     public override void OnFrameworkInitializationCompleted()
     {
-        var migrator = Ioc.Default.GetRequiredService<IDatabaseManagerRepository>();
-        migrator.MigrateAsync().GetAwaiter().GetResult();
-
+        Migrate();
         SetupLanguage();
-
+        
         var mainViewModel = Ioc.Default.GetRequiredService<MainViewModel>();
 
         switch (ApplicationLifetime)
@@ -62,19 +63,26 @@ public partial class App : Avalonia.Application
         Debug.WriteLine("Exit application");
     }
 
+    private static void Migrate()
+    {
+        var migrator = Ioc.Default.GetRequiredService<IDatabaseManagerRepository>();
+        migrator.MigrateAsync().GetAwaiter().GetResult();
+    }
+
     private static void SetupLanguage()
     {
         var mediator = Ioc.Default.GetRequiredService<IMediator>();
         var result = mediator.Send(new GetSettingsQuery()).GetAwaiter().GetResult();
-        if (result.IsSuccess)
-        {
-            var settings = result.Value;
-            var selectedLanguage = settings.SelectedLanguage;
-            Assets.Resources.Culture = new CultureInfo(selectedLanguage);
-        }
-        else
-        {
-            Assets.Resources.Culture = new CultureInfo(SupportedLanguage.English.Code);
-        }
+        var settings = result.Value;
+        var selectedLanguage = settings.SelectedLanguage;
+
+        var languageService = Ioc.Default.GetRequiredService<ILanguageService>();
+        languageService.SetLanguage(SupportedLanguage.FromCode(selectedLanguage));
     }
+    private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+    {
+        var exception = e.ExceptionObject as Exception;
+        Debug.WriteLine($"Unhandled Exception: {exception?.Message}");
+    }
+
 }

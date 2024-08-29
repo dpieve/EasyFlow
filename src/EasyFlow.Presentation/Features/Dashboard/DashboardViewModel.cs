@@ -22,12 +22,14 @@ using MediatR;
 using EasyFlow.Application.Tags;
 using EasyFlow.Presentation.Services;
 using EasyFlow.Application.Sessions;
+using DynamicData;
 
 namespace EasyFlow.Presentation.Features.Dashboard;
 
 public partial class DashboardViewModel : PageViewModelBase
 {
     private readonly IMediator _mediator;
+    private readonly ILanguageService _languageService;
 
     private CompositeDisposable? _disposables;
 
@@ -35,7 +37,7 @@ public partial class DashboardViewModel : PageViewModelBase
     private Tag? _selectedTag;
 
     [ObservableProperty]
-    private SessionType? _selectedSessionType;
+    private SessionType? _selectedSessionType = SessionType.Focus;
 
     [ObservableProperty]
     private string _infoTitle = string.Empty;
@@ -52,18 +54,16 @@ public partial class DashboardViewModel : PageViewModelBase
     [ObservableProperty]
     private bool _isGeneratingReport = false;
     public DashboardViewModel(
-       IMediator mediator)
+        IMediator mediator,
+        ILanguageService languageService)
         : base(ConstantTranslation.SideMenuDashboard, Material.Icons.MaterialIconKind.ChartBar, (int)PageOrder.Dashboard)
     {
         _mediator = mediator;
-
-        _selectedSessionType = SessionType.Focus;
-
+        _languageService = languageService;
+        
         IsPlotLoading = true;
 
-        SessionTypes.Add(SessionType.Focus);
-        SessionTypes.Add(SessionType.Break);
-        SessionTypes.Add(SessionType.LongBreak);
+        SessionTypes.AddRange(Enum.GetValues(typeof(SessionType)).Cast<SessionType>());
 
         var filters = FilterPeriod.Filters;
         foreach (var filter in filters)
@@ -85,7 +85,7 @@ public partial class DashboardViewModel : PageViewModelBase
             {
                 if (SelectedTag is not null && SelectedSessionType is not null)
                 {
-                    InfoTitle = $"{SelectedTag.Name} - {SelectedSessionType} - {SelectedFilterPeriod.Text}";
+                    InfoTitle = $"{SelectedTag.Name} - {SelectedSessionType.Value.ToCustomString()} - {SelectedFilterPeriod.Text}";
                 }
                 else
                 {
@@ -102,13 +102,13 @@ public partial class DashboardViewModel : PageViewModelBase
 
     public Axis[] XAxes { get; set; } =
     {
-        new DateTimeAxis(TimeSpan.FromDays(1), date => date.ToString("MMM dd yyyy"))
+        new DateTimeAxis(TimeSpan.FromDays(1), date => date.ToString(LanguageService.GetDateFormat()))
     };
     public Axis[] YAxes { get; set; } =
     {
         new Axis
         {
-            Name = "Sessions (Minutes)",
+            Name = ConstantTranslation.SessionsMinutes,
             NameTextSize = 16,
             NamePaint = new SolidColorPaint
             {
@@ -123,8 +123,6 @@ public partial class DashboardViewModel : PageViewModelBase
     public ObservableCollection<FilterPeriod> FilterPeriods { get; } = [];
     protected override void OnActivated()
     {
-        Debug.WriteLine("Activated DashboardViewModel");
-
         _disposables ??= [];
 
         Observable
@@ -144,8 +142,6 @@ public partial class DashboardViewModel : PageViewModelBase
 
     protected override void OnDeactivated()
     {
-        Debug.WriteLine("Deactivated DashboardViewModel");
-
         SukiHost.ClearAllToasts();
     }
 
@@ -164,13 +160,13 @@ public partial class DashboardViewModel : PageViewModelBase
             var result = await GenerateReportHandler.Handle(_mediator);
             if (result.IsSuccess)
             {
-                await SukiHost.ShowToast("Report generated", "The report was saved.", SukiUI.Enums.NotificationType.Success);
+                await SukiHost.ShowToast(_languageService.GetString("Success"), _languageService.GetString("SuccessGeneratedReport"), SukiUI.Enums.NotificationType.Success);
             }
         }
         catch (Exception ex)
         {
             Debug.WriteLine(ex);
-            await SukiHost.ShowToast("Failed to generate a report", "The report couldn't be generated. Try again.", SukiUI.Enums.NotificationType.Error);
+            await SukiHost.ShowToast(_languageService.GetString("Failure"), _languageService.GetString("FailureGeneratedReport"), SukiUI.Enums.NotificationType.Error);
         }
         finally
         {
@@ -182,11 +178,10 @@ public partial class DashboardViewModel : PageViewModelBase
     [RelayCommand]
     private async Task ReloadPlot()
     {
-        var result = await _mediator.Send(new GetSessionsByPeriodQuery() { FilterPeriod = SelectedFilterPeriod });
+        var result = await _mediator.Send(new GetSessionsByPeriodQuery() { NumDays = SelectedFilterPeriod.NumDays });
 
         if (!result.IsSuccess)
         {
-            await SukiHost.ShowToast("Failed to get sessions", result.Error.Message!, SukiUI.Enums.NotificationType.Error);
             return;
         }
 
@@ -217,7 +212,6 @@ public partial class DashboardViewModel : PageViewModelBase
         IsPlotVisible = true;
         if (!selectedSessions.Any())
         {
-            await SukiHost.ShowToast("There are no sessions", "No sessions found for these settings.");
             IsPlotVisible = false;
         }
 
@@ -231,7 +225,7 @@ public partial class DashboardViewModel : PageViewModelBase
         var columnSeries = new ColumnSeries<DateTimePoint>
         {
             Values = values,
-            YToolTipLabelFormatter = point => $"{point?.Model?.Value} minutes",
+            YToolTipLabelFormatter = point => $"{point?.Model?.Value} {_languageService.GetString("Minutes")}",
         };
 
         SeriePlot = [columnSeries];

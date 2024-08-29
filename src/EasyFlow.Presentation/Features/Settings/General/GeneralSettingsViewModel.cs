@@ -10,13 +10,14 @@ using System.Reactive.Linq;
 using EasyFlow.Application.Settings;
 using ReactiveUI;
 using EasyFlow.Presentation.Services;
-using System.Diagnostics;
 
 namespace EasyFlow.Presentation.Features.Settings.General;
 
 public partial class GeneralSettingsViewModel : ViewModelBase
 {
     private readonly IMediator _mediator;
+    private readonly IRestartAppService _restartAppService;
+    private readonly ILanguageService _languageService;
 
     [ObservableProperty]
     private bool _isFocusDescriptionEnabled;
@@ -28,11 +29,14 @@ public partial class GeneralSettingsViewModel : ViewModelBase
     private bool _isBreakSoundEnabled;
 
     [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(VolumeLabel))]
     private int _volume;
 
-    public GeneralSettingsViewModel(IMediator mediator)
+    public GeneralSettingsViewModel(IMediator mediator, IRestartAppService restartAppService, ILanguageService languageService)
     {
         _mediator = mediator;
+        _restartAppService = restartAppService;
+        _languageService = languageService;
 
         this.WhenAnyValue(
                 vm => vm.IsWorkSoundEnabled,
@@ -46,6 +50,7 @@ public partial class GeneralSettingsViewModel : ViewModelBase
             .InvokeCommand(UpdateSettingsCommand);
     }
 
+    public string VolumeLabel => @$"{ConstantTranslation.VolumeSound} {Volume}%";
     public void Activate()
     {
         Observable
@@ -78,11 +83,7 @@ public partial class GeneralSettingsViewModel : ViewModelBase
             GeneralSettings = settings
         };
 
-        var result = await _mediator.Send(command);
-        if (!result.IsSuccess)
-        {
-            await SukiHost.ShowToast("Failed to update", "Failed to update the settings", SukiUI.Enums.NotificationType.Error);
-        }
+        _ = await _mediator.Send(command);
     }
 
     [RelayCommand]
@@ -91,11 +92,7 @@ public partial class GeneralSettingsViewModel : ViewModelBase
         var result = await BackupDbQueryHandler.Handle();
         if (result.IsSuccess)
         {
-            await SukiHost.ShowToast("Backup saved", "Backup saved successfully", SukiUI.Enums.NotificationType.Success);
-        }
-        else
-        {
-            await SukiHost.ShowToast("Failed to Backup", "Backup failed", SukiUI.Enums.NotificationType.Error);
+            await SukiHost.ShowToast(_languageService.GetString("Success"), _languageService.GetString("SuccessGeneratedBackup"), SukiUI.Enums.NotificationType.Success);
         }
     }
 
@@ -104,7 +101,7 @@ public partial class GeneralSettingsViewModel : ViewModelBase
     {
         SukiHost.ShowDialog(new DeleteDataViewModel(_mediator, () =>
         {
-            RestartApp();
+            _restartAppService.Restart();
         })
         , allowBackgroundClose: true);
     }
@@ -118,28 +115,6 @@ public partial class GeneralSettingsViewModel : ViewModelBase
             return result.Value;
         }
 
-        await SukiHost.ShowToast("Failed to load", "Settings couldn't be loaded.", SukiUI.Enums.NotificationType.Error);
         return new GeneralSettings();
-    }
-
-    private void RestartApp()
-    {
-        try
-        {
-            var mainModule = Process.GetCurrentProcess().MainModule;
-            if (mainModule is null)
-            {
-                return;
-            }
-
-            string exePath = mainModule.FileName;
-            Process.Start(exePath);
-
-            Process.GetCurrentProcess().Kill();
-        }
-        catch (Exception ex)
-        {
-            Debug.WriteLine(ex.Message);
-        }
     }
 }

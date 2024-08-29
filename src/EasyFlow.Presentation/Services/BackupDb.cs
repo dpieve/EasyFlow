@@ -37,7 +37,7 @@ public static class BackupDbQueryHandler
 
             var fileOptions = new FilePickerSaveOptions()
             {
-                Title = "Choose a name and a path to save the data file",
+                Title = ConstantTranslation.ChooseWhereToSave,
                 DefaultExtension = "ds",
                 ShowOverwritePrompt = true,
                 SuggestedFileName = "EasyFlow",

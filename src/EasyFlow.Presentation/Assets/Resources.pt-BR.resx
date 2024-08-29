@@ -109,20 +109,55 @@
   <data name="BarChart" xml:space="preserve">
     <value>Gráfico de barras</value>
   </data>
+  <data name="Break" xml:space="preserve">
+    <value>Pausa</value>
+  </data>
   <data name="BreakAlarmSounds" xml:space="preserve">
     <value>Sons de alarme para pausa</value>
   </data>
+  <data name="BreakCompleted" xml:space="preserve">
+    <value>Pausa acabou. Concentre-se!</value>
+  </data>
+  <data name="BreakSmallerOrEqualFocus" xml:space="preserve">
+    <value>Tempo de pausa deve ser menor ou igual o tempo de foco</value>
+  </data>
+  <data name="BreakSmallerOrEqualLongBreak" xml:space="preserve">
+    <value>Tempo de pausa deve ser menor ou igual a pausa longa</value>
+  </data>
   <data name="BreakTime" xml:space="preserve">
     <value>Tempo de pausa</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Cancelar</value>
+  </data>
+  <data name="ChangedColorTo" xml:space="preserve">
+    <value>Mudou a cor do tema para</value>
+  </data>
+  <data name="ChangedThemeTo" xml:space="preserve">
+    <value>Mudou o tema para</value>
+  </data>
+  <data name="CheckDelete" xml:space="preserve">
+    <value>Tem certeza que quer deletar os seus dados?</value>
+  </data>
+  <data name="ChooseWhereToSave" xml:space="preserve">
+    <value>Escolha onde salvar</value>
   </data>
   <data name="Controls" xml:space="preserve">
     <value>Controles</value>
   </data>
   <data name="DashboardNoSessionAvailable" xml:space="preserve">
-    <value>Nenhuma sessão disponível para esses controles. Vá focar e volte mais tarde</value>
+    <value>Nenhuma sessão disponível para esses controles. 
+
+Vá Focar e volte mais tarde</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Excluir</value>
   </data>
   <data name="DeleteData" xml:space="preserve">
     <value>Excluir dados</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Descrição</value>
   </data>
   <data name="Display" xml:space="preserve">
     <value>Exibir</value>
@@ -130,17 +165,47 @@
   <data name="English" xml:space="preserve">
     <value>Inglês</value>
   </data>
+  <data name="Failure" xml:space="preserve">
+    <value>Falha</value>
+  </data>
+  <data name="FailureGeneratedReport" xml:space="preserve">
+    <value>O relatório não foi gerado. Tente novamente.</value>
+  </data>
+  <data name="Focus" xml:space="preserve">
+    <value>Concentrado</value>
+  </data>
   <data name="FocusAlarmSounds" xml:space="preserve">
     <value>Sons de alarme para foco</value>
+  </data>
+  <data name="FocusCompleted" xml:space="preserve">
+    <value>Muito bem! Descanse agora.</value>
   </data>
   <data name="FocusDescription" xml:space="preserve">
     <value>Descrição do Foco</value>
   </data>
+  <data name="FocusGreaterOrEqualBreak" xml:space="preserve">
+    <value>Foco deve ser maior ou igual o tempo de descanso</value>
+  </data>
   <data name="FocusTime" xml:space="preserve">
     <value>Tempo de foco</value>
   </data>
+  <data name="General" xml:space="preserve">
+    <value>Geral</value>
+  </data>
+  <data name="Information" xml:space="preserve">
+    <value>Informação</value>
+  </data>
   <data name="Loading" xml:space="preserve">
     <value>Carregando...</value>
+  </data>
+  <data name="LongBreak" xml:space="preserve">
+    <value>Longa Pausa</value>
+  </data>
+  <data name="LongBreakCompleted" xml:space="preserve">
+    <value>Pausa longa acabou. Concentre-se agora!</value>
+  </data>
+  <data name="LongBreakGreaterOrEqualBreak" xml:space="preserve">
+    <value>Longa pausa deve ser maior ou igual a pausa</value>
   </data>
   <data name="LongBreakTime" xml:space="preserve">
     <value>Tempo de pausa longa</value>
@@ -154,6 +219,27 @@
   <data name="MenuThemes" xml:space="preserve">
     <value>Temas</value>
   </data>
+  <data name="Minutes" xml:space="preserve">
+    <value>Minutos</value>
+  </data>
+  <data name="Past30Days" xml:space="preserve">
+    <value>Últimos 30 dias</value>
+  </data>
+  <data name="Past48Hours" xml:space="preserve">
+    <value>Últimas 48 horas</value>
+  </data>
+  <data name="Past5Years" xml:space="preserve">
+    <value>Últimos 5 anos</value>
+  </data>
+  <data name="Past7Days" xml:space="preserve">
+    <value>Últimos 7 dias</value>
+  </data>
+  <data name="Past90Days" xml:space="preserve">
+    <value>Últimos 90 dias</value>
+  </data>
+  <data name="PastYear" xml:space="preserve">
+    <value>Último ano</value>
+  </data>
   <data name="PlaySoundsAfterBreak" xml:space="preserve">
     <value>Sons após as sessões de pausa</value>
   </data>
@@ -166,25 +252,76 @@
   <data name="Report" xml:space="preserve">
     <value>Relatório</value>
   </data>
+  <data name="ReportColumns" xml:space="preserve">
+    <value>Data,Duracao (Minutos),Tag,Tipo da sessao</value>
+  </data>
+  <data name="Restarting" xml:space="preserve">
+    <value>Reiniciando...</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Salvar</value>
+  </data>
+  <data name="Sessions" xml:space="preserve">
+    <value>Sessões</value>
+  </data>
+  <data name="SessionsBeforeLongBreak" xml:space="preserve">
+    <value>Sessões antes da pausa longa</value>
+  </data>
+  <data name="SessionsMinutes" xml:space="preserve">
+    <value>Sessões (Minutos)</value>
+  </data>
   <data name="SessionType" xml:space="preserve">
     <value>Tipo de sessão</value>
   </data>
   <data name="Show" xml:space="preserve">
     <value>Mostrar</value>
   </data>
+  <data name="ShowInTheReport" xml:space="preserve">
+    <value>Vai para o relatório.</value>
+  </data>
   <data name="SideMenuDashboard" xml:space="preserve">
     <value>Painel</value>
   </data>
   <data name="SideMenuFocus" xml:space="preserve">
-    <value>Foco</value>
+    <value>Focar</value>
   </data>
   <data name="SideMenuSettings" xml:space="preserve">
     <value>Configurações</value>
+  </data>
+  <data name="SkipToBreak" xml:space="preserve">
+    <value>Pular para a Pausa</value>
+  </data>
+  <data name="SkipToFocus" xml:space="preserve">
+    <value>Pular para Focus</value>
   </data>
   <data name="SoundVolume" xml:space="preserve">
     <value>Volume do som</value>
   </data>
   <data name="Start" xml:space="preserve">
     <value>Iniciar</value>
+  </data>
+  <data name="Success" xml:space="preserve">
+    <value>Sucesso</value>
+  </data>
+  <data name="SuccessGeneratedBackup" xml:space="preserve">
+    <value>Backup salvo com sucesso</value>
+  </data>
+  <data name="SuccessGeneratedReport" xml:space="preserve">
+    <value>Relatório gerado com sucesso</value>
+  </data>
+  <data name="VolumeSound" xml:space="preserve">
+    <value>Volume está em</value>
+  </data>
+  <data name="WatermarkDescriptionSuggestion" xml:space="preserve">
+    <value>Sugestões
+
+No que você focou durante a sessão?
+
+O que você terminou?
+
+Quais foram os desafios?</value>
+  </data>
+  <data name="WriteNotes" xml:space="preserve">
+    <value>Faça anotações da última sessão.</value>
   </data>
 </root>

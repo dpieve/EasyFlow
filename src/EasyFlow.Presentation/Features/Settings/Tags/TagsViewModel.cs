@@ -67,12 +67,7 @@ public partial class TagsViewModel : ViewModelBase
             return;
         }
 
-        var removed = Tags.Remove(deletedItem);
-        if (!removed)
-        {
-            SukiHost.ShowToast("Failed to remove", "Please reload to remove the tag.", SukiUI.Enums.NotificationType.Error);
-        }
-
+        _ = Tags.Remove(deletedItem);
         NumTags = Tags.Count;
     }
 
@@ -85,7 +80,6 @@ public partial class TagsViewModel : ViewModelBase
             return result.Value;
         }
 
-        await SukiHost.ShowToast("Failed to load", "Tags couldn't be loaded.", SukiUI.Enums.NotificationType.Error);
         return [];
     }
 }

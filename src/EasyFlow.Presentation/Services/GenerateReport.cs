@@ -9,8 +9,9 @@ using System;
 using System.Text;
 using System.IO;
 using MediatR;
-using EasyFlow.Domain.Entities;
 using EasyFlow.Application.Sessions;
+using EasyFlow.Presentation.Features.Dashboard;
+using System.Globalization;
 
 namespace EasyFlow.Presentation.Services;
 
@@ -22,18 +23,18 @@ public static class GenerateReportHandler
 
         if (topLevel is null)
         {
-            return Result<bool>.Success(false);
+            return Result<bool>.Failure(GenerateReportErrors.Fail);
         }
 
         var dateTime = DateTime.Now;
-        var dateTimeString = dateTime.ToString("MMM-dd-yyyy");
+        var dateTimeString = dateTime.ToString(LanguageService.GetDateFormat());
 
         var fileOptions = new FilePickerSaveOptions()
         {
-            Title = "Choose a name and a path to save the report file",
+            Title = ConstantTranslation.ChooseWhereToSave,
             DefaultExtension = "csv",
             ShowOverwritePrompt = true,
-            SuggestedFileName = $"EasyFlow-Report-{dateTimeString}",
+            SuggestedFileName = $"EasyFlow-{ConstantTranslation.Report}-{dateTimeString}",
             FileTypeChoices = [
                 new("Report file (.csv)")
                     {
@@ -58,15 +59,14 @@ public static class GenerateReportHandler
             {
                 Debug.WriteLine("Couldn't find the path to backup the file");
             }
-
         }
 
-        return Result<bool>.Success(true);
+        return Result<bool>.Failure(GenerateReportErrors.Cancelled);
     }
 
     private static async Task<bool> GenerateCsvFile(string path, IMediator mediator, CancellationToken cancellationToken)
     {
-        var result = await mediator.Send(new GetSessionsByPeriodQuery() { FilterPeriod = FilterPeriod.Years5 }, cancellationToken);
+        var result = await mediator.Send(new GetSessionsByPeriodQuery() { NumDays = FilterPeriod.Years5.NumDays }, cancellationToken);
 
         if (!result.IsSuccess)
         {
@@ -76,14 +76,14 @@ public static class GenerateReportHandler
         var sessions = result.Value!;
 
         var csvContent = new StringBuilder();
-        csvContent.AppendLine("Date,Duration (Minutes),Tag,Session Type");
+        csvContent.AppendLine(ConstantTranslation.ReportColumns);
 
         foreach (var session in sessions)
         {
             var date = session.FinishedDate.ToString("yyyy-MM-dd");
-            var duration = session.DurationMinutes.ToString();
+            var duration = session.DurationMinutes.ToString(CultureInfo.CurrentCulture);
             var tag = session.Tag?.Name ?? "N/A";
-            var sessionType = session.SessionType.ToString();
+            var sessionType = session.SessionType.ToCustomString();
 
             csvContent.AppendLine($"{date},{duration},{tag},{sessionType}");
         }
@@ -92,4 +92,10 @@ public static class GenerateReportHandler
 
         return true;
     }
+}
+
+public static class GenerateReportErrors
+{
+    public static readonly Error Fail = new("GenerateReport.Fail", "Failed to generate the report. Please try again.");
+    public static readonly Error Cancelled = new("GenerateReport.Cancelled", "User cancelled the operation.");
 }
