@@ -2,6 +2,7 @@
     x:Class="EasyFlow.Presentation.Features.Settings.General.GeneralSettingsView"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:assets="clr-namespace:EasyFlow.Presentation.Assets"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:icons="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
     xmlns:local="clr-namespace:EasyFlow.Presentation.Features.Settings.General"
@@ -14,8 +15,8 @@
     <suki:GlassCard>
 
         <suki:GroupBox Header="General">
-            <StackPanel>
-                <Grid Margin="0,15,0,0">
+            <StackPanel Height="340">
+                <Grid Margin="0,12,0,0">
                     <ToggleButton
                         HorizontalAlignment="Right"
                         VerticalAlignment="Center"
@@ -26,7 +27,7 @@
                         HorizontalAlignment="Left"
                         VerticalAlignment="Top"
                         FontWeight="DemiBold"
-                        Text="Focus Description" />
+                        Text="{x:Static assets:Resources.FocusDescription}" />
 
                     <TextBlock
                         Width="300"
@@ -35,7 +36,7 @@
                         VerticalAlignment="Bottom"
                         FontSize="13"
                         Foreground="{DynamicResource SukiLowText}"
-                        Text="Add a description to Focus sessions."
+                        Text="{x:Static assets:Resources.AddFocusDescription}"
                         TextWrapping="Wrap" />
                 </Grid>
                 <Grid Margin="0,15,0,0">
@@ -49,7 +50,7 @@
                         HorizontalAlignment="Left"
                         VerticalAlignment="Top"
                         FontWeight="DemiBold"
-                        Text="Work Alarm Sounds" />
+                        Text="{x:Static assets:Resources.FocusAlarmSounds}" />
 
                     <TextBlock
                         Width="300"
@@ -58,7 +59,7 @@
                         VerticalAlignment="Bottom"
                         FontSize="13"
                         Foreground="{DynamicResource SukiLowText}"
-                        Text="Play alarm sounds after work sessions."
+                        Text="{x:Static assets:Resources.PlaySoundsAfterFocus}"
                         TextWrapping="Wrap" />
                 </Grid>
 
@@ -73,7 +74,7 @@
                         HorizontalAlignment="Left"
                         VerticalAlignment="Top"
                         FontWeight="DemiBold"
-                        Text="Break Alarm Sounds" />
+                        Text="{x:Static assets:Resources.BreakAlarmSounds}" />
 
                     <TextBlock
                         Width="300"
@@ -82,7 +83,7 @@
                         VerticalAlignment="Bottom"
                         FontSize="13"
                         Foreground="{DynamicResource SukiLowText}"
-                        Text="Play alarm sounds after break sessions."
+                        Text="{x:Static assets:Resources.PlaySoundsAfterBreak}"
                         TextWrapping="Wrap" />
                 </Grid>
 
@@ -99,7 +100,7 @@
                         HorizontalAlignment="Left"
                         VerticalAlignment="Top"
                         FontWeight="DemiBold"
-                        Text="Sound volume" />
+                        Text="{x:Static assets:Resources.SoundVolume}" />
 
                     <TextBlock
                         Width="300"
@@ -135,14 +136,12 @@
                         Margin="0,0,10,0"
                         Classes="Flat Accent Settings"
                         Command="{Binding BackupDataCommand}"
-                        Content="Backup data"
-                        ToolTip.Tip="Save your data" />
+                        Content="{x:Static assets:Resources.BackupData}" />
                     <Button
                         Grid.Column="2"
                         Classes="Flat Settings"
                         Command="{Binding DeleteDataCommand}"
-                        Content="Delete data"
-                        ToolTip.Tip="Delete all data" />
+                        Content="{x:Static assets:Resources.DeleteData}" />
                 </Grid>
 
             </StackPanel>

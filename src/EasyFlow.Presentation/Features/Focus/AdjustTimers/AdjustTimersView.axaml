@@ -40,7 +40,7 @@
             Spacing="40">
             <WrapPanel Classes="PageContainer">
                 <suki:GlassCard Margin="0,5,30,0">
-                    <suki:GroupBox Header="Focus time">
+                    <suki:GroupBox Header="{x:Static assets:Resources.FocusTime}">
                         <StackPanel Orientation="Vertical">
                             <TextBlock Classes="Timer" Text="{Binding Timers.WorkMinutes, StringFormat='{}{0}min'}" />
 
@@ -110,7 +110,7 @@
                 </suki:GlassCard>
 
                 <suki:GlassCard Margin="0,5,30,0">
-                    <suki:GroupBox Header="Break time">
+                    <suki:GroupBox Header="{x:Static assets:Resources.BreakTime}">
                         <StackPanel Orientation="Vertical">
                             <TextBlock Classes="Timer" Text="{Binding Timers.BreakMinutes, StringFormat='{}{0}min'}" />
 
@@ -184,7 +184,7 @@
                         <suki:GroupBox.Header>
                             <Grid ColumnDefinitions="*, auto">
                                 <Grid Grid.Column="0">
-                                    <TextBlock HorizontalAlignment="Left" Text="Long break time" />
+                                    <TextBlock HorizontalAlignment="Left" Text="{x:Static assets:Resources.LongBreakTime}" />
                                     <TextBlock
                                         Margin="0,0,10,0"
                                         HorizontalAlignment="Right"

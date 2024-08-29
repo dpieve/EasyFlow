@@ -97,6 +97,93 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.3500.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Add" xml:space="preserve">
+    <value>Adicionar</value>
+  </data>
+  <data name="AddFocusDescription" xml:space="preserve">
+    <value>Adicione uma descrição às sessões de foco</value>
+  </data>
+  <data name="BackupData" xml:space="preserve">
+    <value>Salvar dados</value>
+  </data>
+  <data name="BarChart" xml:space="preserve">
+    <value>Gráfico de barras</value>
+  </data>
+  <data name="BreakAlarmSounds" xml:space="preserve">
+    <value>Sons de alarme para pausa</value>
+  </data>
+  <data name="BreakTime" xml:space="preserve">
+    <value>Tempo de pausa</value>
+  </data>
+  <data name="Controls" xml:space="preserve">
+    <value>Controles</value>
+  </data>
+  <data name="DashboardNoSessionAvailable" xml:space="preserve">
+    <value>Nenhuma sessão disponível para esses controles. Vá focar e volte mais tarde</value>
+  </data>
+  <data name="DeleteData" xml:space="preserve">
+    <value>Excluir dados</value>
+  </data>
+  <data name="Display" xml:space="preserve">
+    <value>Exibir</value>
+  </data>
+  <data name="English" xml:space="preserve">
+    <value>Inglês</value>
+  </data>
+  <data name="FocusAlarmSounds" xml:space="preserve">
+    <value>Sons de alarme para foco</value>
+  </data>
+  <data name="FocusDescription" xml:space="preserve">
+    <value>Descrição do Foco</value>
+  </data>
+  <data name="FocusTime" xml:space="preserve">
+    <value>Tempo de foco</value>
+  </data>
+  <data name="Loading" xml:space="preserve">
+    <value>Carregando...</value>
+  </data>
+  <data name="LongBreakTime" xml:space="preserve">
+    <value>Tempo de pausa longa</value>
+  </data>
+  <data name="MenuLanguages" xml:space="preserve">
+    <value>Idiomas</value>
+  </data>
+  <data name="MenuSwitchTo" xml:space="preserve">
+    <value>Mudar Para...</value>
+  </data>
+  <data name="MenuThemes" xml:space="preserve">
+    <value>Temas</value>
+  </data>
+  <data name="PlaySoundsAfterBreak" xml:space="preserve">
+    <value>Sons após as sessões de pausa</value>
+  </data>
+  <data name="PlaySoundsAfterFocus" xml:space="preserve">
+    <value>Sons após as sessões de foco</value>
+  </data>
+  <data name="Portuguese" xml:space="preserve">
+    <value>Português</value>
+  </data>
+  <data name="Report" xml:space="preserve">
+    <value>Relatório</value>
+  </data>
+  <data name="SessionType" xml:space="preserve">
+    <value>Tipo de sessão</value>
+  </data>
+  <data name="Show" xml:space="preserve">
+    <value>Mostrar</value>
+  </data>
+  <data name="SideMenuDashboard" xml:space="preserve">
+    <value>Painel</value>
+  </data>
+  <data name="SideMenuFocus" xml:space="preserve">
+    <value>Foco</value>
+  </data>
+  <data name="SideMenuSettings" xml:space="preserve">
+    <value>Configurações</value>
+  </data>
+  <data name="SoundVolume" xml:space="preserve">
+    <value>Volume do som</value>
+  </data>
   <data name="Start" xml:space="preserve">
     <value>Iniciar</value>
   </data>

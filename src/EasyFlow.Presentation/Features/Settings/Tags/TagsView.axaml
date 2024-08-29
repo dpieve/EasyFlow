@@ -2,6 +2,7 @@
     x:Class="EasyFlow.Presentation.Features.Settings.Tags.TagsView"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:assets="clr-namespace:EasyFlow.Presentation.Assets"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:icons="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
     xmlns:local="clr-namespace:EasyFlow.Presentation.Features.Settings.Tags"
@@ -17,7 +18,7 @@
                 <Button
                     Classes="Flat"
                     Command="{Binding AddTagCommand}"
-                    Content="Add" />
+                    Content="{x:Static assets:Resources.Add}" />
                 <ScrollViewer>
                     <ListBox Height="340" ItemsSource="{Binding Tags}" />
                 </ScrollViewer>

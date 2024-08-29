@@ -1,7 +1,9 @@
 ﻿using EasyFlow.Presentation.Common;
 using EasyFlow.Presentation.Features.Settings.General;
 using EasyFlow.Presentation.Features.Settings.Tags;
+using EasyFlow.Presentation.Services;
 using MediatR;
+using SukiUI.Controls;
 
 namespace EasyFlow.Presentation.Features.Settings;
 
@@ -10,7 +12,7 @@ public sealed partial class SettingsViewModel : PageViewModelBase
     private readonly IMediator _mediator;
 
     public SettingsViewModel(IMediator mediator)
-        : base("Settings", Material.Icons.MaterialIconKind.Cog, (int)PageOrder.Settings)
+        : base(ConstantTranslation.SideMenuSettings, Material.Icons.MaterialIconKind.Cog, (int)PageOrder.Settings)
     {
         _mediator = mediator;
 
@@ -31,5 +33,7 @@ public sealed partial class SettingsViewModel : PageViewModelBase
     {
         Tags.Deactivate();
         GeneralSettings.Deactivate();
+
+        SukiHost.ClearAllToasts();
     }
 }

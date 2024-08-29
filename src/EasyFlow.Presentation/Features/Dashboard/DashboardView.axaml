@@ -2,6 +2,7 @@
     x:Class="EasyFlow.Presentation.Features.Dashboard.DashboardView"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:assets="clr-namespace:EasyFlow.Presentation.Assets"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:entities="clr-namespace:EasyFlow.Domain.Entities;assembly=EasyFlow.Domain"
     xmlns:icons="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
@@ -22,7 +23,7 @@
             Orientation="Vertical">
             <!--  CONTROLS  -->
             <suki:GlassCard Margin="5,10,25,5">
-                <suki:GroupBox Header="Controls">
+                <suki:GroupBox Header="{x:Static assets:Resources.Controls}">
                     <Grid ColumnDefinitions="auto, auto, auto, auto, auto" RowDefinitions="auto, auto">
                         <TextBlock
                             Grid.Row="0"
@@ -41,7 +42,7 @@
                             Grid.Row="1"
                             Grid.Column="0"
                             VerticalAlignment="Center"
-                            Text="Session type" />
+                            Text="{x:Static assets:Resources.SessionType}" />
                         <ComboBox
                             Grid.Row="1"
                             Grid.Column="1"
@@ -54,7 +55,7 @@
                             Grid.Column="2"
                             Margin="30,0,0,0"
                             VerticalAlignment="Center"
-                            Text="Show" />
+                            Text="{x:Static assets:Resources.Show}" />
                         <ComboBox
                             Grid.Row="0"
                             Grid.Column="3"
@@ -69,13 +70,13 @@
                             Grid.Column="2"
                             Margin="30,0,0,0"
                             VerticalAlignment="Center"
-                            Text="Display" />
+                            Text="{x:Static assets:Resources.Display}" />
                         <ComboBox
                             Grid.Row="1"
                             Grid.Column="3"
                             Width="200"
                             SelectedIndex="0">
-                            <ComboBoxItem Content="Bar chart" />
+                            <ComboBoxItem Content="{x:Static assets:Resources.BarChart}" />
                         </ComboBox>
 
                         <Button
@@ -88,7 +89,7 @@
                             Classes="Rounded Flat"
                             Command="{Binding FullReportCommand}">
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Margin="0,0,10,0" Text="Report" />
+                                <TextBlock Margin="0,0,10,0" Text="{x:Static assets:Resources.Report}" />
                                 <icons:MaterialIcon
                                     Width="16"
                                     Height="16"
@@ -108,7 +109,7 @@
                 Height="400"
                 Margin="5,10,25,5">
                 <suki:GroupBox Header="{Binding InfoTitle}">
-                    <suki:BusyArea BusyText="Loading..." IsBusy="{Binding IsPlotLoading}">
+                    <suki:BusyArea BusyText="{x:Static assets:Resources.Loading}" IsBusy="{Binding IsPlotLoading}">
                         <StackPanel HorizontalAlignment="Stretch">
 
                             <lvc:CartesianChart
@@ -126,8 +127,9 @@
                                 VerticalAlignment="Center"
                                 FontSize="20"
                                 IsVisible="{Binding !IsPlotVisible}"
-                                Text="No sessions available for these controls&#x0a;Go Focus and come back later"
-                                TextAlignment="Center" />
+                                Text="{x:Static assets:Resources.DashboardNoSessionAvailable}"
+                                TextAlignment="Center"
+                                TextWrapping="Wrap" />
 
                         </StackPanel>
                     </suki:BusyArea>

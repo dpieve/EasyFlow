@@ -61,6 +61,267 @@ namespace EasyFlow.Presentation.Assets {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add.
+        /// </summary>
+        public static string Add {
+            get {
+                return ResourceManager.GetString("Add", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add a description to Focus sessions.
+        /// </summary>
+        public static string AddFocusDescription {
+            get {
+                return ResourceManager.GetString("AddFocusDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Backup Data.
+        /// </summary>
+        public static string BackupData {
+            get {
+                return ResourceManager.GetString("BackupData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Bar chart.
+        /// </summary>
+        public static string BarChart {
+            get {
+                return ResourceManager.GetString("BarChart", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Break Alarm Sounds.
+        /// </summary>
+        public static string BreakAlarmSounds {
+            get {
+                return ResourceManager.GetString("BreakAlarmSounds", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Break Time.
+        /// </summary>
+        public static string BreakTime {
+            get {
+                return ResourceManager.GetString("BreakTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Controls.
+        /// </summary>
+        public static string Controls {
+            get {
+                return ResourceManager.GetString("Controls", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No sessions available for these controls. Go Focus and come back later.
+        /// </summary>
+        public static string DashboardNoSessionAvailable {
+            get {
+                return ResourceManager.GetString("DashboardNoSessionAvailable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete data.
+        /// </summary>
+        public static string DeleteData {
+            get {
+                return ResourceManager.GetString("DeleteData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Display.
+        /// </summary>
+        public static string Display {
+            get {
+                return ResourceManager.GetString("Display", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to English.
+        /// </summary>
+        public static string English {
+            get {
+                return ResourceManager.GetString("English", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Focus Alarm Sounds.
+        /// </summary>
+        public static string FocusAlarmSounds {
+            get {
+                return ResourceManager.GetString("FocusAlarmSounds", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Focus Description.
+        /// </summary>
+        public static string FocusDescription {
+            get {
+                return ResourceManager.GetString("FocusDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Focus Time.
+        /// </summary>
+        public static string FocusTime {
+            get {
+                return ResourceManager.GetString("FocusTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Loading....
+        /// </summary>
+        public static string Loading {
+            get {
+                return ResourceManager.GetString("Loading", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Long Break Time.
+        /// </summary>
+        public static string LongBreakTime {
+            get {
+                return ResourceManager.GetString("LongBreakTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Languages.
+        /// </summary>
+        public static string MenuLanguages {
+            get {
+                return ResourceManager.GetString("MenuLanguages", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Switch To....
+        /// </summary>
+        public static string MenuSwitchTo {
+            get {
+                return ResourceManager.GetString("MenuSwitchTo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Themes.
+        /// </summary>
+        public static string MenuThemes {
+            get {
+                return ResourceManager.GetString("MenuThemes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Play alarm sounds after break sessions.
+        /// </summary>
+        public static string PlaySoundsAfterBreak {
+            get {
+                return ResourceManager.GetString("PlaySoundsAfterBreak", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Play alarm sounds after Focus sessions.
+        /// </summary>
+        public static string PlaySoundsAfterFocus {
+            get {
+                return ResourceManager.GetString("PlaySoundsAfterFocus", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Portuguese.
+        /// </summary>
+        public static string Portuguese {
+            get {
+                return ResourceManager.GetString("Portuguese", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Report.
+        /// </summary>
+        public static string Report {
+            get {
+                return ResourceManager.GetString("Report", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SessionType.
+        /// </summary>
+        public static string SessionType {
+            get {
+                return ResourceManager.GetString("SessionType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Show.
+        /// </summary>
+        public static string Show {
+            get {
+                return ResourceManager.GetString("Show", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Dashboard.
+        /// </summary>
+        public static string SideMenuDashboard {
+            get {
+                return ResourceManager.GetString("SideMenuDashboard", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Focus.
+        /// </summary>
+        public static string SideMenuFocus {
+            get {
+                return ResourceManager.GetString("SideMenuFocus", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Settings.
+        /// </summary>
+        public static string SideMenuSettings {
+            get {
+                return ResourceManager.GetString("SideMenuSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sound Volume.
+        /// </summary>
+        public static string SoundVolume {
+            get {
+                return ResourceManager.GetString("SoundVolume", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Start.
         /// </summary>
         public static string Start {

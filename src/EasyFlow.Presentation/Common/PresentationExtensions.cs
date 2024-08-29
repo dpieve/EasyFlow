@@ -1,6 +1,7 @@
 ﻿using EasyFlow.Presentation.Features.Dashboard;
 using EasyFlow.Presentation.Features.Focus;
 using EasyFlow.Presentation.Features.Settings;
+using EasyFlow.Presentation.Services;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace EasyFlow.Presentation.Common;
@@ -9,6 +10,8 @@ public static class PresentationExtensions
     public static ServiceCollection AddPresentation(this ServiceCollection services)
     {
         services.AddSingleton<MainViewModel>();
+
+        services.AddSingleton<ILanguageService, LanguageService>();
 
         // Pages
         services

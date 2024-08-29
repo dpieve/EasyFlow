@@ -53,7 +53,7 @@ public partial class DashboardViewModel : PageViewModelBase
     private bool _isGeneratingReport = false;
     public DashboardViewModel(
        IMediator mediator)
-        : base("Dashboard", Material.Icons.MaterialIconKind.ChartBar, (int)PageOrder.Dashboard)
+        : base(ConstantTranslation.SideMenuDashboard, Material.Icons.MaterialIconKind.ChartBar, (int)PageOrder.Dashboard)
     {
         _mediator = mediator;
 
@@ -145,6 +145,8 @@ public partial class DashboardViewModel : PageViewModelBase
     protected override void OnDeactivated()
     {
         Debug.WriteLine("Deactivated DashboardViewModel");
+
+        SukiHost.ClearAllToasts();
     }
 
     private async Task<List<Tag>> LoadTags()

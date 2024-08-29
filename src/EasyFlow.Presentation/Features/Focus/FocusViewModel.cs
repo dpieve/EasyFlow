@@ -4,8 +4,10 @@ using EasyFlow.Domain.Entities;
 using EasyFlow.Presentation.Common;
 using EasyFlow.Presentation.Features.Focus.AdjustTimers;
 using EasyFlow.Presentation.Features.Focus.RunningTimer;
+using EasyFlow.Presentation.Services;
 using MediatR;
 using SimpleRouter;
+using SukiUI.Controls;
 using System;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
@@ -19,7 +21,7 @@ public sealed partial class FocusViewModel : PageViewModelBase, IRouterHost
     private readonly IMediator _mediator;
 
     public FocusViewModel(IMediator mediator)
-        : base("Focus", Material.Icons.MaterialIconKind.Timer, (int)PageOrder.Focus)
+        : base(ConstantTranslation.SideMenuFocus, Material.Icons.MaterialIconKind.Timer, (int)PageOrder.Focus)
     {
         _mediator = mediator;
 
@@ -51,6 +53,8 @@ public sealed partial class FocusViewModel : PageViewModelBase, IRouterHost
     protected override void OnDeactivated()
     {
         CurrentRoute?.Deactivate();
+
+        SukiHost.ClearAllToasts();
     }
 
     private async Task<GeneralSettings> GetSettings()

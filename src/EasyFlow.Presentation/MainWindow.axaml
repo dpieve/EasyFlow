@@ -2,6 +2,7 @@
     x:Class="EasyFlow.Presentation.MainWindow"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:assets="clr-namespace:EasyFlow.Presentation.Assets"
     xmlns:common="clr-namespace:EasyFlow.Domain.Entities;assembly=EasyFlow.Domain"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:icons="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
@@ -39,7 +40,7 @@
     </suki:SukiWindow.LogoContent>
 
     <suki:SukiWindow.MenuItems>
-        <MenuItem Header="Theme">
+        <MenuItem Header="{x:Static assets:Resources.MenuThemes}">
             <MenuItem Command="{Binding ToggleBaseThemeCommand}" Header="{Binding BaseTheme}">
                 <MenuItem.Icon>
                     <icons:MaterialIcon Kind="Lightbulb" />
@@ -48,7 +49,7 @@
             <MenuItem Header="-" />
             <MenuItem
                 Click="MenuItem_OnClick"
-                Header="Switch To..."
+                Header="{x:Static assets:Resources.MenuSwitchTo}"
                 ItemsSource="{Binding Themes}">
                 <MenuItem.DataTemplates>
                     <DataTemplate DataType="{x:Type models:SukiColorTheme}">
@@ -57,15 +58,15 @@
                 </MenuItem.DataTemplates>
             </MenuItem>
         </MenuItem>
-        <MenuItem Header="Languages">
+        <MenuItem Header="{x:Static assets:Resources.MenuLanguages}">
             <MenuItem
                 Command="{Binding ChangeLanguageCommand}"
                 CommandParameter="{x:Static common:SupportedLanguage.English}"
-                Header="English" />
-            <!--<MenuItem
+                Header="{x:Static assets:Resources.English}" />
+            <MenuItem
                 Command="{Binding ChangeLanguageCommand}"
                 CommandParameter="{x:Static common:SupportedLanguage.Portuguese}"
-                Header="Portuguese" />-->
+                Header="{x:Static assets:Resources.Portuguese}" />
         </MenuItem>
     </suki:SukiWindow.MenuItems>
     <local:MainView />
