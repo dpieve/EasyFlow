@@ -13,11 +13,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		Directory.Build.props = Directory.Build.props
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyFlow.Application", "EasyFlow.Application\EasyFlow.Application.csproj", "{F9B75567-460E-472C-B35F-CC833084F7C4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyFlow.Application", "EasyFlow.Application\EasyFlow.Application.csproj", "{F9B75567-460E-472C-B35F-CC833084F7C4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyFlow.Infrastructure", "EasyFlow.Infrastructure\EasyFlow.Infrastructure.csproj", "{7D40AE9A-65E0-4FB6-80B6-12558C9AE162}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyFlow.Infrastructure", "EasyFlow.Infrastructure\EasyFlow.Infrastructure.csproj", "{7D40AE9A-65E0-4FB6-80B6-12558C9AE162}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyFlow.Domain", "EasyFlow.Domain\EasyFlow.Domain.csproj", "{3A970523-9661-4A52-906F-F40380A13018}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyFlow.Domain", "EasyFlow.Domain\EasyFlow.Domain.csproj", "{3A970523-9661-4A52-906F-F40380A13018}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyFlow.Tests.Unit", "EasyFlow.Tests.Unit\EasyFlow.Tests.Unit.csproj", "{A8ACEA94-0656-4E51-95F6-5C03383430DC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,12 +47,16 @@ Global
 		{3A970523-9661-4A52-906F-F40380A13018}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3A970523-9661-4A52-906F-F40380A13018}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3A970523-9661-4A52-906F-F40380A13018}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A8ACEA94-0656-4E51-95F6-5C03383430DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A8ACEA94-0656-4E51-95F6-5C03383430DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A8ACEA94-0656-4E51-95F6-5C03383430DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A8ACEA94-0656-4E51-95F6-5C03383430DC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		RESX_SortFileContentOnSave = True
 		SolutionGuid = {83CB65B8-011F-4ED7-BCD3-A6CFA935EF7E}
+		RESX_SortFileContentOnSave = True
 	EndGlobalSection
 EndGlobal
