@@ -309,6 +309,12 @@ Vá Focar e volte mais tarde</value>
   <data name="SuccessGeneratedReport" xml:space="preserve">
     <value>Relatório gerado com sucesso</value>
   </data>
+  <data name="Tag_CanNotDeleteSelectedTag" xml:space="preserve">
+    <value>Não é possível excluir a Tag selecionada. Vá em Foco e mude primeiro</value>
+  </data>
+  <data name="Tag_CouldNotDelete" xml:space="preserve">
+    <value>Não foi possível excluir a Tag</value>
+  </data>
   <data name="VolumeSound" xml:space="preserve">
     <value>Volume está em</value>
   </data>

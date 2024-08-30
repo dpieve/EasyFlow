@@ -6,28 +6,21 @@ public sealed class Result<T>
     public T Value { get; }
     public Error Error { get; }
 
-    private Result(bool isSuccess, T value, Error error)
+    private Result(bool isSuccess, T? value, Error error)
     {
         IsSuccess = isSuccess;
-        Value = value;
+        Value = value ?? throw new ArgumentNullException(nameof(value));
         Error = error;
     }
 
-    public static Result<T> Success(T value) => new Result<T>(true, value, null);
+    public static Result<T> Success(T value) => new Result<T>(true, value, DefaultErrors.NotError);
 
-    public static Result<T> Failure(Error error) => new Result<T>(false, default(T), error);
+    public static Result<T> Failure(Error error) => new Result<T>(false, default, error);
 }
 public sealed record Error(string Code, string? Message = null);
 
-// Example
-//public static class GeneralSettingsServiceErrors
-//{
-//    public static readonly Error NoEntityModified = new("GeneralSettings.NoEntityModified",
-//       "Settings was not modified.");
-
-//    public static readonly Error NotFound = new("GeneralSettings.NotFound",
-//      "No settings found.");
-
-//    public static readonly Error InvalidArgument = new("GeneralSettings.InvalidArgument",
-//      "The parameters are wrong.");
-//}
+public static class DefaultErrors
+{
+    public static readonly Error NotError = new("Default.NotError",
+      "There wasn't any errors");
+}

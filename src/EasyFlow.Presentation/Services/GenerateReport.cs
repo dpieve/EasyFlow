@@ -19,6 +19,11 @@ public static class GenerateReportHandler
 {
     public static async Task<Result<bool>> Handle(IMediator mediator, CancellationToken cancellationToken = new())
     {
+        if (App.Current is null || App.Current.ApplicationLifetime is null)
+        {
+            return Result<bool>.Failure(GenerateReportErrors.Fail);
+        }
+
         var topLevel = TopLevel.GetTopLevel(((IClassicDesktopStyleApplicationLifetime)App.Current.ApplicationLifetime).MainWindow);
 
         if (topLevel is null)

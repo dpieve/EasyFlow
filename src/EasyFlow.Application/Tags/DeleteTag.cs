@@ -43,9 +43,9 @@ public sealed class DeleteTagCommandHandler : IRequestHandler<DeleteTagCommand, 
 
 public static partial class TagsErrors
 {
-    public static readonly Error DeleteFail = new($"Tag.DeleteFail",
-       "Failed to delete the tag");
+    public static readonly Error DeleteFail = new(@"Tag_CouldNotDelete",
+       "It couldn't delete the tag");
 
-    public static readonly Error CanNotDeleteSelectedTag = new($"Tag.CanNotDeleteSelectedTag",
-       "Failed to delete the tag. You can't delete the selected tag");
+    public static readonly Error CanNotDeleteSelectedTag = new(@"Tag_CanNotDeleteSelectedTag",
+       "You can't delete the selected tag");
 }

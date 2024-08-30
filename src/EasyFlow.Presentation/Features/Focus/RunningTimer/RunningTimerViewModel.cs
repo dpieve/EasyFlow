@@ -115,7 +115,7 @@ public sealed partial class RunningTimerViewModel : ViewModelBase, IRoute, IActi
             {
                 IsFocusDescriptionVisible = settings.IsFocusDescriptionEnabled;
                 TimersBeforeLongBreak = settings.WorkSessionsBeforeLongBreak;
-                SelectedTagName = settings.SelectedTag.Name;
+                SelectedTagName = settings.SelectedTag?.Name ?? string.Empty;
 
                 if (IsRunning)
                 {

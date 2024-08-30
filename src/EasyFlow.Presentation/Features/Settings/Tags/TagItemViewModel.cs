@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using EasyFlow.Application.Tags;
 using EasyFlow.Domain.Entities;
 using EasyFlow.Presentation.Common;
+using EasyFlow.Presentation.Services;
 using MediatR;
 using SukiUI.Controls;
 using System;
@@ -14,18 +15,21 @@ public sealed partial class TagItemViewModel : ViewModelBase
 {
     private readonly IMediator _mediator;
     private readonly Action<Tag> _onDeletedTag;
+    private readonly ILanguageService _languageService;
 
     [ObservableProperty]
     private string _name;
 
     public TagItemViewModel(Tag tag, 
                             IMediator mediator, 
-                            Action<Tag> onDeletedTag)
+                            Action<Tag> onDeletedTag,
+                            ILanguageService languageService)
     {
         Tag = tag;
         _mediator = mediator;
         _onDeletedTag = onDeletedTag;
-
+        _languageService = languageService;
+        
         Name = tag.Name;
     }
 
@@ -49,6 +53,7 @@ public sealed partial class TagItemViewModel : ViewModelBase
         
         if (!result.IsSuccess)
         {
+            await SukiHost.ShowToast(_languageService.GetString("Information"), _languageService.GetString(result.Error.Code));
             return;
         }
 

@@ -3,12 +3,14 @@ using CommunityToolkit.Mvvm.Input;
 using DynamicData;
 using EasyFlow.Application.Tags;
 using EasyFlow.Presentation.Common;
+using EasyFlow.Presentation.Services;
 using MediatR;
 using ReactiveUI;
 using SukiUI.Controls;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
@@ -18,13 +20,15 @@ namespace EasyFlow.Presentation.Features.Settings.Tags;
 public partial class TagsViewModel : ViewModelBase
 {
     private readonly IMediator _mediator;
+    private readonly ILanguageService _languageService;
 
     [ObservableProperty]
     private int _numTags;
 
-    public TagsViewModel(IMediator mediator)
+    public TagsViewModel(IMediator mediator, ILanguageService languageService)
     {
         _mediator = mediator;
+        _languageService = languageService;
     }
 
     public ObservableCollection<TagItemViewModel> Tags { get; } = [];
@@ -34,7 +38,7 @@ public partial class TagsViewModel : ViewModelBase
         Observable
             .StartAsync(GetTags)
             .Where(tags => tags.Count > 0)
-            .Select(tags => tags.Select(tag => new TagItemViewModel(tag, _mediator, onDeletedTag: DeletedTag)))
+            .Select(tags => tags.Select(tag => new TagItemViewModel(tag, _mediator, onDeletedTag: DeletedTag, _languageService)))
             .ObserveOn(RxApp.MainThreadScheduler)
             .Do(_ => Tags.Clear())
             .Do(tags => Tags.AddRange(tags))
@@ -43,6 +47,7 @@ public partial class TagsViewModel : ViewModelBase
 
     public void Deactivate()
     {
+        Debug.WriteLine("Deactivating TagsViewModel");
     }
 
     [RelayCommand]
@@ -53,7 +58,7 @@ public partial class TagsViewModel : ViewModelBase
 
     private void AddedTag(Domain.Entities.Tag tag)
     {
-        var newItem = new TagItemViewModel(tag, _mediator, onDeletedTag: DeletedTag);
+        var newItem = new TagItemViewModel(tag, _mediator, onDeletedTag: DeletedTag, _languageService);
         Tags.Add(newItem);
         NumTags = Tags.Count;
     }

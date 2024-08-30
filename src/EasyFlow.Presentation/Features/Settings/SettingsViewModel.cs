@@ -18,7 +18,7 @@ public sealed partial class SettingsViewModel : PageViewModelBase
         _mediator = mediator;
         _restartAppService = restartAppService;
         
-        Tags = new TagsViewModel(_mediator);
+        Tags = new TagsViewModel(_mediator, languageService);
         GeneralSettings = new GeneralSettingsViewModel(_mediator, _restartAppService, languageService);
     }
 

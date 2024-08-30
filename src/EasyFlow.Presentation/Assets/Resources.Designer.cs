@@ -693,6 +693,24 @@ namespace EasyFlow.Presentation.Assets {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to You can&apos;t delete the selected tag. Change it on Focus.
+        /// </summary>
+        public static string Tag_CanNotDeleteSelectedTag {
+            get {
+                return ResourceManager.GetString("Tag_CanNotDeleteSelectedTag", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to It wasn&apos;t possible to delete the tag.
+        /// </summary>
+        public static string Tag_CouldNotDelete {
+            get {
+                return ResourceManager.GetString("Tag_CouldNotDelete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Sound volume is set to.
         /// </summary>
         public static string VolumeSound {

@@ -15,7 +15,7 @@ public sealed class GeneralSettings
     public Theme SelectedTheme { get; set; } = Theme.Dark;
     public ColorTheme SelectedColorTheme { get; set; } = ColorTheme.Red;
     public int SelectedTagId { get; set; }
-    public Tag SelectedTag { get; set; }
+    public Tag? SelectedTag { get; set; }
     public bool IsFocusDescriptionEnabled { get; set; } = true;
     public int SoundVolume { get; set; } = 50;
     public string SelectedLanguage { get; set; } = string.Empty;

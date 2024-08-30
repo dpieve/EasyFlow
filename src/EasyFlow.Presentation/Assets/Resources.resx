@@ -399,6 +399,14 @@ Go Focus and come back later</value>
     <value>The report was successfully generated</value>
     <comment>Message</comment>
   </data>
+  <data name="Tag_CanNotDeleteSelectedTag" xml:space="preserve">
+    <value>You can't delete the selected tag. Change it on Focus</value>
+    <comment>Error message</comment>
+  </data>
+  <data name="Tag_CouldNotDelete" xml:space="preserve">
+    <value>It wasn't possible to delete the tag</value>
+    <comment>Error message</comment>
+  </data>
   <data name="VolumeSound" xml:space="preserve">
     <value>Sound volume is set to</value>
     <comment>Settings volume</comment>

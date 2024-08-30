@@ -10,6 +10,7 @@ using System.Reactive.Linq;
 using EasyFlow.Application.Settings;
 using ReactiveUI;
 using EasyFlow.Presentation.Services;
+using System.Diagnostics;
 
 namespace EasyFlow.Presentation.Features.Settings.General;
 
@@ -66,6 +67,7 @@ public partial class GeneralSettingsViewModel : ViewModelBase
 
     public void Deactivate()
     {
+        Debug.WriteLine("Deactivating GeneralSettingsViewModel");
     }
 
     [RelayCommand]

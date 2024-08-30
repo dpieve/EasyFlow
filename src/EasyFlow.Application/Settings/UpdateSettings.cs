@@ -6,7 +6,7 @@ using MediatR;
 namespace EasyFlow.Application.Settings;
 public sealed class UpdateSettingsCommand : IRequest<Result<bool>>
 {
-    public GeneralSettings GeneralSettings { get; init; }
+    public GeneralSettings? GeneralSettings { get; init; }
 }
 
 public sealed class UpdateSettingsCommandHandler : IRequestHandler<UpdateSettingsCommand, Result<bool>>
@@ -20,7 +20,7 @@ public sealed class UpdateSettingsCommandHandler : IRequestHandler<UpdateSetting
 
     public async Task<Result<bool>> Handle(UpdateSettingsCommand request, CancellationToken cancellationToken)
     {
-        var settings = request.GeneralSettings;
+        var settings = request.GeneralSettings!;
         var success = await _generalSettingsRepository.UpdateAsync(settings);
         return success ? Result<bool>.Success(true) : Result<bool>.Failure(GeneralSettingsErrors.UpdateFail);
     }

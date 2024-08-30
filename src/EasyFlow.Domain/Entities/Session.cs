@@ -11,7 +11,7 @@ public sealed class Session
     public SessionType SessionType { get; set; }
     public DateTime FinishedDate { get; set; }
     public int TagId { get; set; }
-    public Tag Tag { get; set; }
+    public Tag? Tag { get; set; }
     public string Description { get; set; } = string.Empty;
 }
 
