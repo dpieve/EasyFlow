@@ -276,6 +276,9 @@ Vá Focar e volte mais tarde</value>
   <data name="SessionsBeforeLongBreak" xml:space="preserve">
     <value>Sessões antes da pausa longa</value>
   </data>
+  <data name="SessionsList" xml:space="preserve">
+    <value>Lista de Sessões</value>
+  </data>
   <data name="SessionsMinutes" xml:space="preserve">
     <value>Sessões (Minutos)</value>
   </data>

@@ -594,6 +594,15 @@ namespace EasyFlow.Presentation.Assets {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Sessions List.
+        /// </summary>
+        public static string SessionsList {
+            get {
+                return ResourceManager.GetString("SessionsList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Sessions (Minutes).
         /// </summary>
         public static string SessionsMinutes {

@@ -355,6 +355,10 @@ Go Focus and come back later</value>
     <value>Sessions before long time break</value>
     <comment>Title set long break</comment>
   </data>
+  <data name="SessionsList" xml:space="preserve">
+    <value>Sessions List</value>
+    <comment>Dashboard</comment>
+  </data>
   <data name="SessionsMinutes" xml:space="preserve">
     <value>Sessions (Minutes)</value>
     <comment>Dashboard plot y-axis title</comment>

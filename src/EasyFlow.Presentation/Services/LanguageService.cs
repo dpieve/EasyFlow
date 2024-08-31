@@ -73,4 +73,6 @@ public static class  ConstantTranslation
     public static string SkipToBreak => Assets.Resources.SkipToBreak;
     public static string ReportColumns => Assets.Resources.ReportColumns;
     public static string Report => Assets.Resources.Report;
+    public static string BarChart => Assets.Resources.BarChart;
+    public static string SessionsList => Assets.Resources.SessionsList;
 }

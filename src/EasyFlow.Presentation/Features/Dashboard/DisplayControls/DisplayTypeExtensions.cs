@@ -1,25 +1,26 @@
-﻿namespace EasyFlow.Presentation.Features.Dashboard.DisplayControls;
+﻿using EasyFlow.Presentation.Services;
 
-// TODO: Translate
+namespace EasyFlow.Presentation.Features.Dashboard.DisplayControls;
+
 public static class DisplayTypeExtensions
 {
     public static string ToCustomString(this DisplayType type)
     {
         return type switch
         {
-            DisplayType.BarChart => "Bar Chart",
-            DisplayType.SessionsList => "Sessions List",
+            DisplayType.BarChart => ConstantTranslation.BarChart,
+            DisplayType.SessionsList => ConstantTranslation.SessionsList,
             _ => string.Empty,
         };
     }
 
     public static DisplayType DisplayTypeFromString(this string text)
     {
-        if (text == "Bar Chart")
+        if (text == ConstantTranslation.BarChart)
         {
             return DisplayType.BarChart;
         }
-        if (text == "Sessions List")
+        if (text == ConstantTranslation.SessionsList)
         {
             return DisplayType.SessionsList;
         }
