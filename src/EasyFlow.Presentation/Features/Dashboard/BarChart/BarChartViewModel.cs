@@ -6,13 +6,8 @@ using SkiaSharp;
 using System;
 using CommunityToolkit.Mvvm.ComponentModel;
 using LiveChartsCore;
-using CommunityToolkit.Mvvm.Input;
-using EasyFlow.Application.Sessions;
-using EasyFlow.Presentation.Features.Dashboard.DisplayControls;
 using LiveChartsCore.Defaults;
 using System.Collections.ObjectModel;
-using System.Threading.Tasks;
-using MediatR;
 using System.Linq;
 using System.Collections.Generic;
 using EasyFlow.Domain.Entities;
@@ -37,6 +32,9 @@ public sealed partial class BarChartViewModel : ViewModelBase
     public Axis[] XAxes { get; set; } =
 {
         new DateTimeAxis(TimeSpan.FromDays(1), date => date.ToString(LanguageService.GetDateFormat()))
+        {
+            LabelsPaint = new SolidColorPaint(SKColors.LightGray)
+        }
     };
 
     public Axis[] YAxes { get; set; } =
@@ -44,19 +42,14 @@ public sealed partial class BarChartViewModel : ViewModelBase
         new Axis
         {
             Name = ConstantTranslation.SessionsMinutes,
-            NameTextSize = 16,
-            NamePaint = new SolidColorPaint
-            {
-                Color = SKColors.Gray,
-                SKFontStyle = new SKFontStyle(SKFontStyleWeight.Bold, SKFontStyleWidth.Normal, SKFontStyleSlant.Upright)
-            }
+            NamePaint = new SolidColorPaint(SKColors.LightGray)
         }
     };
 
     public void Update(List<Session> sessions)
     {
         var sessionSummaries = sessions
-            .GroupBy(s => s.FinishedDate)
+            .GroupBy(s => new { s.FinishedDate.Year, s.FinishedDate.Month, s.FinishedDate.Day })
             .Select(group =>
             {
                 var duration = group.Sum(s => s.DurationMinutes);

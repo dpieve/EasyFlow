@@ -273,13 +273,12 @@ public sealed partial class RunningTimerViewModel : ViewModelBase, IRoute, IActi
 
 
             var currentDate = DateTime.Now;
-            DateTime newDateTime = new(currentDate.Year, currentDate.Month, currentDate.Day, 0, 0, 0, DateTimeKind.Utc);
 
             var session = new Session
             {
                 DurationMinutes = duration,
                 SessionType = sessionsType,
-                FinishedDate = newDateTime,
+                FinishedDate = currentDate,
                 TagId = settings!.SelectedTagId,
                 Tag = settings.SelectedTag,
                 Description = sessionsType != SessionType.Focus ? " - " : Description
