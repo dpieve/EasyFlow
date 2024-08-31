@@ -33,6 +33,12 @@ public partial class GeneralSettingsViewModel : ViewModelBase
     [NotifyPropertyChangedFor(nameof(VolumeLabel))]
     private int _volume;
 
+    [ObservableProperty]
+    private bool _isBackupBusy;
+
+    [ObservableProperty]
+    private bool _isDeleteBusy;
+
     public GeneralSettingsViewModel(IMediator mediator, IRestartAppService restartAppService, ILanguageService languageService)
     {
         _mediator = mediator;
@@ -91,21 +97,28 @@ public partial class GeneralSettingsViewModel : ViewModelBase
     [RelayCommand]
     private async Task BackupData()
     {
+        IsBackupBusy = true;
         var result = await BackupDbQueryHandler.Handle();
         if (result.IsSuccess)
         {
             await SukiHost.ShowToast(_languageService.GetString("Success"), _languageService.GetString("SuccessGeneratedBackup"), SukiUI.Enums.NotificationType.Success);
         }
+        IsBackupBusy = false;
     }
 
     [RelayCommand]
     private void DeleteData()
     {
-        SukiHost.ShowDialog(new DeleteDataViewModel(_mediator, () =>
+        IsDeleteBusy = true;
+        
+        SukiHost.ShowDialog(new DeleteDataViewModel(_mediator, 
+        () =>
         {
             _restartAppService.Restart();
-        })
-        , allowBackgroundClose: true);
+            IsDeleteBusy = false;
+        },
+        () => IsDeleteBusy = false)
+        , allowBackgroundClose: false);
     }
 
     private async Task<GeneralSettings> GetSettings()

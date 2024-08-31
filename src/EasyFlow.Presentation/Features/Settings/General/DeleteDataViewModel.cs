@@ -11,13 +11,16 @@ public sealed partial class DeleteDataViewModel : ViewModelBase
 {
     private readonly IMediator _mediator;
     private readonly Action? _onOk;
+    private readonly Action? _onCancel;
 
     public DeleteDataViewModel(
         IMediator mediator,
-        Action? onOk = null)
+        Action? onOk = null,
+        Action? onCancel = null)
     {
         _mediator = mediator;
         _onOk = onOk;
+        _onCancel = onCancel;
     }
 
     [RelayCommand]
@@ -36,6 +39,7 @@ public sealed partial class DeleteDataViewModel : ViewModelBase
     [RelayCommand]
     private void Cancel()
     {
+        _onCancel?.Invoke();
         Close();
     }
 

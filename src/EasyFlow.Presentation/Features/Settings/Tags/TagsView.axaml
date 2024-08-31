@@ -8,6 +8,7 @@
     xmlns:local="clr-namespace:EasyFlow.Presentation.Features.Settings.Tags"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:suki="clr-namespace:SukiUI.Controls;assembly=SukiUI"
+    xmlns:theme="clr-namespace:SukiUI.Theme;assembly=SukiUI"
     d:DesignHeight="450"
     d:DesignWidth="800"
     x:DataType="local:TagsViewModel"
@@ -16,6 +17,7 @@
         <suki:GroupBox Header="{Binding NumTags, StringFormat='Tags - #{0}'}">
             <StackPanel>
                 <Button
+                    theme:ButtonExtensions.ShowProgress="{Binding IsAddBusy}"
                     Classes="Flat"
                     Command="{Binding AddTagCommand}"
                     Content="{x:Static assets:Resources.Add}" />

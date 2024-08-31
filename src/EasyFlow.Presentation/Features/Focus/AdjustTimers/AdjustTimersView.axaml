@@ -197,8 +197,7 @@
                                     Padding="2"
                                     BorderBrush="Transparent"
                                     BorderThickness="0"
-                                    Command="{Binding OpenLongBreakSettingsCommand}"
-                                    HotKey="B">
+                                    Command="{Binding OpenLongBreakSettingsCommand}">
                                     <icons:MaterialIcon
                                         Width="16"
                                         Height="16"
@@ -292,8 +291,7 @@
                 theme:ButtonExtensions.ShowProgress="False"
                 Classes="Flat"
                 Command="{Binding StartCommand}"
-                Content="{x:Static assets:Resources.Start}"
-                HotKey="S" />
+                Content="{x:Static assets:Resources.Start}" />
         </StackPanel>
     </ScrollViewer>
 </UserControl>

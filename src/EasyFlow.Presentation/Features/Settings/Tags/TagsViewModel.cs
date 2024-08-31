@@ -25,6 +25,9 @@ public partial class TagsViewModel : ViewModelBase
     [ObservableProperty]
     private int _numTags;
 
+    [ObservableProperty]
+    private bool _isAddBusy;
+
     public TagsViewModel(IMediator mediator, ILanguageService languageService)
     {
         _mediator = mediator;
@@ -53,7 +56,8 @@ public partial class TagsViewModel : ViewModelBase
     [RelayCommand]
     private void AddTag()
     {
-        SukiHost.ShowDialog(new AddTagViewModel(_mediator, onOk: AddedTag), allowBackgroundClose: true);
+        IsAddBusy = true;
+        SukiHost.ShowDialog(new AddTagViewModel(_mediator, onOk: AddedTag, onCancel: () => IsAddBusy = false), allowBackgroundClose: false);
     }
 
     private void AddedTag(Domain.Entities.Tag tag)
@@ -61,6 +65,8 @@ public partial class TagsViewModel : ViewModelBase
         var newItem = new TagItemViewModel(tag, _mediator, onDeletedTag: DeletedTag, _languageService);
         Tags.Add(newItem);
         NumTags = Tags.Count;
+
+        IsAddBusy = false;
     }
 
     private void DeletedTag(Domain.Entities.Tag tag)

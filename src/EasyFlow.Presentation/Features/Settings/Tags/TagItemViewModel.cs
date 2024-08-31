@@ -38,7 +38,7 @@ public sealed partial class TagItemViewModel : ViewModelBase
     [RelayCommand]
     private void EditTag()
     {
-        SukiHost.ShowDialog(new AddTagViewModel(_mediator, onOk: EditedTag, Tag), allowBackgroundClose: false);
+        SukiHost.ShowDialog(new AddTagViewModel(_mediator, onOk: EditedTag, initialTag: Tag), allowBackgroundClose: false);
     }
 
     [RelayCommand]

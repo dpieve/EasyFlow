@@ -14,6 +14,7 @@ public sealed partial class AddTagViewModel : ViewModelBase
 {
     private readonly IMediator _mediator;
     private readonly Action<Tag> _onOk;
+    private readonly Action? _onCancel;
     private readonly Tag _tag;
 
     [ObservableProperty]
@@ -22,10 +23,12 @@ public sealed partial class AddTagViewModel : ViewModelBase
     public AddTagViewModel(
         IMediator mediator,
         Action<Tag> onOk,
+        Action? onCancel = null,
         Tag? initialTag = null)
     {
         _mediator = mediator;
         _onOk = onOk;
+        _onCancel = onCancel;
         _tag = initialTag ?? new() { };
 
         TagName = _tag.Name;
@@ -47,10 +50,14 @@ public sealed partial class AddTagViewModel : ViewModelBase
         {
             _onOk(result.Value!);
         }
-        
+
         Cancel();
     }
 
     [RelayCommand]
-    private static void Cancel() => SukiHost.CloseDialog();
+    private void Cancel()
+    {
+        _onCancel?.Invoke();
+        SukiHost.CloseDialog();
+    }
 }
