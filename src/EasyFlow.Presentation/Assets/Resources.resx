@@ -187,6 +187,10 @@
 Go Focus and come back later</value>
     <comment>Dashboard</comment>
   </data>
+  <data name="Date" xml:space="preserve">
+    <value>Date</value>
+    <comment>Dashboard Sessions list grid header</comment>
+  </data>
   <data name="Delete" xml:space="preserve">
     <value>Delete</value>
     <comment>Button delete</comment>
@@ -202,6 +206,10 @@ Go Focus and come back later</value>
   <data name="Display" xml:space="preserve">
     <value>Display</value>
     <comment>Dashboard</comment>
+  </data>
+  <data name="Duration_Minutes" xml:space="preserve">
+    <value>Duration (Minutes)</value>
+    <comment>Dashboard Sessions list grid headers</comment>
   </data>
   <data name="English" xml:space="preserve">
     <value>English</value>
@@ -335,6 +343,10 @@ Go Focus and come back later</value>
     <value>Save</value>
     <comment>Button save</comment>
   </data>
+  <data name="Session" xml:space="preserve">
+    <value>Session</value>
+    <comment>Dashboard Session list grid headers</comment>
+  </data>
   <data name="Sessions" xml:space="preserve">
     <value>Sessions</value>
     <comment>Sessions</comment>
@@ -398,6 +410,10 @@ Go Focus and come back later</value>
   <data name="SuccessGeneratedReport" xml:space="preserve">
     <value>The report was successfully generated</value>
     <comment>Message</comment>
+  </data>
+  <data name="Tag" xml:space="preserve">
+    <value>Tag</value>
+    <comment>Tag</comment>
   </data>
   <data name="Tag_CanNotDeleteSelectedTag" xml:space="preserve">
     <value>You can't delete the selected tag. Change it on Focus</value>

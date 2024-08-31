@@ -34,6 +34,7 @@
                         AcceptsReturn="True"
                         Classes="FlatTextBox"
                         CornerRadius="5"
+                        MaxLength="300"
                         Text="{Binding Description}"
                         TextWrapping="Wrap"
                         Watermark="{x:Static assets:Resources.WatermarkDescriptionSuggestion}" />

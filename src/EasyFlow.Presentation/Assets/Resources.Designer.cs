@@ -216,6 +216,15 @@ namespace EasyFlow.Presentation.Assets {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Date.
+        /// </summary>
+        public static string Date {
+            get {
+                return ResourceManager.GetString("Date", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Delete.
         /// </summary>
         public static string Delete {
@@ -248,6 +257,15 @@ namespace EasyFlow.Presentation.Assets {
         public static string Display {
             get {
                 return ResourceManager.GetString("Display", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Duration (Minutes).
+        /// </summary>
+        public static string Duration_Minutes {
+            get {
+                return ResourceManager.GetString("Duration_Minutes", resourceCulture);
             }
         }
         
@@ -549,6 +567,15 @@ namespace EasyFlow.Presentation.Assets {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Session.
+        /// </summary>
+        public static string Session {
+            get {
+                return ResourceManager.GetString("Session", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Sessions.
         /// </summary>
         public static string Sessions {
@@ -689,6 +716,15 @@ namespace EasyFlow.Presentation.Assets {
         public static string SuccessGeneratedReport {
             get {
                 return ResourceManager.GetString("SuccessGeneratedReport", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tag.
+        /// </summary>
+        public static string Tag {
+            get {
+                return ResourceManager.GetString("Tag", resourceCulture);
             }
         }
         

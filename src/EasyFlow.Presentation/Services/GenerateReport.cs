@@ -19,54 +19,62 @@ public static class GenerateReportHandler
 {
     public static async Task<Result<bool>> Handle(IMediator mediator, CancellationToken cancellationToken = new())
     {
-        if (App.Current is null || App.Current.ApplicationLifetime is null)
+        try
         {
-            return Result<bool>.Failure(GenerateReportErrors.Fail);
-        }
+            if (App.Current is null || App.Current.ApplicationLifetime is null)
+            {
+                return Result<bool>.Failure(GenerateReportErrors.Fail);
+            }
 
-        var topLevel = TopLevel.GetTopLevel(((IClassicDesktopStyleApplicationLifetime)App.Current.ApplicationLifetime).MainWindow);
+            var topLevel = TopLevel.GetTopLevel(((IClassicDesktopStyleApplicationLifetime)App.Current.ApplicationLifetime).MainWindow);
 
-        if (topLevel is null)
-        {
-            return Result<bool>.Failure(GenerateReportErrors.Fail);
-        }
+            if (topLevel is null)
+            {
+                return Result<bool>.Failure(GenerateReportErrors.Fail);
+            }
 
-        var dateTime = DateTime.Now;
-        var dateTimeString = dateTime.ToString(LanguageService.GetDateFormat());
+            var dateTime = DateTime.Now;
+            var dateTimeString = dateTime.ToString(LanguageService.GetDateFormat());
 
-        var fileOptions = new FilePickerSaveOptions()
-        {
-            Title = ConstantTranslation.ChooseWhereToSave,
-            DefaultExtension = "csv",
-            ShowOverwritePrompt = true,
-            SuggestedFileName = $"EasyFlow-{ConstantTranslation.Report}-{dateTimeString}",
-            FileTypeChoices = [
-                new("Report file (.csv)")
+            var fileOptions = new FilePickerSaveOptions()
+            {
+                Title = ConstantTranslation.ChooseWhereToSave,
+                DefaultExtension = "csv",
+                ShowOverwritePrompt = true,
+                SuggestedFileName = $"EasyFlow-{ConstantTranslation.Report}-{dateTimeString}",
+                FileTypeChoices = [
+                    new("Report file (.csv)")
                     {
                         Patterns = [ "csv" ],
                         MimeTypes = ["csv" ]
                     }
-            ]
-        };
+                ]
+            };
 
-        var files = await topLevel.StorageProvider.SaveFilePickerAsync(fileOptions);
+            var files = await topLevel.StorageProvider.SaveFilePickerAsync(fileOptions);
 
-        if (files is not null)
-        {
-            var path = files.TryGetLocalPath();
-
-            if (path is not null)
+            if (files is not null)
             {
-                var result = await GenerateCsvFile(path, mediator, cancellationToken);
-                return Result<bool>.Success(result);
+                var path = files.TryGetLocalPath();
+
+                if (path is not null)
+                {
+                    var result = await GenerateCsvFile(path, mediator, cancellationToken);
+                    return Result<bool>.Success(result);
+                }
+                else
+                {
+                    Debug.WriteLine("Couldn't find the path to backup the file");
+                }
             }
-            else
-            {
-                Debug.WriteLine("Couldn't find the path to backup the file");
-            }
+
+            return Result<bool>.Failure(GenerateReportErrors.Cancelled);
         }
-
-        return Result<bool>.Failure(GenerateReportErrors.Cancelled);
+        catch(Exception ex)
+        {
+            Debug.WriteLine(ex.Message);    
+            return Result<bool>.Failure(GenerateReportErrors.Fail);
+        }
     }
 
     private static async Task<bool> GenerateCsvFile(string path, IMediator mediator, CancellationToken cancellationToken)

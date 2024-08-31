@@ -150,6 +150,9 @@
 
 Vá Focar e volte mais tarde</value>
   </data>
+  <data name="Date" xml:space="preserve">
+    <value>Data</value>
+  </data>
   <data name="Delete" xml:space="preserve">
     <value>Excluir</value>
   </data>
@@ -161,6 +164,9 @@ Vá Focar e volte mais tarde</value>
   </data>
   <data name="Display" xml:space="preserve">
     <value>Exibir</value>
+  </data>
+  <data name="Duration_Minutes" xml:space="preserve">
+    <value>Duração (Minutos)</value>
   </data>
   <data name="English" xml:space="preserve">
     <value>Inglês</value>
@@ -261,6 +267,9 @@ Vá Focar e volte mais tarde</value>
   <data name="Save" xml:space="preserve">
     <value>Salvar</value>
   </data>
+  <data name="Session" xml:space="preserve">
+    <value>Sessão</value>
+  </data>
   <data name="Sessions" xml:space="preserve">
     <value>Sessões</value>
   </data>
@@ -308,6 +317,9 @@ Vá Focar e volte mais tarde</value>
   </data>
   <data name="SuccessGeneratedReport" xml:space="preserve">
     <value>Relatório gerado com sucesso</value>
+  </data>
+  <data name="Tag" xml:space="preserve">
+    <value>Tag</value>
   </data>
   <data name="Tag_CanNotDeleteSelectedTag" xml:space="preserve">
     <value>Não é possível excluir a Tag selecionada. Vá em Foco e mude primeiro</value>

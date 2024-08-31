@@ -22,6 +22,12 @@ public sealed class CreateSessionCommandHandler : IRequestHandler<CreateSessionC
     public async Task<Result<Session>> Handle(CreateSessionCommand request, CancellationToken cancellationToken)
     {
         var session = request.Session!;
+
+        if (session.Description == string.Empty)
+        {
+            session.Description = "-";
+        }
+
         if (session.Id == 0)
         {
             var result = await _sessionsRepository.CreateAsync(session);
