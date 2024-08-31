@@ -20,8 +20,8 @@ public sealed partial class TagItemViewModel : ViewModelBase
     [ObservableProperty]
     private string _name;
 
-    public TagItemViewModel(Tag tag, 
-                            IMediator mediator, 
+    public TagItemViewModel(Tag tag,
+                            IMediator mediator,
                             Action<Tag> onDeletedTag,
                             ILanguageService languageService)
     {
@@ -29,7 +29,7 @@ public sealed partial class TagItemViewModel : ViewModelBase
         _mediator = mediator;
         _onDeletedTag = onDeletedTag;
         _languageService = languageService;
-        
+
         Name = tag.Name;
     }
 
@@ -50,7 +50,7 @@ public sealed partial class TagItemViewModel : ViewModelBase
         };
 
         var result = await _mediator.Send(command);
-        
+
         if (!result.IsSuccess)
         {
             await SukiHost.ShowToast(_languageService.GetString("Information"), _languageService.GetString(result.Error.Code));
@@ -59,6 +59,7 @@ public sealed partial class TagItemViewModel : ViewModelBase
 
         _onDeletedTag(Tag);
     }
+
     private void EditedTag(Tag tag)
     {
         Tag.Name = tag.Name;

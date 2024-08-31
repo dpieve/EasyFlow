@@ -1,4 +1,5 @@
 ﻿namespace EasyFlow.Domain.Entities;
+
 public sealed class GeneralSettings
 {
     public GeneralSettings()

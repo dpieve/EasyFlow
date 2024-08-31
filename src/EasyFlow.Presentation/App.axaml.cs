@@ -26,7 +26,7 @@ public partial class App : Avalonia.Application
     {
         Migrate();
         SetupLanguage();
-        
+
         var mainViewModel = Ioc.Default.GetRequiredService<MainViewModel>();
 
         switch (ApplicationLifetime)
@@ -79,10 +79,10 @@ public partial class App : Avalonia.Application
         var languageService = Ioc.Default.GetRequiredService<ILanguageService>();
         languageService.SetLanguage(SupportedLanguage.FromCode(selectedLanguage));
     }
+
     private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
     {
         var exception = e.ExceptionObject as Exception;
         Debug.WriteLine($"Unhandled Exception: {exception?.Message}");
     }
-
 }

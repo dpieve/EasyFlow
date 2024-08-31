@@ -1,12 +1,12 @@
-﻿using System.Reactive.Subjects;
-using System.Reactive;
-using CommunityToolkit.Mvvm.Input;
-using ReactiveUI;
-using System.Reactive.Linq;
-using System.Diagnostics;
-using System;
-using SukiUI.Controls;
+﻿using CommunityToolkit.Mvvm.Input;
 using EasyFlow.Presentation.Features.Restart;
+using ReactiveUI;
+using SukiUI.Controls;
+using System;
+using System.Diagnostics;
+using System.Reactive;
+using System.Reactive.Linq;
+using System.Reactive.Subjects;
 using System.Threading.Tasks;
 
 namespace EasyFlow.Presentation.Services;
@@ -19,6 +19,7 @@ public interface IRestartAppService
 public sealed partial class RestartAppService : IRestartAppService
 {
     private readonly Subject<Unit> _restart = new();
+
     public RestartAppService()
     {
         _restart
@@ -30,7 +31,7 @@ public sealed partial class RestartAppService : IRestartAppService
     {
         SukiHost.ClearAllToasts();
         Task.Delay(200).Wait();
-        
+
         SukiHost.ShowDialog(new RestartViewModel(() =>
         {
             _restart.OnNext(Unit.Default);

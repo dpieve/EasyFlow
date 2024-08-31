@@ -6,6 +6,7 @@ using System;
 using System.Reactive.Linq;
 
 namespace EasyFlow.Presentation.Features.Restart;
+
 public sealed partial class RestartViewModel : ViewModelBase
 {
     private Action _onOk;

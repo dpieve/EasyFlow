@@ -17,7 +17,7 @@ public sealed class SessionsRepository : ISessionsRepository
     public async Task<int> CreateAsync(Session session)
     {
         var context = await _contextFactory.CreateDbContextAsync();
-        
+
         var existingTag = await context.Tags.FirstAsync(t => t.Id == session.TagId);
 
         session.Tag = existingTag;

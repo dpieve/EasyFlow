@@ -1,17 +1,17 @@
-﻿using EasyFlow.Application.Common;
-using System.Threading.Tasks;
-using System.Threading;
+﻿using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
-using Avalonia.Controls;
 using Avalonia.Platform.Storage;
-using System.Diagnostics;
-using System;
-using System.Text;
-using System.IO;
-using MediatR;
+using EasyFlow.Application.Common;
 using EasyFlow.Application.Sessions;
 using EasyFlow.Presentation.Features.Dashboard;
+using MediatR;
+using System;
+using System.Diagnostics;
 using System.Globalization;
+using System.IO;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace EasyFlow.Presentation.Services;
 
@@ -70,9 +70,9 @@ public static class GenerateReportHandler
 
             return Result<bool>.Failure(GenerateReportErrors.Cancelled);
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
-            Debug.WriteLine(ex.Message);    
+            Debug.WriteLine(ex.Message);
             return Result<bool>.Failure(GenerateReportErrors.Fail);
         }
     }

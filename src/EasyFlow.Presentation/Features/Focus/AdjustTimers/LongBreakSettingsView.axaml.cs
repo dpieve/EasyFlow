@@ -15,12 +15,12 @@ public partial class LongBreakSettingsView : UserControl
     protected override void OnLoaded(RoutedEventArgs e)
     {
         base.OnLoaded(e);
-        
+
         var tb = LongBreakSessionsNumericUpDown
                     .GetTemplateChildren()
                     .OfType<TextBox>()
                     .First();
-        
+
         tb.Focus();
 
         tb.SelectionEnd = tb.Text is not null ? tb.Text.Length : 0;

@@ -76,7 +76,7 @@ public sealed partial class RunningTimerViewModel : ViewModelBase, IRoute, IActi
         RouterHost = routerHost;
         _mediator = mediator;
         _languageService = languageService;
-        
+
         this.WhenAnyValue(vm => vm.SecondsLeft)
             .DistinctUntilChanged()
             .Subscribe(secondsLeft =>
@@ -144,7 +144,7 @@ public sealed partial class RunningTimerViewModel : ViewModelBase, IRoute, IActi
             .ObserveOn(RxApp.MainThreadScheduler)
             .InvokeCommand(TimerTickCommand)
             .DisposeWith(_disposables);
-    
+
         Debug.WriteLine("RunningTimer Activated");
     }
 
@@ -232,7 +232,7 @@ public sealed partial class RunningTimerViewModel : ViewModelBase, IRoute, IActi
                 if (session is not null)
                 {
                     session.Description = notes;
-                    _mediator.Send(new CreateSessionCommand() { Session = session }).GetAwaiter().GetResult();   
+                    _mediator.Send(new CreateSessionCommand() { Session = session }).GetAwaiter().GetResult();
                 }
             },
             () => IsRunning = previousRunningState),
@@ -270,7 +270,6 @@ public sealed partial class RunningTimerViewModel : ViewModelBase, IRoute, IActi
                 TimerState.LongBreak => settings!.LongBreakDurationMinutes,
                 _ => settings!.WorkDurationMinutes
             };
-
 
             var currentDate = DateTime.Now;
 

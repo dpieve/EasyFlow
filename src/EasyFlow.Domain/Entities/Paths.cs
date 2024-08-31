@@ -1,4 +1,5 @@
 ﻿namespace EasyFlow.Domain.Entities;
+
 public static class Paths
 {
     public static readonly string DbName = "EasyFlow.ds";

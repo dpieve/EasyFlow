@@ -1,9 +1,10 @@
 ﻿using Avalonia.Data.Converters;
-using System.Globalization;
-using System;
 using EasyFlow.Presentation.Services;
+using System;
+using System.Globalization;
 
 namespace EasyFlow.Presentation.Converters;
+
 public sealed class StringFromDateTime : IValueConverter
 {
     public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)

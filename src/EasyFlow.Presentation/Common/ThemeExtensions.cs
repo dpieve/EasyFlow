@@ -3,6 +3,7 @@ using EasyFlow.Domain.Entities;
 using SukiUI.Models;
 
 namespace EasyFlow.Presentation.Common;
+
 public static class ThemeExtensions
 {
     public static Theme ToTheme(this ThemeVariant themeVariant)

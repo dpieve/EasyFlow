@@ -1,5 +1,4 @@
 using Avalonia.Controls;
-using Avalonia.Interactivity;
 
 namespace EasyFlow.Presentation.Features.Dashboard.DisplayControls;
 

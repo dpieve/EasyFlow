@@ -1,22 +1,23 @@
-﻿using EasyFlow.Presentation.Common;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using EasyFlow.Domain.Entities;
+using EasyFlow.Presentation.Common;
 using EasyFlow.Presentation.Services;
-using LiveChartsCore.SkiaSharpView.Painting;
-using LiveChartsCore.SkiaSharpView;
-using SkiaSharp;
-using System;
-using CommunityToolkit.Mvvm.ComponentModel;
 using LiveChartsCore;
 using LiveChartsCore.Defaults;
+using LiveChartsCore.SkiaSharpView;
+using LiveChartsCore.SkiaSharpView.Painting;
+using SkiaSharp;
+using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Collections.Generic;
-using EasyFlow.Domain.Entities;
 
 namespace EasyFlow.Presentation.Features.Dashboard.BarChart;
+
 public sealed partial class BarChartViewModel : ViewModelBase
 {
     private readonly ILanguageService _languageService;
-    
+
     [ObservableProperty]
     private ISeries[]? _seriePlot;
 

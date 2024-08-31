@@ -50,5 +50,4 @@ public sealed class SessionListItem
     public Tag Tag { get; }
     public int Duration { get; }
     public string Description { get; }
-
 }

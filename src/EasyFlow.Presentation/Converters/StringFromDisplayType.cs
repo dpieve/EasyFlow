@@ -6,6 +6,7 @@ using System.Globalization;
 using System.Linq;
 
 namespace EasyFlow.Presentation.Converters;
+
 public sealed class StringFromDisplayTypes : IValueConverter
 {
     public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)

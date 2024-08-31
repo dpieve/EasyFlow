@@ -8,6 +8,7 @@ namespace EasyFlow.Infrastructure.Repositories;
 public sealed class GeneralSettingsRepository : IGeneralSettingsRepository
 {
     private readonly IDbContextFactory<AppDbContext> _contextFactory;
+
     public GeneralSettingsRepository(IDbContextFactory<AppDbContext> contextFactory)
     {
         _contextFactory = contextFactory;

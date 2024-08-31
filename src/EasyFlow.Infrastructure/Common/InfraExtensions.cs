@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace EasyFlow.Infrastructure.Common;
+
 public static class InfraExtensions
 {
     public static ServiceCollection AddInfrastructure(this ServiceCollection services)

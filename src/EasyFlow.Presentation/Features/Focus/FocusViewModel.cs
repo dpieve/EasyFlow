@@ -18,17 +18,18 @@ public sealed partial class FocusViewModel : PageViewModelBase, IRouterHost
 {
     [ObservableProperty]
     private IRoute? _currentRoute;
+
     private readonly IMediator _mediator;
     private readonly ILanguageService _languageService;
 
     public FocusViewModel(
-        IMediator mediator, 
+        IMediator mediator,
         ILanguageService languageService)
         : base(ConstantTranslation.SideMenuFocus, Material.Icons.MaterialIconKind.Timer, (int)PageOrder.Focus)
     {
         _mediator = mediator;
         _languageService = languageService;
-        
+
         Router = new Router(new RouteFactory(CreateRoutes));
         Router.OnRouteChanged += OnRouteChanged;
     }

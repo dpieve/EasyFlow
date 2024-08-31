@@ -22,7 +22,7 @@ public partial class MainWindow : SukiWindow
         }
 
         if (e.Source is not MenuItem menuItem)
-        {     
+        {
             return;
         }
 

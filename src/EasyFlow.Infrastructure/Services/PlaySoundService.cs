@@ -6,9 +6,9 @@ using NAudio.Wave;
 using System.Diagnostics;
 
 namespace EasyFlow.Infrastructure.Services;
+
 public sealed class PlaySoundService : IPlaySoundService
 {
-    
     private readonly IDbContextFactory<AppDbContext> _contextFactory;
 
     public PlaySoundService(IDbContextFactory<AppDbContext> contextFactory)
@@ -61,12 +61,12 @@ public sealed class PlaySoundService : IPlaySoundService
             outputDevice.Volume = volume / 100.0f;
             outputDevice.Play();
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             Debug.WriteLine(ex);
             return false;
         }
-        
+
         return true;
     }
 

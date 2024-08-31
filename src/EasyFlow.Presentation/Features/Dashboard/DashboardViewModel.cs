@@ -1,18 +1,18 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using EasyFlow.Presentation.Common;
-using System.Reactive.Disposables;
-using SukiUI.Controls;
-using MediatR;
-using EasyFlow.Presentation.Services;
-using EasyFlow.Presentation.Features.Dashboard.DisplayControls;
-using EasyFlow.Presentation.Features.Dashboard.BarChart;
-using System.Reactive.Linq;
 using CommunityToolkit.Mvvm.Input;
 using EasyFlow.Application.Sessions;
-using System.Threading.Tasks;
-using ReactiveUI;
-using System.Linq;
+using EasyFlow.Presentation.Common;
+using EasyFlow.Presentation.Features.Dashboard.BarChart;
+using EasyFlow.Presentation.Features.Dashboard.DisplayControls;
 using EasyFlow.Presentation.Features.Dashboard.SessionsList;
+using EasyFlow.Presentation.Services;
+using MediatR;
+using ReactiveUI;
+using SukiUI.Controls;
+using System.Linq;
+using System.Reactive.Disposables;
+using System.Reactive.Linq;
+using System.Threading.Tasks;
 
 namespace EasyFlow.Presentation.Features.Dashboard;
 
@@ -90,7 +90,7 @@ public partial class DashboardViewModel : PageViewModelBase
         var sessions = result.Value
                             .Where(s => s.SessionType == display.SessionType)
                             .Where(s => s.TagId == display.Tag.Id)
-                            .ToList(); 
+                            .ToList();
 
         if (sessions.Count == 0)
         {
@@ -105,10 +105,12 @@ public partial class DashboardViewModel : PageViewModelBase
                 BarChart.Update(sessions);
                 BarChart.IsBarChartVisible = true;
                 break;
+
             case DisplayType.SessionsList:
                 SessionsList.Update(sessions);
                 SessionsList.IsSessionsListVisible = true;
                 break;
+
             default:
                 break;
         }

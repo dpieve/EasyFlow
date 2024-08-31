@@ -24,7 +24,7 @@ public sealed class TagsRepository : ITagsRepository
         using var context = await _contextFactory.CreateDbContextAsync();
 
         var numTags = await context.Tags.CountAsync();
-        
+
         if (numTags >= Tag.MaxNumTags)
         {
             return 0;
@@ -32,12 +32,12 @@ public sealed class TagsRepository : ITagsRepository
         _ = await context.Tags.AddAsync(tag);
 
         var result = await context.SaveChangesAsync();
-        
+
         if (result == 0)
         {
             return 0;
         }
-        
+
         return tag.Id;
     }
 
@@ -53,7 +53,7 @@ public sealed class TagsRepository : ITagsRepository
         }
 
         var sessions = await context.Sessions.Where(s => s.TagId == tag.Id).ToListAsync();
-        
+
         context.Sessions.RemoveRange(sessions);
         context.Tags.Remove(tag);
 
@@ -77,9 +77,9 @@ public sealed class TagsRepository : ITagsRepository
     public async Task<bool> UpdateAsync(Tag tag)
     {
         using var context = await _contextFactory.CreateDbContextAsync();
-        
+
         _ = context.Tags.Update(tag);
-        
+
         var result = await context.SaveChangesAsync();
 
         if (result == 0)

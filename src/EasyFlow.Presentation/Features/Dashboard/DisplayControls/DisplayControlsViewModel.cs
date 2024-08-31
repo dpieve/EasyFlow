@@ -1,20 +1,20 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using DynamicData;
 using EasyFlow.Application.Tags;
 using EasyFlow.Domain.Entities;
 using EasyFlow.Presentation.Common;
+using EasyFlow.Presentation.Services;
 using MediatR;
+using ReactiveUI;
+using SukiUI.Controls;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
+using System.Linq;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
-using System;
-using ReactiveUI;
-using CommunityToolkit.Mvvm.Input;
-using EasyFlow.Presentation.Services;
-using SukiUI.Controls;
-using System.Linq;
-using DynamicData;
-using System.Diagnostics;
 
 namespace EasyFlow.Presentation.Features.Dashboard.DisplayControls;
 
@@ -33,7 +33,7 @@ public sealed partial class DisplayControlsViewModel : ViewModelBase
     private Tag? _selectedTag;
 
     [ObservableProperty]
-    private SessionType  _selectedSessionType = SessionType.Focus;
+    private SessionType _selectedSessionType = SessionType.Focus;
 
     [ObservableProperty]
     private DisplayType _selectedDisplayType = DisplayType.BarChart;
@@ -86,7 +86,7 @@ public sealed partial class DisplayControlsViewModel : ViewModelBase
         Debug.WriteLine("Deactivated DisplayControlsViewModel");
     }
 
-    public Display GetDisplayControls() => 
+    public Display GetDisplayControls() =>
         new(SelectedFilterPeriod, SelectedTag!, SelectedSessionType, SelectedDisplayType);
 
     private async Task<List<Tag>> GetTags()
@@ -99,7 +99,7 @@ public sealed partial class DisplayControlsViewModel : ViewModelBase
     private async Task FullReport()
     {
         IsGeneratingReport = true;
-        
+
         var result = await GenerateReportHandler.Handle(_mediator);
         if (result.IsSuccess)
         {

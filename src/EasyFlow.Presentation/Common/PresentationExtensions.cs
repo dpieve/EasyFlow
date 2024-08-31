@@ -5,6 +5,7 @@ using EasyFlow.Presentation.Services;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace EasyFlow.Presentation.Common;
+
 public static class PresentationExtensions
 {
     public static ServiceCollection AddPresentation(this ServiceCollection services)

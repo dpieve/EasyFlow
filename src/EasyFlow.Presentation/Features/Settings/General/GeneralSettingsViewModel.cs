@@ -1,16 +1,16 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using EasyFlow.Presentation.Common;
-using SukiUI.Controls;
-using System.Threading.Tasks;
-using System;
-using EasyFlow.Domain.Entities;
-using MediatR;
-using System.Reactive.Linq;
 using EasyFlow.Application.Settings;
-using ReactiveUI;
+using EasyFlow.Domain.Entities;
+using EasyFlow.Presentation.Common;
 using EasyFlow.Presentation.Services;
+using MediatR;
+using ReactiveUI;
+using SukiUI.Controls;
+using System;
 using System.Diagnostics;
+using System.Reactive.Linq;
+using System.Threading.Tasks;
 
 namespace EasyFlow.Presentation.Features.Settings.General;
 
@@ -58,6 +58,7 @@ public partial class GeneralSettingsViewModel : ViewModelBase
     }
 
     public string VolumeLabel => @$"{ConstantTranslation.VolumeSound} {Volume}%";
+
     public void Activate()
     {
         Observable
@@ -110,8 +111,8 @@ public partial class GeneralSettingsViewModel : ViewModelBase
     private void DeleteData()
     {
         IsDeleteBusy = true;
-        
-        SukiHost.ShowDialog(new DeleteDataViewModel(_mediator, 
+
+        SukiHost.ShowDialog(new DeleteDataViewModel(_mediator,
         () =>
         {
             _restartAppService.Restart();

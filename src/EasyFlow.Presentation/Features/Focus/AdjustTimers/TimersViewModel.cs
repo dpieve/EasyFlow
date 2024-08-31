@@ -18,7 +18,7 @@ public sealed partial class TimersViewModel : ViewModelBase
 {
     private readonly IMediator _mediator;
     private readonly ILanguageService _languageService;
-    
+
     [ObservableProperty]
     private int _workMinutes;
 
@@ -33,13 +33,13 @@ public sealed partial class TimersViewModel : ViewModelBase
     private int _sessionsBeforeLongBreak;
 
     public TimersViewModel(
-        IMediator mediator, 
-        GeneralSettings settings, 
+        IMediator mediator,
+        GeneralSettings settings,
         ILanguageService languageService)
     {
         _mediator = mediator;
         _languageService = languageService;
-        
+
         WorkMinutes = settings.WorkDurationMinutes;
         BreakMinutes = settings.BreakDurationMinutes;
         LongBreakMinutes = settings.LongBreakDurationMinutes;
@@ -152,12 +152,15 @@ public sealed partial class TimersViewModel : ViewModelBase
             case TimerType.Work:
                 WorkMinutes = newValue;
                 break;
+
             case TimerType.Break:
                 BreakMinutes = newValue;
                 break;
+
             case TimerType.LongBreak:
                 LongBreakMinutes = newValue;
                 break;
+
             default:
                 break;
         }

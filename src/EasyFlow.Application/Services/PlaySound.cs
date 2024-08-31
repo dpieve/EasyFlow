@@ -4,6 +4,7 @@ using EasyFlow.Domain.Services;
 using MediatR;
 
 namespace EasyFlow.Application.Services;
+
 public sealed class PlaySoundQuery : IRequest<Result<bool>>
 {
     public SoundType? SoundType { get; set; }

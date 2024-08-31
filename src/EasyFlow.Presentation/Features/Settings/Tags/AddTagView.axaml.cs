@@ -9,6 +9,7 @@ public partial class AddTagView : UserControl
     {
         InitializeComponent();
     }
+
     protected override void OnLoaded(RoutedEventArgs e)
     {
         base.OnLoaded(e);

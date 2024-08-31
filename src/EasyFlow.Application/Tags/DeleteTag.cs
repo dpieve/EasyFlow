@@ -4,6 +4,7 @@ using EasyFlow.Domain.Repositories;
 using MediatR;
 
 namespace EasyFlow.Application.Tags;
+
 public sealed class DeleteTagCommand : IRequest<Result<bool>>
 {
     public Tag? Tag { get; init; }

@@ -42,9 +42,9 @@ public class DeleteTagCommandHandlerTests
         tagsRepositoryMock.Setup(repo => repo.DeleteAsync(tag)).ReturnsAsync(true);
 
         var generalSettingsRepositoryMock = new Mock<IGeneralSettingsRepository>();
-        generalSettingsRepositoryMock.Setup(repo => repo.GetAsync()).ReturnsAsync(new List<GeneralSettings> 
+        generalSettingsRepositoryMock.Setup(repo => repo.GetAsync()).ReturnsAsync(new List<GeneralSettings>
         {
-            new GeneralSettings { SelectedTagId = tag.Id } 
+            new GeneralSettings { SelectedTagId = tag.Id }
         });
 
         var command = new DeleteTagCommand { Tag = tag };

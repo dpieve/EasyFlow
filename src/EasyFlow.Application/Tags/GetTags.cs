@@ -4,6 +4,7 @@ using EasyFlow.Domain.Repositories;
 using MediatR;
 
 namespace EasyFlow.Application.Tags;
+
 public sealed class GetTagsQuery : IRequest<Result<List<Tag>>>
 {
 }

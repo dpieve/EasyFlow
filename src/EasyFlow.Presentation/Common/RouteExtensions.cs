@@ -1,6 +1,7 @@
 ﻿using SimpleRouter;
 
 namespace EasyFlow.Presentation.Common;
+
 internal static class RouteExtensions
 {
     public static void Activate(this IRoute route)

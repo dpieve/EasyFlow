@@ -1,12 +1,13 @@
 ﻿using Avalonia.Data.Converters;
-using System.Globalization;
-using System;
 using EasyFlow.Domain.Entities;
 using EasyFlow.Presentation.Features.Dashboard;
+using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 
 namespace EasyFlow.Presentation.Converters;
+
 public sealed class StringFromSessionTypes : IValueConverter
 {
     public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)

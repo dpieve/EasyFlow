@@ -1,16 +1,16 @@
-﻿using Avalonia.Controls.ApplicationLifetimes;
-using Avalonia.Controls;
+﻿using Avalonia.Controls;
+using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Platform.Storage;
 using EasyFlow.Application.Common;
 using EasyFlow.Domain.Entities;
 using System;
+using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
-using System.IO;
 
 namespace EasyFlow.Presentation.Services;
 
-public static class BackupDbQueryHandler 
+public static class BackupDbQueryHandler
 {
     public static async Task<Result<bool>> Handle(CancellationToken cancellationToken = new())
     {
@@ -22,7 +22,7 @@ public static class BackupDbQueryHandler
             }
 
             var appLifeTime = (IClassicDesktopStyleApplicationLifetime)App.Current.ApplicationLifetime;
-            
+
             if (appLifeTime is null)
             {
                 return Result<bool>.Failure(BackupDbErrors.Fail);

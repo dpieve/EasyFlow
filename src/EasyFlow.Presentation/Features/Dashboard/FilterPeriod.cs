@@ -22,4 +22,3 @@ public sealed record FilterPeriod(int NumDays, string Text)
         Years5
     ];
 };
-

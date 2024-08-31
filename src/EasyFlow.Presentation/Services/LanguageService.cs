@@ -5,10 +5,12 @@ using System.Threading;
 
 namespace EasyFlow.Presentation.Services;
 
-public interface ILanguageService   
+public interface ILanguageService
 {
     public event Action LanguageChanged;
+
     public string GetString(string key);
+
     public void SetLanguage(SupportedLanguage language);
 }
 
@@ -39,7 +41,7 @@ public class LanguageService : ILanguageService
     public static string GetDateFormat()
     {
         var culture = CultureInfo.CurrentCulture;
-        
+
         if (culture.Name == SupportedLanguage.Portuguese.Code)
         {
             return "dd MMM yyyy";
@@ -51,7 +53,7 @@ public class LanguageService : ILanguageService
     }
 }
 
-public static class  ConstantTranslation
+public static class ConstantTranslation
 {
     public static string SideMenuFocus => Assets.Resources.SideMenuFocus;
     public static string SideMenuDashboard => Assets.Resources.SideMenuDashboard;

@@ -4,6 +4,7 @@ using EasyFlow.Domain.Repositories;
 using MediatR;
 
 namespace EasyFlow.Application.Settings;
+
 public sealed class GetSettingsQuery : IRequest<Result<GeneralSettings>>
 {
 }

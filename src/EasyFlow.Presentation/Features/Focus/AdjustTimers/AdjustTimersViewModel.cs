@@ -39,7 +39,7 @@ public sealed partial class AdjustTimersViewModel : ViewModelBase, IRoute, IActi
         _languageService = languageService;
 
         Timers = new TimersViewModel(_mediator, generalSettings, languageService);
-        
+
         this.WhenAnyValue(vm => vm.SelectedTag)
             .WhereNotNull()
             .Skip(1)
@@ -125,6 +125,7 @@ public sealed partial class AdjustTimersViewModel : ViewModelBase, IRoute, IActi
 
         _ = await _mediator.Send(new UpdateSettingsCommand() { GeneralSettings = settings });
     }
+
     private async Task<Result<List<Tag>>> GetTags()
     {
         return await _mediator.Send(new GetTagsQuery());

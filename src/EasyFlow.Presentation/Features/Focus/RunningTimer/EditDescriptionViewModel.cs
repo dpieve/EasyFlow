@@ -5,6 +5,7 @@ using SukiUI.Controls;
 using System;
 
 namespace EasyFlow.Presentation.Features.Focus.RunningTimer;
+
 public sealed partial class EditDescriptionViewModel : ViewModelBase
 {
     private readonly Action<string>? _onOk;
@@ -14,8 +15,8 @@ public sealed partial class EditDescriptionViewModel : ViewModelBase
     private string _description = string.Empty;
 
     public EditDescriptionViewModel(
-        string description, 
-        Action<string>? onOk = null, 
+        string description,
+        Action<string>? onOk = null,
         Action? onCancel = null)
     {
         Description = description;

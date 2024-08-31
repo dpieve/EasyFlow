@@ -4,6 +4,7 @@ using EasyFlow.Domain.Repositories;
 using MediatR;
 
 namespace EasyFlow.Application.Sessions;
+
 public sealed class GetSessionsByPeriodQuery : IRequest<Result<List<Session>>>
 {
     public int NumDays { get; set; }

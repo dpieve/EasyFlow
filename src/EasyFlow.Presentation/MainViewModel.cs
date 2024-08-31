@@ -5,17 +5,17 @@ using CommunityToolkit.Mvvm.Input;
 using EasyFlow.Application.Settings;
 using EasyFlow.Domain.Entities;
 using EasyFlow.Presentation.Common;
+using EasyFlow.Presentation.Services;
+using MediatR;
 using ReactiveUI;
 using SukiUI;
 using SukiUI.Controls;
 using SukiUI.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
-using System;
-using MediatR;
-using EasyFlow.Presentation.Services;
 
 namespace EasyFlow.Presentation;
 
@@ -63,9 +63,9 @@ public partial class MainViewModel : ViewModelBase
         {
             ToggleBaseTheme();
         }
-        
+
         BaseTheme = _theme.ActiveBaseTheme;
-        
+
         _theme.OnBaseThemeChanged += variant =>
         {
             BaseTheme = variant;
@@ -78,8 +78,8 @@ public partial class MainViewModel : ViewModelBase
         };
 
         this.WhenAnyValue(
-                vm => vm.SelectedTheme, 
-                vm => vm.BaseTheme, 
+                vm => vm.SelectedTheme,
+                vm => vm.BaseTheme,
                 vm => vm.SelectedLanguage)
             .Skip(1)
             .Select(_ => System.Reactive.Unit.Default)
@@ -101,7 +101,7 @@ public partial class MainViewModel : ViewModelBase
 
         return new GeneralSettings();
     }
-    
+
     partial void OnActivePageChanged(PageViewModelBase? oldValue, PageViewModelBase? newValue)
     {
         if (oldValue is not null)
@@ -149,7 +149,7 @@ public partial class MainViewModel : ViewModelBase
 
         if (prevLanguage != SelectedLanguage.Code)
         {
-           _restartAppService.Restart();
+            _restartAppService.Restart();
         }
     }
 
