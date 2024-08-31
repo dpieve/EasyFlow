@@ -81,7 +81,7 @@ public sealed partial class FocusViewModel : PageViewModelBase, IRouterHost
         }
     }
 
-    private IRoute? CreateRoutes(Type routeType, object[] parameters)
+    private static IRoute? CreateRoutes(Type routeType, object[] parameters)
     {
         return routeType.Name switch
         {

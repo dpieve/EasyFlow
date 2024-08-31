@@ -1,24 +1,19 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using EasyFlow.Domain.Entities;
 using EasyFlow.Presentation.Common;
-using EasyFlow.Presentation.Services;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 
 namespace EasyFlow.Presentation.Features.Dashboard.SessionsList;
 
 public sealed partial class SessionsListViewModel : ViewModelBase
 {
-    private readonly ILanguageService _languageService;
-
     [ObservableProperty]
     private bool _isSessionsListVisible;
 
-    public SessionsListViewModel(ILanguageService languageService)
+    public SessionsListViewModel()
     {
-        _languageService = languageService;
     }
 
     public ObservableCollection<SessionListItem> Items { get; } = [];

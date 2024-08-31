@@ -42,7 +42,7 @@ public partial class DashboardViewModel : PageViewModelBase
 
         DisplayControls = new DisplayControlsViewModel(_mediator, _languageService);
         BarChart = new BarChartViewModel(_languageService);
-        SessionsList = new SessionsListViewModel(_languageService);
+        SessionsList = new SessionsListViewModel();
 
         DisplayControls.ChangedControls
             .Do(display => InfoTitle = $"{display.Tag.Name} - {display.SessionType.ToCustomString()} - {display.FilterPeriod.Text} - {display.DisplayType.ToCustomString()}")

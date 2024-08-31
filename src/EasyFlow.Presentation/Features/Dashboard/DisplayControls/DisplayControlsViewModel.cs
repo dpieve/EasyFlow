@@ -83,10 +83,11 @@ public sealed partial class DisplayControlsViewModel : ViewModelBase
 
     public void Deactivated()
     {
+        Debug.WriteLine("Deactivated DisplayControlsViewModel");
     }
 
     public Display GetDisplayControls() => 
-        new Display(SelectedFilterPeriod, SelectedTag!, SelectedSessionType, SelectedDisplayType);
+        new(SelectedFilterPeriod, SelectedTag!, SelectedSessionType, SelectedDisplayType);
 
     private async Task<List<Tag>> GetTags()
     {
