@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:assets="clr-namespace:EasyFlow.Presentation.Assets"
     xmlns:common="clr-namespace:EasyFlow.Domain.Entities;assembly=EasyFlow.Domain"
+    xmlns:converters="clr-namespace:EasyFlow.Presentation.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:icons="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
     xmlns:local="clr-namespace:EasyFlow.Presentation"
@@ -24,6 +25,15 @@
     IsMenuVisible="True"
     WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
+
+    <suki:SukiWindow.Resources>
+
+        <converters:StringFromThemeVariant x:Key="StringFromThemeVariantConverter" />
+        <converters:StringFromStringColorTheme x:Key="StringFromStringColorThemeConverter" />
+
+    </suki:SukiWindow.Resources>
+
+
     <suki:SukiWindow.LogoContent>
         <icons:MaterialIcon
             Width="20"
@@ -41,7 +51,7 @@
 
     <suki:SukiWindow.MenuItems>
         <MenuItem Header="{x:Static assets:Resources.MenuThemes}">
-            <MenuItem Command="{Binding ToggleBaseThemeCommand}" Header="{Binding BaseTheme}">
+            <MenuItem Command="{Binding ToggleBaseThemeCommand}" Header="{Binding BaseTheme, Converter={StaticResource StringFromThemeVariantConverter}}">
                 <MenuItem.Icon>
                     <icons:MaterialIcon Kind="Lightbulb" />
                 </MenuItem.Icon>
@@ -53,7 +63,7 @@
                 ItemsSource="{Binding Themes}">
                 <MenuItem.DataTemplates>
                     <DataTemplate DataType="{x:Type models:SukiColorTheme}">
-                        <TextBlock Foreground="{Binding PrimaryBrush}" Text="{Binding DisplayName}" />
+                        <TextBlock Foreground="{Binding PrimaryBrush}" Text="{Binding DisplayName, Converter={StaticResource StringFromStringColorThemeConverter}}" />
                     </DataTemplate>
                 </MenuItem.DataTemplates>
             </MenuItem>

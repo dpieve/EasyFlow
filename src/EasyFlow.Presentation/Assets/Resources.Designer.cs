@@ -97,6 +97,15 @@ namespace EasyFlow.Presentation.Assets {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Blue.
+        /// </summary>
+        public static string Blue {
+            get {
+                return ResourceManager.GetString("Blue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Break.
         /// </summary>
         public static string Break {
@@ -201,6 +210,15 @@ namespace EasyFlow.Presentation.Assets {
         public static string Controls {
             get {
                 return ResourceManager.GetString("Controls", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Dark.
+        /// </summary>
+        public static string Dark {
+            get {
+                return ResourceManager.GetString("Dark", resourceCulture);
             }
         }
         
@@ -360,11 +378,29 @@ namespace EasyFlow.Presentation.Assets {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Green.
+        /// </summary>
+        public static string Green {
+            get {
+                return ResourceManager.GetString("Green", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Information.
         /// </summary>
         public static string Information {
             get {
                 return ResourceManager.GetString("Information", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Light.
+        /// </summary>
+        public static string Light {
+            get {
+                return ResourceManager.GetString("Light", resourceCulture);
             }
         }
         
@@ -450,6 +486,15 @@ namespace EasyFlow.Presentation.Assets {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Orange.
+        /// </summary>
+        public static string Orange {
+            get {
+                return ResourceManager.GetString("Orange", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Past 30 days.
         /// </summary>
         public static string Past30Days {
@@ -527,6 +572,15 @@ namespace EasyFlow.Presentation.Assets {
         public static string Portuguese {
             get {
                 return ResourceManager.GetString("Portuguese", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Red.
+        /// </summary>
+        public static string Red {
+            get {
+                return ResourceManager.GetString("Red", resourceCulture);
             }
         }
         

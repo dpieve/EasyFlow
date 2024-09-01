@@ -109,6 +109,9 @@
   <data name="BarChart" xml:space="preserve">
     <value>Gráfico de barras</value>
   </data>
+  <data name="Blue" xml:space="preserve">
+    <value>Azul</value>
+  </data>
   <data name="Break" xml:space="preserve">
     <value>Pausa</value>
   </data>
@@ -144,6 +147,9 @@
   </data>
   <data name="Controls" xml:space="preserve">
     <value>Controles</value>
+  </data>
+  <data name="Dark" xml:space="preserve">
+    <value>Escuro</value>
   </data>
   <data name="DashboardNoSessionAvailable" xml:space="preserve">
     <value>Nenhuma sessão disponível para esses controles. 
@@ -198,8 +204,14 @@ Vá Focar e volte mais tarde</value>
   <data name="General" xml:space="preserve">
     <value>Geral</value>
   </data>
+  <data name="Green" xml:space="preserve">
+    <value>Verde</value>
+  </data>
   <data name="Information" xml:space="preserve">
     <value>Informação</value>
+  </data>
+  <data name="Light" xml:space="preserve">
+    <value>Claro</value>
   </data>
   <data name="Loading" xml:space="preserve">
     <value>Carregando...</value>
@@ -228,6 +240,9 @@ Vá Focar e volte mais tarde</value>
   <data name="Minutes" xml:space="preserve">
     <value>Minutos</value>
   </data>
+  <data name="Orange" xml:space="preserve">
+    <value>Laranja</value>
+  </data>
   <data name="Past30Days" xml:space="preserve">
     <value>Últimos 30 dias</value>
   </data>
@@ -254,6 +269,9 @@ Vá Focar e volte mais tarde</value>
   </data>
   <data name="Portuguese" xml:space="preserve">
     <value>Português</value>
+  </data>
+  <data name="Red" xml:space="preserve">
+    <value>Vermelho</value>
   </data>
   <data name="Report" xml:space="preserve">
     <value>Relatório</value>

@@ -78,4 +78,10 @@ public static class ConstantTranslation
     public static string BarChart => Assets.Resources.BarChart;
     public static string SessionsList => Assets.Resources.SessionsList;
     public static string CanNotMoreThanMax => Assets.Resources.Tag_CanNotMoreThanMax;
+    public static string ThemeDark => Assets.Resources.Dark;
+    public static string ThemeLight => Assets.Resources.Light;
+    public static string ThemeOrange => Assets.Resources.Orange;
+    public static string ThemeRed => Assets.Resources.Red;
+    public static string ThemeGreen => Assets.Resources.Green;
+    public static string ThemeBlue => Assets.Resources.Blue;
 }
