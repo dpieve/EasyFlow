@@ -2,6 +2,7 @@
 using EasyFlow.Application.Settings;
 using EasyFlow.Presentation.Common;
 using MediatR;
+using Serilog;
 using SukiUI.Controls;
 using System;
 using System.Threading.Tasks;

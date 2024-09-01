@@ -6,6 +6,7 @@ using EasyFlow.Presentation.Common;
 using EasyFlow.Presentation.Services;
 using MediatR;
 using ReactiveUI;
+using Serilog;
 using SukiUI.Controls;
 using System;
 using System.Linq;
@@ -64,6 +65,7 @@ public sealed partial class TimersViewModel : ViewModelBase
         var result = await _mediator.Send(new GetSettingsQuery());
         if (!result.IsSuccess)
         {
+            Log.Warning("Failed to get settings: {Error}", result.Error);
             return;
         }
 

@@ -1,4 +1,5 @@
 ﻿using EasyFlow.Domain.Entities;
+using Serilog;
 using System;
 using System.Globalization;
 using System.Threading;
@@ -21,6 +22,10 @@ public class LanguageService : ILanguageService
     public string GetString(string key)
     {
         var value = Assets.Resources.ResourceManager.GetString(key);
+        if (value is null)
+        {
+            Log.Error("Failed to find translation for key: {Key}", key);
+        }
         return value ?? string.Empty;
     }
 

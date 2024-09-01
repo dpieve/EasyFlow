@@ -63,7 +63,7 @@ public sealed class PlaySoundService : IPlaySoundService
         }
         catch (Exception ex)
         {
-            Debug.WriteLine(ex);
+            Trace.TraceError(ex.Message);
             return false;
         }
 

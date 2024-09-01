@@ -9,6 +9,7 @@ using MediatR;
 using SimpleRouter;
 using SukiUI.Controls;
 using System;
+using System.Diagnostics;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 
@@ -53,6 +54,8 @@ public sealed partial class FocusViewModel : PageViewModelBase, IRouterHost
         {
             CurrentRoute?.Activate();
         }
+
+        Trace.TraceInformation("OnActivated FocusViewModel");
     }
 
     protected override void OnDeactivated()
@@ -60,6 +63,8 @@ public sealed partial class FocusViewModel : PageViewModelBase, IRouterHost
         CurrentRoute?.Deactivate();
 
         SukiHost.ClearAllToasts();
+
+        Trace.TraceInformation("OnDeactivated FocusViewModel");
     }
 
     private async Task<GeneralSettings> GetSettings()

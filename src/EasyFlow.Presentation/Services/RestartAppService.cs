@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.Input;
 using EasyFlow.Presentation.Features.Restart;
 using ReactiveUI;
+using Serilog;
 using SukiUI.Controls;
 using System;
 using System.Diagnostics;
@@ -46,7 +47,7 @@ public sealed partial class RestartAppService : IRestartAppService
             var mainModule = Process.GetCurrentProcess().MainModule;
             if (mainModule is null)
             {
-                Debug.WriteLine("mainModule is null. Failed to restart");
+                Trace.TraceError("mainModule is null. Failed to restart");
                 return;
             }
 
@@ -62,7 +63,7 @@ public sealed partial class RestartAppService : IRestartAppService
             }
             else
             {
-                Debug.WriteLine("Unsupported operating system. Failed to restart");
+                Trace.TraceError("Unsupported operating system. Failed to restart");
                 return;
             }
 
@@ -70,7 +71,7 @@ public sealed partial class RestartAppService : IRestartAppService
         }
         catch (Exception ex)
         {
-            Debug.WriteLine(ex.Message);
+            Log.Error("Failed to restart app {Error}", ex.Message);
         }
     }
 }

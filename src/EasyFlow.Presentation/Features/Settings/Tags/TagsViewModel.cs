@@ -50,7 +50,7 @@ public partial class TagsViewModel : ViewModelBase
 
     public void Deactivate()
     {
-        Debug.WriteLine("Deactivating TagsViewModel");
+        Trace.TraceInformation("Deactivating TagsViewModel");
     }
 
     [RelayCommand]

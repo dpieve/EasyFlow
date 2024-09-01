@@ -54,13 +54,13 @@ public partial class App : Avalonia.Application
 
     private void OnStartup(object? sender, ControlledApplicationLifetimeStartupEventArgs e)
     {
-        Debug.WriteLine("Startup application");
+        Trace.TraceInformation("OnStartup - started application");
     }
 
     private async void OnExit(object? sender, ControlledApplicationLifetimeExitEventArgs e)
     {
         await Task.Delay(200);
-        Debug.WriteLine("Exit application");
+        Trace.TraceInformation("OnExit - closed application");
     }
 
     private static void Migrate()
@@ -83,6 +83,6 @@ public partial class App : Avalonia.Application
     private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
     {
         var exception = e.ExceptionObject as Exception;
-        Debug.WriteLine($"Unhandled Exception: {exception?.Message}");
+        Trace.TraceError($"Unhandled Exception: {exception?.Message}");
     }
 }

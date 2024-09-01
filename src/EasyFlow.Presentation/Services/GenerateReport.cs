@@ -5,6 +5,7 @@ using EasyFlow.Application.Common;
 using EasyFlow.Application.Sessions;
 using EasyFlow.Presentation.Features.Dashboard;
 using MediatR;
+using Serilog;
 using System;
 using System.Diagnostics;
 using System.Globalization;
@@ -62,17 +63,13 @@ public static class GenerateReportHandler
                     var result = await GenerateCsvFile(path, mediator, cancellationToken);
                     return Result<bool>.Success(result);
                 }
-                else
-                {
-                    Debug.WriteLine("Couldn't find the path to backup the file");
-                }
             }
 
             return Result<bool>.Failure(GenerateReportErrors.Cancelled);
         }
         catch (Exception ex)
         {
-            Debug.WriteLine(ex.Message);
+            Log.Error(ex, "GenerateReport failed {Error}", ex.Message);
             return Result<bool>.Failure(GenerateReportErrors.Fail);
         }
     }

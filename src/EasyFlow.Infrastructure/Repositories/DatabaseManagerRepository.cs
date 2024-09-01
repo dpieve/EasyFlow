@@ -24,15 +24,6 @@ public class DatabaseManagerRepository : IDatabaseManagerRepository
         using var context = await _contextFactory.CreateDbContextAsync();
         var result = await context.Database.EnsureDeletedAsync();
         await context.Database.MigrateAsync();
-
-        return result;
-    }
-
-    public bool Reset()
-    {
-        using var context = _contextFactory.CreateDbContext();
-        var result = context.Database.EnsureDeleted();
-        context.Database.Migrate();
         return result;
     }
 }

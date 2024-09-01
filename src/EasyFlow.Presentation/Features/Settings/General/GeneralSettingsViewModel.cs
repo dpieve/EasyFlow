@@ -74,7 +74,7 @@ public partial class GeneralSettingsViewModel : ViewModelBase
 
     public void Deactivate()
     {
-        Debug.WriteLine("Deactivating GeneralSettingsViewModel");
+        Trace.TraceInformation("Deactivating GeneralSettingsViewModel");
     }
 
     [RelayCommand]

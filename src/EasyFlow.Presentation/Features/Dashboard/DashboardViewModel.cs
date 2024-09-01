@@ -9,6 +9,7 @@ using EasyFlow.Presentation.Services;
 using MediatR;
 using ReactiveUI;
 using SukiUI.Controls;
+using System.Diagnostics;
 using System.Linq;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
@@ -61,12 +62,16 @@ public partial class DashboardViewModel : PageViewModelBase
         DisplayControls.Activated();
 
         Observable.StartAsync(() => Update(DisplayControls.GetDisplayControls()));
+
+        Trace.TraceInformation("Dashboard OnActivated");
     }
 
     protected override void OnDeactivated()
     {
         SukiHost.ClearAllToasts();
         DisplayControls.Deactivated();
+
+        Trace.TraceInformation("Dashboard OnDeactivated");
     }
 
     [RelayCommand]
@@ -116,5 +121,7 @@ public partial class DashboardViewModel : PageViewModelBase
         }
 
         IsBusy = false;
+
+        Trace.TraceInformation("Dashboard Updated");
     }
 }

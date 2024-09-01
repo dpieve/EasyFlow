@@ -76,14 +76,12 @@ public sealed partial class DisplayControlsViewModel : ViewModelBase
                }
 
                SelectedTag = Tags[0];
-
-               Debug.WriteLine("Updated tags - DisplayControls");
            });
     }
 
     public void Deactivated()
     {
-        Debug.WriteLine("Deactivated DisplayControlsViewModel");
+        Trace.TraceInformation("Deactivated DisplayControlsViewModel");
     }
 
     public Display GetDisplayControls() =>

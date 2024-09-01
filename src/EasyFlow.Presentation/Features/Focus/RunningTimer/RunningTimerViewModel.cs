@@ -10,6 +10,7 @@ using EasyFlow.Presentation.Services;
 using Material.Icons;
 using MediatR;
 using ReactiveUI;
+using Serilog;
 using SimpleRouter;
 using SukiUI.Controls;
 using System;
@@ -145,14 +146,15 @@ public sealed partial class RunningTimerViewModel : ViewModelBase, IRoute, IActi
             .InvokeCommand(TimerTickCommand)
             .DisposeWith(_disposables);
 
-        Debug.WriteLine("RunningTimer Activated");
+        Trace.TraceInformation("RunningTimer Activated");
     }
 
     void IActivatableRoute.OnDeactivated()
     {
-        Debug.WriteLine("RunningTimer Deactivated");
         _disposables?.Dispose();
         _disposables = null;
+
+        Trace.TraceInformation("RunningTimer Deactivated");
     }
 
     [RelayCommand]
@@ -192,12 +194,15 @@ public sealed partial class RunningTimerViewModel : ViewModelBase, IRoute, IActi
     {
         var result = await _mediator.Send(new GetSettingsQuery());
         RouterHost.Router.NavigateTo(new AdjustTimersViewModel(result.Value, RouterHost, _mediator, _languageService));
+
+        Trace.TraceInformation("EndSession");
     }
 
     [RelayCommand]
     private async Task SkipToBreak()
     {
         await GoToNextState(isSkipping: true);
+        Trace.TraceInformation("SkipToBreak");
     }
 
     [RelayCommand]
@@ -238,13 +243,14 @@ public sealed partial class RunningTimerViewModel : ViewModelBase, IRoute, IActi
             () => IsRunning = previousRunningState),
             allowBackgroundClose: false);
         }
+
+        Trace.TraceInformation("OpenNotes");
     }
 
     [RelayCommand]
     private async Task UpdateNotesVisible()
     {
-        var result = await _mediator.Send(new GetSettingsQuery());
-        var settings = result.Value;
+        var settings = await GetSettings();
         IsFocusDescriptionVisible = settings.IsFocusDescriptionEnabled && TimerState == TimerState.Focus;
     }
 
@@ -252,8 +258,7 @@ public sealed partial class RunningTimerViewModel : ViewModelBase, IRoute, IActi
     {
         if (!isSkipping)
         {
-            var result = await _mediator.Send(new GetSettingsQuery());
-            var settings = result.Value;
+            var settings = await GetSettings();
 
             var sessionsType = TimerState switch
             {
@@ -318,6 +323,11 @@ public sealed partial class RunningTimerViewModel : ViewModelBase, IRoute, IActi
     private async Task<GeneralSettings> GetSettings()
     {
         var result = await _mediator.Send(new GetSettingsQuery());
+        if (!result.IsSuccess)
+        {
+            Log.Warning("Failed to get settings {Error}", result.Error);
+            return new();
+        }
         var settings = result.Value;
         return settings;
     }
