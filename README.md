@@ -1,10 +1,14 @@
 # EasyFlow
 
+[![Build Status](https://github.com/dpieve/EasyFlow/actions/workflows/build.yml/badge.svg)](https://github.com/dpieve/EasyFlow/actions/workflows/build.yml)
+
 EasyFlow is a cross-platform productivity desktop application designed to enhance your focus and efficiency using the pomodoro technique.
 
 The application is built with C# and [AvaloniaUI](https://avaloniaui.net/).
 
 > "To help me stay focused and productive while working from home, I built EasyFlow — a simple, efficient, and minimalist tool that tracks time, respects privacy, lets me easily see what I’ve accomplished and when, and even generates reports for me to see my own data in details. It’s also been a great way to sharpen my programming skills."
+
+Check it out: [dpieve.github.io/EasyFlow/]([dpieve.github.io/EasyFlow/](https://dpieve.github.io/EasyFlow/))
 
 ## Features
 
