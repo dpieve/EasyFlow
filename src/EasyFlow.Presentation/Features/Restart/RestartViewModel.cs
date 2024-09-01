@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using EasyFlow.Presentation.Common;
 using ReactiveUI;
+using SukiUI.Controls;
 using System;
 using System.Reactive.Linq;
 
@@ -36,7 +37,7 @@ public sealed partial class RestartViewModel : ViewModelBase
             .InvokeCommand(TimerTickCommand);
 
         this.WhenAnyValue(vm => vm.SecondsLeft)
-            .Where(s => s == 0)
+            .Where(s => s <= 0)
             .Subscribe(_ =>
             {
                 Ok();
@@ -49,6 +50,8 @@ public sealed partial class RestartViewModel : ViewModelBase
         IsRestarting = false;
 
         _onOk();
+
+        SukiHost.CloseDialog();
     }
 
     [RelayCommand]

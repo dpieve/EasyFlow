@@ -8,7 +8,6 @@ using System.Reactive;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using System.Threading.Tasks;
-
 namespace EasyFlow.Presentation.Services;
 
 public interface IRestartAppService
@@ -52,7 +51,20 @@ public sealed partial class RestartAppService : IRestartAppService
             }
 
             string exePath = mainModule.FileName;
-            Process.Start(exePath);
+
+            if (OperatingSystem.IsWindows())
+            {
+                Process.Start("cmd.exe", $"/C \"{exePath}\"");
+            }
+            else if (OperatingSystem.IsLinux())
+            {
+                Process.Start("bash", $"-c \"{exePath}\"");
+            }
+            else
+            {
+                Debug.WriteLine("Unsupported operating system. Failed to restart");
+                return;
+            }
 
             Process.GetCurrentProcess().Kill();
         }
