@@ -9,7 +9,7 @@ public sealed class Result<T>
     private Result(bool isSuccess, T? value, Error error)
     {
         IsSuccess = isSuccess;
-        Value = value ?? throw new ArgumentNullException(nameof(value));
+        Value = value!;
         Error = error;
     }
 

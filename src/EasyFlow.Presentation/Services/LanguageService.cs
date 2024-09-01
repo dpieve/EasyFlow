@@ -77,4 +77,5 @@ public static class ConstantTranslation
     public static string Report => Assets.Resources.Report;
     public static string BarChart => Assets.Resources.BarChart;
     public static string SessionsList => Assets.Resources.SessionsList;
+    public static string CanNotMoreThanMax => Assets.Resources.Tag_CanNotMoreThanMax;
 }

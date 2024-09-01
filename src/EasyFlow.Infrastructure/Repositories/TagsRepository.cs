@@ -14,21 +14,10 @@ public sealed class TagsRepository : ITagsRepository
         _contextFactory = contextFactory;
     }
 
-    public Task<int> CountSessionsAsync(int tagId, SessionType? sessionType = null)
-    {
-        throw new NotImplementedException();
-    }
-
     public async Task<int> CreateAsync(Tag tag)
     {
         using var context = await _contextFactory.CreateDbContextAsync();
 
-        var numTags = await context.Tags.CountAsync();
-
-        if (numTags >= Tag.MaxNumTags)
-        {
-            return 0;
-        }
         _ = await context.Tags.AddAsync(tag);
 
         var result = await context.SaveChangesAsync();
@@ -88,5 +77,13 @@ public sealed class TagsRepository : ITagsRepository
         }
 
         return true;
+    }
+
+    public async Task<int> CountAsync()
+    {
+        using var context = await _contextFactory.CreateDbContextAsync();
+
+        var result = await context.Tags.CountAsync();
+        return result;
     }
 }

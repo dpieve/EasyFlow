@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using EasyFlow.Application.Tags;
 using EasyFlow.Domain.Entities;
 using EasyFlow.Presentation.Common;
+using EasyFlow.Presentation.Services;
 using MediatR;
 using SukiUI.Controls;
 using System;
@@ -14,6 +15,7 @@ public sealed partial class AddTagViewModel : ViewModelBase
 {
     private readonly IMediator _mediator;
     private readonly Action<Tag> _onOk;
+    private readonly ILanguageService _languageService;
     private readonly Action? _onCancel;
     private readonly Tag _tag;
 
@@ -22,12 +24,14 @@ public sealed partial class AddTagViewModel : ViewModelBase
 
     public AddTagViewModel(
         IMediator mediator,
+        ILanguageService languageService,
         Action<Tag> onOk,
         Action? onCancel = null,
         Tag? initialTag = null)
     {
         _mediator = mediator;
         _onOk = onOk;
+        _languageService = languageService;
         _onCancel = onCancel;
         _tag = initialTag ?? new() { };
 
@@ -49,6 +53,18 @@ public sealed partial class AddTagViewModel : ViewModelBase
         if (result.IsSuccess)
         {
             _onOk(result.Value!);
+        }
+        else
+        {
+            var code = result.Error.Code;
+            var error = _languageService.GetString(code);
+
+            if (error == ConstantTranslation.CanNotMoreThanMax)
+            {
+                error += $" {Tag.MaxNumTags}";
+            }    
+
+            await SukiHost.ShowToast(_languageService.GetString("Failure"), error);
         }
 
         Cancel();

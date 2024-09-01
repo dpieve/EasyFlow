@@ -423,9 +423,21 @@ Go Focus and come back later</value>
     <value>You can't delete the selected tag. Change it on Focus</value>
     <comment>Error message</comment>
   </data>
+  <data name="Tag_CanNotEmptyName" xml:space="preserve">
+    <value>Empty names are not allowed</value>
+    <comment>Error</comment>
+  </data>
+  <data name="Tag_CanNotMoreThanMax" xml:space="preserve">
+    <value>There is a limit of</value>
+    <comment>Error</comment>
+  </data>
   <data name="Tag_CouldNotDelete" xml:space="preserve">
     <value>It wasn't possible to delete the tag</value>
     <comment>Error message</comment>
+  </data>
+  <data name="Tag_UpdateFail" xml:space="preserve">
+    <value>Update Fail</value>
+    <comment>Error</comment>
   </data>
   <data name="VolumeSound" xml:space="preserve">
     <value>Sound volume is set to</value>

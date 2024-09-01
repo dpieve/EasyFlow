@@ -11,6 +11,6 @@ public interface ITagsRepository
     public Task<bool> UpdateAsync(Tag tag);
 
     public Task<List<Tag>> GetAsync();
-
-    public Task<int> CountSessionsAsync(int tagId, SessionType? sessionType = null);
+    
+    public Task<int> CountAsync();
 }

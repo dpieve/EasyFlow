@@ -747,11 +747,38 @@ namespace EasyFlow.Presentation.Assets {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Empty names are not allowed.
+        /// </summary>
+        public static string Tag_CanNotEmptyName {
+            get {
+                return ResourceManager.GetString("Tag_CanNotEmptyName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to There is a limit of.
+        /// </summary>
+        public static string Tag_CanNotMoreThanMax {
+            get {
+                return ResourceManager.GetString("Tag_CanNotMoreThanMax", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to It wasn&apos;t possible to delete the tag.
         /// </summary>
         public static string Tag_CouldNotDelete {
             get {
                 return ResourceManager.GetString("Tag_CouldNotDelete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Update Fail.
+        /// </summary>
+        public static string Tag_UpdateFail {
+            get {
+                return ResourceManager.GetString("Tag_UpdateFail", resourceCulture);
             }
         }
         

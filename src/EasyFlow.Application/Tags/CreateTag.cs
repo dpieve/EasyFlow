@@ -22,20 +22,37 @@ public sealed class CreateTagCommandHandler : IRequestHandler<CreateTagCommand, 
     async Task<Result<Tag>> IRequestHandler<CreateTagCommand, Result<Tag>>.Handle(CreateTagCommand request, CancellationToken cancellationToken)
     {
         var tag = request.Tag!;
-        if (tag.Id == 0)
+
+        if (tag.Name == string.Empty)
         {
-            var tagId = await _tagsRepository.CreateAsync(tag);
-            tag.Id = tagId;
-            return Result<Tag>.Success(tag);
+            return Result<Tag>.Failure(TagsErrors.CanNotNameEmpty);
         }
 
-        var success = await _tagsRepository.UpdateAsync(tag);
-        return success ? Result<Tag>.Success(tag) : Result<Tag>.Failure(TagsErrors.UpdateFail);
+        if (tag.Id != 0)
+        {
+            var success = await _tagsRepository.UpdateAsync(tag);
+            return success ? Result<Tag>.Success(tag) : Result<Tag>.Failure(TagsErrors.UpdateFail);
+        }
+
+        var numTags = await _tagsRepository.CountAsync();
+        if (numTags + 1 > Tag.MaxNumTags)
+        {
+            return Result<Tag>.Failure(TagsErrors.CanNotMoreThanMax);
+        }
+
+        var tagId = await _tagsRepository.CreateAsync(tag);
+        tag.Id = tagId;
+
+        return Result<Tag>.Success(tag);
     }
 }
 
 public static partial class TagsErrors
 {
-    public static readonly Error UpdateFail = new($"Tag.UpdateFail",
-       "Failed to update the tag");
+    public static readonly Error UpdateFail = new("Tag_UpdateFail",
+       "Failed to update");
+
+    public static readonly Error CanNotNameEmpty = new("Tag_CanNotEmptyName", "Empty names are not allowed");
+
+    public static readonly Error CanNotMoreThanMax = new("Tag_CanNotMoreThanMax", $"There is a limit of {Tag.MaxNumTags}");
 }

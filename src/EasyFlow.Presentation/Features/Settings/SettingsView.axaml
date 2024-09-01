@@ -21,12 +21,12 @@
             Orientation="Horizontal">
             <tags:TagsView
                 Width="400"
-                Height="370"
+                Height="420"
                 Margin="5,10,25,5"
                 DataContext="{Binding Tags}" />
             <general:GeneralSettingsView
                 Width="400"
-                Height="370"
+                Height="420"
                 Margin="5,10,5,5"
                 DataContext="{Binding GeneralSettings}" />
         </WrapPanel>

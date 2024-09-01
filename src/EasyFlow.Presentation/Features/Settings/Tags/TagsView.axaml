@@ -22,7 +22,7 @@
                     Command="{Binding AddTagCommand}"
                     Content="{x:Static assets:Resources.Add}" />
                 <ScrollViewer>
-                    <ListBox Height="340" ItemsSource="{Binding Tags}" />
+                    <ListBox Height="300" ItemsSource="{Binding Tags}" />
                 </ScrollViewer>
             </StackPanel>
         </suki:GroupBox>

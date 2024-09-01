@@ -327,8 +327,17 @@ Vá Focar e volte mais tarde</value>
   <data name="Tag_CanNotDeleteSelectedTag" xml:space="preserve">
     <value>Não é possível excluir a Tag selecionada. Vá em Foco e mude primeiro</value>
   </data>
+  <data name="Tag_CanNotEmptyName" xml:space="preserve">
+    <value>Nomes vazios não são aceitos</value>
+  </data>
+  <data name="Tag_CanNotMoreThanMax" xml:space="preserve">
+    <value>Existe um limite de</value>
+  </data>
   <data name="Tag_CouldNotDelete" xml:space="preserve">
     <value>Não foi possível excluir a Tag</value>
+  </data>
+  <data name="Tag_UpdateFail" xml:space="preserve">
+    <value>Update Falhou</value>
   </data>
   <data name="VolumeSound" xml:space="preserve">
     <value>Volume está em</value>
