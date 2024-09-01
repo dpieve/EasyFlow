@@ -55,7 +55,16 @@ public sealed partial class RestartAppService : IRestartAppService
 
             if (OperatingSystem.IsWindows())
             {
-                Process.Start("cmd.exe", $"/C \"{exePath}\"");
+                var startInfo = new ProcessStartInfo
+                {
+                    FileName = exePath,
+                    UseShellExecute = false,
+                    RedirectStandardOutput = false,
+                    RedirectStandardError = false,
+                    CreateNoWindow = true 
+                };
+                 
+                Process.Start(startInfo);
             }
             else if (OperatingSystem.IsLinux())
             {
