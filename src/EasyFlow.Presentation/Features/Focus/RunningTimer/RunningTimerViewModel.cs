@@ -132,9 +132,6 @@ public sealed partial class RunningTimerViewModel : ViewModelBase, IRoute, IActi
 
                 SecondsLeft = TotalSeconds;
 
-                // Test
-                SecondsLeft = 3;
-
                 IsRunning = true;
             })
             .DisposeWith(_disposables);
@@ -349,9 +346,6 @@ public sealed partial class RunningTimerViewModel : ViewModelBase, IRoute, IActi
 
         TotalSeconds = totalMinutes * 60;
         SecondsLeft = TotalSeconds;
-
-        // TEST:
-        SecondsLeft = 3;
 
         IsBreak = state != TimerState.Focus;
     }
