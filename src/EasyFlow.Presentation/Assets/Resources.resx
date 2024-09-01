@@ -1,0 +1,484 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Add" xml:space="preserve">
+    <value>Add</value>
+    <comment>Tags</comment>
+  </data>
+  <data name="AddFocusDescription" xml:space="preserve">
+    <value>Add a description to Focus sessions</value>
+    <comment>Settings</comment>
+  </data>
+  <data name="BackupData" xml:space="preserve">
+    <value>Backup Data</value>
+    <comment>Settings</comment>
+  </data>
+  <data name="BarChart" xml:space="preserve">
+    <value>Bar chart</value>
+    <comment>Dashboard</comment>
+  </data>
+  <data name="Blue" xml:space="preserve">
+    <value>Blue</value>
+    <comment>Theme</comment>
+  </data>
+  <data name="Break" xml:space="preserve">
+    <value>Break</value>
+    <comment>Session type</comment>
+  </data>
+  <data name="BreakAlarmSounds" xml:space="preserve">
+    <value>Break Alarm Sounds</value>
+    <comment>Settings</comment>
+  </data>
+  <data name="BreakCompleted" xml:space="preserve">
+    <value>Break completed. Time to focus!</value>
+    <comment>Message</comment>
+  </data>
+  <data name="BreakSmallerOrEqualFocus" xml:space="preserve">
+    <value>Break time must be smaller or equal Focus time</value>
+    <comment>Message</comment>
+  </data>
+  <data name="BreakSmallerOrEqualLongBreak" xml:space="preserve">
+    <value>Break time must be smaller or equal Long break time</value>
+    <comment>Message</comment>
+  </data>
+  <data name="BreakTime" xml:space="preserve">
+    <value>Break Time</value>
+    <comment>Adjust timers header</comment>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Cancel</value>
+    <comment>Button cancel</comment>
+  </data>
+  <data name="ChangedColorTo" xml:space="preserve">
+    <value>Changed Color Theme To</value>
+    <comment>Theme</comment>
+  </data>
+  <data name="ChangedThemeTo" xml:space="preserve">
+    <value>Changed Theme To</value>
+    <comment>Theme</comment>
+  </data>
+  <data name="CheckDelete" xml:space="preserve">
+    <value>Are you sure you want to delete all data?</value>
+    <comment>Verify if the user wants to delete their data</comment>
+  </data>
+  <data name="ChooseWhereToSave" xml:space="preserve">
+    <value>Choose where to save</value>
+    <comment>Saving a file</comment>
+  </data>
+  <data name="Controls" xml:space="preserve">
+    <value>Controls</value>
+    <comment>Dashboard</comment>
+  </data>
+  <data name="Dark" xml:space="preserve">
+    <value>Dark</value>
+    <comment>Theme</comment>
+  </data>
+  <data name="DashboardNoSessionAvailable" xml:space="preserve">
+    <value>No sessions available for these controls. 
+
+Go Focus and come back later</value>
+    <comment>Dashboard</comment>
+  </data>
+  <data name="Date" xml:space="preserve">
+    <value>Date</value>
+    <comment>Dashboard Sessions list grid header</comment>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Delete</value>
+    <comment>Button delete</comment>
+  </data>
+  <data name="DeleteData" xml:space="preserve">
+    <value>Delete data</value>
+    <comment>Settings</comment>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Description</value>
+    <comment>Title</comment>
+  </data>
+  <data name="Display" xml:space="preserve">
+    <value>Display</value>
+    <comment>Dashboard</comment>
+  </data>
+  <data name="Duration_Minutes" xml:space="preserve">
+    <value>Duration (Minutes)</value>
+    <comment>Dashboard Sessions list grid headers</comment>
+  </data>
+  <data name="English" xml:space="preserve">
+    <value>English</value>
+    <comment>Language</comment>
+  </data>
+  <data name="Failure" xml:space="preserve">
+    <value>Failure</value>
+    <comment>Message</comment>
+  </data>
+  <data name="FailureGeneratedReport" xml:space="preserve">
+    <value>The report couldn't be generated. Try again.</value>
+    <comment>Message</comment>
+  </data>
+  <data name="Focus" xml:space="preserve">
+    <value>Focus</value>
+    <comment>Session type</comment>
+  </data>
+  <data name="FocusAlarmSounds" xml:space="preserve">
+    <value>Focus Alarm Sounds</value>
+    <comment>Settings</comment>
+  </data>
+  <data name="FocusCompleted" xml:space="preserve">
+    <value>Focus completed. Well done! You can rest now.</value>
+    <comment>Message</comment>
+  </data>
+  <data name="FocusDescription" xml:space="preserve">
+    <value>Focus Description</value>
+    <comment>Settings</comment>
+  </data>
+  <data name="FocusGreaterOrEqualBreak" xml:space="preserve">
+    <value>Focus must be greater or equal break time</value>
+    <comment>Message</comment>
+  </data>
+  <data name="FocusTime" xml:space="preserve">
+    <value>Focus Time</value>
+    <comment>Adjust timers header</comment>
+  </data>
+  <data name="General" xml:space="preserve">
+    <value>General</value>
+    <comment>Title</comment>
+  </data>
+  <data name="Green" xml:space="preserve">
+    <value>Green</value>
+    <comment>Theme</comment>
+  </data>
+  <data name="Information" xml:space="preserve">
+    <value>Information</value>
+    <comment>Message</comment>
+  </data>
+  <data name="Light" xml:space="preserve">
+    <value>Light</value>
+    <comment>Theme</comment>
+  </data>
+  <data name="Loading" xml:space="preserve">
+    <value>Loading...</value>
+    <comment>Settings</comment>
+  </data>
+  <data name="LongBreak" xml:space="preserve">
+    <value>Long Break</value>
+    <comment>Session type</comment>
+  </data>
+  <data name="LongBreakCompleted" xml:space="preserve">
+    <value>Long break completed. Enough rest, time to focus!</value>
+    <comment>Message</comment>
+  </data>
+  <data name="LongBreakGreaterOrEqualBreak" xml:space="preserve">
+    <value>Long Break time must be greater or equal Break time</value>
+    <comment>Message</comment>
+  </data>
+  <data name="LongBreakTime" xml:space="preserve">
+    <value>Long Break Time</value>
+    <comment>Adjust timers header</comment>
+  </data>
+  <data name="MenuLanguages" xml:space="preserve">
+    <value>Languages</value>
+    <comment>Top menu</comment>
+  </data>
+  <data name="MenuSwitchTo" xml:space="preserve">
+    <value>Switch To...</value>
+    <comment>Top menu</comment>
+  </data>
+  <data name="MenuThemes" xml:space="preserve">
+    <value>Themes</value>
+    <comment>Top menu</comment>
+  </data>
+  <data name="Minutes" xml:space="preserve">
+    <value>Minutes</value>
+    <comment>Label</comment>
+  </data>
+  <data name="Orange" xml:space="preserve">
+    <value>Orange</value>
+    <comment>Theme</comment>
+  </data>
+  <data name="Past30Days" xml:space="preserve">
+    <value>Past 30 days</value>
+    <comment>Past date</comment>
+  </data>
+  <data name="Past48Hours" xml:space="preserve">
+    <value>Past 48 hours</value>
+    <comment>Past date</comment>
+  </data>
+  <data name="Past5Years" xml:space="preserve">
+    <value>Past 5 years</value>
+    <comment>Past date</comment>
+  </data>
+  <data name="Past7Days" xml:space="preserve">
+    <value>Past 7 days</value>
+    <comment>Past date</comment>
+  </data>
+  <data name="Past90Days" xml:space="preserve">
+    <value>Past 90 days</value>
+    <comment>Past date</comment>
+  </data>
+  <data name="PastYear" xml:space="preserve">
+    <value>Past year</value>
+    <comment>Past date</comment>
+  </data>
+  <data name="PlaySoundsAfterBreak" xml:space="preserve">
+    <value>Play alarm sounds after break sessions</value>
+    <comment>Settings</comment>
+  </data>
+  <data name="PlaySoundsAfterFocus" xml:space="preserve">
+    <value>Play alarm sounds after Focus sessions</value>
+    <comment>Settings</comment>
+  </data>
+  <data name="Portuguese" xml:space="preserve">
+    <value>Portuguese</value>
+    <comment>Language</comment>
+  </data>
+  <data name="Red" xml:space="preserve">
+    <value>Red</value>
+    <comment>Theme</comment>
+  </data>
+  <data name="Report" xml:space="preserve">
+    <value>Report</value>
+    <comment>Dashboard</comment>
+  </data>
+  <data name="ReportColumns" xml:space="preserve">
+    <value>Date,Duration (Minutes),Tag,Session Type</value>
+    <comment>Generated csv report columns</comment>
+  </data>
+  <data name="Restarting" xml:space="preserve">
+    <value>Restarting...</value>
+    <comment>Reopen sofware</comment>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Save</value>
+    <comment>Button save</comment>
+  </data>
+  <data name="Session" xml:space="preserve">
+    <value>Session</value>
+    <comment>Dashboard Session list grid headers</comment>
+  </data>
+  <data name="Sessions" xml:space="preserve">
+    <value>Sessions</value>
+    <comment>Sessions</comment>
+  </data>
+  <data name="SessionsBeforeLongBreak" xml:space="preserve">
+    <value>Sessions before long time break</value>
+    <comment>Title set long break</comment>
+  </data>
+  <data name="SessionsList" xml:space="preserve">
+    <value>Sessions List</value>
+    <comment>Dashboard</comment>
+  </data>
+  <data name="SessionsMinutes" xml:space="preserve">
+    <value>Sessions (Minutes)</value>
+    <comment>Dashboard plot y-axis title</comment>
+  </data>
+  <data name="SessionType" xml:space="preserve">
+    <value>Session Type</value>
+    <comment>Dashboard</comment>
+  </data>
+  <data name="Show" xml:space="preserve">
+    <value>Show</value>
+    <comment>Dashboard</comment>
+  </data>
+  <data name="ShowInTheReport" xml:space="preserve">
+    <value>It will show in the report.</value>
+    <comment>Inform it will show in the report</comment>
+  </data>
+  <data name="SideMenuDashboard" xml:space="preserve">
+    <value>Dashboard</value>
+    <comment>Side menu</comment>
+  </data>
+  <data name="SideMenuFocus" xml:space="preserve">
+    <value>Focus</value>
+    <comment>Side menu</comment>
+  </data>
+  <data name="SideMenuSettings" xml:space="preserve">
+    <value>Settings</value>
+    <comment>Side menu</comment>
+  </data>
+  <data name="SkipToBreak" xml:space="preserve">
+    <value>Skip to Break</value>
+    <comment>Menu option</comment>
+  </data>
+  <data name="SkipToFocus" xml:space="preserve">
+    <value>Skip to Focus</value>
+    <comment>Menu option</comment>
+  </data>
+  <data name="SoundVolume" xml:space="preserve">
+    <value>Sound Volume</value>
+    <comment>Settings</comment>
+  </data>
+  <data name="Start" xml:space="preserve">
+    <value>Start</value>
+    <comment>Adjust timers start button</comment>
+  </data>
+  <data name="Success" xml:space="preserve">
+    <value>Success</value>
+    <comment>Message</comment>
+  </data>
+  <data name="SuccessGeneratedBackup" xml:space="preserve">
+    <value>Backup saved successfully</value>
+    <comment>Message settings</comment>
+  </data>
+  <data name="SuccessGeneratedReport" xml:space="preserve">
+    <value>The report was successfully generated</value>
+    <comment>Message</comment>
+  </data>
+  <data name="Tag" xml:space="preserve">
+    <value>Tag</value>
+    <comment>Tag</comment>
+  </data>
+  <data name="Tag_CanNotDeleteSelectedTag" xml:space="preserve">
+    <value>You can't delete the selected tag. Change it on Focus</value>
+    <comment>Error message</comment>
+  </data>
+  <data name="Tag_CanNotEmptyName" xml:space="preserve">
+    <value>Empty names are not allowed</value>
+    <comment>Error</comment>
+  </data>
+  <data name="Tag_CanNotMoreThanMax" xml:space="preserve">
+    <value>There is a limit of</value>
+    <comment>Error</comment>
+  </data>
+  <data name="Tag_CouldNotDelete" xml:space="preserve">
+    <value>It wasn't possible to delete the tag</value>
+    <comment>Error message</comment>
+  </data>
+  <data name="Tag_UpdateFail" xml:space="preserve">
+    <value>Update Fail</value>
+    <comment>Error</comment>
+  </data>
+  <data name="VolumeSound" xml:space="preserve">
+    <value>Sound volume is set to</value>
+    <comment>Settings volume</comment>
+  </data>
+  <data name="WatermarkDescriptionSuggestion" xml:space="preserve">
+    <value>Suggestions
+
+What did you focus on?
+
+What did you complete?
+
+What were the challenges?</value>
+    <comment>Description</comment>
+  </data>
+  <data name="WriteNotes" xml:space="preserve">
+    <value>Write your notes about the last session.</value>
+    <comment>Ask to write notes</comment>
+  </data>
+</root>

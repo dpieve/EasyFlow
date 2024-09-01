@@ -1,0 +1,62 @@
+<UserControl
+    x:Class="EasyFlow.Presentation.Features.Focus.RunningTimer.EditDescriptionView"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:assets="clr-namespace:EasyFlow.Presentation.Assets"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:EasyFlow.Presentation.Features.Focus.RunningTimer"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:suki="clr-namespace:SukiUI.Controls;assembly=SukiUI"
+    d:DesignHeight="500"
+    d:DesignWidth="400"
+    x:DataType="local:EditDescriptionViewModel"
+    mc:Ignorable="d">
+    <suki:GlassCard Width="400" Height="500">
+        <suki:GroupBox Header="{x:Static assets:Resources.Description}">
+            <Grid RowDefinitions="auto, *, auto">
+
+                <StackPanel Grid.Row="0" Margin="0,10,0,0">
+                    <TextBlock Text="{x:Static assets:Resources.WriteNotes}" />
+                    <TextBlock
+                        Classes="Caption"
+                        Text="{x:Static assets:Resources.ShowInTheReport}"
+                        TextWrapping="Wrap" />
+                </StackPanel>
+
+                <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                    <TextBox
+                        x:Name="DescriptionTextBox"
+                        Width="370"
+                        Height="305"
+                        Margin="0,10,0,0"
+                        VerticalAlignment="Top"
+                        VerticalContentAlignment="Top"
+                        AcceptsReturn="True"
+                        Classes="FlatTextBox"
+                        CornerRadius="5"
+                        MaxLength="300"
+                        Text="{Binding Description}"
+                        TextWrapping="Wrap"
+                        Watermark="{x:Static assets:Resources.WatermarkDescriptionSuggestion}" />
+                </ScrollViewer>
+
+                <StackPanel
+                    Grid.Row="2"
+                    Margin="0,10,0,0"
+                    HorizontalAlignment="Right"
+                    Orientation="Horizontal"
+                    Spacing="10">
+                    <Button
+                        Classes="Flat Accent"
+                        Command="{Binding OkCommand}"
+                        Content="{x:Static assets:Resources.Save}"
+                        HotKey="Enter" />
+                    <Button
+                        Command="{Binding CancelCommand}"
+                        Content="{x:Static assets:Resources.Cancel}"
+                        HotKey="Escape" />
+                </StackPanel>
+            </Grid>
+        </suki:GroupBox>
+    </suki:GlassCard>
+</UserControl>

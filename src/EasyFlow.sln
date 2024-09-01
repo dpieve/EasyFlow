@@ -3,21 +3,23 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32811.315
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyFlow", "EasyFlow\EasyFlow.csproj", "{EBFA8512-1EA5-4D8C-B4AC-AB5B48A6D568}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyFlow.Presentation", "EasyFlow.Presentation\EasyFlow.Presentation.csproj", "{EBFA8512-1EA5-4D8C-B4AC-AB5B48A6D568}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyFlow.Desktop", "EasyFlow.Desktop\EasyFlow.Desktop.csproj", "{ABC31E74-02FF-46EB-B3B2-4E6AE43B456C}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyFlow.Browser", "EasyFlow.Browser\EasyFlow.Browser.csproj", "{1C1A049E-235C-4CD0-B6FA-D53AC418F4DA}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyFlow.iOS", "EasyFlow.iOS\EasyFlow.iOS.csproj", "{EBD9022F-BC83-4846-9A11-6F7F3772DC64}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyFlow.Android", "EasyFlow.Android\EasyFlow.Android.csproj", "{7AD1DAC8-7FBE-49D5-8614-7321233DB82E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyFlow", "EasyFlow\EasyFlow.csproj", "{ABC31E74-02FF-46EB-B3B2-4E6AE43B456C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{3DA99C4E-89E3-4049-9C22-0A7EC60D83D8}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
 		Directory.Build.props = Directory.Build.props
 	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyFlow.Application", "EasyFlow.Application\EasyFlow.Application.csproj", "{F9B75567-460E-472C-B35F-CC833084F7C4}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyFlow.Infrastructure", "EasyFlow.Infrastructure\EasyFlow.Infrastructure.csproj", "{7D40AE9A-65E0-4FB6-80B6-12558C9AE162}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyFlow.Domain", "EasyFlow.Domain\EasyFlow.Domain.csproj", "{3A970523-9661-4A52-906F-F40380A13018}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyFlow.Tests.Unit", "EasyFlow.Tests.Unit\EasyFlow.Tests.Unit.csproj", "{A8ACEA94-0656-4E51-95F6-5C03383430DC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,24 +35,28 @@ Global
 		{ABC31E74-02FF-46EB-B3B2-4E6AE43B456C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ABC31E74-02FF-46EB-B3B2-4E6AE43B456C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ABC31E74-02FF-46EB-B3B2-4E6AE43B456C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1C1A049E-235C-4CD0-B6FA-D53AC418F4DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1C1A049E-235C-4CD0-B6FA-D53AC418F4DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1C1A049E-235C-4CD0-B6FA-D53AC418F4DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1C1A049E-235C-4CD0-B6FA-D53AC418F4DA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{EBD9022F-BC83-4846-9A11-6F7F3772DC64}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EBD9022F-BC83-4846-9A11-6F7F3772DC64}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EBD9022F-BC83-4846-9A11-6F7F3772DC64}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EBD9022F-BC83-4846-9A11-6F7F3772DC64}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7AD1DAC8-7FBE-49D5-8614-7321233DB82E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7AD1DAC8-7FBE-49D5-8614-7321233DB82E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7AD1DAC8-7FBE-49D5-8614-7321233DB82E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7AD1DAC8-7FBE-49D5-8614-7321233DB82E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F9B75567-460E-472C-B35F-CC833084F7C4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F9B75567-460E-472C-B35F-CC833084F7C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F9B75567-460E-472C-B35F-CC833084F7C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F9B75567-460E-472C-B35F-CC833084F7C4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7D40AE9A-65E0-4FB6-80B6-12558C9AE162}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7D40AE9A-65E0-4FB6-80B6-12558C9AE162}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7D40AE9A-65E0-4FB6-80B6-12558C9AE162}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7D40AE9A-65E0-4FB6-80B6-12558C9AE162}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3A970523-9661-4A52-906F-F40380A13018}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3A970523-9661-4A52-906F-F40380A13018}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3A970523-9661-4A52-906F-F40380A13018}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3A970523-9661-4A52-906F-F40380A13018}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A8ACEA94-0656-4E51-95F6-5C03383430DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A8ACEA94-0656-4E51-95F6-5C03383430DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A8ACEA94-0656-4E51-95F6-5C03383430DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A8ACEA94-0656-4E51-95F6-5C03383430DC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		RESX_SortFileContentOnSave = True
 		SolutionGuid = {83CB65B8-011F-4ED7-BCD3-A6CFA935EF7E}
+		RESX_SortFileContentOnSave = True
 	EndGlobalSection
 EndGlobal
