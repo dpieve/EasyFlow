@@ -453,3 +453,5 @@ $RECYCLE.BIN/
 !.vscode/launch.json
 !.vscode/extensions.json
 /src/EasyFlow/Migrations
+/src/EasyFlow.Installer/EasyFlow.Installer.wapproj
+/src/EasyFlow.Installer/Package.appxmanifest

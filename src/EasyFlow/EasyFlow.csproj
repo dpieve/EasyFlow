@@ -9,6 +9,7 @@
     <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
     <Company>Easy Flow</Company>
     <Authors>dpieve</Authors>
+    <Platforms>AnyCPU;x64;x86</Platforms>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -28,7 +29,6 @@
     <PackageReference Include="Serilog.Extensions.Logging" Version="8.0.1-dev-10398" />
     <PackageReference Include="Serilog.Sinks.Debug" Version="3.0.0" />
     <PackageReference Include="Serilog.Sinks.File" Version="6.0.0" />
-    <PackageReference Include="Velopack" Version="0.0.594" />
   </ItemGroup>
 
   <ItemGroup>
