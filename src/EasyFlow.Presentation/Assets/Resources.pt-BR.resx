@@ -277,7 +277,7 @@ Vá Focar e volte mais tarde</value>
     <value>Relatório</value>
   </data>
   <data name="ReportColumns" xml:space="preserve">
-    <value>Data,Duracao (Minutos),Tag,Tipo da sessao</value>
+    <value>Data,Duracao (Minutos),Tag,Tipo da sessao,Descricao</value>
   </data>
   <data name="Restarting" xml:space="preserve">
     <value>Reiniciando...</value>

@@ -594,7 +594,7 @@ namespace EasyFlow.Presentation.Assets {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Date,Duration (Minutes),Tag,Session Type.
+        ///   Looks up a localized string similar to Date,Duration (Minutes),Tag,Session Type,Description.
         /// </summary>
         public static string ReportColumns {
             get {
