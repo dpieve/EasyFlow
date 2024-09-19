@@ -356,7 +356,7 @@ Go Focus and come back later</value>
     <comment>Dashboard</comment>
   </data>
   <data name="ReportColumns" xml:space="preserve">
-    <value>Date,Duration (Minutes),Tag,Session Type</value>
+    <value>Date,Duration (Minutes),Tag,Session Type,Description</value>
     <comment>Generated csv report columns</comment>
   </data>
   <data name="Restarting" xml:space="preserve">

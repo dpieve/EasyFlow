@@ -7,7 +7,6 @@ using EasyFlow.Presentation.Features.Dashboard;
 using MediatR;
 using Serilog;
 using System;
-using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Text;
@@ -94,8 +93,9 @@ public static class GenerateReportHandler
             var duration = session.DurationMinutes.ToString(CultureInfo.CurrentCulture);
             var tag = session.Tag?.Name ?? "N/A";
             var sessionType = session.SessionType.ToCustomString();
+            var description = session.Description;
 
-            csvContent.AppendLine($"{date},{duration},{tag},{sessionType}");
+            csvContent.AppendLine($"{date},{duration},{tag},{sessionType},{description}");
         }
 
         await File.WriteAllTextAsync(path, csvContent.ToString(), cancellationToken);
