@@ -3,8 +3,10 @@ using CommunityToolkit.Mvvm.DependencyInjection;
 using EasyFlow.Application.Common;
 using EasyFlow.Infrastructure.Common;
 using EasyFlow.Presentation.Common;
+using EasyFlow.Presentation.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
+using System.IO;
 
 namespace EasyFlow;
 
@@ -25,10 +27,14 @@ public static class AppBuilderExtensions
         Log.Logger = new LoggerConfiguration()
             .MinimumLevel.Warning()
             .WriteTo.Debug()
-            .WriteTo.File("logs.txt", rollingInterval: RollingInterval.Day)
+            .WriteTo.File(Path.Combine("logs", "logs.txt"), rollingInterval: RollingInterval.Day)
             .CreateLogger();
 
         services.AddLogging(loggingBuilder => loggingBuilder.AddSerilog(dispose: true));
+
+        INotificationService notificationService = new NotificationService();
+
+        services.AddSingleton(notificationService);
 
         services
             .AddInfrastructure()

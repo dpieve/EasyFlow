@@ -28,6 +28,8 @@ public sealed partial class RunningTimerViewModel : ViewModelBase, IRoute, IActi
     private readonly ILanguageService _languageService;
     private readonly IToastService _toastService;
     private readonly ISukiDialogManager _dialog;
+    private readonly INotificationService _notificationService;
+
     private CompositeDisposable? _disposables;
 
     [ObservableProperty]
@@ -76,13 +78,15 @@ public sealed partial class RunningTimerViewModel : ViewModelBase, IRoute, IActi
         IMediator mediator,
         ILanguageService languageService,
         IToastService toastService,
-        ISukiDialogManager dialog)
+        ISukiDialogManager dialog,
+        INotificationService notificationService)
     {
         RouterHost = routerHost;
         _mediator = mediator;
         _languageService = languageService;
         _toastService = toastService;
         _dialog = dialog;
+        _notificationService = notificationService;
         
         this.WhenAnyValue(vm => vm.SecondsLeft)
             .DistinctUntilChanged()
@@ -196,7 +200,7 @@ public sealed partial class RunningTimerViewModel : ViewModelBase, IRoute, IActi
     private async Task EndSession()
     {
         var result = await _mediator.Send(new GetSettingsQuery());
-        RouterHost.Router.NavigateTo(new AdjustTimersViewModel(result.Value, RouterHost, _mediator, _languageService, _toastService, _dialog));
+        RouterHost.Router.NavigateTo(new AdjustTimersViewModel(result.Value, RouterHost, _mediator, _languageService, _toastService, _dialog, _notificationService));
 
         Trace.TraceInformation("EndSession");
     }

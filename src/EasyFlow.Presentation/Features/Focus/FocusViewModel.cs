@@ -24,18 +24,21 @@ public sealed partial class FocusViewModel : PageViewModelBase, IRouterHost
     private readonly ILanguageService _languageService;
     private readonly IToastService _toastService;
     private readonly ISukiDialogManager _dialog;
+    private readonly INotificationService _notificationService;
 
     public FocusViewModel(
         IMediator mediator,
         ILanguageService languageService,
         IToastService toastService,
-        ISukiDialogManager dialog)
+        ISukiDialogManager dialog,
+        INotificationService notificationService)
         : base(ConstantTranslation.SideMenuFocus, Material.Icons.MaterialIconKind.Timer, (int)PageOrder.Focus)
     {
         _mediator = mediator;
         _languageService = languageService;
         _toastService = toastService;
         _dialog = dialog;
+        _notificationService = notificationService;
         
         Router = new Router(new RouteFactory(CreateRoutes));
         Router.OnRouteChanged += OnRouteChanged;
@@ -49,7 +52,7 @@ public sealed partial class FocusViewModel : PageViewModelBase, IRouterHost
         {
             Observable
             .StartAsync(GetSettings)
-            .Select(settings => new AdjustTimersViewModel(settings, this, _mediator, _languageService, _toastService, _dialog))
+            .Select(settings => new AdjustTimersViewModel(settings, this, _mediator, _languageService, _toastService, _dialog, _notificationService))
             .Subscribe(startVm =>
             {
                 Router.NavigateToAndReset(startVm);
@@ -97,8 +100,8 @@ public sealed partial class FocusViewModel : PageViewModelBase, IRouterHost
     {
         return routeType.Name switch
         {
-            nameof(AdjustTimersViewModel) => new AdjustTimersViewModel((GeneralSettings)parameters[0], (FocusViewModel)parameters[1], (IMediator)parameters[2], (ILanguageService)parameters[3], (IToastService)parameters[4], (ISukiDialogManager)parameters[5]),
-            nameof(RunningTimerViewModel) => new RunningTimerViewModel((FocusViewModel)parameters[0], (IMediator)parameters[1], (ILanguageService)parameters[2], (IToastService)parameters[3], (ISukiDialogManager)parameters[4]),
+            nameof(AdjustTimersViewModel) => new AdjustTimersViewModel((GeneralSettings)parameters[0], (FocusViewModel)parameters[1], (IMediator)parameters[2], (ILanguageService)parameters[3], (IToastService)parameters[4], (ISukiDialogManager)parameters[5], (INotificationService)parameters[6]),
+            nameof(RunningTimerViewModel) => new RunningTimerViewModel((FocusViewModel)parameters[0], (IMediator)parameters[1], (ILanguageService)parameters[2], (IToastService)parameters[3], (ISukiDialogManager)parameters[4], (INotificationService)parameters[5]),
             _ => null,
         };
     }

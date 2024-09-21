@@ -27,6 +27,8 @@ public sealed partial class AdjustTimersViewModel : ViewModelBase, IRoute, IActi
     private readonly ILanguageService _languageService;
     private readonly IToastService _toastService;
     private readonly ISukiDialogManager _dialog;
+    private readonly INotificationService _notificationService;
+
     [ObservableProperty] private Tag? _selectedTag;
 
     public AdjustTimersViewModel(
@@ -35,13 +37,15 @@ public sealed partial class AdjustTimersViewModel : ViewModelBase, IRoute, IActi
         IMediator mediator,
         ILanguageService languageService,
         IToastService toastService,
-        ISukiDialogManager dialog)
+        ISukiDialogManager dialog,
+        INotificationService notificationService)
     {
         RouterHost = routerHost ?? throw new ArgumentNullException(nameof(routerHost));
         _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
         _languageService = languageService;
         _toastService = toastService;
         _dialog = dialog;
+        _notificationService = notificationService;
         
         Timers = new TimersViewModel(_mediator, generalSettings, _languageService, _toastService);
 
@@ -107,7 +111,7 @@ public sealed partial class AdjustTimersViewModel : ViewModelBase, IRoute, IActi
     [RelayCommand]
     private void Start()
     {
-        RouterHost.Router.NavigateTo<RunningTimerViewModel>(RouterHost, _mediator, _languageService, _toastService, _dialog);
+        RouterHost.Router.NavigateTo<RunningTimerViewModel>(RouterHost, _mediator, _languageService, _toastService, _dialog, _notificationService);
     }
 
     [RelayCommand]
