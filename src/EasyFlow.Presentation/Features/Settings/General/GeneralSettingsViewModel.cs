@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using Avalonia.Controls.Notifications;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using EasyFlow.Application.Settings;
 using EasyFlow.Domain.Entities;
@@ -6,7 +7,7 @@ using EasyFlow.Presentation.Common;
 using EasyFlow.Presentation.Services;
 using MediatR;
 using ReactiveUI;
-using SukiUI.Controls;
+using SukiUI.Dialogs;
 using System;
 using System.Diagnostics;
 using System.Reactive.Linq;
@@ -19,7 +20,8 @@ public partial class GeneralSettingsViewModel : ViewModelBase
     private readonly IMediator _mediator;
     private readonly IRestartAppService _restartAppService;
     private readonly ILanguageService _languageService;
-
+    private readonly IToastService _toastService;
+    private readonly ISukiDialogManager _dialog;
     [ObservableProperty]
     private bool _isFocusDescriptionEnabled;
 
@@ -39,12 +41,19 @@ public partial class GeneralSettingsViewModel : ViewModelBase
     [ObservableProperty]
     private bool _isDeleteBusy;
 
-    public GeneralSettingsViewModel(IMediator mediator, IRestartAppService restartAppService, ILanguageService languageService)
+    public GeneralSettingsViewModel(
+        IMediator mediator, 
+        IRestartAppService restartAppService, 
+        ILanguageService languageService,
+        IToastService toastService,
+        ISukiDialogManager dialog)
     {
         _mediator = mediator;
         _restartAppService = restartAppService;
         _languageService = languageService;
-
+        _toastService = toastService;
+        _dialog = dialog;
+        
         this.WhenAnyValue(
                 vm => vm.IsWorkSoundEnabled,
                 vm => vm.IsBreakSoundEnabled,
@@ -102,7 +111,7 @@ public partial class GeneralSettingsViewModel : ViewModelBase
         var result = await BackupDbQueryHandler.Handle();
         if (result.IsSuccess)
         {
-            //await SukiHost.ShowToast(_languageService.GetString("Success"), _languageService.GetString("SuccessGeneratedBackup"), SukiUI.Enums.NotificationType.Success);
+            _toastService.Display(_languageService.GetString("Success"), _languageService.GetString("SuccessGeneratedBackup"), NotificationType.Success);
         }
         IsBackupBusy = false;
     }
@@ -112,14 +121,14 @@ public partial class GeneralSettingsViewModel : ViewModelBase
     {
         IsDeleteBusy = true;
 
-        //SukiHost.ShowDialog(new DeleteDataViewModel(_mediator,
-        //() =>
-        //{
-        //    _restartAppService.Restart();
-        //    IsDeleteBusy = false;
-        //},
-        //() => IsDeleteBusy = false)
-        //, allowBackgroundClose: false);
+        _dialog.CreateDialog().WithViewModel(dialog => new DeleteDataViewModel(dialog, _mediator,
+        () =>
+        {
+            _restartAppService.Restart();
+            IsDeleteBusy = false;
+        },
+        () => IsDeleteBusy = false))
+        .TryShow();
     }
 
     private async Task<GeneralSettings> GetSettings()

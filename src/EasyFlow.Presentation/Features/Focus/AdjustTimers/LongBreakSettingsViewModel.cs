@@ -1,20 +1,22 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using EasyFlow.Presentation.Common;
-using SukiUI.Controls;
+using SukiUI.Dialogs;
 using System;
 
 namespace EasyFlow.Presentation.Features.Focus.AdjustTimers;
 
 public sealed partial class LongBreakSettingsViewModel : ViewModelBase
 {
+    private readonly ISukiDialog _dialog;
     private readonly Action<int> _onOk;
 
     [ObservableProperty]
-    private int _longBreakSessions = 5;
+    private int _longBreakSessions;
 
-    public LongBreakSettingsViewModel(int longBreakSessions, Action<int> onOk)
+    public LongBreakSettingsViewModel(ISukiDialog dialog, int longBreakSessions, Action<int> onOk)
     {
+        _dialog = dialog;
         LongBreakSessions = longBreakSessions;
         _onOk = onOk;
     }
@@ -27,7 +29,5 @@ public sealed partial class LongBreakSettingsViewModel : ViewModelBase
     }
 
     [RelayCommand]
-    private static void CloseButton() {
-        
-        }// SukiHost.CloseDialog();
+    private void CloseButton() => _dialog.Dismiss();
 }

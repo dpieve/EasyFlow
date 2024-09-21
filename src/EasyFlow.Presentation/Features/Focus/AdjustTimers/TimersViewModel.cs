@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using Avalonia.Controls.Notifications;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using EasyFlow.Application.Settings;
 using EasyFlow.Domain.Entities;
@@ -7,7 +8,6 @@ using EasyFlow.Presentation.Services;
 using MediatR;
 using ReactiveUI;
 using Serilog;
-using SukiUI.Controls;
 using System;
 using System.Linq;
 using System.Reactive.Linq;
@@ -19,7 +19,7 @@ public sealed partial class TimersViewModel : ViewModelBase
 {
     private readonly IMediator _mediator;
     private readonly ILanguageService _languageService;
-
+    private readonly IToastService _toastService;
     [ObservableProperty]
     private int _workMinutes;
 
@@ -36,10 +36,12 @@ public sealed partial class TimersViewModel : ViewModelBase
     public TimersViewModel(
         IMediator mediator,
         GeneralSettings settings,
-        ILanguageService languageService)
+        ILanguageService languageService,
+        IToastService toastService)
     {
         _mediator = mediator;
         _languageService = languageService;
+        _toastService = toastService;
 
         WorkMinutes = settings.WorkDurationMinutes;
         BreakMinutes = settings.BreakDurationMinutes;
@@ -85,25 +87,25 @@ public sealed partial class TimersViewModel : ViewModelBase
         if (timerType == TimerType.Work && newValue < BreakMinutes)
         {
             newValue = BreakMinutes;
-            //SukiHost.ShowToast(_languageService.GetString("Information"), _languageService.GetString("FocusGreaterOrEqualBreak"), SukiUI.Enums.NotificationType.Info);
+            _toastService.Display(_languageService.GetString("Information"), _languageService.GetString("FocusGreaterOrEqualBreak"), NotificationType.Information);
         }
 
         if (timerType == TimerType.LongBreak && newValue < BreakMinutes)
         {
             newValue = BreakMinutes;
-            //SukiHost.ShowToast(_languageService.GetString("Information"), _languageService.GetString("LongBreakGreaterOrEqualBreak"), SukiUI.Enums.NotificationType.Info);
+            _toastService.Display(_languageService.GetString("Information"), _languageService.GetString("LongBreakGreaterOrEqualBreak"), NotificationType.Information);
         }
 
         if (timerType == TimerType.Break && newValue > LongBreakMinutes)
         {
             newValue = LongBreakMinutes;
-            //SukiHost.ShowToast(_languageService.GetString("Information"), _languageService.GetString("BreakSmallerOrEqualLongBreak"), SukiUI.Enums.NotificationType.Info);
+            _toastService.Display(_languageService.GetString("Information"), _languageService.GetString("BreakSmallerOrEqualLongBreak"), NotificationType.Information);
         }
 
         if (timerType == TimerType.Break && newValue > WorkMinutes)
         {
             newValue = WorkMinutes;
-            //SukiHost.ShowToast(_languageService.GetString("Information"), _languageService.GetString("BreakSmallerOrEqualFocus"), SukiUI.Enums.NotificationType.Info);
+            _toastService.Display(_languageService.GetString("Information"), _languageService.GetString("BreakSmallerOrEqualFocus"), NotificationType.Information);
         }
 
         if (success)

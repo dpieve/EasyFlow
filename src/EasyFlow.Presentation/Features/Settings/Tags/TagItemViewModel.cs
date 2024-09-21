@@ -5,7 +5,7 @@ using EasyFlow.Domain.Entities;
 using EasyFlow.Presentation.Common;
 using EasyFlow.Presentation.Services;
 using MediatR;
-using SukiUI.Controls;
+using SukiUI.Dialogs;
 using System;
 using System.Threading.Tasks;
 
@@ -16,6 +16,8 @@ public sealed partial class TagItemViewModel : ViewModelBase
     private readonly IMediator _mediator;
     private readonly Action<Tag> _onDeletedTag;
     private readonly ILanguageService _languageService;
+    private readonly IToastService _toastService;
+    private readonly ISukiDialogManager _dialog;
 
     [ObservableProperty]
     private string _name;
@@ -23,13 +25,17 @@ public sealed partial class TagItemViewModel : ViewModelBase
     public TagItemViewModel(Tag tag,
                             IMediator mediator,
                             Action<Tag> onDeletedTag,
-                            ILanguageService languageService)
+                            ILanguageService languageService,
+                            IToastService toastService,
+                            ISukiDialogManager dialog)
     {
         Tag = tag;
         _mediator = mediator;
         _onDeletedTag = onDeletedTag;
         _languageService = languageService;
-
+        _toastService = toastService;
+        _dialog = dialog;
+        
         Name = tag.Name;
     }
 
@@ -38,7 +44,9 @@ public sealed partial class TagItemViewModel : ViewModelBase
     [RelayCommand]
     private void EditTag()
     {
-        //SukiHost.ShowDialog(new AddTagViewModel(_mediator, _languageService, onOk: EditedTag, initialTag: Tag), allowBackgroundClose: false);
+        _dialog.CreateDialog()
+            .WithViewModel(dialog => new AddTagViewModel(dialog, _mediator, _languageService, _toastService, onOk: EditedTag, initialTag: Tag))
+            .TryShow();
     }
 
     [RelayCommand]
@@ -53,7 +61,7 @@ public sealed partial class TagItemViewModel : ViewModelBase
 
         if (!result.IsSuccess)
         {
-            //await SukiHost.ShowToast(_languageService.GetString("Information"), _languageService.GetString(result.Error.Code));
+            _toastService.Display(_languageService.GetString("Information"), _languageService.GetString(result.Error.Code), Avalonia.Controls.Notifications.NotificationType.Information);
             return;
         }
 

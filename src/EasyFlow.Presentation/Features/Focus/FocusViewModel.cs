@@ -7,7 +7,7 @@ using EasyFlow.Presentation.Features.Focus.RunningTimer;
 using EasyFlow.Presentation.Services;
 using MediatR;
 using SimpleRouter;
-using SukiUI.Controls;
+using SukiUI.Dialogs;
 using System;
 using System.Diagnostics;
 using System.Reactive.Linq;
@@ -22,15 +22,21 @@ public sealed partial class FocusViewModel : PageViewModelBase, IRouterHost
 
     private readonly IMediator _mediator;
     private readonly ILanguageService _languageService;
+    private readonly IToastService _toastService;
+    private readonly ISukiDialogManager _dialog;
 
     public FocusViewModel(
         IMediator mediator,
-        ILanguageService languageService)
+        ILanguageService languageService,
+        IToastService toastService,
+        ISukiDialogManager dialog)
         : base(ConstantTranslation.SideMenuFocus, Material.Icons.MaterialIconKind.Timer, (int)PageOrder.Focus)
     {
         _mediator = mediator;
         _languageService = languageService;
-
+        _toastService = toastService;
+        _dialog = dialog;
+        
         Router = new Router(new RouteFactory(CreateRoutes));
         Router.OnRouteChanged += OnRouteChanged;
     }
@@ -43,7 +49,7 @@ public sealed partial class FocusViewModel : PageViewModelBase, IRouterHost
         {
             Observable
             .StartAsync(GetSettings)
-            .Select(settings => new AdjustTimersViewModel(settings, this, _mediator, _languageService))
+            .Select(settings => new AdjustTimersViewModel(settings, this, _mediator, _languageService, _toastService, _dialog))
             .Subscribe(startVm =>
             {
                 Router.NavigateToAndReset(startVm);
@@ -62,7 +68,7 @@ public sealed partial class FocusViewModel : PageViewModelBase, IRouterHost
     {
         CurrentRoute?.Deactivate();
 
-        //SukiHost.ClearAllToasts();
+        _toastService.DismissAll();
 
         Trace.TraceInformation("OnDeactivated FocusViewModel");
     }
@@ -91,8 +97,8 @@ public sealed partial class FocusViewModel : PageViewModelBase, IRouterHost
     {
         return routeType.Name switch
         {
-            nameof(AdjustTimersViewModel) => new AdjustTimersViewModel((GeneralSettings)parameters[0], (FocusViewModel)parameters[1], (IMediator)parameters[2], (ILanguageService)parameters[3]),
-            nameof(RunningTimerViewModel) => new RunningTimerViewModel((FocusViewModel)parameters[0], (IMediator)parameters[1], (ILanguageService)parameters[2]),
+            nameof(AdjustTimersViewModel) => new AdjustTimersViewModel((GeneralSettings)parameters[0], (FocusViewModel)parameters[1], (IMediator)parameters[2], (ILanguageService)parameters[3], (IToastService)parameters[4], (ISukiDialogManager)parameters[5]),
+            nameof(RunningTimerViewModel) => new RunningTimerViewModel((FocusViewModel)parameters[0], (IMediator)parameters[1], (ILanguageService)parameters[2], (IToastService)parameters[3], (ISukiDialogManager)parameters[4]),
             _ => null,
         };
     }

@@ -2,8 +2,7 @@
 using EasyFlow.Application.Settings;
 using EasyFlow.Presentation.Common;
 using MediatR;
-using Serilog;
-using SukiUI.Controls;
+using SukiUI.Dialogs;
 using System;
 using System.Threading.Tasks;
 
@@ -11,15 +10,18 @@ namespace EasyFlow.Presentation.Features.Settings.General;
 
 public sealed partial class DeleteDataViewModel : ViewModelBase
 {
+    private readonly ISukiDialog _dialog;
     private readonly IMediator _mediator;
     private readonly Action? _onOk;
     private readonly Action? _onCancel;
 
     public DeleteDataViewModel(
+        ISukiDialog dialog,
         IMediator mediator,
         Action? onOk = null,
         Action? onCancel = null)
     {
+        _dialog = dialog;
         _mediator = mediator;
         _onOk = onOk;
         _onCancel = onCancel;
@@ -45,5 +47,8 @@ public sealed partial class DeleteDataViewModel : ViewModelBase
         Close();
     }
 
-    private static void Close() { } // SukiHost.CloseDialog();
+    private void Close() 
+    {
+        _dialog.Dismiss();
+    } 
 }

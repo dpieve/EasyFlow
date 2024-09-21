@@ -33,6 +33,10 @@
 
     </suki:SukiWindow.Resources>
 
+    <suki:SukiWindow.Hosts>
+        <suki:SukiToastHost Manager="{Binding ToastService.ToastManager}" />
+        <suki:SukiDialogHost Manager="{Binding DialogManager}" />
+    </suki:SukiWindow.Hosts>
 
     <suki:SukiWindow.LogoContent>
         <icons:MaterialIcon

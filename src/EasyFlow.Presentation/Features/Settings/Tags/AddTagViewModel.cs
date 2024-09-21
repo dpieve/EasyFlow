@@ -5,7 +5,7 @@ using EasyFlow.Domain.Entities;
 using EasyFlow.Presentation.Common;
 using EasyFlow.Presentation.Services;
 using MediatR;
-using SukiUI.Controls;
+using SukiUI.Dialogs;
 using System;
 using System.Threading.Tasks;
 
@@ -13,9 +13,11 @@ namespace EasyFlow.Presentation.Features.Settings.Tags;
 
 public sealed partial class AddTagViewModel : ViewModelBase
 {
+    private readonly ISukiDialog _dialog;
     private readonly IMediator _mediator;
     private readonly Action<Tag> _onOk;
     private readonly ILanguageService _languageService;
+    private readonly IToastService _toastService;
     private readonly Action? _onCancel;
     private readonly Tag _tag;
 
@@ -23,15 +25,19 @@ public sealed partial class AddTagViewModel : ViewModelBase
     private string _tagName;
 
     public AddTagViewModel(
+        ISukiDialog dialog,
         IMediator mediator,
         ILanguageService languageService,
+        IToastService toastService,
         Action<Tag> onOk,
         Action? onCancel = null,
         Tag? initialTag = null)
     {
+        _dialog = dialog;
         _mediator = mediator;
         _onOk = onOk;
         _languageService = languageService;
+        _toastService = toastService;
         _onCancel = onCancel;
         _tag = initialTag ?? new() { };
 
@@ -64,7 +70,7 @@ public sealed partial class AddTagViewModel : ViewModelBase
                 error += $" {Tag.MaxNumTags}";
             }    
 
-            //await SukiHost.ShowToast(_languageService.GetString("Failure"), error);
+            _toastService.Display(_languageService.GetString("Failure"), error, Avalonia.Controls.Notifications.NotificationType.Information);
         }
 
         Cancel();
@@ -74,6 +80,6 @@ public sealed partial class AddTagViewModel : ViewModelBase
     private void Cancel()
     {
         _onCancel?.Invoke();
-        //SukiHost.CloseDialog();
+        _dialog.Dismiss();
     }
 }

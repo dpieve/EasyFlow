@@ -6,7 +6,7 @@ using EasyFlow.Presentation.Common;
 using EasyFlow.Presentation.Services;
 using MediatR;
 using ReactiveUI;
-using SukiUI.Controls;
+using SukiUI.Dialogs;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -21,17 +21,24 @@ public partial class TagsViewModel : ViewModelBase
 {
     private readonly IMediator _mediator;
     private readonly ILanguageService _languageService;
-
+    private readonly IToastService _toastService;
+    private readonly ISukiDialogManager _dialog;
     [ObservableProperty]
     private int _numTags;
 
     [ObservableProperty]
     private bool _isAddBusy;
 
-    public TagsViewModel(IMediator mediator, ILanguageService languageService)
+    public TagsViewModel(
+        IMediator mediator, 
+        ILanguageService languageService,
+        IToastService toastService,
+        ISukiDialogManager dialog)
     {
         _mediator = mediator;
         _languageService = languageService;
+        _toastService = toastService;
+        _dialog = dialog;
     }
 
     public ObservableCollection<TagItemViewModel> Tags { get; } = [];
@@ -41,7 +48,7 @@ public partial class TagsViewModel : ViewModelBase
         Observable
             .StartAsync(GetTags)
             .Where(tags => tags.Count > 0)
-            .Select(tags => tags.Select(tag => new TagItemViewModel(tag, _mediator, onDeletedTag: DeletedTag, _languageService)))
+            .Select(tags => tags.Select(tag => new TagItemViewModel(tag, _mediator, onDeletedTag: DeletedTag, _languageService, toastService: _toastService, _dialog)))
             .ObserveOn(RxApp.MainThreadScheduler)
             .Do(_ => Tags.Clear())
             .Do(tags => Tags.AddRange(tags))
@@ -57,12 +64,14 @@ public partial class TagsViewModel : ViewModelBase
     private void AddTag()
     {
         IsAddBusy = true;
-        //SukiHost.ShowDialog(new AddTagViewModel(_mediator, _languageService, onOk: AddedTag, onCancel: () => IsAddBusy = false), allowBackgroundClose: false);
+        _dialog.CreateDialog()
+            .WithViewModel(dialog => (new AddTagViewModel(dialog, _mediator, _languageService, _toastService, onOk: AddedTag, onCancel: () => IsAddBusy = false), allowBackgroundClose: false))
+            .TryShow();
     }
 
     private void AddedTag(Domain.Entities.Tag tag)
     {
-        var newItem = new TagItemViewModel(tag, _mediator, onDeletedTag: DeletedTag, _languageService);
+        var newItem = new TagItemViewModel(tag, _mediator, onDeletedTag: DeletedTag, _languageService, toastService: _toastService, _dialog);
         Tags.Add(newItem);
         NumTags = Tags.Count;
 

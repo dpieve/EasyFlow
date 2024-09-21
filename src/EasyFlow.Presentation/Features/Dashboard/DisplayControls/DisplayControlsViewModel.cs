@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using Avalonia.Controls.Notifications;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using DynamicData;
 using EasyFlow.Application.Tags;
@@ -7,7 +8,6 @@ using EasyFlow.Presentation.Common;
 using EasyFlow.Presentation.Services;
 using MediatR;
 using ReactiveUI;
-using SukiUI.Controls;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -22,6 +22,7 @@ public sealed partial class DisplayControlsViewModel : ViewModelBase
 {
     private readonly IMediator _mediator;
     private readonly ILanguageService _languageService;
+    private readonly IToastService _toastService;
 
     [ObservableProperty]
     private bool _isGeneratingReport = false;
@@ -38,10 +39,11 @@ public sealed partial class DisplayControlsViewModel : ViewModelBase
     [ObservableProperty]
     private DisplayType _selectedDisplayType = DisplayType.BarChart;
 
-    public DisplayControlsViewModel(IMediator mediator, ILanguageService languageService)
+    public DisplayControlsViewModel(IMediator mediator, ILanguageService languageService, IToastService toastService)
     {
         _mediator = mediator;
         _languageService = languageService;
+        _toastService = toastService;
 
         SessionTypes.AddRange(Enum.GetValues(typeof(SessionType)).Cast<SessionType>());
         DisplayTypes.AddRange(Enum.GetValues(typeof(DisplayType)).Cast<DisplayType>());
@@ -99,10 +101,10 @@ public sealed partial class DisplayControlsViewModel : ViewModelBase
         IsGeneratingReport = true;
 
         var result = await GenerateReportHandler.Handle(_mediator);
-        //if (result.IsSuccess)
-        //{
-        //    await SukiHost.ShowToast(_languageService.GetString("Success"), _languageService.GetString("SuccessGeneratedReport"), SukiUI.Enums.NotificationType.Success);
-        //}
+        if (result.IsSuccess)
+        {
+            _toastService.Display(_languageService.GetString("Success"), _languageService.GetString("SuccessGeneratedReport"), NotificationType.Success);
+        }
 
         IsGeneratingReport = false;
     }

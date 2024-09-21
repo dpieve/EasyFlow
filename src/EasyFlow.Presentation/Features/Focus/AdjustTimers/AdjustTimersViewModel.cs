@@ -11,7 +11,7 @@ using EasyFlow.Presentation.Services;
 using MediatR;
 using ReactiveUI;
 using SimpleRouter;
-using SukiUI.Controls;
+using SukiUI.Dialogs;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -25,20 +25,25 @@ public sealed partial class AdjustTimersViewModel : ViewModelBase, IRoute, IActi
 {
     private readonly IMediator _mediator;
     private readonly ILanguageService _languageService;
-
+    private readonly IToastService _toastService;
+    private readonly ISukiDialogManager _dialog;
     [ObservableProperty] private Tag? _selectedTag;
 
     public AdjustTimersViewModel(
         GeneralSettings generalSettings,
         IRouterHost routerHost,
         IMediator mediator,
-        ILanguageService languageService)
+        ILanguageService languageService,
+        IToastService toastService,
+        ISukiDialogManager dialog)
     {
         RouterHost = routerHost ?? throw new ArgumentNullException(nameof(routerHost));
         _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
         _languageService = languageService;
-
-        Timers = new TimersViewModel(_mediator, generalSettings, languageService);
+        _toastService = toastService;
+        _dialog = dialog;
+        
+        Timers = new TimersViewModel(_mediator, generalSettings, _languageService, _toastService);
 
         this.WhenAnyValue(vm => vm.SelectedTag)
             .WhereNotNull()
@@ -102,17 +107,19 @@ public sealed partial class AdjustTimersViewModel : ViewModelBase, IRoute, IActi
     [RelayCommand]
     private void Start()
     {
-        RouterHost.Router.NavigateTo<RunningTimerViewModel>(RouterHost, _mediator, _languageService);
+        RouterHost.Router.NavigateTo<RunningTimerViewModel>(RouterHost, _mediator, _languageService, _toastService, _dialog);
     }
 
     [RelayCommand]
     private void OpenLongBreakSettings()
     {
-        //SukiHost.ShowDialog(new LongBreakSettingsViewModel(Timers!.SessionsBeforeLongBreak, (int longBreakSessions) =>
-        //{
-        //    Timers.SessionsBeforeLongBreak = longBreakSessions;
-        //}),
-        //allowBackgroundClose: true);
+        _dialog.CreateDialog()
+                .WithViewModel(dialog => new LongBreakSettingsViewModel(dialog, Timers!.SessionsBeforeLongBreak, (int longBreakSessions) =>
+                {
+                    Timers.SessionsBeforeLongBreak = longBreakSessions;
+                }))
+                .Dismiss().ByClickingBackground()
+                .TryShow();
     }
 
     [RelayCommand]

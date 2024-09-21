@@ -8,7 +8,6 @@ using EasyFlow.Presentation.Features.Dashboard.SessionsList;
 using EasyFlow.Presentation.Services;
 using MediatR;
 using ReactiveUI;
-using SukiUI.Controls;
 using System.Diagnostics;
 using System.Linq;
 using System.Reactive.Disposables;
@@ -21,7 +20,7 @@ public partial class DashboardViewModel : PageViewModelBase
 {
     private readonly IMediator _mediator;
     private readonly ILanguageService _languageService;
-
+    private readonly IToastService _toastService;
     private CompositeDisposable? _disposables;
 
     [ObservableProperty]
@@ -35,13 +34,15 @@ public partial class DashboardViewModel : PageViewModelBase
 
     public DashboardViewModel(
         IMediator mediator,
-        ILanguageService languageService)
+        ILanguageService languageService,
+        IToastService toastService)
         : base(ConstantTranslation.SideMenuDashboard, Material.Icons.MaterialIconKind.ChartBar, (int)PageOrder.Dashboard)
     {
         _mediator = mediator;
         _languageService = languageService;
-
-        DisplayControls = new DisplayControlsViewModel(_mediator, _languageService);
+        _toastService = toastService;
+        
+        DisplayControls = new DisplayControlsViewModel(_mediator, _languageService, _toastService);
         BarChart = new BarChartViewModel(_languageService);
         SessionsList = new SessionsListViewModel();
 
@@ -68,7 +69,7 @@ public partial class DashboardViewModel : PageViewModelBase
 
     protected override void OnDeactivated()
     {
-        //SukiHost.ClearAllToasts();
+        _toastService.DismissAll();
         DisplayControls.Deactivated();
 
         Trace.TraceInformation("Dashboard OnDeactivated");

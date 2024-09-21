@@ -10,8 +10,6 @@ public partial class MainWindow : SukiWindow
     public MainWindow()
     {
         InitializeComponent();
-
-        //SukiHost.SetToastLimit(this, 3);
     }
 
     private void MenuItem_OnClick(object? sender, RoutedEventArgs e)

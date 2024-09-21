@@ -2,7 +2,7 @@
 using EasyFlow.Presentation.Features.Restart;
 using ReactiveUI;
 using Serilog;
-using SukiUI.Controls;
+using SukiUI.Dialogs;
 using System;
 using System.Diagnostics;
 using System.Reactive;
@@ -19,9 +19,14 @@ public interface IRestartAppService
 public sealed partial class RestartAppService : IRestartAppService
 {
     private readonly Subject<Unit> _restart = new();
+    private readonly IToastService _toastService;
+    private readonly ISukiDialogManager _dialog;
 
-    public RestartAppService()
+    public RestartAppService(IToastService toastService, ISukiDialogManager dialog)
     {
+        _toastService = toastService;
+        _dialog = dialog;
+        
         _restart
             .ObserveOn(RxApp.MainThreadScheduler)
             .InvokeCommand(RestartAppCommand);
@@ -29,14 +34,15 @@ public sealed partial class RestartAppService : IRestartAppService
 
     public void Restart()
     {
-        //SukiHost.ClearAllToasts();
+        _toastService.DismissAll();
         Task.Delay(200).Wait();
 
-        //SukiHost.ShowDialog(new RestartViewModel(() =>
-        //{
-        //    _restart.OnNext(Unit.Default);
-        //}, secondsBeforeRestart: 3)
-        //, allowBackgroundClose: false);
+        _dialog.CreateDialog()
+            .WithViewModel(dialog => new RestartViewModel(dialog, () =>
+            {
+                _restart.OnNext(Unit.Default);
+            }, secondsBeforeRestart: 3))
+            .TryShow();
     }
 
     [RelayCommand]

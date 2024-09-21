@@ -3,7 +3,7 @@ using EasyFlow.Presentation.Features.Settings.General;
 using EasyFlow.Presentation.Features.Settings.Tags;
 using EasyFlow.Presentation.Services;
 using MediatR;
-using SukiUI.Controls;
+using SukiUI.Dialogs;
 
 namespace EasyFlow.Presentation.Features.Settings;
 
@@ -11,15 +11,22 @@ public sealed partial class SettingsViewModel : PageViewModelBase
 {
     private readonly IMediator _mediator;
     private readonly IRestartAppService _restartAppService;
+    private readonly IToastService _toastService;
 
-    public SettingsViewModel(IMediator mediator, IRestartAppService restartAppService, ILanguageService languageService)
+    public SettingsViewModel(
+        IMediator mediator, 
+        IRestartAppService restartAppService, 
+        ILanguageService languageService,
+        IToastService toastService,
+        ISukiDialogManager dialog)
         : base(ConstantTranslation.SideMenuSettings, Material.Icons.MaterialIconKind.Cog, (int)PageOrder.Settings)
     {
         _mediator = mediator;
         _restartAppService = restartAppService;
-
-        Tags = new TagsViewModel(_mediator, languageService);
-        GeneralSettings = new GeneralSettingsViewModel(_mediator, _restartAppService, languageService);
+        _toastService = toastService;
+        
+        Tags = new TagsViewModel(_mediator, languageService, _toastService, dialog);
+        GeneralSettings = new GeneralSettingsViewModel(_mediator, _restartAppService, languageService, _toastService, dialog);
     }
 
     public TagsViewModel Tags { get; }
@@ -36,6 +43,6 @@ public sealed partial class SettingsViewModel : PageViewModelBase
         Tags.Deactivate();
         GeneralSettings.Deactivate();
 
-        //SukiHost.ClearAllToasts();
+        _toastService.DismissAll();
     }
 }

@@ -1,18 +1,21 @@
 ﻿using Avalonia.Collections;
+using Avalonia.Controls.Notifications;
 using Avalonia.Styling;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using EasyFlow.Application.Settings;
 using EasyFlow.Domain.Entities;
 using EasyFlow.Presentation.Common;
+using EasyFlow.Presentation.Features.Focus.AdjustTimers;
 using EasyFlow.Presentation.Services;
 using MediatR;
 using ReactiveUI;
 using SukiUI;
-using SukiUI.Controls;
+using SukiUI.Dialogs;
 using SukiUI.Models;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
@@ -42,13 +45,16 @@ public partial class MainViewModel : ViewModelBase
         IEnumerable<PageViewModelBase> pages,
         IMediator mediator,
         IRestartAppService restartAppService,
-        ILanguageService languageService)
+        ILanguageService languageService,
+        IToastService toastService,
+        ISukiDialogManager dialogManager)
     {
         Pages = new AvaloniaList<PageViewModelBase>(pages.OrderBy(x => x.Index));
         _mediator = mediator;
         _restartAppService = restartAppService;
         _languageService = languageService;
-
+        ToastService = toastService;
+        DialogManager = dialogManager;
         _theme = SukiTheme.GetInstance();
         Themes = _theme.ColorThemes;
 
@@ -70,13 +76,13 @@ public partial class MainViewModel : ViewModelBase
         {
             BaseTheme = variant;
             var themeName = _languageService.GetString(variant.ToString());
-            //SukiHost.ShowToast(_languageService.GetString("Success"), $"{_languageService.GetString("ChangedThemeTo")} {themeName}", SukiUI.Enums.NotificationType.Success);
+            ToastService.Display(_languageService.GetString("Success"), $"{_languageService.GetString("ChangedThemeTo")} {themeName}", NotificationType.Success);
         };
 
         _theme.OnColorThemeChanged += theme =>
         {
             var themeName = _languageService.GetString(theme.DisplayName);
-            //SukiHost.ShowToast(_languageService.GetString("Success"), $"{_languageService.GetString("ChangedColorTo")} {themeName}.", SukiUI.Enums.NotificationType.Success);
+            ToastService.Display(_languageService.GetString("Success"), $"{_languageService.GetString("ChangedColorTo")} {themeName}.", NotificationType.Success);
         };
 
         this.WhenAnyValue(
@@ -118,8 +124,9 @@ public partial class MainViewModel : ViewModelBase
     }
 
     public IAvaloniaReadOnlyList<PageViewModelBase> Pages { get; }
-
     public IAvaloniaReadOnlyList<SukiColorTheme> Themes { get; }
+    public IToastService ToastService { get; }
+    public ISukiDialogManager DialogManager { get; }
 
     public void ChangeTheme(SukiColorTheme theme)
     {

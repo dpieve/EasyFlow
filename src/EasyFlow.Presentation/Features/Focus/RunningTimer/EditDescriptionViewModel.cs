@@ -1,13 +1,14 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using EasyFlow.Presentation.Common;
-using SukiUI.Controls;
+using SukiUI.Dialogs;
 using System;
 
 namespace EasyFlow.Presentation.Features.Focus.RunningTimer;
 
 public sealed partial class EditDescriptionViewModel : ViewModelBase
 {
+    private readonly ISukiDialog _dialog;
     private readonly Action<string>? _onOk;
     private readonly Action? _onCancel;
 
@@ -15,10 +16,12 @@ public sealed partial class EditDescriptionViewModel : ViewModelBase
     private string _description = string.Empty;
 
     public EditDescriptionViewModel(
+        ISukiDialog dialog,
         string description,
         Action<string>? onOk = null,
         Action? onCancel = null)
     {
+        _dialog = dialog;
         Description = description;
 
         _onOk = onOk;
@@ -44,6 +47,6 @@ public sealed partial class EditDescriptionViewModel : ViewModelBase
             _onCancel();
         }
 
-        //SukiHost.CloseDialog();
+        _dialog.Dismiss();
     }
 }

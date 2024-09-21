@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using Avalonia.Controls.Notifications;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using EasyFlow.Application.Services;
 using EasyFlow.Application.Sessions;
@@ -12,7 +13,7 @@ using MediatR;
 using ReactiveUI;
 using Serilog;
 using SimpleRouter;
-using SukiUI.Controls;
+using SukiUI.Dialogs;
 using System;
 using System.Diagnostics;
 using System.Reactive.Disposables;
@@ -25,7 +26,8 @@ public sealed partial class RunningTimerViewModel : ViewModelBase, IRoute, IActi
 {
     private readonly IMediator _mediator;
     private readonly ILanguageService _languageService;
-
+    private readonly IToastService _toastService;
+    private readonly ISukiDialogManager _dialog;
     private CompositeDisposable? _disposables;
 
     [ObservableProperty]
@@ -72,12 +74,16 @@ public sealed partial class RunningTimerViewModel : ViewModelBase, IRoute, IActi
     public RunningTimerViewModel(
         IRouterHost routerHost,
         IMediator mediator,
-        ILanguageService languageService)
+        ILanguageService languageService,
+        IToastService toastService,
+        ISukiDialogManager dialog)
     {
         RouterHost = routerHost;
         _mediator = mediator;
         _languageService = languageService;
-
+        _toastService = toastService;
+        _dialog = dialog;
+        
         this.WhenAnyValue(vm => vm.SecondsLeft)
             .DistinctUntilChanged()
             .Subscribe(secondsLeft =>
@@ -167,19 +173,19 @@ public sealed partial class RunningTimerViewModel : ViewModelBase, IRoute, IActi
             {
                 await _mediator.Send(new PlaySoundQuery() { SoundType = SoundType.Break });
 
-                //await SukiHost.ShowToast(_languageService.GetString("Success"), _languageService.GetString("FocusCompleted"), SukiUI.Enums.NotificationType.Success);
+                _toastService.Display(_languageService.GetString("Success"), _languageService.GetString("FocusCompleted"), NotificationType.Success);
             }
             else if (TimerState == TimerState.Break)
             {
                 await _mediator.Send(new PlaySoundQuery() { SoundType = SoundType.Work });
 
-                //await SukiHost.ShowToast(_languageService.GetString("Information"), _languageService.GetString("BreakCompleted"), SukiUI.Enums.NotificationType.Info);
+                _toastService.Display(_languageService.GetString("Information"), _languageService.GetString("BreakCompleted"), NotificationType.Information);
             }
             else if (TimerState == TimerState.LongBreak)
             {
                 await _mediator.Send(new PlaySoundQuery() { SoundType = SoundType.Work });
 
-                //await SukiHost.ShowToast(_languageService.GetString("Information"), _languageService.GetString("LongBreakCompleted"), SukiUI.Enums.NotificationType.Info);
+                _toastService.Display(_languageService.GetString("Information"), _languageService.GetString("LongBreakCompleted"), NotificationType.Information);
             }
 
             await GoToNextState(isSkipping: false);
@@ -190,7 +196,7 @@ public sealed partial class RunningTimerViewModel : ViewModelBase, IRoute, IActi
     private async Task EndSession()
     {
         var result = await _mediator.Send(new GetSettingsQuery());
-        RouterHost.Router.NavigateTo(new AdjustTimersViewModel(result.Value, RouterHost, _mediator, _languageService));
+        RouterHost.Router.NavigateTo(new AdjustTimersViewModel(result.Value, RouterHost, _mediator, _languageService, _toastService, _dialog));
 
         Trace.TraceInformation("EndSession");
     }
@@ -226,19 +232,20 @@ public sealed partial class RunningTimerViewModel : ViewModelBase, IRoute, IActi
         var isDescriptionEnabled = settings.IsFocusDescriptionEnabled;
         if (isDescriptionEnabled)
         {
-            //SukiHost.ShowDialog(new EditDescriptionViewModel(Description, (string notes) =>
-            //{
-            //    Description = notes;
-            //    IsRunning = previousRunningState;
+            _dialog.CreateDialog()
+                .WithViewModel(dialog => new EditDescriptionViewModel(dialog, Description, notes =>
+                {
+                    Description = notes;
+                    IsRunning = previousRunningState;
 
-            //    if (session is not null)
-            //    {
-            //        session.Description = notes;
-            //        _mediator.Send(new CreateSessionCommand() { Session = session }).GetAwaiter().GetResult();
-            //    }
-            //},
-            //() => IsRunning = previousRunningState),
-            //allowBackgroundClose: false);
+                    if (session is not null)
+                    {
+                        session.Description = notes;
+                        _mediator.Send(new CreateSessionCommand() { Session = session }).GetAwaiter().GetResult();
+                    }
+                },
+                () => IsRunning = previousRunningState))
+                .TryShow();
         }
 
         Trace.TraceInformation("OpenNotes");
