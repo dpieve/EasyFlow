@@ -64,7 +64,7 @@ public sealed partial class AddTagViewModel : ViewModelBase
                 error += $" {Tag.MaxNumTags}";
             }    
 
-            await SukiHost.ShowToast(_languageService.GetString("Failure"), error);
+            //await SukiHost.ShowToast(_languageService.GetString("Failure"), error);
         }
 
         Cancel();
@@ -74,6 +74,6 @@ public sealed partial class AddTagViewModel : ViewModelBase
     private void Cancel()
     {
         _onCancel?.Invoke();
-        SukiHost.CloseDialog();
+        //SukiHost.CloseDialog();
     }
 }

@@ -36,6 +36,6 @@ public sealed partial class SettingsViewModel : PageViewModelBase
         Tags.Deactivate();
         GeneralSettings.Deactivate();
 
-        SukiHost.ClearAllToasts();
+        //SukiHost.ClearAllToasts();
     }
 }

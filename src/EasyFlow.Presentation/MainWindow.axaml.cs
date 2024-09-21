@@ -11,7 +11,7 @@ public partial class MainWindow : SukiWindow
     {
         InitializeComponent();
 
-        SukiHost.SetToastLimit(this, 3);
+        //SukiHost.SetToastLimit(this, 3);
     }
 
     private void MenuItem_OnClick(object? sender, RoutedEventArgs e)

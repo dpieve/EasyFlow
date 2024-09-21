@@ -7,6 +7,7 @@ public sealed record SupportedLanguage(string Name, string Code)
 
     public static SupportedLanguage FromCode(string code) => code switch
     {
+        "en" => English,
         "en-US" => English,
         "pt-BR" => Portuguese,
         _ => throw new NotSupportedException($"Language code '{code}' is not supported.")

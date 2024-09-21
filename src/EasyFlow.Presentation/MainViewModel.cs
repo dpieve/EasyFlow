@@ -70,13 +70,13 @@ public partial class MainViewModel : ViewModelBase
         {
             BaseTheme = variant;
             var themeName = _languageService.GetString(variant.ToString());
-            SukiHost.ShowToast(_languageService.GetString("Success"), $"{_languageService.GetString("ChangedThemeTo")} {themeName}", SukiUI.Enums.NotificationType.Success);
+            //SukiHost.ShowToast(_languageService.GetString("Success"), $"{_languageService.GetString("ChangedThemeTo")} {themeName}", SukiUI.Enums.NotificationType.Success);
         };
 
         _theme.OnColorThemeChanged += theme =>
         {
             var themeName = _languageService.GetString(theme.DisplayName);
-            SukiHost.ShowToast(_languageService.GetString("Success"), $"{_languageService.GetString("ChangedColorTo")} {themeName}.", SukiUI.Enums.NotificationType.Success);
+            //SukiHost.ShowToast(_languageService.GetString("Success"), $"{_languageService.GetString("ChangedColorTo")} {themeName}.", SukiUI.Enums.NotificationType.Success);
         };
 
         this.WhenAnyValue(

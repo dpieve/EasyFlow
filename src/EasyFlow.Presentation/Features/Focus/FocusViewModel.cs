@@ -62,7 +62,7 @@ public sealed partial class FocusViewModel : PageViewModelBase, IRouterHost
     {
         CurrentRoute?.Deactivate();
 
-        SukiHost.ClearAllToasts();
+        //SukiHost.ClearAllToasts();
 
         Trace.TraceInformation("OnDeactivated FocusViewModel");
     }

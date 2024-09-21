@@ -108,11 +108,11 @@ public sealed partial class AdjustTimersViewModel : ViewModelBase, IRoute, IActi
     [RelayCommand]
     private void OpenLongBreakSettings()
     {
-        SukiHost.ShowDialog(new LongBreakSettingsViewModel(Timers!.SessionsBeforeLongBreak, (int longBreakSessions) =>
-        {
-            Timers.SessionsBeforeLongBreak = longBreakSessions;
-        }),
-        allowBackgroundClose: true);
+        //SukiHost.ShowDialog(new LongBreakSettingsViewModel(Timers!.SessionsBeforeLongBreak, (int longBreakSessions) =>
+        //{
+        //    Timers.SessionsBeforeLongBreak = longBreakSessions;
+        //}),
+        //allowBackgroundClose: true);
     }
 
     [RelayCommand]

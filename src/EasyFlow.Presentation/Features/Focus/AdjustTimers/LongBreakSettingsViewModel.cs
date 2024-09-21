@@ -27,5 +27,7 @@ public sealed partial class LongBreakSettingsViewModel : ViewModelBase
     }
 
     [RelayCommand]
-    private static void CloseButton() => SukiHost.CloseDialog();
+    private static void CloseButton() {
+        
+        }// SukiHost.CloseDialog();
 }

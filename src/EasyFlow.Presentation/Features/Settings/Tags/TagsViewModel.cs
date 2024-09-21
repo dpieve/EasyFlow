@@ -57,7 +57,7 @@ public partial class TagsViewModel : ViewModelBase
     private void AddTag()
     {
         IsAddBusy = true;
-        SukiHost.ShowDialog(new AddTagViewModel(_mediator, _languageService, onOk: AddedTag, onCancel: () => IsAddBusy = false), allowBackgroundClose: false);
+        //SukiHost.ShowDialog(new AddTagViewModel(_mediator, _languageService, onOk: AddedTag, onCancel: () => IsAddBusy = false), allowBackgroundClose: false);
     }
 
     private void AddedTag(Domain.Entities.Tag tag)

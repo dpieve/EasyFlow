@@ -29,14 +29,14 @@ public sealed partial class RestartAppService : IRestartAppService
 
     public void Restart()
     {
-        SukiHost.ClearAllToasts();
+        //SukiHost.ClearAllToasts();
         Task.Delay(200).Wait();
 
-        SukiHost.ShowDialog(new RestartViewModel(() =>
-        {
-            _restart.OnNext(Unit.Default);
-        }, secondsBeforeRestart: 3)
-        , allowBackgroundClose: false);
+        //SukiHost.ShowDialog(new RestartViewModel(() =>
+        //{
+        //    _restart.OnNext(Unit.Default);
+        //}, secondsBeforeRestart: 3)
+        //, allowBackgroundClose: false);
     }
 
     [RelayCommand]

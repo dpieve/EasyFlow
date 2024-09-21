@@ -102,7 +102,7 @@ public partial class GeneralSettingsViewModel : ViewModelBase
         var result = await BackupDbQueryHandler.Handle();
         if (result.IsSuccess)
         {
-            await SukiHost.ShowToast(_languageService.GetString("Success"), _languageService.GetString("SuccessGeneratedBackup"), SukiUI.Enums.NotificationType.Success);
+            //await SukiHost.ShowToast(_languageService.GetString("Success"), _languageService.GetString("SuccessGeneratedBackup"), SukiUI.Enums.NotificationType.Success);
         }
         IsBackupBusy = false;
     }
@@ -112,14 +112,14 @@ public partial class GeneralSettingsViewModel : ViewModelBase
     {
         IsDeleteBusy = true;
 
-        SukiHost.ShowDialog(new DeleteDataViewModel(_mediator,
-        () =>
-        {
-            _restartAppService.Restart();
-            IsDeleteBusy = false;
-        },
-        () => IsDeleteBusy = false)
-        , allowBackgroundClose: false);
+        //SukiHost.ShowDialog(new DeleteDataViewModel(_mediator,
+        //() =>
+        //{
+        //    _restartAppService.Restart();
+        //    IsDeleteBusy = false;
+        //},
+        //() => IsDeleteBusy = false)
+        //, allowBackgroundClose: false);
     }
 
     private async Task<GeneralSettings> GetSettings()

@@ -68,7 +68,7 @@ public partial class DashboardViewModel : PageViewModelBase
 
     protected override void OnDeactivated()
     {
-        SukiHost.ClearAllToasts();
+        //SukiHost.ClearAllToasts();
         DisplayControls.Deactivated();
 
         Trace.TraceInformation("Dashboard OnDeactivated");

@@ -38,7 +38,7 @@ public sealed partial class TagItemViewModel : ViewModelBase
     [RelayCommand]
     private void EditTag()
     {
-        SukiHost.ShowDialog(new AddTagViewModel(_mediator, _languageService, onOk: EditedTag, initialTag: Tag), allowBackgroundClose: false);
+        //SukiHost.ShowDialog(new AddTagViewModel(_mediator, _languageService, onOk: EditedTag, initialTag: Tag), allowBackgroundClose: false);
     }
 
     [RelayCommand]
@@ -53,7 +53,7 @@ public sealed partial class TagItemViewModel : ViewModelBase
 
         if (!result.IsSuccess)
         {
-            await SukiHost.ShowToast(_languageService.GetString("Information"), _languageService.GetString(result.Error.Code));
+            //await SukiHost.ShowToast(_languageService.GetString("Information"), _languageService.GetString(result.Error.Code));
             return;
         }
 

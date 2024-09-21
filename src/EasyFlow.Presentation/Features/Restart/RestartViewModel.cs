@@ -51,7 +51,7 @@ public sealed partial class RestartViewModel : ViewModelBase
 
         _onOk();
 
-        SukiHost.CloseDialog();
+        //SukiHost.CloseDialog();
     }
 
     [RelayCommand]

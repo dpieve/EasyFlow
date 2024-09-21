@@ -99,10 +99,10 @@ public sealed partial class DisplayControlsViewModel : ViewModelBase
         IsGeneratingReport = true;
 
         var result = await GenerateReportHandler.Handle(_mediator);
-        if (result.IsSuccess)
-        {
-            await SukiHost.ShowToast(_languageService.GetString("Success"), _languageService.GetString("SuccessGeneratedReport"), SukiUI.Enums.NotificationType.Success);
-        }
+        //if (result.IsSuccess)
+        //{
+        //    await SukiHost.ShowToast(_languageService.GetString("Success"), _languageService.GetString("SuccessGeneratedReport"), SukiUI.Enums.NotificationType.Success);
+        //}
 
         IsGeneratingReport = false;
     }

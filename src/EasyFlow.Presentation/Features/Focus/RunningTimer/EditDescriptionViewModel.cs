@@ -44,6 +44,6 @@ public sealed partial class EditDescriptionViewModel : ViewModelBase
             _onCancel();
         }
 
-        SukiHost.CloseDialog();
+        //SukiHost.CloseDialog();
     }
 }

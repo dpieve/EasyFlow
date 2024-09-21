@@ -45,5 +45,5 @@ public sealed partial class DeleteDataViewModel : ViewModelBase
         Close();
     }
 
-    private static void Close() => SukiHost.CloseDialog();
+    private static void Close() { } // SukiHost.CloseDialog();
 }
