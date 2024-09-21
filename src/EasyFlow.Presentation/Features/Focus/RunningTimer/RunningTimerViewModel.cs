@@ -176,19 +176,19 @@ public sealed partial class RunningTimerViewModel : ViewModelBase, IRoute, IActi
             if (TimerState == TimerState.Focus)
             {
                 await _mediator.Send(new PlaySoundQuery() { SoundType = SoundType.Break });
-
+                await _notificationService.Show(_languageService.GetString("Success"), _languageService.GetString("FocusCompleted"));
                 _toastService.Display(_languageService.GetString("Success"), _languageService.GetString("FocusCompleted"), NotificationType.Success);
             }
             else if (TimerState == TimerState.Break)
             {
                 await _mediator.Send(new PlaySoundQuery() { SoundType = SoundType.Work });
-
+                await _notificationService.Show(_languageService.GetString("Information"), _languageService.GetString("BreakCompleted"));
                 _toastService.Display(_languageService.GetString("Information"), _languageService.GetString("BreakCompleted"), NotificationType.Information);
             }
             else if (TimerState == TimerState.LongBreak)
             {
                 await _mediator.Send(new PlaySoundQuery() { SoundType = SoundType.Work });
-
+                await _notificationService.Show(_languageService.GetString("Information"), _languageService.GetString("LongBreakCompleted"));
                 _toastService.Display(_languageService.GetString("Information"), _languageService.GetString("LongBreakCompleted"), NotificationType.Information);
             }
 
