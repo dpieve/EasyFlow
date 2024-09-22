@@ -19,7 +19,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyFlow.Infrastructure", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyFlow.Domain", "EasyFlow.Domain\EasyFlow.Domain.csproj", "{3A970523-9661-4A52-906F-F40380A13018}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyFlow.Tests.Unit", "EasyFlow.Tests.Unit\EasyFlow.Tests.Unit.csproj", "{A8ACEA94-0656-4E51-95F6-5C03383430DC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyFlow.Tests.Unit", "tests\EasyFlow.Tests.Unit\EasyFlow.Tests.Unit.csproj", "{A8ACEA94-0656-4E51-95F6-5C03383430DC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
