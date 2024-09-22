@@ -2,6 +2,7 @@
 using Avalonia.ReactiveUI;
 using EasyFlow.Desktop;
 using System;
+using Velopack;
 
 namespace EasyFlow;
 
@@ -13,6 +14,8 @@ internal sealed class Program
     [STAThread]
     public static void Main(string[] args)
     {
+        VelopackApp.Build().Run();
+
         BuildAvaloniaApp()
         .StartWithClassicDesktopLifetime(args);
     }

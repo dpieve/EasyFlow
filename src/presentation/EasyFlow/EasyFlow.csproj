@@ -10,7 +10,7 @@
 	
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <Version>1.0.0.1</Version>
+    <Version>1.0.2</Version>
     <Nullable>enable</Nullable>
     <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
     <Company>Easy Flow</Company>
@@ -39,6 +39,7 @@
     <PackageReference Include="Serilog.Extensions.Logging" Version="8.0.1-dev-10398" />
     <PackageReference Include="Serilog.Sinks.Debug" Version="3.0.0" />
     <PackageReference Include="Serilog.Sinks.File" Version="6.0.0" />
+    <PackageReference Include="Velopack" Version="0.0.610" />
   </ItemGroup>
 
   <ItemGroup>
