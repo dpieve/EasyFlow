@@ -17,7 +17,9 @@ public static class InfraExtensions
             {
                 options.UseSqlite($"Data Source={Paths.DbFullPath}");
                 options.EnableDetailedErrors();
+#if DEBUG
                 options.EnableSensitiveDataLogging();
+#endif
             },
             lifetime: ServiceLifetime.Scoped);
 

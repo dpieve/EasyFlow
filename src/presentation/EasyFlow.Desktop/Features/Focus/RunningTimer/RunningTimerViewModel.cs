@@ -5,7 +5,6 @@ using EasyFlow.Application.Services;
 using EasyFlow.Application.Sessions;
 using EasyFlow.Application.Settings;
 using EasyFlow.Desktop.Common;
-using EasyFlow.Desktop.Features.Focus.RunningTimer;
 using EasyFlow.Desktop.Services;
 using EasyFlow.Domain.Entities;
 using EasyFlow.Desktop.Features.Focus.AdjustTimers;
@@ -91,6 +90,7 @@ public sealed partial class RunningTimerViewModel : ViewModelBase, IRoute, IActi
         
         this.WhenAnyValue(vm => vm.SecondsLeft)
             .DistinctUntilChanged()
+            .ObserveOn(RxApp.MainThreadScheduler)
             .Subscribe(secondsLeft =>
             {
                 var minutes = secondsLeft / 60;
@@ -101,9 +101,11 @@ public sealed partial class RunningTimerViewModel : ViewModelBase, IRoute, IActi
 
         this.WhenAnyValue(vm => vm.TimerState)
             .Skip(1)
+            .ObserveOn(RxApp.MainThreadScheduler)
             .InvokeCommand(StateChangedCommand);
 
         this.WhenAnyValue(vm => vm.TimerState)
+            .ObserveOn(RxApp.MainThreadScheduler)
             .InvokeCommand(UpdateNotesVisibleCommand);
     }
 
@@ -123,6 +125,7 @@ public sealed partial class RunningTimerViewModel : ViewModelBase, IRoute, IActi
 
         Observable
             .StartAsync(GetSettings)
+            .ObserveOn(RxApp.MainThreadScheduler)
             .Subscribe(settings =>
             {
                 IsFocusDescriptionVisible = settings.IsFocusDescriptionEnabled;
@@ -168,32 +171,42 @@ public sealed partial class RunningTimerViewModel : ViewModelBase, IRoute, IActi
     [RelayCommand]
     private async Task TimerTick()
     {
-        if (SecondsLeft > 0)
+        try
         {
-            SecondsLeft--;
-        }
-        else if (SecondsLeft == 0)
-        {
-            if (TimerState == TimerState.Focus)
-            {
-                await _mediator.Send(new PlaySoundQuery() { SoundType = SoundType.Break });
-                await _notificationService.Show(_languageService.GetString("Success"), _languageService.GetString("FocusCompleted"));
-                _toastService.Display(_languageService.GetString("Success"), _languageService.GetString("FocusCompleted"), NotificationType.Success);
-            }
-            else if (TimerState == TimerState.Break)
-            {
-                await _mediator.Send(new PlaySoundQuery() { SoundType = SoundType.Work });
-                await _notificationService.Show(_languageService.GetString("Information"), _languageService.GetString("BreakCompleted"));
-                _toastService.Display(_languageService.GetString("Information"), _languageService.GetString("BreakCompleted"), NotificationType.Information);
-            }
-            else if (TimerState == TimerState.LongBreak)
-            {
-                await _mediator.Send(new PlaySoundQuery() { SoundType = SoundType.Work });
-                await _notificationService.Show(_languageService.GetString("Information"), _languageService.GetString("LongBreakCompleted"));
-                _toastService.Display(_languageService.GetString("Information"), _languageService.GetString("LongBreakCompleted"), NotificationType.Information);
-            }
+            Trace.TraceInformation($"TimerTick, SecondsLeft = {SecondsLeft}");
 
-            await GoToNextState(isSkipping: false);
+            if (SecondsLeft > 0)
+            {
+                SecondsLeft--;
+            }
+            else if (SecondsLeft == 0)
+            {
+                if (TimerState == TimerState.Focus)
+                {
+                    await _mediator.Send(new PlaySoundQuery() { SoundType = SoundType.Break });
+                    await _notificationService.Show(_languageService.GetString("Success"), _languageService.GetString("FocusCompleted"));
+                    _toastService.Display(_languageService.GetString("Success"), _languageService.GetString("FocusCompleted"), NotificationType.Success);
+                }
+                else if (TimerState == TimerState.Break)
+                {
+                    await _mediator.Send(new PlaySoundQuery() { SoundType = SoundType.Work });
+                    await _notificationService.Show(_languageService.GetString("Information"), _languageService.GetString("BreakCompleted"));
+                    _toastService.Display(_languageService.GetString("Information"), _languageService.GetString("BreakCompleted"), NotificationType.Information);
+                }
+                else if (TimerState == TimerState.LongBreak)
+                {
+                    await _mediator.Send(new PlaySoundQuery() { SoundType = SoundType.Work });
+                    await _notificationService.Show(_languageService.GetString("Information"), _languageService.GetString("LongBreakCompleted"));
+                    _toastService.Display(_languageService.GetString("Information"), _languageService.GetString("LongBreakCompleted"), NotificationType.Information);
+                }
+
+                await GoToNextState(isSkipping: false);
+            }
+        }
+        catch(Exception ex)
+        {
+            Log.Error("Failed to tick timer {Error}", ex.Message);
+            Restart();
         }
     }
 
@@ -228,29 +241,36 @@ public sealed partial class RunningTimerViewModel : ViewModelBase, IRoute, IActi
     [RelayCommand]
     private async Task OpenNotes(Session? session = null)
     {
-        var previousRunningState = IsRunning;
-        IsRunning = false;
+        try
+        { 
+            var previousRunningState = IsRunning;
+            IsRunning = false;
 
-        var result = await _mediator.Send(new GetSettingsQuery());
-        var settings = result.Value;
+            var result = await _mediator.Send(new GetSettingsQuery());
+            var settings = result.Value;
 
-        var isDescriptionEnabled = settings.IsFocusDescriptionEnabled;
-        if (isDescriptionEnabled)
-        {
-            _dialog.CreateDialog()
-                .WithViewModel(dialog => new EditDescriptionViewModel(dialog, Description, notes =>
-                {
-                    Description = notes;
-                    IsRunning = previousRunningState;
-
-                    if (session is not null)
+            var isDescriptionEnabled = settings.IsFocusDescriptionEnabled;
+            if (isDescriptionEnabled)
+            {
+                _dialog.CreateDialog()
+                    .WithViewModel(dialog => new EditDescriptionViewModel(dialog, Description, notes =>
                     {
-                        session.Description = notes;
-                        _mediator.Send(new CreateSessionCommand() { Session = session }).GetAwaiter().GetResult();
-                    }
-                },
-                () => IsRunning = previousRunningState))
-                .TryShow();
+                        Description = notes;
+                        IsRunning = previousRunningState;
+
+                        if (session is not null)
+                        {
+                            session.Description = notes;
+                            _mediator.Send(new CreateSessionCommand() { Session = session }).GetAwaiter().GetResult();
+                        }
+                    },
+                    () => IsRunning = previousRunningState))
+                    .TryShow();
+            }
+        }
+        catch(Exception ex)
+        {
+            Log.Error("Failed to open notes, {Error}", ex.Message);
         }
 
         Trace.TraceInformation("OpenNotes");
@@ -360,5 +380,22 @@ public sealed partial class RunningTimerViewModel : ViewModelBase, IRoute, IActi
         SecondsLeft = TotalSeconds;
 
         IsBreak = state != TimerState.Focus;
+    }
+
+    private void Restart()
+    {
+        Trace.TraceInformation("Restarting");
+
+        _disposables?.Dispose();
+        _disposables = null;
+
+        _disposables = [];
+
+        Observable.Interval(TimeSpan.FromSeconds(1))
+           .Where(_ => IsRunning)
+           .Select(_ => System.Reactive.Unit.Default)
+           .ObserveOn(RxApp.MainThreadScheduler)
+           .InvokeCommand(TimerTickCommand)
+           .DisposeWith(_disposables);
     }
 }
