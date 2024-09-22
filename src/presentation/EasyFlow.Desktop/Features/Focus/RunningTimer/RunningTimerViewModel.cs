@@ -5,6 +5,7 @@ using EasyFlow.Application.Services;
 using EasyFlow.Application.Sessions;
 using EasyFlow.Application.Settings;
 using EasyFlow.Desktop.Common;
+using EasyFlow.Desktop.Features.Focus.RunningTimer;
 using EasyFlow.Desktop.Services;
 using EasyFlow.Domain.Entities;
 using EasyFlow.Desktop.Features.Focus.AdjustTimers;
