@@ -5,7 +5,6 @@ using EasyFlow.Application.Settings;
 using EasyFlow.Desktop.Common;
 using EasyFlow.Desktop.Services;
 using EasyFlow.Domain.Entities;
-using EasyFlow.Desktop.Services;
 using MediatR;
 using ReactiveUI;
 using SukiUI.Dialogs;
