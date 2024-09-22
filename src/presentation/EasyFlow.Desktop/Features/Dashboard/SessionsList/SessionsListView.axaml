@@ -1,0 +1,75 @@
+<UserControl
+    x:Class="EasyFlow.Desktop.Features.Dashboard.SessionsList.SessionsListView"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:assets="clr-namespace:EasyFlow.Desktop.Assets"
+    xmlns:converters="clr-namespace:EasyFlow.Desktop.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:EasyFlow.Desktop.Features.Dashboard.SessionsList"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    x:DataType="local:SessionsListViewModel"
+    mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <converters:StringFromDateTime x:Key="StringFromDateTimeConverter" />
+    </UserControl.Resources>
+
+    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+
+        <DataGrid
+            Width="800"
+            Height="340"
+            CanUserReorderColumns="False"
+            CanUserResizeColumns="True"
+            CanUserSortColumns="False"
+            ItemsSource="{Binding Items}">
+
+            <DataGrid.Columns>
+
+                <DataGridTemplateColumn Header="{x:Static assets:Resources.Date}">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                                <TextBlock
+                                    Margin="0,0,10,0"
+                                    Text="{Binding ConclusionDate, Converter={StaticResource StringFromDateTimeConverter}}"
+                                    TextWrapping="Wrap" />
+                            </ScrollViewer>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTextColumn Binding="{Binding SessionType}" Header="{x:Static assets:Resources.Session}" />
+
+                <DataGridTemplateColumn Header="{x:Static assets:Resources.Tag}">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                                <TextBlock
+                                    MaxWidth="150"
+                                    Text="{Binding Tag.Name}"
+                                    TextWrapping="Wrap" />
+                            </ScrollViewer>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTextColumn Binding="{Binding Duration}" Header="{x:Static assets:Resources.Duration_Minutes}" />
+
+                <DataGridTemplateColumn Width="*" Header="{x:Static assets:Resources.Description}">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                                <TextBlock Text="{Binding Description}" TextWrapping="Wrap" />
+                            </ScrollViewer>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+            </DataGrid.Columns>
+
+        </DataGrid>
+
+    </ScrollViewer>
+
+</UserControl>

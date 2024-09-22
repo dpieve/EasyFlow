@@ -27,4 +27,4 @@ jobs:
       run: dotnet build src/ --no-restore
 
     - name: Run unit tests
-      run: dotnet test src/EasyFlow.Tests.Unit/ --no-restore --verbosity normal
+      run: dotnet test src/tests/EasyFlow.Tests.Unit/ --no-restore --verbosity normal
