@@ -205,6 +205,15 @@ namespace EasyFlow.Desktop.Assets {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Close EasyFlow.
+        /// </summary>
+        public static string CloseEasyFlow {
+            get {
+                return ResourceManager.GetString("CloseEasyFlow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Controls.
         /// </summary>
         public static string Controls {
@@ -482,6 +491,15 @@ namespace EasyFlow.Desktop.Assets {
         public static string Minutes {
             get {
                 return ResourceManager.GetString("Minutes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Open EasyFlow.
+        /// </summary>
+        public static string OpenEasyFlow {
+            get {
+                return ResourceManager.GetString("OpenEasyFlow", resourceCulture);
             }
         }
         

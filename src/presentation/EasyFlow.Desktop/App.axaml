@@ -2,6 +2,7 @@
     x:Class="EasyFlow.Desktop.App"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:assets="clr-namespace:EasyFlow.Desktop.Assets"
     xmlns:common="using:EasyFlow.Desktop.Common"
     xmlns:local="using:EasyFlow.Desktop"
     xmlns:materialIcons="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
@@ -11,22 +12,6 @@
     <Application.DataTemplates>
         <common:ViewLocator />
     </Application.DataTemplates>
-
-    <TrayIcon.Icons>
-        <TrayIcons>
-            <TrayIcon
-                Clicked="Open_Click"
-                Icon="/Assets/panda.png"
-                ToolTipText="EasyFlow App">
-                <TrayIcon.Menu>
-                    <NativeMenu>
-                        <NativeMenuItem Click="Open_Click" Header="Open EasyFlow" />
-                        <NativeMenuItem Click="Close_Click" Header="Quit EasyFlow" />
-                    </NativeMenu>
-                </TrayIcon.Menu>
-            </TrayIcon>
-        </TrayIcons>
-    </TrayIcon.Icons>
 
     <Application.Styles>
         <sukiUi:SukiTheme ThemeColor="Red" />

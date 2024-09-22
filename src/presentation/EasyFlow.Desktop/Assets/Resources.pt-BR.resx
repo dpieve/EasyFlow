@@ -145,6 +145,9 @@
   <data name="ChooseWhereToSave" xml:space="preserve">
     <value>Escolha onde salvar</value>
   </data>
+  <data name="CloseEasyFlow" xml:space="preserve">
+    <value>Fechar EasyFlow</value>
+  </data>
   <data name="Controls" xml:space="preserve">
     <value>Controles</value>
   </data>
@@ -239,6 +242,9 @@ Vá Focar e volte mais tarde</value>
   </data>
   <data name="Minutes" xml:space="preserve">
     <value>Minutos</value>
+  </data>
+  <data name="OpenEasyFlow" xml:space="preserve">
+    <value>Abrir EasyFlow</value>
   </data>
   <data name="Orange" xml:space="preserve">
     <value>Laranja</value>

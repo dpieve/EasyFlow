@@ -181,6 +181,10 @@
     <value>Choose where to save</value>
     <comment>Saving a file</comment>
   </data>
+  <data name="CloseEasyFlow" xml:space="preserve">
+    <value>Close EasyFlow</value>
+    <comment>Tray icon msg</comment>
+  </data>
   <data name="Controls" xml:space="preserve">
     <value>Controls</value>
     <comment>Dashboard</comment>
@@ -306,6 +310,10 @@ Go Focus and come back later</value>
   <data name="Minutes" xml:space="preserve">
     <value>Minutes</value>
     <comment>Label</comment>
+  </data>
+  <data name="OpenEasyFlow" xml:space="preserve">
+    <value>Open EasyFlow</value>
+    <comment>Tray icon msg</comment>
   </data>
   <data name="Orange" xml:space="preserve">
     <value>Orange</value>

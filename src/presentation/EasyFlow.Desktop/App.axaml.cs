@@ -1,7 +1,10 @@
+using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Data.Core.Plugins;
 using Avalonia.Markup.Xaml;
+using Avalonia.Media.Imaging;
 using CommunityToolkit.Mvvm.DependencyInjection;
+using CommunityToolkit.Mvvm.Input;
 using EasyFlow.Application.Settings;
 using EasyFlow.Desktop.Services;
 using EasyFlow.Domain.Entities;
@@ -44,6 +47,9 @@ public partial class App : Avalonia.Application
                 desktop.MainWindow = MainWindow;
                 desktop.Startup += OnStartup;
                 desktop.Exit += OnExit;
+
+                RegisterTrayIcon();
+
                 break;
         }
 
@@ -84,7 +90,7 @@ public partial class App : Avalonia.Application
         Trace.TraceError($"Unhandled Exception: {exception?.Message}");
     }
 
-    private void Close_Click(object? sender, System.EventArgs e)
+    private void Close_Click()
     {
         if (MainWindow is null)
         {
@@ -95,7 +101,7 @@ public partial class App : Avalonia.Application
         MainWindow.Close();
     }
 
-    private void Open_Click(object? sender, System.EventArgs e)
+    private void Open_Click()
     {
         if (MainWindow is null)
         {
@@ -104,5 +110,36 @@ public partial class App : Avalonia.Application
 
         MainWindow.FromTray();
         MainWindow.Show();
+    }
+
+    private void RegisterTrayIcon()
+    {
+        var trayIcon = new TrayIcon
+        {
+            IsVisible = true,
+            Command = new RelayCommand(Open_Click),
+            Icon = new WindowIcon(new Bitmap("Assets/panda.png")),
+            Menu = new NativeMenu
+            {
+                new NativeMenuItem
+                {
+                    Header = ConstantTranslation.OpenEasyFlow,
+                    Command = new RelayCommand(Open_Click),
+                },
+
+                new NativeMenuItem
+                {
+                    Header = ConstantTranslation.CloseEasyFlow,
+                    Command = new RelayCommand(Close_Click),
+                }
+            }
+        };
+
+        var trayIcons = new TrayIcons
+        {
+            trayIcon
+        };
+
+        SetValue(TrayIcon.IconsProperty, trayIcons);
     }
 }

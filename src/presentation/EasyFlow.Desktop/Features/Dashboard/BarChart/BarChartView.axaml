@@ -2,7 +2,6 @@
     x:Class="EasyFlow.Desktop.Features.Dashboard.BarChart.BarChartView"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:assets="clr-namespace:EasyFlow.Desktop.Assets"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:EasyFlow.Desktop.Features.Dashboard.BarChart"
     xmlns:lvc="using:LiveChartsCore.SkiaSharpView.Avalonia"
