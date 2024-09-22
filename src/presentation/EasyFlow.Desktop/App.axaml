@@ -2,6 +2,7 @@
     x:Class="EasyFlow.Desktop.App"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:assets="clr-namespace:EasyFlow.Desktop.Assets"
     xmlns:common="using:EasyFlow.Desktop.Common"
     xmlns:local="using:EasyFlow.Desktop"
     xmlns:materialIcons="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"

@@ -103,6 +103,9 @@
   <data name="AddFocusDescription" xml:space="preserve">
     <value>Adicione uma descrição às sessões de foco</value>
   </data>
+  <data name="AppStillRunning" xml:space="preserve">
+    <value>O app ainda está executando</value>
+  </data>
   <data name="BackupData" xml:space="preserve">
     <value>Salvar dados</value>
   </data>
@@ -145,6 +148,9 @@
   <data name="ChooseWhereToSave" xml:space="preserve">
     <value>Escolha onde salvar</value>
   </data>
+  <data name="CloseEasyFlow" xml:space="preserve">
+    <value>Fechar EasyFlow</value>
+  </data>
   <data name="Controls" xml:space="preserve">
     <value>Controles</value>
   </data>
@@ -182,6 +188,9 @@ Vá Focar e volte mais tarde</value>
   </data>
   <data name="FailureGeneratedReport" xml:space="preserve">
     <value>O relatório não foi gerado. Tente novamente.</value>
+  </data>
+  <data name="FindAppInSystemTray" xml:space="preserve">
+    <value>Você pode encontrar o app na bandeja do sistema</value>
   </data>
   <data name="Focus" xml:space="preserve">
     <value>Concentrado</value>
@@ -240,6 +249,9 @@ Vá Focar e volte mais tarde</value>
   <data name="Minutes" xml:space="preserve">
     <value>Minutos</value>
   </data>
+  <data name="OpenEasyFlow" xml:space="preserve">
+    <value>Abrir EasyFlow</value>
+  </data>
   <data name="Orange" xml:space="preserve">
     <value>Laranja</value>
   </data>
@@ -269,6 +281,9 @@ Vá Focar e volte mais tarde</value>
   </data>
   <data name="Portuguese" xml:space="preserve">
     <value>Português</value>
+  </data>
+  <data name="ProgressLongBreakToolTip" xml:space="preserve">
+    <value>{0} foco(s) completo(s) / {1} foco(s) completo(s) para a pausa longa</value>
   </data>
   <data name="Red" xml:space="preserve">
     <value>Vermelho</value>

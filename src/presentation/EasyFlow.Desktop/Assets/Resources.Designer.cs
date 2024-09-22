@@ -79,6 +79,15 @@ namespace EasyFlow.Desktop.Assets {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The app is still running.
+        /// </summary>
+        public static string AppStillRunning {
+            get {
+                return ResourceManager.GetString("AppStillRunning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Backup Data.
         /// </summary>
         public static string BackupData {
@@ -205,6 +214,15 @@ namespace EasyFlow.Desktop.Assets {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Close EasyFlow.
+        /// </summary>
+        public static string CloseEasyFlow {
+            get {
+                return ResourceManager.GetString("CloseEasyFlow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Controls.
         /// </summary>
         public static string Controls {
@@ -311,6 +329,15 @@ namespace EasyFlow.Desktop.Assets {
         public static string FailureGeneratedReport {
             get {
                 return ResourceManager.GetString("FailureGeneratedReport", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You can find it in the system tray for quick access.
+        /// </summary>
+        public static string FindAppInSystemTray {
+            get {
+                return ResourceManager.GetString("FindAppInSystemTray", resourceCulture);
             }
         }
         
@@ -486,6 +513,15 @@ namespace EasyFlow.Desktop.Assets {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Open EasyFlow.
+        /// </summary>
+        public static string OpenEasyFlow {
+            get {
+                return ResourceManager.GetString("OpenEasyFlow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Orange.
         /// </summary>
         public static string Orange {
@@ -572,6 +608,15 @@ namespace EasyFlow.Desktop.Assets {
         public static string Portuguese {
             get {
                 return ResourceManager.GetString("Portuguese", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} completed focus / {1} focus before a long break.
+        /// </summary>
+        public static string ProgressLongBreakToolTip {
+            get {
+                return ResourceManager.GetString("ProgressLongBreakToolTip", resourceCulture);
             }
         }
         

@@ -62,7 +62,7 @@
             </MenuItem>
             <MenuItem Header="-" />
             <MenuItem
-                Click="MenuItem_OnClick"
+                Click="SelectTheme_OnClick"
                 Header="{x:Static assets:Resources.MenuSwitchTo}"
                 ItemsSource="{Binding Themes}">
                 <MenuItem.DataTemplates>

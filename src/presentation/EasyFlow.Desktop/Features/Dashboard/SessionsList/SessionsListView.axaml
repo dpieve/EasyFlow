@@ -14,11 +14,11 @@
         <converters:StringFromDateTime x:Key="StringFromDateTimeConverter" />
     </UserControl.Resources>
 
-    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+    <ScrollViewer HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible">
 
         <DataGrid
             Width="800"
-            Height="340"
+            Height="320"
             CanUserReorderColumns="False"
             CanUserResizeColumns="True"
             CanUserSortColumns="False"

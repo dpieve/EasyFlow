@@ -21,6 +21,9 @@ public sealed partial class SessionsListViewModel : ViewModelBase
     public void Update(List<Session> sessions)
     {
         Items.Clear();
+
+        sessions.Sort((s1, s2) => s2.FinishedDate.CompareTo(s1.FinishedDate));
+
         foreach (var session in sessions)
         {
             if (session.Tag is null)

@@ -1,12 +1,14 @@
+using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Data.Core.Plugins;
 using Avalonia.Markup.Xaml;
+using Avalonia.Media.Imaging;
 using CommunityToolkit.Mvvm.DependencyInjection;
+using CommunityToolkit.Mvvm.Input;
 using EasyFlow.Application.Settings;
 using EasyFlow.Desktop.Services;
 using EasyFlow.Domain.Entities;
 using EasyFlow.Domain.Repositories;
-using EasyFlow.Desktop;
 using MediatR;
 using System;
 using System.Diagnostics;
@@ -23,6 +25,8 @@ public partial class App : Avalonia.Application
         AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
     }
 
+    public MainWindow? MainWindow { get; private set; }
+
     public override void OnFrameworkInitializationCompleted()
     {
         Migrate();
@@ -34,31 +38,30 @@ public partial class App : Avalonia.Application
         {
             case IClassicDesktopStyleApplicationLifetime desktop:
                 BindingPlugins.DataValidators.RemoveAt(0);
-                desktop.MainWindow = new MainWindow
+
+                MainWindow = new MainWindow
                 {
                     DataContext = mainViewModel
                 };
+
+                desktop.MainWindow = MainWindow;
                 desktop.Startup += OnStartup;
                 desktop.Exit += OnExit;
-                break;
 
-            case ISingleViewApplicationLifetime singleViewPlatform:
-                singleViewPlatform.MainView = new MainView
-                {
-                    DataContext = mainViewModel
-                };
+                RegisterTrayIcon();
+
                 break;
         }
 
         base.OnFrameworkInitializationCompleted();
     }
 
-    private void OnStartup(object? sender, ControlledApplicationLifetimeStartupEventArgs e)
+    private static void OnStartup(object? sender, ControlledApplicationLifetimeStartupEventArgs e)
     {
         Trace.TraceInformation("OnStartup - started application");
     }
 
-    private async void OnExit(object? sender, ControlledApplicationLifetimeExitEventArgs e)
+    private static async void OnExit(object? sender, ControlledApplicationLifetimeExitEventArgs e)
     {
         await Task.Delay(200);
         Trace.TraceInformation("OnExit - closed application");
@@ -81,9 +84,62 @@ public partial class App : Avalonia.Application
         languageService.SetLanguage(SupportedLanguage.FromCode(selectedLanguage));
     }
 
-    private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+    private static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
     {
         var exception = e.ExceptionObject as Exception;
         Trace.TraceError($"Unhandled Exception: {exception?.Message}");
+    }
+
+    private void Close_Click()
+    {
+        if (MainWindow is null)
+        {
+            return;
+        }
+
+        MainWindow.ShouldClose = true;
+        MainWindow.Close();
+    }
+
+    private void Open_Click()
+    {
+        if (MainWindow is null)
+        {
+            return;
+        }
+
+        MainWindow.FromTray();
+        MainWindow.Show();
+    }
+
+    private void RegisterTrayIcon()
+    {
+        var trayIcon = new TrayIcon
+        {
+            IsVisible = true,
+            Command = new RelayCommand(Open_Click),
+            Icon = new WindowIcon(new Bitmap("Assets/panda.png")),
+            Menu = new NativeMenu
+            {
+                new NativeMenuItem
+                {
+                    Header = ConstantTranslation.OpenEasyFlow,
+                    Command = new RelayCommand(Open_Click),
+                },
+
+                new NativeMenuItem
+                {
+                    Header = ConstantTranslation.CloseEasyFlow,
+                    Command = new RelayCommand(Close_Click),
+                }
+            }
+        };
+
+        var trayIcons = new TrayIcons
+        {
+            trayIcon
+        };
+
+        SetValue(TrayIcon.IconsProperty, trayIcons);
     }
 }

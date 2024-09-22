@@ -125,6 +125,10 @@
     <value>Add a description to Focus sessions</value>
     <comment>Settings</comment>
   </data>
+  <data name="AppStillRunning" xml:space="preserve">
+    <value>The app is still running</value>
+    <comment>Closing the app msg still running</comment>
+  </data>
   <data name="BackupData" xml:space="preserve">
     <value>Backup Data</value>
     <comment>Settings</comment>
@@ -181,6 +185,10 @@
     <value>Choose where to save</value>
     <comment>Saving a file</comment>
   </data>
+  <data name="CloseEasyFlow" xml:space="preserve">
+    <value>Close EasyFlow</value>
+    <comment>Tray icon msg</comment>
+  </data>
   <data name="Controls" xml:space="preserve">
     <value>Controls</value>
     <comment>Dashboard</comment>
@@ -230,6 +238,10 @@ Go Focus and come back later</value>
   <data name="FailureGeneratedReport" xml:space="preserve">
     <value>The report couldn't be generated. Try again.</value>
     <comment>Message</comment>
+  </data>
+  <data name="FindAppInSystemTray" xml:space="preserve">
+    <value>You can find it in the system tray for quick access</value>
+    <comment>Closing the app msg find app to reopen it</comment>
   </data>
   <data name="Focus" xml:space="preserve">
     <value>Focus</value>
@@ -307,6 +319,10 @@ Go Focus and come back later</value>
     <value>Minutes</value>
     <comment>Label</comment>
   </data>
+  <data name="OpenEasyFlow" xml:space="preserve">
+    <value>Open EasyFlow</value>
+    <comment>Tray icon msg</comment>
+  </data>
   <data name="Orange" xml:space="preserve">
     <value>Orange</value>
     <comment>Theme</comment>
@@ -346,6 +362,10 @@ Go Focus and come back later</value>
   <data name="Portuguese" xml:space="preserve">
     <value>Portuguese</value>
     <comment>Language</comment>
+  </data>
+  <data name="ProgressLongBreakToolTip" xml:space="preserve">
+    <value>{0} completed focus / {1} focus before a long break</value>
+    <comment>Completed timers / timers before long break</comment>
   </data>
   <data name="Red" xml:space="preserve">
     <value>Red</value>
