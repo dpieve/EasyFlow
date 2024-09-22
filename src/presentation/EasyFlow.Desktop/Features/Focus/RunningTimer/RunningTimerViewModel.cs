@@ -146,6 +146,8 @@ public sealed partial class RunningTimerViewModel : ViewModelBase, IRoute, IActi
                 TimerText = $"{minutes:D2}:{seconds:D2}";
 
                 SecondsLeft = TotalSeconds;
+                // TEST
+                SecondsLeft = 3;
 
                 IsRunning = true;
             })
@@ -379,6 +381,9 @@ public sealed partial class RunningTimerViewModel : ViewModelBase, IRoute, IActi
 
         TotalSeconds = totalMinutes * 60;
         SecondsLeft = TotalSeconds;
+
+        // TEST
+        SecondsLeft = 3;
 
         IsBreak = state != TimerState.Focus;
     }

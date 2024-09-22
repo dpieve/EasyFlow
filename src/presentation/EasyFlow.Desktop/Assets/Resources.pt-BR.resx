@@ -270,6 +270,9 @@ Vá Focar e volte mais tarde</value>
   <data name="Portuguese" xml:space="preserve">
     <value>Português</value>
   </data>
+  <data name="ProgressLongBreakToolTip" xml:space="preserve">
+    <value>{0} foco(s) completo(s) / {1} foco(s) completo(s) para a pausa longa</value>
+  </data>
   <data name="Red" xml:space="preserve">
     <value>Vermelho</value>
   </data>

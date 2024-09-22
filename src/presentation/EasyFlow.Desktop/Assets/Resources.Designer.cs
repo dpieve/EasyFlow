@@ -576,6 +576,15 @@ namespace EasyFlow.Desktop.Assets {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0} completed focus / {1} focus before a long break.
+        /// </summary>
+        public static string ProgressLongBreakToolTip {
+            get {
+                return ResourceManager.GetString("ProgressLongBreakToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Red.
         /// </summary>
         public static string Red {

@@ -347,6 +347,10 @@ Go Focus and come back later</value>
     <value>Portuguese</value>
     <comment>Language</comment>
   </data>
+  <data name="ProgressLongBreakToolTip" xml:space="preserve">
+    <value>{0} completed focus / {1} focus before a long break</value>
+    <comment>Completed timers / timers before long break</comment>
+  </data>
   <data name="Red" xml:space="preserve">
     <value>Red</value>
     <comment>Theme</comment>

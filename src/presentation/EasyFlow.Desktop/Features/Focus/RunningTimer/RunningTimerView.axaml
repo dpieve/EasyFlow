@@ -15,6 +15,7 @@
 
     <UserControl.Resources>
         <converters:StringFromTimerState x:Key="StringFromTimerState" />
+        <converters:ProgressTooltipTextConverter x:Key="ProgressTooltipTextConverter" />
     </UserControl.Resources>
 
     <Grid>
@@ -91,7 +92,15 @@
                             VerticalAlignment="Center"
                             Classes="Caption"
                             FontSize="16"
-                            Text="{Binding ProgressText}" />
+                            Text="{Binding ProgressText}"
+                            ToolTip.ShowDelay="0">
+                            <ToolTip.Tip>
+                                <MultiBinding Converter="{StaticResource ProgressTooltipTextConverter}">
+                                    <Binding Path="CompletedTimers" />
+                                    <Binding Path="TimersBeforeLongBreak" />
+                                </MultiBinding>
+                            </ToolTip.Tip>
+                        </TextBlock>
                     </StackPanel>
 
                     <StackPanel

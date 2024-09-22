@@ -89,4 +89,5 @@ public static class ConstantTranslation
     public static string ThemeRed => Assets.Resources.Red;
     public static string ThemeGreen => Assets.Resources.Green;
     public static string ThemeBlue => Assets.Resources.Blue;
+    public static string ProgressLongBreakToolTip => Assets.Resources.ProgressLongBreakToolTip;
 }
