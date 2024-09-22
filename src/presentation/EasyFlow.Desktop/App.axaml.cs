@@ -6,7 +6,6 @@ using EasyFlow.Application.Settings;
 using EasyFlow.Desktop.Services;
 using EasyFlow.Domain.Entities;
 using EasyFlow.Domain.Repositories;
-using EasyFlow.Desktop;
 using MediatR;
 using System;
 using System.Diagnostics;
@@ -23,6 +22,8 @@ public partial class App : Avalonia.Application
         AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
     }
 
+    public MainWindow? MainWindow { get; private set; }
+
     public override void OnFrameworkInitializationCompleted()
     {
         Migrate();
@@ -34,31 +35,27 @@ public partial class App : Avalonia.Application
         {
             case IClassicDesktopStyleApplicationLifetime desktop:
                 BindingPlugins.DataValidators.RemoveAt(0);
-                desktop.MainWindow = new MainWindow
+
+                MainWindow = new MainWindow
                 {
                     DataContext = mainViewModel
                 };
+
+                desktop.MainWindow = MainWindow;
                 desktop.Startup += OnStartup;
                 desktop.Exit += OnExit;
-                break;
-
-            case ISingleViewApplicationLifetime singleViewPlatform:
-                singleViewPlatform.MainView = new MainView
-                {
-                    DataContext = mainViewModel
-                };
                 break;
         }
 
         base.OnFrameworkInitializationCompleted();
     }
 
-    private void OnStartup(object? sender, ControlledApplicationLifetimeStartupEventArgs e)
+    private static void OnStartup(object? sender, ControlledApplicationLifetimeStartupEventArgs e)
     {
         Trace.TraceInformation("OnStartup - started application");
     }
 
-    private async void OnExit(object? sender, ControlledApplicationLifetimeExitEventArgs e)
+    private static async void OnExit(object? sender, ControlledApplicationLifetimeExitEventArgs e)
     {
         await Task.Delay(200);
         Trace.TraceInformation("OnExit - closed application");
@@ -81,9 +78,31 @@ public partial class App : Avalonia.Application
         languageService.SetLanguage(SupportedLanguage.FromCode(selectedLanguage));
     }
 
-    private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+    private static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
     {
         var exception = e.ExceptionObject as Exception;
         Trace.TraceError($"Unhandled Exception: {exception?.Message}");
+    }
+
+    private void Close_Click(object? sender, System.EventArgs e)
+    {
+        if (MainWindow is null)
+        {
+            return;
+        }
+
+        MainWindow.ShouldClose = true;
+        MainWindow.Close();
+    }
+
+    private void Open_Click(object? sender, System.EventArgs e)
+    {
+        if (MainWindow is null)
+        {
+            return;
+        }
+
+        MainWindow.FromTray();
+        MainWindow.Show();
     }
 }

@@ -12,6 +12,22 @@
         <common:ViewLocator />
     </Application.DataTemplates>
 
+    <TrayIcon.Icons>
+        <TrayIcons>
+            <TrayIcon
+                Clicked="Open_Click"
+                Icon="/Assets/panda.png"
+                ToolTipText="EasyFlow App">
+                <TrayIcon.Menu>
+                    <NativeMenu>
+                        <NativeMenuItem Click="Open_Click" Header="Open EasyFlow" />
+                        <NativeMenuItem Click="Close_Click" Header="Quit EasyFlow" />
+                    </NativeMenu>
+                </TrayIcon.Menu>
+            </TrayIcon>
+        </TrayIcons>
+    </TrayIcon.Icons>
+
     <Application.Styles>
         <sukiUi:SukiTheme ThemeColor="Red" />
         <materialIcons:MaterialIconStyles />

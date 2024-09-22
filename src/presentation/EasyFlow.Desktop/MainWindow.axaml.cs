@@ -12,19 +12,39 @@ public partial class MainWindow : SukiWindow
         InitializeComponent();
     }
 
-    private void MenuItem_OnClick(object? sender, RoutedEventArgs e)
+    public bool ShouldClose { get; set; }
+    public void ToTray()
     {
-        if (DataContext is not MainViewModel vm)
-        {
-            return;
-        }
+        ShowInTaskbar = false;
+        Hide();
+    }
 
-        if (e.Source is not MenuItem menuItem)
-        {
-            return;
-        }
+    public void FromTray()
+    {
+        ShowInTaskbar = true;
+        this.BringIntoView();
+        Activate();
+        Focus();
+    }
 
-        if (menuItem.DataContext is not SukiColorTheme colorTheme)
+    protected override void OnClosing(WindowClosingEventArgs e)
+    {
+        if (!ShouldClose)
+        {
+            e.Cancel = true;
+            ToTray();
+        }
+        else
+        {
+            e.Cancel = false;
+        }
+    }
+
+    private void SelectTheme_OnClick(object? sender, RoutedEventArgs e)
+    {
+        if (DataContext is not MainViewModel vm ||
+            e.Source is not MenuItem menuItem ||
+            menuItem.DataContext is not SukiColorTheme colorTheme)
         {
             return;
         }
