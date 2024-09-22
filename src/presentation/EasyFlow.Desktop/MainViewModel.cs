@@ -26,6 +26,9 @@ public partial class MainViewModel : ViewModelBase
     private readonly IMediator _mediator;
     private readonly IRestartAppService _restartAppService;
     private readonly ILanguageService _languageService;
+    private readonly INotificationService _notificationService;
+
+    private bool showStillRunning = true;
 
     [ObservableProperty]
     private ThemeVariant _baseTheme;
@@ -45,7 +48,8 @@ public partial class MainViewModel : ViewModelBase
         IRestartAppService restartAppService,
         ILanguageService languageService,
         IToastService toastService,
-        ISukiDialogManager dialogManager)
+        ISukiDialogManager dialogManager,
+        INotificationService notificationService)
     {
         Pages = new AvaloniaList<PageViewModelBase>(pages.OrderBy(x => x.Index));
         _mediator = mediator;
@@ -53,7 +57,9 @@ public partial class MainViewModel : ViewModelBase
         _languageService = languageService;
         ToastService = toastService;
         DialogManager = dialogManager;
+        _notificationService = notificationService;
         _theme = SukiTheme.GetInstance();
+        
         Themes = _theme.ColorThemes;
 
         var settings = GetSettings().GetAwaiter().GetResult();
@@ -129,6 +135,15 @@ public partial class MainViewModel : ViewModelBase
     public void ChangeTheme(SukiColorTheme theme)
     {
         _theme.ChangeColorTheme(theme);
+    }
+    
+    public void ShowStillRunningNotification()
+    {
+        if (showStillRunning)
+        {
+            _notificationService.Show(ConstantTranslation.AppStillRunning, ConstantTranslation.FindAppInSystemTray);
+            showStillRunning = false;
+        }
     }
 
     [RelayCommand]

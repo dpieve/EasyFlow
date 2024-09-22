@@ -15,6 +15,9 @@ public partial class MainWindow : SukiWindow
     public bool ShouldClose { get; set; }
     public void ToTray()
     {
+        var vm = DataContext as MainViewModel;
+        vm?.ShowStillRunningNotification();
+
         ShowInTaskbar = false;
         Hide();
     }

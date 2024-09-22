@@ -103,6 +103,9 @@
   <data name="AddFocusDescription" xml:space="preserve">
     <value>Adicione uma descrição às sessões de foco</value>
   </data>
+  <data name="AppStillRunning" xml:space="preserve">
+    <value>O app ainda está executando</value>
+  </data>
   <data name="BackupData" xml:space="preserve">
     <value>Salvar dados</value>
   </data>
@@ -185,6 +188,9 @@ Vá Focar e volte mais tarde</value>
   </data>
   <data name="FailureGeneratedReport" xml:space="preserve">
     <value>O relatório não foi gerado. Tente novamente.</value>
+  </data>
+  <data name="FindAppInSystemTray" xml:space="preserve">
+    <value>Você pode encontrar o app na bandeja do sistema</value>
   </data>
   <data name="Focus" xml:space="preserve">
     <value>Concentrado</value>

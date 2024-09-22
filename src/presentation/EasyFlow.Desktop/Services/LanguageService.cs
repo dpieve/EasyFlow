@@ -92,4 +92,8 @@ public static class ConstantTranslation
     public static string ProgressLongBreakToolTip => Assets.Resources.ProgressLongBreakToolTip;
     public static string OpenEasyFlow => Assets.Resources.OpenEasyFlow;
     public static string CloseEasyFlow => Assets.Resources.CloseEasyFlow;
+
+    public static string AppStillRunning => Assets.Resources.AppStillRunning;
+
+    public static string FindAppInSystemTray => Assets.Resources.FindAppInSystemTray;
 }

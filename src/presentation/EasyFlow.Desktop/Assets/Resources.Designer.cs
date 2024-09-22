@@ -79,6 +79,15 @@ namespace EasyFlow.Desktop.Assets {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The app is still running.
+        /// </summary>
+        public static string AppStillRunning {
+            get {
+                return ResourceManager.GetString("AppStillRunning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Backup Data.
         /// </summary>
         public static string BackupData {
@@ -320,6 +329,15 @@ namespace EasyFlow.Desktop.Assets {
         public static string FailureGeneratedReport {
             get {
                 return ResourceManager.GetString("FailureGeneratedReport", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You can find it in the system tray for quick access.
+        /// </summary>
+        public static string FindAppInSystemTray {
+            get {
+                return ResourceManager.GetString("FindAppInSystemTray", resourceCulture);
             }
         }
         

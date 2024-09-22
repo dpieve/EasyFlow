@@ -125,6 +125,10 @@
     <value>Add a description to Focus sessions</value>
     <comment>Settings</comment>
   </data>
+  <data name="AppStillRunning" xml:space="preserve">
+    <value>The app is still running</value>
+    <comment>Closing the app msg still running</comment>
+  </data>
   <data name="BackupData" xml:space="preserve">
     <value>Backup Data</value>
     <comment>Settings</comment>
@@ -234,6 +238,10 @@ Go Focus and come back later</value>
   <data name="FailureGeneratedReport" xml:space="preserve">
     <value>The report couldn't be generated. Try again.</value>
     <comment>Message</comment>
+  </data>
+  <data name="FindAppInSystemTray" xml:space="preserve">
+    <value>You can find it in the system tray for quick access</value>
+    <comment>Closing the app msg find app to reopen it</comment>
   </data>
   <data name="Focus" xml:space="preserve">
     <value>Focus</value>
