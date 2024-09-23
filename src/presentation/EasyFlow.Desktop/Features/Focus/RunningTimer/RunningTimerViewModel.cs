@@ -138,16 +138,19 @@ public sealed partial class RunningTimerViewModel : ViewModelBase, IRoute, IActi
                     return;
                 }
 
-                var totalMinutes = settings.WorkDurationMinutes;
-                TotalSeconds = totalMinutes * 60;
+                if (TotalSeconds == 0)
+                {
+                    var totalMinutes = settings.WorkDurationMinutes;
+                    TotalSeconds = totalMinutes * 60;
 
-                var minutes = TotalSeconds / 60;
-                var seconds = TotalSeconds % 60;
-                TimerText = $"{minutes:D2}:{seconds:D2}";
+                    var minutes = TotalSeconds / 60;
+                    var seconds = TotalSeconds % 60;
+                    TimerText = $"{minutes:D2}:{seconds:D2}";
 
-                SecondsLeft = TotalSeconds;
+                    SecondsLeft = TotalSeconds;
 
-                IsRunning = true;
+                    IsRunning = true;
+                }
             })
             .DisposeWith(_disposables);
 
