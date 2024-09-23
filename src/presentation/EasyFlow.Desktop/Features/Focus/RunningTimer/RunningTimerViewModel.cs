@@ -5,7 +5,6 @@ using EasyFlow.Application.Services;
 using EasyFlow.Application.Sessions;
 using EasyFlow.Application.Settings;
 using EasyFlow.Desktop.Common;
-using EasyFlow.Desktop.Features.Focus.RunningTimer;
 using EasyFlow.Desktop.Services;
 using EasyFlow.Domain.Entities;
 using EasyFlow.Desktop.Features.Focus.AdjustTimers;
@@ -129,7 +128,7 @@ public sealed partial class RunningTimerViewModel : ViewModelBase, IRoute, IActi
             .ObserveOn(RxApp.MainThreadScheduler)
             .Subscribe(settings =>
             {
-                IsFocusDescriptionVisible = settings.IsFocusDescriptionEnabled;
+                IsFocusDescriptionVisible = settings.IsFocusDescriptionEnabled && TimerState == TimerState.Focus;
                 TimersBeforeLongBreak = settings.WorkSessionsBeforeLongBreak;
                 SelectedTagName = settings.SelectedTag?.Name ?? string.Empty;
 
