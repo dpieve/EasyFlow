@@ -5,7 +5,6 @@ using EasyFlow.Application.Services;
 using EasyFlow.Application.Sessions;
 using EasyFlow.Application.Settings;
 using EasyFlow.Desktop.Common;
-using EasyFlow.Desktop.Features.Focus.RunningTimer;
 using EasyFlow.Desktop.Services;
 using EasyFlow.Domain.Entities;
 using EasyFlow.Desktop.Features.Focus.AdjustTimers;
@@ -129,7 +128,7 @@ public sealed partial class RunningTimerViewModel : ViewModelBase, IRoute, IActi
             .ObserveOn(RxApp.MainThreadScheduler)
             .Subscribe(settings =>
             {
-                IsFocusDescriptionVisible = settings.IsFocusDescriptionEnabled;
+                IsFocusDescriptionVisible = settings.IsFocusDescriptionEnabled && TimerState == TimerState.Focus;
                 TimersBeforeLongBreak = settings.WorkSessionsBeforeLongBreak;
                 SelectedTagName = settings.SelectedTag?.Name ?? string.Empty;
 
@@ -138,16 +137,19 @@ public sealed partial class RunningTimerViewModel : ViewModelBase, IRoute, IActi
                     return;
                 }
 
-                var totalMinutes = settings.WorkDurationMinutes;
-                TotalSeconds = totalMinutes * 60;
+                if (TotalSeconds == 0)
+                {
+                    var totalMinutes = settings.WorkDurationMinutes;
+                    TotalSeconds = totalMinutes * 60;
 
-                var minutes = TotalSeconds / 60;
-                var seconds = TotalSeconds % 60;
-                TimerText = $"{minutes:D2}:{seconds:D2}";
+                    var minutes = TotalSeconds / 60;
+                    var seconds = TotalSeconds % 60;
+                    TimerText = $"{minutes:D2}:{seconds:D2}";
 
-                SecondsLeft = TotalSeconds;
+                    SecondsLeft = TotalSeconds;
 
-                IsRunning = true;
+                    IsRunning = true;
+                }
             })
             .DisposeWith(_disposables);
 
