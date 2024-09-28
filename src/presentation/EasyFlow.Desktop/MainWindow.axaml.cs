@@ -28,6 +28,11 @@ public partial class MainWindow : SukiWindow
         this.BringIntoView();
         Activate();
         Focus();
+
+        if (WindowState == WindowState.Minimized)
+        {
+            WindowState = WindowState.Normal;
+        }
     }
 
     protected override void OnClosing(WindowClosingEventArgs e)
