@@ -4,8 +4,6 @@ using CommunityToolkit.Mvvm.Input;
 using DynamicData;
 using EasyFlow.Application.Tags;
 using EasyFlow.Desktop.Common;
-using EasyFlow.Desktop.Features.Dashboard;
-using EasyFlow.Desktop.Features.Dashboard.DisplayControls;
 using EasyFlow.Desktop.Services;
 using EasyFlow.Domain.Entities;
 using MediatR;
