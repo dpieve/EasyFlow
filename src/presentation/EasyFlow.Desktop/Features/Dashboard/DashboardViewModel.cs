@@ -1,13 +1,11 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using EasyFlow.Application.Sessions;
-using EasyFlow.Desktop.Features;
 using EasyFlow.Desktop.Features.Dashboard;
 using EasyFlow.Desktop.Features.Dashboard.DisplayControls;
 using EasyFlow.Desktop.Services;
 using EasyFlow.Desktop.Common;
 using EasyFlow.Desktop.Features.Dashboard.BarChart;
-using EasyFlow.Desktop.Features.Dashboard.DisplayControls;
 using EasyFlow.Desktop.Features.Dashboard.SessionsList;
 using MediatR;
 using ReactiveUI;
@@ -47,7 +45,7 @@ public partial class DashboardViewModel : PageViewModelBase
         
         DisplayControls = new DisplayControlsViewModel(_mediator, _languageService, _toastService);
         BarChart = new BarChartViewModel(_languageService);
-        SessionsList = new SessionsListViewModel();
+        SessionsList = new SessionsListViewModel(mediator);
 
         DisplayControls.ChangedControls
             .Do(display => InfoTitle = $"{display.Tag.Name} - {display.SessionType.ToCustomString()} - {display.FilterPeriod.Text} - {display.DisplayType.ToCustomString()}")

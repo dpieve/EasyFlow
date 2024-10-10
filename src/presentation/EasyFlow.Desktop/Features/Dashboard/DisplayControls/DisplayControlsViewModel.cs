@@ -2,10 +2,9 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using DynamicData;
+using EasyFlow.Application.Settings;
 using EasyFlow.Application.Tags;
 using EasyFlow.Desktop.Common;
-using EasyFlow.Desktop.Features.Dashboard;
-using EasyFlow.Desktop.Features.Dashboard.DisplayControls;
 using EasyFlow.Desktop.Services;
 using EasyFlow.Domain.Entities;
 using MediatR;
@@ -50,6 +49,10 @@ public sealed partial class DisplayControlsViewModel : ViewModelBase
         SessionTypes.AddRange(Enum.GetValues(typeof(SessionType)).Cast<SessionType>());
         DisplayTypes.AddRange(Enum.GetValues(typeof(DisplayType)).Cast<DisplayType>());
         FilterPeriods.AddRange(FilterPeriod.Filters);
+
+        ChangedControls
+            .Select(_ => System.Reactive.Unit.Default)
+            .InvokeCommand(UpdateSettingsCommand);
     }
 
     public ObservableCollection<Tag> Tags { get; } = [];
@@ -69,17 +72,27 @@ public sealed partial class DisplayControlsViewModel : ViewModelBase
     public void Activated()
     {
         Observable
-           .StartAsync(GetTags)
+           .StartAsync(GetTagsAndSettings)
            .WhereNotNull()
-           .Subscribe(tags =>
+           .Subscribe(tagsAndSettings =>
            {
+               var (tags, settings) = tagsAndSettings;
+
                Tags.Clear();
                foreach (var tag in tags)
                {
                    Tags.Add(tag);
                }
 
-               SelectedTag = Tags[0];
+               if (settings is null)
+               {
+                   return;
+               }
+
+               SelectedFilterPeriod = FilterPeriod.FromNumDays(settings.DashboardFilterPeriod) ?? FilterPeriod.Days7;
+               SelectedTag = tags.Find(t => t.Id == settings.SelectedTag?.Id);
+               SelectedSessionType = settings.DashboardSessionType;
+               SelectedDisplayType = (DisplayType) settings.DashboardDisplayType;
            });
     }
 
@@ -91,10 +104,13 @@ public sealed partial class DisplayControlsViewModel : ViewModelBase
     public Display GetDisplayControls() =>
         new(SelectedFilterPeriod, SelectedTag!, SelectedSessionType, SelectedDisplayType);
 
-    private async Task<List<Tag>> GetTags()
+    private async Task<(List<Tag>, GeneralSettings)> GetTagsAndSettings()
     {
-        var result = await _mediator.Send(new GetTagsQuery());
-        return result.Value;
+        var tags = await _mediator.Send(new GetTagsQuery());
+
+        var settings = await _mediator.Send(new GetSettingsQuery());
+
+        return (tags.Value, settings.Value);
     }
 
     [RelayCommand]
@@ -109,5 +125,17 @@ public sealed partial class DisplayControlsViewModel : ViewModelBase
         }
 
         IsGeneratingReport = false;
+    }
+
+    [RelayCommand]
+    private async Task UpdateSettings()
+    {
+        var result = await _mediator.Send(new GetSettingsQuery());
+        var settings = result.Value!;
+        settings.DashboardDisplayType = (int)SelectedDisplayType;
+        settings.DashboardFilterPeriod = SelectedFilterPeriod.NumDays;
+        settings.DashboardSessionType = SelectedSessionType;
+
+        _ = await _mediator.Send(new UpdateSettingsCommand() { GeneralSettings = settings });
     }
 }

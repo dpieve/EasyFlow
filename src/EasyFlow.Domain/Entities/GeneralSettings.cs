@@ -20,6 +20,9 @@ public sealed class GeneralSettings
     public bool IsFocusDescriptionEnabled { get; set; } = true;
     public int SoundVolume { get; set; } = 50;
     public string SelectedLanguage { get; set; } = string.Empty;
+    public SessionType DashboardSessionType { get; set; } = SessionType.Focus;
+    public int DashboardFilterPeriod { get; set; } = 7;
+    public int DashboardDisplayType { get; set; } = 0;
 }
 
 public enum Theme

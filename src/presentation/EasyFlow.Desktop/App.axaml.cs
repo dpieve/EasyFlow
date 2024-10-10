@@ -101,7 +101,7 @@ public partial class App : Avalonia.Application
         MainWindow.Close();
     }
 
-    private void Open_Click()
+    public void Open_Click()
     {
         if (MainWindow is null)
         {

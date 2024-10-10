@@ -1,5 +1,6 @@
 ﻿using EasyFlow.Desktop.Services;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace EasyFlow.Desktop.Features.Dashboard;
 
@@ -21,4 +22,8 @@ public sealed record FilterPeriod(int NumDays, string Text)
         Year1,
         Years5
     ];
+
+    public static FilterPeriod FromNumDays(int numDays) => Filters.First(x => x.NumDays == numDays);
+
+    public static int FromFilterPeriod(FilterPeriod filterPeriod) => filterPeriod.NumDays;
 };

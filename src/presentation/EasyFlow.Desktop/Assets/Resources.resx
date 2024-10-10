@@ -227,6 +227,10 @@ Go Focus and come back later</value>
     <value>Duration (Minutes)</value>
     <comment>Dashboard Sessions list grid headers</comment>
   </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Edit</value>
+    <comment>Edit button</comment>
+  </data>
   <data name="English" xml:space="preserve">
     <value>English</value>
     <comment>Language</comment>
@@ -382,6 +386,10 @@ Go Focus and come back later</value>
   <data name="Restarting" xml:space="preserve">
     <value>Restarting...</value>
     <comment>Reopen sofware</comment>
+  </data>
+  <data name="RightClickEditDeleteSession" xml:space="preserve">
+    <value>Right click to edit or delete a session.</value>
+    <comment>Mouse right click tooltip saying it is possible to delete or edit a session, sessions list</comment>
   </data>
   <data name="Save" xml:space="preserve">
     <value>Save</value>

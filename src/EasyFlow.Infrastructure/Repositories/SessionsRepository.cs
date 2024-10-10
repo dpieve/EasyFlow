@@ -26,6 +26,28 @@ public sealed class SessionsRepository : ISessionsRepository
         return await context.SaveChangesAsync();
     }
 
+    public async Task<int> DeleteAsync(int sessionId)
+    {
+        var context = await _contextFactory.CreateDbContextAsync();
+
+        var session = await context.Sessions.FindAsync(sessionId);
+        if (session is null)
+        {
+            return 0;
+        }
+
+        _ = context.Sessions.Remove(session);
+        
+        return await context.SaveChangesAsync();
+    }
+
+    public async Task<bool> EditAsync(Session session)
+    {
+        var context = await _contextFactory.CreateDbContextAsync();
+        _ = context.Sessions.Update(session);
+        return await context.SaveChangesAsync() != 0;
+    }
+
     public async Task<List<Session>> GetAllAsync()
     {
         var context = await _contextFactory.CreateDbContextAsync();

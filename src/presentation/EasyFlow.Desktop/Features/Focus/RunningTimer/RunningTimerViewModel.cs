@@ -147,6 +147,9 @@ public sealed partial class RunningTimerViewModel : ViewModelBase, IRoute, IActi
                     TimerText = $"{minutes:D2}:{seconds:D2}";
 
                     SecondsLeft = TotalSeconds;
+#if DEBUG
+                    SecondsLeft = 5;
+#endif
 
                     IsRunning = true;
                 }
@@ -189,6 +192,13 @@ public sealed partial class RunningTimerViewModel : ViewModelBase, IRoute, IActi
                     await _mediator.Send(new PlaySoundQuery() { SoundType = SoundType.Break });
                     await _notificationService.Show(_languageService.GetString("Success"), _languageService.GetString("FocusCompleted"));
                     _toastService.Display(_languageService.GetString("Success"), _languageService.GetString("FocusCompleted"), NotificationType.Success);
+
+                    var result = await _mediator.Send(new GetSettingsQuery());
+                    if (result.IsSuccess && result.Value.IsFocusDescriptionEnabled)
+                    {
+                        var app = App.Current as App;
+                        app?.Open_Click();
+                    }
                 }
                 else if (TimerState == TimerState.Break)
                 {
@@ -381,6 +391,10 @@ public sealed partial class RunningTimerViewModel : ViewModelBase, IRoute, IActi
 
         TotalSeconds = totalMinutes * 60;
         SecondsLeft = TotalSeconds;
+
+#if DEBUG
+        SecondsLeft = 4;
+#endif
 
         IsBreak = state != TimerState.Focus;
     }
