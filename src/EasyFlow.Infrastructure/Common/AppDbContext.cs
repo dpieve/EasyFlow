@@ -2,7 +2,14 @@
 using Microsoft.EntityFrameworkCore;
 
 namespace EasyFlow.Infrastructure.Common;
-
+/// <summary>
+/// Add new items to the database
+/// (1) Open the Package Manager Console and go to EasyFlow.Infrastructure project.
+/// (2) Run: Add-Migration \Migration-Name\
+/// (3) Update the database with the following command:
+/// Update-Database
+/// To remove a migration: Remove-Migration
+/// </summary>
 public class AppDbContext : DbContext
 {
     public DbSet<GeneralSettings> GeneralSettings { get; set; }
