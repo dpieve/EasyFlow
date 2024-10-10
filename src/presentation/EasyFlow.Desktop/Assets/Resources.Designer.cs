@@ -306,6 +306,15 @@ namespace EasyFlow.Desktop.Assets {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Edit.
+        /// </summary>
+        public static string Edit {
+            get {
+                return ResourceManager.GetString("Edit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to English.
         /// </summary>
         public static string English {
@@ -653,6 +662,15 @@ namespace EasyFlow.Desktop.Assets {
         public static string Restarting {
             get {
                 return ResourceManager.GetString("Restarting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Right click to edit or delete a session..
+        /// </summary>
+        public static string RightClickEditDeleteSession {
+            get {
+                return ResourceManager.GetString("RightClickEditDeleteSession", resourceCulture);
             }
         }
         

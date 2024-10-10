@@ -180,6 +180,9 @@ Vá Focar e volte mais tarde</value>
   <data name="Duration_Minutes" xml:space="preserve">
     <value>Duração (Minutos)</value>
   </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Editar</value>
+  </data>
   <data name="English" xml:space="preserve">
     <value>Inglês</value>
   </data>
@@ -296,6 +299,9 @@ Vá Focar e volte mais tarde</value>
   </data>
   <data name="Restarting" xml:space="preserve">
     <value>Reiniciando...</value>
+  </data>
+  <data name="RightClickEditDeleteSession" xml:space="preserve">
+    <value>Clique direito para editar ou excluir a sessão selecionada</value>
   </data>
   <data name="Save" xml:space="preserve">
     <value>Salvar</value>
