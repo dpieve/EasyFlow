@@ -1,14 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup Condition=" '$(OS)' != 'Windows_NT' ">
-	<TargetFrameworks>net8.0</TargetFrameworks>
-  </PropertyGroup>
-	
-  <PropertyGroup Condition=" '$(OS)' == 'Windows_NT' ">
+  <!--Uncomment this group to run on window. Comment the linux target below. -->
+  <!--<PropertyGroup Condition=" '$(OS)' == 'Windows_NT' ">
 	<TargetFrameworks>net8.0-windows10.0.17763.0</TargetFrameworks>
-  </PropertyGroup>
+  </PropertyGroup>-->
 	
   <PropertyGroup>
+	 <!--Uncomment this target to run on linux. Comment the windows target above.-->
+	<TargetFramework>net8.0</TargetFramework>  
     <OutputType>WinExe</OutputType>
     <Version>1.0.3</Version>
     <Nullable>enable</Nullable>
