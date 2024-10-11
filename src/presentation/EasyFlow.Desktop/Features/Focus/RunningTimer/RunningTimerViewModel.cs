@@ -218,7 +218,10 @@ public sealed partial class RunningTimerViewModel : ViewModelBase, IRoute, IActi
         }
         catch(Exception ex)
         {
-            Log.Error("Failed to tick timer {Error}", ex.Message);
+            Log.Error("Failed to tick timer {Error}. Going to next state.", ex.Message);
+
+            await GoToNextState(isSkipping: false);
+
             Restart();
         }
     }
