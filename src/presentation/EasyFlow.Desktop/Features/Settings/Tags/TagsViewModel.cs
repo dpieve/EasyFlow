@@ -65,7 +65,7 @@ public partial class TagsViewModel : ViewModelBase
     {
         IsAddBusy = true;
         _dialog.CreateDialog()
-            .WithViewModel(dialog => (new AddTagViewModel(dialog, _mediator, _languageService, _toastService, onOk: AddedTag, onCancel: () => IsAddBusy = false), allowBackgroundClose: false))
+            .WithViewModel(dialog => new AddTagViewModel(dialog, _mediator, _languageService, _toastService, onOk: AddedTag, onCancel: () => IsAddBusy = false))
             .TryShow();
     }
 
