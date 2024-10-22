@@ -3,19 +3,16 @@ using System;
 using EasyFlow.Infrastructure.Common;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
 namespace EasyFlow.Infrastructure.Migrations
 {
-    [DbContext(typeof(AppDbContext))]
-    [Migration("20241010213531_DashboardSettings")]
-    partial class DashboardSettings
+    [DbContext(typeof(DataContext))]
+    partial class DataContextModelSnapshot : ModelSnapshot
     {
-        /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.0-rc.1.24451.1");
@@ -77,27 +74,6 @@ namespace EasyFlow.Infrastructure.Migrations
                     b.HasIndex("SelectedTagId");
 
                     b.ToTable("GeneralSettings");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            BreakDurationMinutes = 5,
-                            DashboardDisplayType = 0,
-                            DashboardFilterPeriod = 7,
-                            DashboardSessionType = 0,
-                            IsBreakSoundEnabled = true,
-                            IsFocusDescriptionEnabled = true,
-                            IsWorkSoundEnabled = true,
-                            LongBreakDurationMinutes = 10,
-                            SelectedColorTheme = 1,
-                            SelectedLanguage = "en",
-                            SelectedTagId = 1,
-                            SelectedTheme = 0,
-                            SoundVolume = 50,
-                            WorkDurationMinutes = 25,
-                            WorkSessionsBeforeLongBreak = 4
-                        });
                 });
 
             modelBuilder.Entity("EasyFlow.Domain.Entities.Session", b =>
@@ -142,28 +118,6 @@ namespace EasyFlow.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Tags");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Name = "Work"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Name = "Study"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Name = "Meditate"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Name = "Exercises"
-                        });
                 });
 
             modelBuilder.Entity("EasyFlow.Domain.Entities.GeneralSettings", b =>

@@ -10,9 +10,9 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace EasyFlow.Infrastructure.Migrations
 {
-    [DbContext(typeof(AppDbContext))]
-    [Migration("20240920234944_UpdateMigration")]
-    partial class UpdateMigration
+    [DbContext(typeof(DataContext))]
+    [Migration("20241022225847_InitialMigration")]
+    partial class InitialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -27,6 +27,15 @@ namespace EasyFlow.Infrastructure.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("BreakDurationMinutes")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("DashboardDisplayType")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("DashboardFilterPeriod")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("DashboardSessionType")
                         .HasColumnType("INTEGER");
 
                     b.Property<bool>("IsBreakSoundEnabled")
@@ -68,24 +77,6 @@ namespace EasyFlow.Infrastructure.Migrations
                     b.HasIndex("SelectedTagId");
 
                     b.ToTable("GeneralSettings");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            BreakDurationMinutes = 5,
-                            IsBreakSoundEnabled = true,
-                            IsFocusDescriptionEnabled = true,
-                            IsWorkSoundEnabled = true,
-                            LongBreakDurationMinutes = 10,
-                            SelectedColorTheme = 1,
-                            SelectedLanguage = "en",
-                            SelectedTagId = 1,
-                            SelectedTheme = 0,
-                            SoundVolume = 50,
-                            WorkDurationMinutes = 25,
-                            WorkSessionsBeforeLongBreak = 4
-                        });
                 });
 
             modelBuilder.Entity("EasyFlow.Domain.Entities.Session", b =>
@@ -130,28 +121,6 @@ namespace EasyFlow.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Tags");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Name = "Work"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Name = "Study"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Name = "Meditate"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Name = "Exercises"
-                        });
                 });
 
             modelBuilder.Entity("EasyFlow.Domain.Entities.GeneralSettings", b =>

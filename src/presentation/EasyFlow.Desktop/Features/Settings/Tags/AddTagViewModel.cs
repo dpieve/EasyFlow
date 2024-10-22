@@ -21,6 +21,8 @@ public sealed partial class AddTagViewModel : ViewModelBase
     private readonly Action? _onCancel;
     private readonly Tag _tag;
 
+    private bool _isEditing;
+
     [ObservableProperty]
     private string _tagName;
 
@@ -41,6 +43,8 @@ public sealed partial class AddTagViewModel : ViewModelBase
         _onCancel = onCancel;
         _tag = initialTag ?? new() { };
 
+        _isEditing = initialTag is not null;
+
         TagName = _tag.Name;
     }
 
@@ -49,16 +53,13 @@ public sealed partial class AddTagViewModel : ViewModelBase
     {
         _tag.Name = TagName;
 
-        var command = new CreateTagCommand
-        {
-            Tag = _tag
-        };
-
-        var result = await _mediator.Send(command);
+        var result = _isEditing ? 
+                        await _mediator.Send(new Application.Tags.Edit.Command { Tag = _tag }) : 
+                        await _mediator.Send(new Application.Tags.Create.Command { Tag = _tag });
 
         if (result.IsSuccess)
         {
-            _onOk(result.Value!);
+            _onOk(_tag);
         }
         else
         {

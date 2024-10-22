@@ -1,9 +1,7 @@
 ﻿using Avalonia.Controls.Notifications;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using EasyFlow.Application.Settings;
 using EasyFlow.Desktop.Common;
-using EasyFlow.Desktop.Features.Focus.AdjustTimers;
 using EasyFlow.Desktop.Services;
 using EasyFlow.Domain.Entities;
 using MediatR;
@@ -65,7 +63,7 @@ public sealed partial class TimersViewModel : ViewModelBase
     [RelayCommand]
     private async Task SaveSettings()
     {
-        var result = await _mediator.Send(new GetSettingsQuery());
+        var result = await _mediator.Send(new Application.Settings.Get.Query());
         if (!result.IsSuccess)
         {
             Log.Warning("Failed to get settings: {Error}", result.Error);
@@ -78,7 +76,7 @@ public sealed partial class TimersViewModel : ViewModelBase
         settings.LongBreakDurationMinutes = LongBreakMinutes;
         settings.WorkSessionsBeforeLongBreak = SessionsBeforeLongBreak;
 
-        _ = await _mediator.Send(new UpdateSettingsCommand() { GeneralSettings = settings });
+        _ = await _mediator.Send(new Application.Settings.Edit.Command() { Settings = settings });
     }
 
     public void Adjust(TimerType timerType, AdjustFactor adjust)

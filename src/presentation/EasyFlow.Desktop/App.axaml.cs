@@ -5,11 +5,10 @@ using Avalonia.Markup.Xaml;
 using Avalonia.Media.Imaging;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
-using EasyFlow.Application.Settings;
 using EasyFlow.Desktop.Services;
 using EasyFlow.Domain.Entities;
-using EasyFlow.Domain.Repositories;
-using MediatR;
+using EasyFlow.Infrastructure.Common;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
@@ -29,15 +28,15 @@ public partial class App : Avalonia.Application
 
     public override void OnFrameworkInitializationCompleted()
     {
-        Migrate();
-        SetupLanguage();
-
-        var mainViewModel = Ioc.Default.GetRequiredService<MainViewModel>();
-
         switch (ApplicationLifetime)
         {
             case IClassicDesktopStyleApplicationLifetime desktop:
+            {
                 BindingPlugins.DataValidators.RemoveAt(0);
+
+                InitializeDb().GetAwaiter().GetResult();
+
+                var mainViewModel = Ioc.Default.GetRequiredService<MainViewModel>();
 
                 MainWindow = new MainWindow
                 {
@@ -51,12 +50,39 @@ public partial class App : Avalonia.Application
                 RegisterTrayIcon();
 
                 break;
+            }
         }
 
         base.OnFrameworkInitializationCompleted();
     }
 
-    private static void OnStartup(object? sender, ControlledApplicationLifetimeStartupEventArgs e)
+    private static async Task InitializeDb()
+    {
+        try
+        {
+            var context = Ioc.Default.GetRequiredService<DataContext>();
+            if (context is not null)
+            {
+                await context.Database.MigrateAsync();
+                await Seed.SeedData(context);
+
+                var settings = await context.GeneralSettings.FirstOrDefaultAsync();
+                if (settings is not null)
+                {
+                    var selectedLanguage = settings.SelectedLanguage;
+
+                    var languageService = Ioc.Default.GetRequiredService<ILanguageService>();
+                    languageService.SetLanguage(SupportedLanguage.FromCode(selectedLanguage));
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            Trace.TraceError($"Error while starting application {ex.Message}");
+        }
+    }
+
+    private static async void OnStartup(object? sender, ControlledApplicationLifetimeStartupEventArgs e)
     {
         Trace.TraceInformation("OnStartup - started application");
     }
@@ -65,23 +91,6 @@ public partial class App : Avalonia.Application
     {
         await Task.Delay(200);
         Trace.TraceInformation("OnExit - closed application");
-    }
-
-    private static void Migrate()
-    {
-        var migrator = Ioc.Default.GetRequiredService<IDatabaseManagerRepository>();
-        migrator.MigrateAsync().GetAwaiter().GetResult();
-    }
-
-    private static void SetupLanguage()
-    {
-        var mediator = Ioc.Default.GetRequiredService<IMediator>();
-        var result = mediator.Send(new GetSettingsQuery()).GetAwaiter().GetResult();
-        var settings = result.Value;
-        var selectedLanguage = settings.SelectedLanguage;
-
-        var languageService = Ioc.Default.GetRequiredService<ILanguageService>();
-        languageService.SetLanguage(SupportedLanguage.FromCode(selectedLanguage));
     }
 
     private static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)

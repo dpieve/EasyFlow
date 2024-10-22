@@ -52,12 +52,10 @@ public sealed partial class TagItemViewModel : ViewModelBase
     [RelayCommand]
     private async Task DeleteTag()
     {
-        var command = new DeleteTagCommand
+        var result = await _mediator.Send(new Application.Tags.Delete.Command
         {
             Tag = Tag
-        };
-
-        var result = await _mediator.Send(command);
+        });
 
         if (!result.IsSuccess)
         {

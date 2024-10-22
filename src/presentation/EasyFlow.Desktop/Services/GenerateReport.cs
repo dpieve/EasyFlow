@@ -75,7 +75,7 @@ public static class GenerateReportHandler
 
     private static async Task<bool> GenerateCsvFile(string path, IMediator mediator, CancellationToken cancellationToken)
     {
-        var result = await mediator.Send(new GetSessionsByPeriodQuery() { NumDays = FilterPeriod.Years5.NumDays }, cancellationToken);
+        var result = await mediator.Send(new Application.Sessions.GetByPeriod.Query() { NumDays = FilterPeriod.Years5.NumDays }, cancellationToken);
 
         if (!result.IsSuccess)
         {

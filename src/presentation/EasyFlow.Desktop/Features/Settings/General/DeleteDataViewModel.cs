@@ -1,5 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.Input;
-using EasyFlow.Application.Settings;
+using EasyFlow.Application.Services;
 using EasyFlow.Desktop.Common;
 using MediatR;
 using SukiUI.Dialogs;
@@ -30,7 +30,7 @@ public sealed partial class DeleteDataViewModel : ViewModelBase
     [RelayCommand]
     private async Task Ok()
     {
-        var result = await _mediator.Send(new ResetDbQuery());
+        var result = await _mediator.Send(new RestartDatabase.Command());
 
         Close();
 

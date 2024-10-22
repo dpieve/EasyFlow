@@ -96,12 +96,7 @@ public partial class GeneralSettingsViewModel : ViewModelBase
         settings.IsBreakSoundEnabled = IsBreakSoundEnabled;
         settings.SoundVolume = Volume;
 
-        var command = new UpdateSettingsCommand
-        {
-            GeneralSettings = settings
-        };
-
-        _ = await _mediator.Send(command);
+        _ = await _mediator.Send(new Application.Settings.Edit.Command { Settings = settings });
     }
 
     [RelayCommand]
@@ -133,7 +128,7 @@ public partial class GeneralSettingsViewModel : ViewModelBase
 
     private async Task<GeneralSettings> GetSettings()
     {
-        var result = await _mediator.Send(new GetSettingsQuery());
+        var result = await _mediator.Send(new Application.Settings.Get.Query());
 
         if (result.IsSuccess)
         {

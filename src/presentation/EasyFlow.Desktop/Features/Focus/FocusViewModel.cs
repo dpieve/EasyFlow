@@ -80,7 +80,7 @@ public sealed partial class FocusViewModel : PageViewModelBase, IRouterHost
 
     private async Task<GeneralSettings> GetSettings()
     {
-        var result = await _mediator.Send(new GetSettingsQuery());
+        var result = await _mediator.Send(new Application.Settings.Get.Query());
         return result.Value;
     }
 

@@ -85,7 +85,7 @@ public partial class DashboardViewModel : PageViewModelBase
 
         IsBusy = true;
 
-        var result = await _mediator.Send(new GetSessionsByPeriodQuery() { NumDays = display.FilterPeriod.NumDays });
+        var result = await _mediator.Send(new Application.Sessions.GetByPeriod.Query() { NumDays = display.FilterPeriod.NumDays });
 
         if (!result.IsSuccess)
         {

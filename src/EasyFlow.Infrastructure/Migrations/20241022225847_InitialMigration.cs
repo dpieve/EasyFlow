@@ -3,8 +3,6 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
-
 namespace EasyFlow.Infrastructure.Migrations
 {
     /// <inheritdoc />
@@ -43,7 +41,10 @@ namespace EasyFlow.Infrastructure.Migrations
                     SelectedTagId = table.Column<int>(type: "INTEGER", nullable: false),
                     IsFocusDescriptionEnabled = table.Column<bool>(type: "INTEGER", nullable: false),
                     SoundVolume = table.Column<int>(type: "INTEGER", nullable: false),
-                    SelectedLanguage = table.Column<string>(type: "TEXT", nullable: false)
+                    SelectedLanguage = table.Column<string>(type: "TEXT", nullable: false),
+                    DashboardSessionType = table.Column<int>(type: "INTEGER", nullable: false),
+                    DashboardFilterPeriod = table.Column<int>(type: "INTEGER", nullable: false),
+                    DashboardDisplayType = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -78,22 +79,6 @@ namespace EasyFlow.Infrastructure.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
-
-            migrationBuilder.InsertData(
-                table: "Tags",
-                columns: new[] { "Id", "Name" },
-                values: new object[,]
-                {
-                    { 1, "Work" },
-                    { 2, "Study" },
-                    { 3, "Meditate" },
-                    { 4, "Exercises" }
-                });
-
-            migrationBuilder.InsertData(
-                table: "GeneralSettings",
-                columns: new[] { "Id", "BreakDurationMinutes", "IsBreakSoundEnabled", "IsFocusDescriptionEnabled", "IsWorkSoundEnabled", "LongBreakDurationMinutes", "SelectedColorTheme", "SelectedLanguage", "SelectedTagId", "SelectedTheme", "SoundVolume", "WorkDurationMinutes", "WorkSessionsBeforeLongBreak" },
-                values: new object[] { 1, 5, true, true, true, 10, 1, "en-US", 1, 0, 50, 25, 4 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_GeneralSettings_SelectedTagId",

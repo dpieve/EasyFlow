@@ -2,8 +2,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using DynamicData;
-using EasyFlow.Application.Settings;
-using EasyFlow.Application.Tags;
 using EasyFlow.Desktop.Common;
 using EasyFlow.Desktop.Services;
 using EasyFlow.Domain.Entities;
@@ -106,10 +104,8 @@ public sealed partial class DisplayControlsViewModel : ViewModelBase
 
     private async Task<(List<Tag>, GeneralSettings)> GetTagsAndSettings()
     {
-        var tags = await _mediator.Send(new GetTagsQuery());
-
-        var settings = await _mediator.Send(new GetSettingsQuery());
-
+        var tags = await _mediator.Send(new Application.Tags.Get.Query());
+        var settings = await _mediator.Send(new Application.Settings.Get.Query());
         return (tags.Value, settings.Value);
     }
 
@@ -130,12 +126,12 @@ public sealed partial class DisplayControlsViewModel : ViewModelBase
     [RelayCommand]
     private async Task UpdateSettings()
     {
-        var result = await _mediator.Send(new GetSettingsQuery());
+        var result = await _mediator.Send(new Application.Settings.Get.Query());
         var settings = result.Value!;
         settings.DashboardDisplayType = (int)SelectedDisplayType;
         settings.DashboardFilterPeriod = SelectedFilterPeriod.NumDays;
         settings.DashboardSessionType = SelectedSessionType;
 
-        _ = await _mediator.Send(new UpdateSettingsCommand() { GeneralSettings = settings });
+        _ = await _mediator.Send(new Application.Settings.Edit.Command() { Settings = settings });
     }
 }

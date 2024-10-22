@@ -104,7 +104,7 @@ public partial class MainViewModel : ViewModelBase
 
     private async Task<GeneralSettings> GetSettings()
     {
-        var result = await _mediator.Send(new GetSettingsQuery());
+        var result = await _mediator.Send(new Application.Settings.Get.Query());
 
         if (result.IsSuccess)
         {
@@ -158,12 +158,7 @@ public partial class MainViewModel : ViewModelBase
 
         settings.SelectedLanguage = SelectedLanguage.Code;
 
-        var command = new UpdateSettingsCommand
-        {
-            GeneralSettings = settings
-        };
-
-        var result = await _mediator.Send(command);
+        var result = await _mediator.Send(new Application.Settings.Edit.Command { Settings = settings });
         if (!result.IsSuccess)
         {
             return;

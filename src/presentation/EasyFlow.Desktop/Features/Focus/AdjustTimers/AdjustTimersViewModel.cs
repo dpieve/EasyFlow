@@ -80,7 +80,7 @@ public sealed partial class AdjustTimersViewModel : ViewModelBase, IRoute, IActi
         Tags.Clear();
         Tags.AddRange(tags);
 
-        var result = await _mediator.Send(new GetSettingsQuery());
+        var result = await _mediator.Send(new Application.Settings.Get.Query());
         var selectedTagId = result.Value.SelectedTagId;
         SelectedTag = Tags.First(tag => tag.Id == selectedTagId);
     }
@@ -130,16 +130,16 @@ public sealed partial class AdjustTimersViewModel : ViewModelBase, IRoute, IActi
     [RelayCommand]
     private async Task TagSelected(Tag tag)
     {
-        var result = await _mediator.Send(new GetSettingsQuery());
+        var result = await _mediator.Send(new Application.Settings.Get.Query());
         var settings = result.Value;
         settings.SelectedTagId = tag.Id;
         settings.SelectedTag = tag;
 
-        _ = await _mediator.Send(new UpdateSettingsCommand() { GeneralSettings = settings });
+        _ = await _mediator.Send(new Application.Settings.Edit.Command() { Settings = settings });
     }
 
     private async Task<Result<List<Tag>>> GetTags()
     {
-        return await _mediator.Send(new GetTagsQuery());
+        return await _mediator.Send(new Application.Tags.Get.Query());
     }
 }

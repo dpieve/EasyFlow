@@ -93,7 +93,7 @@ public partial class TagsViewModel : ViewModelBase
 
     private async Task<List<Domain.Entities.Tag>> GetTags()
     {
-        var result = await _mediator.Send(new GetTagsQuery());
+        var result = await _mediator.Send(new Application.Tags.Get.Query());
 
         if (result.IsSuccess)
         {

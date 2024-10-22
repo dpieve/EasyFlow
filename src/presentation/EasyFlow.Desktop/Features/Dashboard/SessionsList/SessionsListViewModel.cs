@@ -47,7 +47,7 @@ public sealed partial class SessionsListViewModel : ViewModelBase
 
     public async Task OnDeleteRow(int sessionId)
     {
-        var result = await _mediator.Send(new DeleteSessionCommand() { SessionId = sessionId });
+        var result = await _mediator.Send(new Application.Sessions.Delete.Command() { SessionId = sessionId });
         if (!result.IsSuccess)
         {
             return;
@@ -130,6 +130,6 @@ public sealed partial class SessionListItem : ViewModelBase
         Description = TypingDescription;
         Session.Description = Description;
 
-        _ = await _mediator.Send(new EditSessionCommand() { SessionId = Session.Id, Session = Session });
+        _ = await _mediator.Send(new Application.Sessions.Edit.Command() { Session = Session });
     }
 }

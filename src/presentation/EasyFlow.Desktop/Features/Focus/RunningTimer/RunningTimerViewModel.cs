@@ -189,11 +189,11 @@ public sealed partial class RunningTimerViewModel : ViewModelBase, IRoute, IActi
             {
                 if (TimerState == TimerState.Focus)
                 {
-                    await _mediator.Send(new PlaySoundQuery() { SoundType = SoundType.Break });
+                    await _mediator.Send(new PlaySound.Command() { SoundType = SoundType.Break });
                     await _notificationService.Show(_languageService.GetString("Success"), _languageService.GetString("FocusCompleted"));
                     _toastService.Display(_languageService.GetString("Success"), _languageService.GetString("FocusCompleted"), NotificationType.Success);
 
-                    var result = await _mediator.Send(new GetSettingsQuery());
+                    var result = await _mediator.Send(new Application.Settings.Get.Query());
                     if (result.IsSuccess && result.Value.IsFocusDescriptionEnabled)
                     {
                         var app = App.Current as App;
@@ -202,13 +202,13 @@ public sealed partial class RunningTimerViewModel : ViewModelBase, IRoute, IActi
                 }
                 else if (TimerState == TimerState.Break)
                 {
-                    await _mediator.Send(new PlaySoundQuery() { SoundType = SoundType.Work });
+                    await _mediator.Send(new PlaySound.Command() { SoundType = SoundType.Work });
                     await _notificationService.Show(_languageService.GetString("Information"), _languageService.GetString("BreakCompleted"));
                     _toastService.Display(_languageService.GetString("Information"), _languageService.GetString("BreakCompleted"), NotificationType.Information);
                 }
                 else if (TimerState == TimerState.LongBreak)
                 {
-                    await _mediator.Send(new PlaySoundQuery() { SoundType = SoundType.Work });
+                    await _mediator.Send(new PlaySound.Command() { SoundType = SoundType.Work });
                     await _notificationService.Show(_languageService.GetString("Information"), _languageService.GetString("LongBreakCompleted"));
                     _toastService.Display(_languageService.GetString("Information"), _languageService.GetString("LongBreakCompleted"), NotificationType.Information);
                 }
@@ -229,7 +229,7 @@ public sealed partial class RunningTimerViewModel : ViewModelBase, IRoute, IActi
     [RelayCommand]
     private async Task EndSession()
     {
-        var result = await _mediator.Send(new GetSettingsQuery());
+        var result = await _mediator.Send(new Application.Settings.Get.Query());
         RouterHost.Router.NavigateTo(new AdjustTimersViewModel(result.Value, RouterHost, _mediator, _languageService, _toastService, _dialog, _notificationService));
 
         Trace.TraceInformation("EndSession");
@@ -262,7 +262,7 @@ public sealed partial class RunningTimerViewModel : ViewModelBase, IRoute, IActi
             var previousRunningState = IsRunning;
             IsRunning = false;
 
-            var result = await _mediator.Send(new GetSettingsQuery());
+            var result = await _mediator.Send(new Application.Settings.Get.Query());
             var settings = result.Value;
 
             var isDescriptionEnabled = settings.IsFocusDescriptionEnabled;
@@ -277,7 +277,7 @@ public sealed partial class RunningTimerViewModel : ViewModelBase, IRoute, IActi
                         if (session is not null)
                         {
                             session.Description = notes;
-                            _mediator.Send(new CreateSessionCommand() { Session = session }).GetAwaiter().GetResult();
+                            _mediator.Send(new Application.Sessions.Create.Command() { Session = session }).GetAwaiter().GetResult();
                         }
                     },
                     () => IsRunning = previousRunningState))
@@ -333,7 +333,7 @@ public sealed partial class RunningTimerViewModel : ViewModelBase, IRoute, IActi
                 Description = sessionsType != SessionType.Focus ? " - " : Description
             };
 
-            await _mediator.Send(new CreateSessionCommand() { Session = session });
+            await _mediator.Send(new Application.Sessions.Create.Command() { Session = session });
 
             var isDescriptionEnabled = settings.IsFocusDescriptionEnabled;
             if (isDescriptionEnabled && TimerState == TimerState.Focus)
@@ -367,7 +367,7 @@ public sealed partial class RunningTimerViewModel : ViewModelBase, IRoute, IActi
 
     private async Task<GeneralSettings> GetSettings()
     {
-        var result = await _mediator.Send(new GetSettingsQuery());
+        var result = await _mediator.Send(new Application.Settings.Get.Query());
         if (!result.IsSuccess)
         {
             Log.Warning("Failed to get settings {Error}", result.Error);
