@@ -1,6 +1,4 @@
-﻿using CommunityToolkit.Mvvm.Input;
-using EasyFlow.Desktop.Services;
-using EasyFlow.Desktop.Features.Restart;
+﻿using EasyFlow.Desktop.Features.Restart;
 using ReactiveUI;
 using Serilog;
 using SukiUI.Dialogs;
@@ -10,6 +8,7 @@ using System.Reactive;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using System.Threading.Tasks;
+using ReactiveUI.SourceGenerators;
 namespace EasyFlow.Desktop.Services;
 
 public interface IRestartAppService
@@ -46,7 +45,7 @@ public sealed partial class RestartAppService : IRestartAppService
             .TryShow();
     }
 
-    [RelayCommand]
+    [ReactiveCommand]
     private static void RestartApp()
     {
         try

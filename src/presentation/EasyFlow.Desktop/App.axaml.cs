@@ -3,12 +3,13 @@ using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Data.Core.Plugins;
 using Avalonia.Markup.Xaml;
 using Avalonia.Media.Imaging;
-using CommunityToolkit.Mvvm.DependencyInjection;
-using CommunityToolkit.Mvvm.Input;
+using EasyFlow.Desktop.Common;
 using EasyFlow.Desktop.Services;
 using EasyFlow.Domain.Entities;
 using EasyFlow.Infrastructure.Common;
 using Microsoft.EntityFrameworkCore;
+using ReactiveUI;
+using Splat;
 using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
@@ -28,29 +29,24 @@ public partial class App : Avalonia.Application
 
     public override void OnFrameworkInitializationCompleted()
     {
-        switch (ApplicationLifetime)
+        InitializeDb().GetAwaiter().GetResult();
+
+        if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
-            case IClassicDesktopStyleApplicationLifetime desktop:
+            BindingPlugins.DataValidators.RemoveAt(0);
+
+            var mainViewModel = Locator.Current.GetServiceOrThrow<MainViewModel>();
+                
+            MainWindow = new MainWindow
             {
-                BindingPlugins.DataValidators.RemoveAt(0);
+                DataContext = mainViewModel
+            };
 
-                InitializeDb().GetAwaiter().GetResult();
+            desktop.MainWindow = MainWindow;
+            desktop.Startup += OnStartup;
+            desktop.Exit += OnExit;
 
-                var mainViewModel = Ioc.Default.GetRequiredService<MainViewModel>();
-
-                MainWindow = new MainWindow
-                {
-                    DataContext = mainViewModel
-                };
-
-                desktop.MainWindow = MainWindow;
-                desktop.Startup += OnStartup;
-                desktop.Exit += OnExit;
-
-                RegisterTrayIcon();
-
-                break;
-            }
+            RegisterTrayIcon();
         }
 
         base.OnFrameworkInitializationCompleted();
@@ -60,7 +56,7 @@ public partial class App : Avalonia.Application
     {
         try
         {
-            var context = Ioc.Default.GetRequiredService<DataContext>();
+            var context = Locator.Current.GetServiceOrThrow<DataContext>();
             if (context is not null)
             {
                 await context.Database.MigrateAsync();
@@ -70,15 +66,14 @@ public partial class App : Avalonia.Application
                 if (settings is not null)
                 {
                     var selectedLanguage = settings.SelectedLanguage;
-
-                    var languageService = Ioc.Default.GetRequiredService<ILanguageService>();
+                    var languageService = Locator.Current.GetServiceOrThrow<ILanguageService>();
                     languageService.SetLanguage(SupportedLanguage.FromCode(selectedLanguage));
                 }
             }
         }
         catch (Exception ex)
         {
-            Trace.TraceError($"Error while starting application {ex.Message}");
+            Trace.TraceError($"Error while starting the application {ex.Message}");
         }
     }
 
@@ -126,22 +121,22 @@ public partial class App : Avalonia.Application
         var trayIcon = new TrayIcon
         {
             IsVisible = true,
-            Command = new RelayCommand(Open_Click),
+            Command = ReactiveCommand.Create(Open_Click),
             Icon = new WindowIcon(new Bitmap("Assets/panda.png")),
-            Menu = new NativeMenu
-            {
+            Menu =
+            [
                 new NativeMenuItem
                 {
                     Header = ConstantTranslation.OpenEasyFlow,
-                    Command = new RelayCommand(Open_Click),
+                    Command =  ReactiveCommand.Create(Open_Click),
                 },
 
                 new NativeMenuItem
                 {
                     Header = ConstantTranslation.CloseEasyFlow,
-                    Command = new RelayCommand(Close_Click),
+                    Command = ReactiveCommand.Create(Close_Click),
                 }
-            }
+            ]
         };
 
         var trayIcons = new TrayIcons

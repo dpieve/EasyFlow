@@ -1,7 +1,7 @@
-﻿using CommunityToolkit.Mvvm.Input;
-using EasyFlow.Application.Services;
+﻿using EasyFlow.Application.Services;
 using EasyFlow.Desktop.Common;
 using MediatR;
+using ReactiveUI.SourceGenerators;
 using SukiUI.Dialogs;
 using System;
 using System.Threading.Tasks;
@@ -27,7 +27,7 @@ public sealed partial class DeleteDataViewModel : ViewModelBase
         _onCancel = onCancel;
     }
 
-    [RelayCommand]
+    [ReactiveCommand]
     private async Task Ok()
     {
         var result = await _mediator.Send(new RestartDatabase.Command());
@@ -40,7 +40,7 @@ public sealed partial class DeleteDataViewModel : ViewModelBase
         }
     }
 
-    [RelayCommand]
+    [ReactiveCommand]
     private void Cancel()
     {
         _onCancel?.Invoke();

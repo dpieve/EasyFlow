@@ -1,7 +1,6 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
-using EasyFlow.Desktop.Common;
+﻿using EasyFlow.Desktop.Common;
 using ReactiveUI;
+using ReactiveUI.SourceGenerators;
 using SukiUI.Dialogs;
 using System;
 using System.Reactive.Linq;
@@ -13,10 +12,10 @@ public sealed partial class RestartViewModel : ViewModelBase
     private readonly ISukiDialog _dialog;
     private Action _onOk;
 
-    [ObservableProperty]
+    [Reactive]
     private bool _isRestarting = true;
 
-    [ObservableProperty]
+    [Reactive]
     private int _secondsLeft;
 
     public RestartViewModel(ISukiDialog dialog, Action onOk, int secondsBeforeRestart)
@@ -46,7 +45,7 @@ public sealed partial class RestartViewModel : ViewModelBase
             });
     }
 
-    [RelayCommand]
+    [ReactiveCommand]
     private void Ok()
     {
         IsRestarting = false;
@@ -56,7 +55,7 @@ public sealed partial class RestartViewModel : ViewModelBase
         //SukiHost.CloseDialog();
     }
 
-    [RelayCommand]
+    [ReactiveCommand]
     private void TimerTick()
     {
         if (SecondsLeft == 0)

@@ -1,11 +1,9 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
-using DynamicData;
-using EasyFlow.Application.Tags;
+﻿using DynamicData;
 using EasyFlow.Desktop.Common;
 using EasyFlow.Desktop.Services;
 using MediatR;
 using ReactiveUI;
+using ReactiveUI.SourceGenerators;
 using SukiUI.Dialogs;
 using System;
 using System.Collections.Generic;
@@ -23,10 +21,10 @@ public partial class TagsViewModel : ViewModelBase
     private readonly ILanguageService _languageService;
     private readonly IToastService _toastService;
     private readonly ISukiDialogManager _dialog;
-    [ObservableProperty]
+    [Reactive]
     private int _numTags;
 
-    [ObservableProperty]
+    [Reactive]
     private bool _isAddBusy;
 
     public TagsViewModel(
@@ -60,7 +58,7 @@ public partial class TagsViewModel : ViewModelBase
         Trace.TraceInformation("Deactivating TagsViewModel");
     }
 
-    [RelayCommand]
+    [ReactiveCommand]
     private void AddTag()
     {
         IsAddBusy = true;

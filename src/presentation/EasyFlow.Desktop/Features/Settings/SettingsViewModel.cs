@@ -33,17 +33,17 @@ public sealed partial class SettingsViewModel : PageViewModelBase
     public TagsViewModel Tags { get; }
     public GeneralSettingsViewModel GeneralSettings { get; }
 
-    protected override void OnActivated()
-    {
-        Tags.Activate();
-        GeneralSettings.Activate();
-    }
+    //protected override void OnActivated()
+    //{
+    //    Tags.Activate();
+    //    GeneralSettings.Activate();
+    //}
 
-    protected override void OnDeactivated()
-    {
-        Tags.Deactivate();
-        GeneralSettings.Deactivate();
+    //protected override void OnDeactivated()
+    //{
+    //    Tags.Deactivate();
+    //    GeneralSettings.Deactivate();
 
-        _toastService.DismissAll();
-    }
+    //    _toastService.DismissAll();
+    //}
 }

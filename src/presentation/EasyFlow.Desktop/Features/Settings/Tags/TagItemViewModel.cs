@@ -1,10 +1,8 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
-using EasyFlow.Application.Tags;
-using EasyFlow.Desktop.Common;
+﻿using EasyFlow.Desktop.Common;
 using EasyFlow.Desktop.Services;
 using EasyFlow.Domain.Entities;
 using MediatR;
+using ReactiveUI.SourceGenerators;
 using SukiUI.Dialogs;
 using System;
 using System.Threading.Tasks;
@@ -19,7 +17,7 @@ public sealed partial class TagItemViewModel : ViewModelBase
     private readonly IToastService _toastService;
     private readonly ISukiDialogManager _dialog;
 
-    [ObservableProperty]
+    [Reactive]
     private string _name;
 
     public TagItemViewModel(Tag tag,
@@ -41,7 +39,7 @@ public sealed partial class TagItemViewModel : ViewModelBase
 
     public Tag Tag { get; }
 
-    [RelayCommand]
+    [ReactiveCommand]
     private void EditTag()
     {
         _dialog.CreateDialog()
@@ -49,7 +47,7 @@ public sealed partial class TagItemViewModel : ViewModelBase
             .TryShow();
     }
 
-    [RelayCommand]
+    [ReactiveCommand]
     private async Task DeleteTag()
     {
         var result = await _mediator.Send(new Application.Tags.Delete.Command

@@ -1,12 +1,11 @@
 ﻿using Avalonia.Controls.Notifications;
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
 using DynamicData;
 using EasyFlow.Desktop.Common;
 using EasyFlow.Desktop.Services;
 using EasyFlow.Domain.Entities;
 using MediatR;
 using ReactiveUI;
+using ReactiveUI.SourceGenerators;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -23,19 +22,19 @@ public sealed partial class DisplayControlsViewModel : ViewModelBase
     private readonly ILanguageService _languageService;
     private readonly IToastService _toastService;
 
-    [ObservableProperty]
+    [Reactive]
     private bool _isGeneratingReport = false;
 
-    [ObservableProperty]
+    [Reactive]
     private FilterPeriod _selectedFilterPeriod = FilterPeriod.Days7;
 
-    [ObservableProperty]
+    [Reactive]
     private Tag? _selectedTag;
 
-    [ObservableProperty]
+    [Reactive]
     private SessionType _selectedSessionType = SessionType.Focus;
 
-    [ObservableProperty]
+    [Reactive]
     private DisplayType _selectedDisplayType = DisplayType.BarChart;
 
     public DisplayControlsViewModel(IMediator mediator, ILanguageService languageService, IToastService toastService)
@@ -109,7 +108,7 @@ public sealed partial class DisplayControlsViewModel : ViewModelBase
         return (tags.Value, settings.Value);
     }
 
-    [RelayCommand]
+    [ReactiveCommand]
     private async Task FullReport()
     {
         IsGeneratingReport = true;
@@ -123,7 +122,7 @@ public sealed partial class DisplayControlsViewModel : ViewModelBase
         IsGeneratingReport = false;
     }
 
-    [RelayCommand]
+    [ReactiveCommand]
     private async Task UpdateSettings()
     {
         var result = await _mediator.Send(new Application.Settings.Get.Query());

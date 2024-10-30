@@ -1,11 +1,11 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using EasyFlow.Desktop.Common;
+﻿using EasyFlow.Desktop.Common;
 using EasyFlow.Desktop.Services;
 using EasyFlow.Domain.Entities;
 using LiveChartsCore;
 using LiveChartsCore.Defaults;
 using LiveChartsCore.SkiaSharpView;
 using LiveChartsCore.SkiaSharpView.Painting;
+using ReactiveUI.SourceGenerators;
 using SkiaSharp;
 using System;
 using System.Collections.Generic;
@@ -18,10 +18,10 @@ public sealed partial class BarChartViewModel : ViewModelBase
 {
     private readonly ILanguageService _languageService;
 
-    [ObservableProperty]
+    [Reactive]
     private ISeries[]? _seriePlot;
 
-    [ObservableProperty]
+    [Reactive]
     private bool _isBarChartVisible;
 
     public BarChartViewModel(ILanguageService languageService)

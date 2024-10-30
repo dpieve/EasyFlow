@@ -1,11 +1,14 @@
 ﻿using Avalonia;
-using CommunityToolkit.Mvvm.DependencyInjection;
 using EasyFlow.Application.Common;
 using EasyFlow.Desktop.Common;
 using EasyFlow.Desktop.Services;
 using EasyFlow.Infrastructure.Common;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Serilog;
+using Splat;
+using System;
+using System.ComponentModel;
 using System.IO;
 
 namespace EasyFlow;
@@ -14,8 +17,10 @@ public static class AppBuilderExtensions
 {
     public static AppBuilder RegisterServices(this AppBuilder builder)
     {
-        Ioc.Default
-            .ConfigureServices(ConfigureServices());
+        //Ioc.Default
+        //    .ConfigureServices(ConfigureServices());
+
+        
 
         return builder;
     }

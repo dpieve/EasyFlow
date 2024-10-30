@@ -1,12 +1,10 @@
 ﻿using Avalonia.Controls.Notifications;
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
-using EasyFlow.Application.Settings;
 using EasyFlow.Desktop.Common;
 using EasyFlow.Desktop.Services;
 using EasyFlow.Domain.Entities;
 using MediatR;
 using ReactiveUI;
+using ReactiveUI.SourceGenerators;
 using SukiUI.Dialogs;
 using System;
 using System.Diagnostics;
@@ -22,23 +20,23 @@ public partial class GeneralSettingsViewModel : ViewModelBase
     private readonly ILanguageService _languageService;
     private readonly IToastService _toastService;
     private readonly ISukiDialogManager _dialog;
-    [ObservableProperty]
+    [Reactive]
     private bool _isFocusDescriptionEnabled;
 
-    [ObservableProperty]
+    [Reactive]
     private bool _isWorkSoundEnabled;
 
-    [ObservableProperty]
+    [Reactive]
     private bool _isBreakSoundEnabled;
 
-    [ObservableProperty]
-    [NotifyPropertyChangedFor(nameof(VolumeLabel))]
+    [Reactive]
+    //[NotifyPropertyChangedFor(nameof(VolumeLabel))]
     private int _volume;
 
-    [ObservableProperty]
+    [Reactive]
     private bool _isBackupBusy;
 
-    [ObservableProperty]
+    [Reactive]
     private bool _isDeleteBusy;
 
     public GeneralSettingsViewModel(
@@ -86,7 +84,7 @@ public partial class GeneralSettingsViewModel : ViewModelBase
         Trace.TraceInformation("Deactivating GeneralSettingsViewModel");
     }
 
-    [RelayCommand]
+    [ReactiveCommand]
     private async Task UpdateSettings()
     {
         var settings = await GetSettings();
@@ -99,7 +97,7 @@ public partial class GeneralSettingsViewModel : ViewModelBase
         _ = await _mediator.Send(new Application.Settings.Edit.Command { Settings = settings });
     }
 
-    [RelayCommand]
+    [ReactiveCommand]
     private async Task BackupData()
     {
         IsBackupBusy = true;
@@ -111,7 +109,7 @@ public partial class GeneralSettingsViewModel : ViewModelBase
         IsBackupBusy = false;
     }
 
-    [RelayCommand]
+    [ReactiveCommand]
     private void DeleteData()
     {
         IsDeleteBusy = true;

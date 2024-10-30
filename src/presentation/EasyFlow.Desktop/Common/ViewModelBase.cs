@@ -1,7 +1,7 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using ReactiveUI;
 
 namespace EasyFlow.Desktop.Common;
 
-public abstract class ViewModelBase : ObservableRecipient
+public abstract class ViewModelBase : ReactiveObject
 {
 }

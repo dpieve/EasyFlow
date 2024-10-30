@@ -1,9 +1,5 @@
 ﻿using Avalonia.Controls.Notifications;
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
 using EasyFlow.Application.Services;
-using EasyFlow.Application.Sessions;
-using EasyFlow.Application.Settings;
 using EasyFlow.Desktop.Common;
 using EasyFlow.Desktop.Services;
 using EasyFlow.Domain.Entities;
@@ -11,8 +7,8 @@ using EasyFlow.Desktop.Features.Focus.AdjustTimers;
 using Material.Icons;
 using MediatR;
 using ReactiveUI;
+using ReactiveUI.SourceGenerators;
 using Serilog;
-using SimpleRouter;
 using SukiUI.Dialogs;
 using System;
 using System.Diagnostics;
@@ -22,7 +18,7 @@ using System.Threading.Tasks;
 
 namespace EasyFlow.Desktop.Features.Focus.RunningTimer;
 
-public sealed partial class RunningTimerViewModel : ViewModelBase, IRoute, IActivatableRoute
+public sealed partial class RunningTimerViewModel : ViewModelBase, IActivatableRoute
 {
     private readonly IMediator _mediator;
     private readonly ILanguageService _languageService;
@@ -32,56 +28,54 @@ public sealed partial class RunningTimerViewModel : ViewModelBase, IRoute, IActi
 
     private CompositeDisposable? _disposables;
 
-    [ObservableProperty]
-    [NotifyPropertyChangedFor(nameof(ProgressText))]
+    [Reactive]
+    //[NotifyPropertyChangedFor(nameof(ProgressText))]
     private int _completedTimers = 0;
 
-    [ObservableProperty]
-    [NotifyPropertyChangedFor(nameof(IsBreak))]
+    [Reactive]
+    //[NotifyPropertyChangedFor(nameof(IsBreak))]
     private TimerState _timerState = TimerState.Focus;
 
-    [ObservableProperty]
-    [NotifyPropertyChangedFor(nameof(ProgressText))]
+    [Reactive]
+    //[NotifyPropertyChangedFor(nameof(ProgressText))]
     private int _timersBeforeLongBreak;
 
-    [ObservableProperty]
-    [NotifyPropertyChangedFor(nameof(SkipButtonText))]
+    [Reactive]
+    //[NotifyPropertyChangedFor(nameof(SkipButtonText))]
     private bool _isBreak = false;
 
-    [ObservableProperty]
-    [NotifyPropertyChangedFor(nameof(StartButtonIcon))]
+    [Reactive]
+    //[NotifyPropertyChangedFor(nameof(StartButtonIcon))]
     private bool _isRunning;
 
-    [ObservableProperty]
+    [Reactive]
     private int _totalSeconds;
 
-    [ObservableProperty]
+    [Reactive]
     private int _secondsLeft;
 
-    [ObservableProperty]
+    [Reactive]
     private string _timerText = string.Empty;
 
-    [ObservableProperty]
+    [Reactive]
     private double _progressValue = 100;
 
-    [ObservableProperty]
+    [Reactive]
     private string _selectedTagName = string.Empty;
 
-    [ObservableProperty]
+    [Reactive]
     private bool _isFocusDescriptionVisible = true;
 
-    [ObservableProperty]
+    [Reactive]
     private string _description = string.Empty;
 
     public RunningTimerViewModel(
-        IRouterHost routerHost,
         IMediator mediator,
         ILanguageService languageService,
         IToastService toastService,
         ISukiDialogManager dialog,
         INotificationService notificationService)
     {
-        RouterHost = routerHost;
         _mediator = mediator;
         _languageService = languageService;
         _toastService = toastService;
@@ -110,8 +104,6 @@ public sealed partial class RunningTimerViewModel : ViewModelBase, IRoute, IActi
     }
 
     public string RouteName => nameof(RunningTimerViewModel);
-
-    public IRouterHost RouterHost { get; }
 
     public string SkipButtonText => IsBreak ? ConstantTranslation.SkipToFocus : ConstantTranslation.SkipToBreak;
 
@@ -174,7 +166,7 @@ public sealed partial class RunningTimerViewModel : ViewModelBase, IRoute, IActi
         Trace.TraceInformation("RunningTimer Deactivated");
     }
 
-    [RelayCommand]
+    [ReactiveCommand]
     private async Task TimerTick()
     {
         try
@@ -226,35 +218,36 @@ public sealed partial class RunningTimerViewModel : ViewModelBase, IRoute, IActi
         }
     }
 
-    [RelayCommand]
+    [ReactiveCommand]
     private async Task EndSession()
     {
+        // TODO: FIX
         var result = await _mediator.Send(new Application.Settings.Get.Query());
-        RouterHost.Router.NavigateTo(new AdjustTimersViewModel(result.Value, RouterHost, _mediator, _languageService, _toastService, _dialog, _notificationService));
+        //RouterHost.Router.NavigateTo(new AdjustTimersViewModel(result.Value, RouterHost, _mediator, _languageService, _toastService, _dialog, _notificationService));
 
         Trace.TraceInformation("EndSession");
     }
 
-    [RelayCommand]
+    [ReactiveCommand]
     private async Task SkipToBreak()
     {
         await GoToNextState(isSkipping: true);
         Trace.TraceInformation("SkipToBreak");
     }
 
-    [RelayCommand]
+    [ReactiveCommand]
     private void StartOrPauseTimer()
     {
         IsRunning = !IsRunning;
     }
 
-    [RelayCommand]
+    [ReactiveCommand]
     private async Task RestartTimer()
     {
         await StateChanged(TimerState);
     }
 
-    [RelayCommand]
+    [ReactiveCommand]
     private async Task OpenNotes(Session? session = null)
     {
         try
@@ -292,7 +285,7 @@ public sealed partial class RunningTimerViewModel : ViewModelBase, IRoute, IActi
         Trace.TraceInformation("OpenNotes");
     }
 
-    [RelayCommand]
+    [ReactiveCommand]
     private async Task UpdateNotesVisible()
     {
         var settings = await GetSettings();
@@ -377,7 +370,7 @@ public sealed partial class RunningTimerViewModel : ViewModelBase, IRoute, IActi
         return settings;
     }
 
-    [RelayCommand]
+    [ReactiveCommand]
     private async Task StateChanged(TimerState state)
     {
         var settings = await GetSettings();

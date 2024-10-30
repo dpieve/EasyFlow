@@ -1,6 +1,4 @@
 ﻿using Avalonia.Controls.Notifications;
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
 using EasyFlow.Desktop.Common;
 using EasyFlow.Desktop.Services;
 using EasyFlow.Domain.Entities;
@@ -11,6 +9,7 @@ using System;
 using System.Linq;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
+using ReactiveUI.SourceGenerators;
 
 namespace EasyFlow.Desktop.Features.Focus.AdjustTimers;
 
@@ -19,17 +18,17 @@ public sealed partial class TimersViewModel : ViewModelBase
     private readonly IMediator _mediator;
     private readonly ILanguageService _languageService;
     private readonly IToastService _toastService;
-    [ObservableProperty]
+    [Reactive]
     private int _workMinutes;
 
-    [ObservableProperty]
+    [Reactive]
     private int _breakMinutes;
 
-    [ObservableProperty]
+    [Reactive]
     private int _longBreakMinutes;
 
-    [ObservableProperty]
-    [NotifyPropertyChangedFor(nameof(SessionsBeforeLongBreakText))]
+    [Reactive]
+    //[NotifyPropertyChangedFor(nameof(SessionsBeforeLongBreakText))]
     private int _sessionsBeforeLongBreak;
 
     public TimersViewModel(
@@ -60,7 +59,7 @@ public sealed partial class TimersViewModel : ViewModelBase
 
     public string SessionsBeforeLongBreakText => $"{SessionsBeforeLongBreak} {ConstantTranslation.Sessions}";
 
-    [RelayCommand]
+    [ReactiveCommand]
     private async Task SaveSettings()
     {
         var result = await _mediator.Send(new Application.Settings.Get.Query());

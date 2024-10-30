@@ -8,7 +8,7 @@ namespace EasyFlow.Infrastructure.Common;
 
 public static class InfraExtensions
 {
-    public static ServiceCollection AddInfrastructure(this ServiceCollection services)
+    public static IServiceCollection AddInfrastructure(this IServiceCollection services)
     {
         services.AddDbContextFactory<DataContext>(
             options =>

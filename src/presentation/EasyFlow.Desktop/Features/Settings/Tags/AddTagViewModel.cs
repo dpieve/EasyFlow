@@ -1,10 +1,8 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
-using EasyFlow.Application.Tags;
-using EasyFlow.Desktop.Common;
+﻿using EasyFlow.Desktop.Common;
 using EasyFlow.Desktop.Services;
 using EasyFlow.Domain.Entities;
 using MediatR;
+using ReactiveUI.SourceGenerators;
 using SukiUI.Dialogs;
 using System;
 using System.Threading.Tasks;
@@ -23,7 +21,7 @@ public sealed partial class AddTagViewModel : ViewModelBase
 
     private bool _isEditing;
 
-    [ObservableProperty]
+    [Reactive]
     private string _tagName;
 
     public AddTagViewModel(
@@ -48,7 +46,7 @@ public sealed partial class AddTagViewModel : ViewModelBase
         TagName = _tag.Name;
     }
 
-    [RelayCommand]
+    [ReactiveCommand]
     private async Task Ok()
     {
         _tag.Name = TagName;
@@ -77,7 +75,7 @@ public sealed partial class AddTagViewModel : ViewModelBase
         Cancel();
     }
 
-    [RelayCommand]
+    [ReactiveCommand]
     private void Cancel()
     {
         _onCancel?.Invoke();

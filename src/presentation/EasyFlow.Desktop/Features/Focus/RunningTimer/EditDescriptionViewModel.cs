@@ -1,6 +1,5 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
-using EasyFlow.Desktop.Common;
+﻿using EasyFlow.Desktop.Common;
+using ReactiveUI.SourceGenerators;
 using SukiUI.Dialogs;
 using System;
 
@@ -12,7 +11,7 @@ public sealed partial class EditDescriptionViewModel : ViewModelBase
     private readonly Action<string>? _onOk;
     private readonly Action? _onCancel;
 
-    [ObservableProperty]
+    [Reactive]
     private string _description = string.Empty;
 
     public EditDescriptionViewModel(
@@ -28,7 +27,7 @@ public sealed partial class EditDescriptionViewModel : ViewModelBase
         _onCancel = onCancel;
     }
 
-    [RelayCommand]
+    [ReactiveCommand]
     private void Ok()
     {
         if (_onOk is not null)
@@ -39,7 +38,7 @@ public sealed partial class EditDescriptionViewModel : ViewModelBase
         Cancel();
     }
 
-    [RelayCommand]
+    [ReactiveCommand]
     private void Cancel()
     {
         if (_onCancel is not null)

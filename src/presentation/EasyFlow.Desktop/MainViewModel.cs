@@ -1,14 +1,12 @@
 ﻿using Avalonia.Collections;
 using Avalonia.Controls.Notifications;
 using Avalonia.Styling;
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
-using EasyFlow.Application.Settings;
 using EasyFlow.Desktop.Common;
 using EasyFlow.Desktop.Services;
 using EasyFlow.Domain.Entities;
 using MediatR;
 using ReactiveUI;
+using ReactiveUI.SourceGenerators;
 using SukiUI;
 using SukiUI.Dialogs;
 using SukiUI.Models;
@@ -30,16 +28,16 @@ public partial class MainViewModel : ViewModelBase
 
     private bool showStillRunning = true;
 
-    [ObservableProperty]
+    [Reactive]
     private ThemeVariant _baseTheme;
 
-    [ObservableProperty]
+    [Reactive]
     private SukiColorTheme _selectedTheme;
 
-    [ObservableProperty]
+    [Reactive]
     private PageViewModelBase? _activePage;
 
-    [ObservableProperty]
+    [Reactive]
     private SupportedLanguage _selectedLanguage;
 
     public MainViewModel(
@@ -114,19 +112,6 @@ public partial class MainViewModel : ViewModelBase
         return new GeneralSettings();
     }
 
-    partial void OnActivePageChanged(PageViewModelBase? oldValue, PageViewModelBase? newValue)
-    {
-        if (oldValue is not null)
-        {
-            oldValue.IsActive = false;
-        }
-
-        if (newValue is not null)
-        {
-            newValue.IsActive = true;
-        }
-    }
-
     public IAvaloniaReadOnlyList<PageViewModelBase> Pages { get; }
     public IAvaloniaReadOnlyList<SukiColorTheme> Themes { get; }
     public IToastService ToastService { get; }
@@ -146,7 +131,7 @@ public partial class MainViewModel : ViewModelBase
         }
     }
 
-    [RelayCommand]
+    [ReactiveCommand]
     private async Task UpdateSettings()
     {
         var settings = await GetSettings();
@@ -170,13 +155,13 @@ public partial class MainViewModel : ViewModelBase
         }
     }
 
-    [RelayCommand]
+    [ReactiveCommand]
     private void ToggleBaseTheme()
     {
         _theme.SwitchBaseTheme();
     }
 
-    [RelayCommand]
+    [ReactiveCommand]
     private void ChangeLanguage(SupportedLanguage selectedLanguage)
     {
         SelectedLanguage = selectedLanguage;

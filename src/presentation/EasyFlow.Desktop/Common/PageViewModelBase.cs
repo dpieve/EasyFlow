@@ -1,11 +1,12 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using Material.Icons;
+﻿using Material.Icons;
+using ReactiveUI;
+using ReactiveUI.SourceGenerators;
 
 namespace EasyFlow.Desktop.Common;
 
-public abstract partial class PageViewModelBase(string displayName, MaterialIconKind icon, int index = 0) : ObservableRecipient
+public abstract partial class PageViewModelBase(string displayName, MaterialIconKind icon, int index = 0) : ReactiveObject
 {
-    [ObservableProperty] private string _displayName = displayName;
-    [ObservableProperty] private MaterialIconKind _icon = icon;
-    [ObservableProperty] private int _index = index;
+    [Reactive] private string _displayName = displayName;
+    [Reactive] private MaterialIconKind _icon = icon;
+    [Reactive] private int _index = index;
 }

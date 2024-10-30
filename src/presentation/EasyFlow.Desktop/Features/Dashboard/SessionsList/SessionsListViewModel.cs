@@ -1,10 +1,8 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
-using EasyFlow.Application.Sessions;
-using EasyFlow.Desktop.Common;
+﻿using EasyFlow.Desktop.Common;
 using EasyFlow.Domain.Entities;
 using MediatR;
 using ReactiveUI;
+using ReactiveUI.SourceGenerators;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -16,7 +14,7 @@ namespace EasyFlow.Desktop.Features.Dashboard.SessionsList;
 
 public sealed partial class SessionsListViewModel : ViewModelBase
 {
-    [ObservableProperty]
+    [Reactive]
     private bool _isSessionsListVisible;
     private readonly IMediator _mediator;
 
@@ -68,11 +66,11 @@ public sealed partial class SessionListItem : ViewModelBase
     private readonly Func<int,Task>? _deletedRow;
     private readonly IMediator _mediator;
 
-    [ObservableProperty] private bool _isEditing;
+    [Reactive] private bool _isEditing;
 
-    [ObservableProperty] private string _description;
+    [Reactive] private string _description;
 
-    [ObservableProperty] private string _typingDescription;
+    [Reactive] private string _typingDescription;
 
     public SessionListItem(Session session, Func<int, Task>? deletedRow, IMediator mediator)
     {
@@ -99,7 +97,7 @@ public sealed partial class SessionListItem : ViewModelBase
     public Tag Tag { get; }
     public int Duration { get; }
 
-    [RelayCommand]
+    [ReactiveCommand]
     private async Task DeleteRow()
     {
         if (_deletedRow is null)
@@ -110,14 +108,14 @@ public sealed partial class SessionListItem : ViewModelBase
         await _deletedRow(Session.Id);
     }
 
-    [RelayCommand]
+    [ReactiveCommand]
     private void EditDescription()
     {
         TypingDescription = Description;
         IsEditing = true;
     }
 
-    [RelayCommand]
+    [ReactiveCommand]
     private async Task UpdateSession()
     {
         if (string.IsNullOrEmpty(TypingDescription) 

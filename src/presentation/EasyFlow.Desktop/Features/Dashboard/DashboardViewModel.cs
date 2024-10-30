@@ -1,7 +1,4 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
-using EasyFlow.Application.Sessions;
-using EasyFlow.Desktop.Features.Dashboard;
+﻿using EasyFlow.Desktop.Features.Dashboard;
 using EasyFlow.Desktop.Features.Dashboard.DisplayControls;
 using EasyFlow.Desktop.Services;
 using EasyFlow.Desktop.Common;
@@ -14,6 +11,9 @@ using System.Linq;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
+using ReactiveUI.SourceGenerators;
+using Serilog;
+using Microsoft.Extensions.Logging;
 
 namespace EasyFlow.Desktop.Features.Dashboard;
 
@@ -24,13 +24,13 @@ public partial class DashboardViewModel : PageViewModelBase
     private readonly IToastService _toastService;
     private CompositeDisposable? _disposables;
 
-    [ObservableProperty]
+    [Reactive]
     private string _infoTitle = string.Empty;
 
-    [ObservableProperty]
+    [Reactive]
     private bool _isNotFoundSessionsVisible;
 
-    [ObservableProperty]
+    [Reactive]
     private bool _isBusy;
 
     public DashboardViewModel(
@@ -58,25 +58,25 @@ public partial class DashboardViewModel : PageViewModelBase
     public BarChartViewModel BarChart { get; }
     public SessionsListViewModel SessionsList { get; }
 
-    protected override void OnActivated()
-    {
-        _disposables ??= [];
-        DisplayControls.Activated();
+    //protected override void OnActivated()
+    //{
+    //    _disposables ??= [];
+    //    DisplayControls.Activated();
 
-        Observable.StartAsync(() => Update(DisplayControls.GetDisplayControls()));
+    //    Observable.StartAsync(() => Update(DisplayControls.GetDisplayControls()));
 
-        Trace.TraceInformation("Dashboard OnActivated");
-    }
+    //    Trace.TraceInformation("Dashboard OnActivated");
+    //}
 
-    protected override void OnDeactivated()
-    {
-        _toastService.DismissAll();
-        DisplayControls.Deactivated();
+    //protected override void OnDeactivated()
+    //{
+    //    _toastService.DismissAll();
+    //    DisplayControls.Deactivated();
 
-        Trace.TraceInformation("Dashboard OnDeactivated");
-    }
+    //    Trace.TraceInformation("Dashboard OnDeactivated");
+    //}
 
-    [RelayCommand]
+    [ReactiveCommand]
     private async Task Update(Display display)
     {
         IsNotFoundSessionsVisible = false;

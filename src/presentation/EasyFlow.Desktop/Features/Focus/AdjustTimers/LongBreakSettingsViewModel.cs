@@ -1,6 +1,5 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
-using EasyFlow.Desktop.Common;
+﻿using EasyFlow.Desktop.Common;
+using ReactiveUI.SourceGenerators;
 using SukiUI.Dialogs;
 using System;
 
@@ -11,7 +10,7 @@ public sealed partial class LongBreakSettingsViewModel : ViewModelBase
     private readonly ISukiDialog _dialog;
     private readonly Action<int> _onOk;
 
-    [ObservableProperty]
+    [Reactive]
     private int _longBreakSessions;
 
     public LongBreakSettingsViewModel(ISukiDialog dialog, int longBreakSessions, Action<int> onOk)
@@ -21,13 +20,13 @@ public sealed partial class LongBreakSettingsViewModel : ViewModelBase
         _onOk = onOk;
     }
 
-    [RelayCommand]
+    [ReactiveCommand]
     private void OkButton()
     {
         _onOk(LongBreakSessions);
         CloseButton();
     }
 
-    [RelayCommand]
+    [ReactiveCommand]
     private void CloseButton() => _dialog.Dismiss();
 }

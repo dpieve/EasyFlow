@@ -1,10 +1,7 @@
 ﻿using EasyFlow.Desktop.Features.Settings;
 using EasyFlow.Desktop.Services;
-using EasyFlow.Desktop;
-using EasyFlow.Desktop.Common;
 using EasyFlow.Desktop.Features.Dashboard;
 using EasyFlow.Desktop.Features.Focus;
-using EasyFlow.Desktop.Services;
 using Microsoft.Extensions.DependencyInjection;
 using SukiUI.Dialogs;
 using SukiUI.Toasts;
@@ -13,7 +10,7 @@ namespace EasyFlow.Desktop.Common;
 
 public static class PresentationExtensions
 {
-    public static ServiceCollection AddPresentation(this ServiceCollection services)
+    public static IServiceCollection AddPresentation(this IServiceCollection services)
     {
         // Services
         services.AddSingleton<ILanguageService, LanguageService>();

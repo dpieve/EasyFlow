@@ -6,7 +6,7 @@ namespace EasyFlow.Application.Common;
 
 public static class AppExtensions
 {
-    public static ServiceCollection AddApplication(this ServiceCollection services)
+    public static IServiceCollection AddApplication(this IServiceCollection services)
     {
         services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(Sessions.Create).Assembly));
 
