@@ -30,7 +30,6 @@ public partial class GeneralSettingsViewModel : ActivatableViewModelBase
     private bool _isBreakSoundEnabled;
 
     [Reactive]
-    //[NotifyPropertyChangedFor(nameof(VolumeLabel))]
     private int _volume;
 
     [Reactive]
@@ -38,6 +37,9 @@ public partial class GeneralSettingsViewModel : ActivatableViewModelBase
 
     [Reactive]
     private bool _isDeleteBusy;
+
+    [ObservableAsProperty]
+    private string _volumeLabel = "0";
 
     public GeneralSettingsViewModel(
         IMediator mediator, 
@@ -51,7 +53,7 @@ public partial class GeneralSettingsViewModel : ActivatableViewModelBase
         _languageService = languageService;
         _toastService = toastService;
         _dialog = dialog;
-        
+
         this.WhenAnyValue(
                 vm => vm.IsWorkSoundEnabled,
                 vm => vm.IsBreakSoundEnabled,
@@ -62,9 +64,11 @@ public partial class GeneralSettingsViewModel : ActivatableViewModelBase
             .Throttle(TimeSpan.FromMilliseconds(100))
             .Select(_ => System.Reactive.Unit.Default)
             .InvokeCommand(UpdateSettingsCommand);
-    }
 
-    public string VolumeLabel => @$"{ConstantTranslation.VolumeSound} {Volume}%";
+        _volumeLabelHelper = this.WhenAnyValue(vm => vm.Volume)
+            .Select(volume => @$"{ConstantTranslation.VolumeSound} {Volume}%")
+            .ToProperty(this, vm => vm.VolumeLabel);
+    }
 
     public override void HandleActivation(CompositeDisposable d)
     {

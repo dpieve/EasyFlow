@@ -4,7 +4,6 @@ using EasyFlow.Desktop.Features.Settings.General;
 using EasyFlow.Desktop.Features.Settings.Tags;
 using MediatR;
 using SukiUI.Dialogs;
-using System.Reactive.Disposables;
 
 namespace EasyFlow.Desktop.Features.Settings;
 
@@ -32,10 +31,6 @@ public sealed partial class SettingsViewModel : ActivatableSideMenuViewModelBase
 
     public TagsViewModel Tags { get; }
     public GeneralSettingsViewModel GeneralSettings { get; }
-
-    public override void HandleActivation(CompositeDisposable d)
-    {
-    }
 
     public override void HandleDeactivation()
     {
