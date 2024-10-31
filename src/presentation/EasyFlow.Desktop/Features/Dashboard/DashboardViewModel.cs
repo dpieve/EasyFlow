@@ -17,7 +17,7 @@ using Microsoft.Extensions.Logging;
 
 namespace EasyFlow.Desktop.Features.Dashboard;
 
-public partial class DashboardViewModel : PageViewModelBase
+public partial class DashboardViewModel : SideMenuViewModelBase
 {
     private readonly IMediator _mediator;
     private readonly ILanguageService _languageService;

@@ -15,13 +15,12 @@ using System.IO;
 using EasyFlow.Infrastructure.Common;
 using EasyFlow.Application.Common;
 using EasyFlow.Desktop.Common;
+using System.Diagnostics;
 
 namespace EasyFlow;
 
-internal sealed class Program
+internal static class Program
 {
-    private const int _timeoutSeconds = 3;
-
     [STAThread]
     public static void Main(string[] args)
     {
@@ -31,52 +30,56 @@ internal sealed class Program
 
         try
         {
-            if (!mutex.WaitOne(TimeSpan.FromSeconds(_timeoutSeconds), true))
+            const int timeoutSeconds = 3;
+
+            if (!mutex.WaitOne(TimeSpan.FromSeconds(timeoutSeconds), true))
             {
+                Trace.TraceInformation($"Another instance is already running. Exiting...");
                 return;
             }
 
-            IHost Host = Microsoft.Extensions.Hosting.Host.CreateDefaultBuilder()
-                    .ConfigureServices((_, services) =>
-                    {
-                        services.UseMicrosoftDependencyResolver();
-                        var resolver = Locator.CurrentMutable;
-                        resolver.InitializeSplat();
-                        resolver.InitializeReactiveUI();
+            AppInit(args);
 
-                        Log.Logger = new LoggerConfiguration()
-                            .MinimumLevel.Warning()
-                            .WriteTo.Debug()
-                            .WriteTo.File(Path.Combine("logs", "logs.txt"), rollingInterval: RollingInterval.Day)
-                            .CreateLogger();
-
-                        services.AddLogging(loggingBuilder => loggingBuilder.AddSerilog(dispose: true));
-
-                        INotificationService notificationService = new NotificationService();
-
-                        services.AddSingleton(notificationService);
-
-                        services
-                            .AddInfrastructure()
-                            .AddApplication()
-                            .AddPresentation();
-                    })
-                    .Build();
-
-            BuildAvaloniaApp()
-                .StartWithClassicDesktopLifetime(args);
         }
         finally
         {
             mutex.ReleaseMutex();
         }
     }
-    // Avalonia configuration, don't remove; also used by visual designer.
-    public static AppBuilder BuildAvaloniaApp()
-        => AppBuilder.Configure<App>()
-            .RegisterServices()
+
+    private static void AppInit(string[] args)
+    {
+        _ = Host.CreateDefaultBuilder()
+                .ConfigureServices((_, services) =>
+                {
+                    services.UseMicrosoftDependencyResolver();
+                    var resolver = Locator.CurrentMutable;
+                    resolver.InitializeSplat();
+                    resolver.InitializeReactiveUI();
+
+                    Log.Logger = new LoggerConfiguration()
+                        .MinimumLevel.Warning()
+                        .WriteTo.Debug()
+                        .WriteTo.File(Path.Combine("logs", "logs.txt"), rollingInterval: RollingInterval.Day)
+                        .CreateLogger();
+
+                    services.AddLogging(loggingBuilder => loggingBuilder.AddSerilog(dispose: true));
+
+                    INotificationService notificationService = new NotificationService();
+                    services.AddSingleton(notificationService);
+
+                    services
+                        .AddInfrastructure()
+                        .AddApplication()
+                        .AddPresentation();
+                })
+                .Build();
+
+        AppBuilder.Configure<App>()
             .UsePlatformDetect()
             .WithInterFont()
             .LogToTrace()
-            .UseReactiveUI();
+            .UseReactiveUI()
+            .StartWithClassicDesktopLifetime(args);
+    }
 }

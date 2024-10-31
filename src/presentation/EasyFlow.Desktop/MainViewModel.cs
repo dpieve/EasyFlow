@@ -35,13 +35,13 @@ public partial class MainViewModel : ViewModelBase
     private SukiColorTheme _selectedTheme;
 
     [Reactive]
-    private PageViewModelBase? _activePage;
+    private SideMenuViewModelBase? _activePage;
 
     [Reactive]
     private SupportedLanguage _selectedLanguage;
 
     public MainViewModel(
-        IEnumerable<PageViewModelBase> pages,
+        IEnumerable<SideMenuViewModelBase> pages,
         IMediator mediator,
         IRestartAppService restartAppService,
         ILanguageService languageService,
@@ -49,7 +49,7 @@ public partial class MainViewModel : ViewModelBase
         ISukiDialogManager dialogManager,
         INotificationService notificationService)
     {
-        Pages = new AvaloniaList<PageViewModelBase>(pages.OrderBy(x => x.Index));
+        Pages = new AvaloniaList<SideMenuViewModelBase>(pages.OrderBy(x => x.Index));
         _mediator = mediator;
         _restartAppService = restartAppService;
         _languageService = languageService;
@@ -112,7 +112,7 @@ public partial class MainViewModel : ViewModelBase
         return new GeneralSettings();
     }
 
-    public IAvaloniaReadOnlyList<PageViewModelBase> Pages { get; }
+    public IAvaloniaReadOnlyList<SideMenuViewModelBase> Pages { get; }
     public IAvaloniaReadOnlyList<SukiColorTheme> Themes { get; }
     public IToastService ToastService { get; }
     public ISukiDialogManager DialogManager { get; }

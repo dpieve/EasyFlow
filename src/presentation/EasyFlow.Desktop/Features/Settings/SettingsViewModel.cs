@@ -8,7 +8,7 @@ using SukiUI.Dialogs;
 
 namespace EasyFlow.Desktop.Features.Settings;
 
-public sealed partial class SettingsViewModel : PageViewModelBase
+public sealed partial class SettingsViewModel : SideMenuViewModelBase
 {
     private readonly IMediator _mediator;
     private readonly IRestartAppService _restartAppService;

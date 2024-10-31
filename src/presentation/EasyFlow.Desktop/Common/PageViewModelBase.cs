@@ -1,12 +1,9 @@
-﻿using Material.Icons;
-using ReactiveUI;
-using ReactiveUI.SourceGenerators;
+﻿using ReactiveUI;
 
 namespace EasyFlow.Desktop.Common;
-
-public abstract partial class PageViewModelBase(string displayName, MaterialIconKind icon, int index = 0) : ReactiveObject
+public class PageViewModelBase(IScreen hostScreen, string urlPathSegment)
+        : ViewModelBase, IRoutableViewModel
 {
-    [Reactive] private string _displayName = displayName;
-    [Reactive] private MaterialIconKind _icon = icon;
-    [Reactive] private int _index = index;
+    public IScreen HostScreen { get; } = hostScreen;
+    public string? UrlPathSegment { get; } = urlPathSegment;
 }

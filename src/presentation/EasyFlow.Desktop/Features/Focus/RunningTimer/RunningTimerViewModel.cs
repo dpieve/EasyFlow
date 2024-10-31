@@ -1,9 +1,9 @@
 ﻿using Avalonia.Controls.Notifications;
 using EasyFlow.Application.Services;
 using EasyFlow.Desktop.Common;
+using EasyFlow.Desktop.Features.Focus.AdjustTimers;
 using EasyFlow.Desktop.Services;
 using EasyFlow.Domain.Entities;
-using EasyFlow.Desktop.Features.Focus.AdjustTimers;
 using Material.Icons;
 using MediatR;
 using ReactiveUI;
@@ -18,7 +18,7 @@ using System.Threading.Tasks;
 
 namespace EasyFlow.Desktop.Features.Focus.RunningTimer;
 
-public sealed partial class RunningTimerViewModel : ViewModelBase, IActivatableRoute
+public sealed partial class RunningTimerViewModel : ActivatablePageViewModelBase
 {
     private readonly IMediator _mediator;
     private readonly ILanguageService _languageService;
@@ -74,7 +74,10 @@ public sealed partial class RunningTimerViewModel : ViewModelBase, IActivatableR
         ILanguageService languageService,
         IToastService toastService,
         ISukiDialogManager dialog,
-        INotificationService notificationService)
+        INotificationService notificationService,
+        IScreen hostScreen,
+        string urlPath = nameof(RunningTimerViewModel))
+            : base(hostScreen, urlPath)
     {
         _mediator = mediator;
         _languageService = languageService;
@@ -100,10 +103,9 @@ public sealed partial class RunningTimerViewModel : ViewModelBase, IActivatableR
 
         this.WhenAnyValue(vm => vm.TimerState)
             .ObserveOn(RxApp.MainThreadScheduler)
+            .Select(_ => System.Reactive.Unit.Default)
             .InvokeCommand(UpdateNotesVisibleCommand);
     }
-
-    public string RouteName => nameof(RunningTimerViewModel);
 
     public string SkipButtonText => IsBreak ? ConstantTranslation.SkipToFocus : ConstantTranslation.SkipToBreak;
 
@@ -111,7 +113,7 @@ public sealed partial class RunningTimerViewModel : ViewModelBase, IActivatableR
 
     public MaterialIconKind StartButtonIcon => IsRunning ? MaterialIconKind.Pause : MaterialIconKind.Play;
 
-    void IActivatableRoute.OnActivated()
+    public override void HandleActivation(CompositeDisposable d)
     {
         _disposables ??= [];
 
@@ -158,7 +160,7 @@ public sealed partial class RunningTimerViewModel : ViewModelBase, IActivatableR
         Trace.TraceInformation("RunningTimer Activated");
     }
 
-    void IActivatableRoute.OnDeactivated()
+    public override void HandleDeactivation()
     {
         _disposables?.Dispose();
         _disposables = null;
@@ -210,7 +212,7 @@ public sealed partial class RunningTimerViewModel : ViewModelBase, IActivatableR
         }
         catch(Exception ex)
         {
-            Log.Error("Failed to tick timer {Error}. Going to next state.", ex.Message);
+            Log.Error(ex, "Failed to tick timer {Error}. Going to next state.", ex.Message);
 
             await GoToNextState(isSkipping: false);
 
@@ -221,10 +223,8 @@ public sealed partial class RunningTimerViewModel : ViewModelBase, IActivatableR
     [ReactiveCommand]
     private async Task EndSession()
     {
-        // TODO: FIX
         var result = await _mediator.Send(new Application.Settings.Get.Query());
-        //RouterHost.Router.NavigateTo(new AdjustTimersViewModel(result.Value, RouterHost, _mediator, _languageService, _toastService, _dialog, _notificationService));
-
+        await HostScreen.Router.NavigateAndReset.Execute(new AdjustTimersViewModel(result.Value, _mediator, _languageService, _toastService, _dialog, _notificationService, HostScreen));
         Trace.TraceInformation("EndSession");
     }
 
@@ -279,7 +279,7 @@ public sealed partial class RunningTimerViewModel : ViewModelBase, IActivatableR
         }
         catch(Exception ex)
         {
-            Log.Error("Failed to open notes, {Error}", ex.Message);
+            Log.Error(ex, "Failed to open notes, {Error}", ex.Message);
         }
 
         Trace.TraceInformation("OpenNotes");

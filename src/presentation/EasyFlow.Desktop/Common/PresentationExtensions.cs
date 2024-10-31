@@ -5,6 +5,10 @@ using EasyFlow.Desktop.Features.Focus;
 using Microsoft.Extensions.DependencyInjection;
 using SukiUI.Dialogs;
 using SukiUI.Toasts;
+using ReactiveUI;
+using Splat;
+using EasyFlow.Desktop.Features.Focus.AdjustTimers;
+using EasyFlow.Desktop.Features.Focus.RunningTimer;
 
 namespace EasyFlow.Desktop.Common;
 
@@ -25,14 +29,17 @@ public static class PresentationExtensions
         IRestartAppService restartAppService = new RestartAppService(toastService, dialog);
         services.AddSingleton(restartAppService);
 
+        services.AddSingleton<MainViewModel>();
+        
+        // Side Menu
+        services
+            .AddTransient(typeof(SideMenuViewModelBase), typeof(SettingsViewModel))
+            .AddTransient(typeof(SideMenuViewModelBase), typeof(DashboardViewModel))
+            .AddTransient(typeof(SideMenuViewModelBase), typeof(FocusViewModel));
 
         // Pages
-        services
-            .AddTransient(typeof(PageViewModelBase), typeof(SettingsViewModel))
-            .AddTransient(typeof(PageViewModelBase), typeof(DashboardViewModel))
-            .AddTransient(typeof(PageViewModelBase), typeof(FocusViewModel));
-
-        services.AddSingleton<MainViewModel>();
+        Locator.CurrentMutable.Register(() => new AdjustTimersView(), typeof(IViewFor<AdjustTimersViewModel>));
+        Locator.CurrentMutable.Register(() => new RunningTimerView(), typeof(IViewFor<RunningTimerViewModel>));
 
         return services;
     }

@@ -3,7 +3,6 @@ using EasyFlow.Application.Common;
 using EasyFlow.Desktop.Common;
 using EasyFlow.Desktop.Services;
 using EasyFlow.Domain.Entities;
-using EasyFlow.Desktop.Features.Focus.RunningTimer;
 using MediatR;
 using ReactiveUI;
 using SukiUI.Dialogs;
@@ -14,10 +13,12 @@ using System.Linq;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 using ReactiveUI.SourceGenerators;
+using System.Reactive.Disposables;
+using EasyFlow.Desktop.Features.Focus.RunningTimer;
 
 namespace EasyFlow.Desktop.Features.Focus.AdjustTimers;
 
-public sealed partial class AdjustTimersViewModel : ViewModelBase, IActivatableRoute
+public sealed partial class AdjustTimersViewModel : ActivatablePageViewModelBase
 {
     private readonly IMediator _mediator;
     private readonly ILanguageService _languageService;
@@ -33,7 +34,10 @@ public sealed partial class AdjustTimersViewModel : ViewModelBase, IActivatableR
         ILanguageService languageService,
         IToastService toastService,
         ISukiDialogManager dialog,
-        INotificationService notificationService)
+        INotificationService notificationService,
+        IScreen hostScreen,
+        string urlPath = nameof(AdjustTimersViewModel))
+        : base(hostScreen, urlPath)
     {
         _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
         _languageService = languageService;
@@ -51,19 +55,14 @@ public sealed partial class AdjustTimersViewModel : ViewModelBase, IActivatableR
 
     public TimersViewModel Timers { get; }
     public ObservableCollection<Tag> Tags { get; } = [];
-    public string RouteName => nameof(AdjustTimersViewModel);
 
-    void IActivatableRoute.OnActivated()
+    public override void HandleActivation(CompositeDisposable d)
     {
         Observable
             .StartAsync(GetTags)
             .Where(result => result.IsSuccess)
             .Select(result => result.Value)
             .InvokeCommand(ReloadCommand);
-    }
-
-    void IActivatableRoute.OnDeactivated()
-    {
     }
 
     [ReactiveCommand]
@@ -102,10 +101,9 @@ public sealed partial class AdjustTimersViewModel : ViewModelBase, IActivatableR
     }
 
     [ReactiveCommand]
-    private void Start()
+    private async Task Start()
     {
-        // TODO: fix
-        //RouterHost.Router.NavigateTo<RunningTimerViewModel>(RouterHost, _mediator, _languageService, _toastService, _dialog, _notificationService);
+        await HostScreen.Router.Navigate.Execute(new RunningTimerViewModel(_mediator, _languageService, _toastService, _dialog, _notificationService, HostScreen));
     }
 
     [ReactiveCommand]

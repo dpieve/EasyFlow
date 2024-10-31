@@ -1,13 +1,19 @@
 ﻿using EasyFlow.Desktop.Common;
+using EasyFlow.Desktop.Features.Focus.AdjustTimers;
 using EasyFlow.Desktop.Services;
 using EasyFlow.Domain.Entities;
-using MediatR;
+using ReactiveUI;
 using SukiUI.Dialogs;
+using System.Reactive.Disposables;
+using System.Reactive.Linq;
 using System.Threading.Tasks;
+using System.Diagnostics;
+using ReactiveUI.SourceGenerators;
+using MediatR;
 
 namespace EasyFlow.Desktop.Features.Focus;
 
-public sealed partial class FocusViewModel : PageViewModelBase
+public sealed partial class FocusViewModel : ActivatableSideMenuViewModelBase, IScreen
 {
     private readonly IMediator _mediator;
     private readonly ILanguageService _languageService;
@@ -30,35 +36,37 @@ public sealed partial class FocusViewModel : PageViewModelBase
         _notificationService = notificationService;
     }
 
-    //protected override void OnActivated()
-    //{
-    //    if (CurrentRoute is null)
-    //    {
-    //        Observable
-    //        .StartAsync(GetSettings)
-    //        .Select(settings => new AdjustTimersViewModel(settings, this, _mediator, _languageService, _toastService, _dialog, _notificationService))
-    //        .Subscribe(startVm =>
-    //        {
-    //            Router.NavigateToAndReset(startVm);
-    //            CurrentRoute?.Activate();
-    //        });
-    //    }
-    //    else
-    //    {
-    //        CurrentRoute?.Activate();
-    //    }
+    public RoutingState Router { get; } = new();
 
-    //    Trace.TraceInformation("OnActivated FocusViewModel");
-    //}
+    public override void HandleActivation(CompositeDisposable d)
+    {
+        var isStarting = Router.NavigationStack.Count == 0;
 
-    //protected override void OnDeactivated()
-    //{
-    //    CurrentRoute?.Deactivate();
+        if (isStarting)
+        {
+            Observable
+                .StartAsync(GetSettings)
+                .ObserveOn(RxApp.MainThreadScheduler)
+                .Select(_ => System.Reactive.Unit.Default)
+                .InvokeCommand(NavigateToAdjustTimersCommand);
+        }
 
-    //    _toastService.DismissAll();
+        Trace.TraceInformation("OnActivated FocusViewModel");
 
-    //    Trace.TraceInformation("OnDeactivated FocusViewModel");
-    //}
+    }
+
+    public override void HandleDeactivation()
+    {
+        _toastService.DismissAll();
+        Trace.TraceInformation("OnDeactivated FocusViewModel");
+    }
+
+    [ReactiveCommand]
+    private async Task NavigateToAdjustTimers()
+    {
+        var settings = await GetSettings();
+        await Router.Navigate.Execute(new AdjustTimersViewModel(settings, _mediator, _languageService, _toastService, _dialog, _notificationService, this));
+    }
 
     private async Task<GeneralSettings> GetSettings()
     {
