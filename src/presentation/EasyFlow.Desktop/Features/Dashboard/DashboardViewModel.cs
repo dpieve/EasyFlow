@@ -12,12 +12,10 @@ using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 using ReactiveUI.SourceGenerators;
-using Serilog;
-using Microsoft.Extensions.Logging;
 
 namespace EasyFlow.Desktop.Features.Dashboard;
 
-public partial class DashboardViewModel : SideMenuViewModelBase
+public partial class DashboardViewModel : ActivatableSideMenuViewModelBase
 {
     private readonly IMediator _mediator;
     private readonly ILanguageService _languageService;
@@ -58,23 +56,23 @@ public partial class DashboardViewModel : SideMenuViewModelBase
     public BarChartViewModel BarChart { get; }
     public SessionsListViewModel SessionsList { get; }
 
-    //protected override void OnActivated()
-    //{
-    //    _disposables ??= [];
-    //    DisplayControls.Activated();
+    public override void HandleActivation(CompositeDisposable d)
+    {
+        _disposables ??= [];
+        DisplayControls.Activated();
 
-    //    Observable.StartAsync(() => Update(DisplayControls.GetDisplayControls()));
+        Observable.StartAsync(() => Update(DisplayControls.GetDisplayControls()));
 
-    //    Trace.TraceInformation("Dashboard OnActivated");
-    //}
+        Trace.TraceInformation("Dashboard OnActivated");
+    }
 
-    //protected override void OnDeactivated()
-    //{
-    //    _toastService.DismissAll();
-    //    DisplayControls.Deactivated();
+    public override void HandleDeactivation()
+    {
+        _toastService.DismissAll();
+        DisplayControls.Deactivated();
 
-    //    Trace.TraceInformation("Dashboard OnDeactivated");
-    //}
+        Trace.TraceInformation("Dashboard OnDeactivated");
+    }
 
     [ReactiveCommand]
     private async Task Update(Display display)

@@ -2,13 +2,13 @@
 using EasyFlow.Desktop.Common;
 using EasyFlow.Desktop.Features.Settings.General;
 using EasyFlow.Desktop.Features.Settings.Tags;
-using EasyFlow.Desktop.Services;
 using MediatR;
 using SukiUI.Dialogs;
+using System.Reactive.Disposables;
 
 namespace EasyFlow.Desktop.Features.Settings;
 
-public sealed partial class SettingsViewModel : SideMenuViewModelBase
+public sealed partial class SettingsViewModel : ActivatableSideMenuViewModelBase
 {
     private readonly IMediator _mediator;
     private readonly IRestartAppService _restartAppService;
@@ -33,17 +33,12 @@ public sealed partial class SettingsViewModel : SideMenuViewModelBase
     public TagsViewModel Tags { get; }
     public GeneralSettingsViewModel GeneralSettings { get; }
 
-    //protected override void OnActivated()
-    //{
-    //    Tags.Activate();
-    //    GeneralSettings.Activate();
-    //}
+    public override void HandleActivation(CompositeDisposable d)
+    {
+    }
 
-    //protected override void OnDeactivated()
-    //{
-    //    Tags.Deactivate();
-    //    GeneralSettings.Deactivate();
-
-    //    _toastService.DismissAll();
-    //}
+    public override void HandleDeactivation()
+    {
+        _toastService.DismissAll();
+    }
 }

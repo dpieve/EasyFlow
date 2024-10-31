@@ -8,14 +8,14 @@ using SukiUI.Dialogs;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Linq;
+using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 
 namespace EasyFlow.Desktop.Features.Settings.Tags;
 
-public partial class TagsViewModel : ViewModelBase
+public partial class TagsViewModel : ActivatableViewModelBase
 {
     private readonly IMediator _mediator;
     private readonly ILanguageService _languageService;
@@ -41,7 +41,7 @@ public partial class TagsViewModel : ViewModelBase
 
     public ObservableCollection<TagItemViewModel> Tags { get; } = [];
 
-    public void Activate()
+    public override void HandleActivation(CompositeDisposable d)
     {
         Observable
             .StartAsync(GetTags)
@@ -51,11 +51,6 @@ public partial class TagsViewModel : ViewModelBase
             .Do(_ => Tags.Clear())
             .Do(tags => Tags.AddRange(tags))
             .Subscribe(_ => NumTags = Tags.Count);
-    }
-
-    public void Deactivate()
-    {
-        Trace.TraceInformation("Deactivating TagsViewModel");
     }
 
     [ReactiveCommand]

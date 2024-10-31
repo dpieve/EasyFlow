@@ -1,8 +1,8 @@
-using Avalonia.Controls;
+using Avalonia.ReactiveUI;
 
 namespace EasyFlow.Desktop.Features.Dashboard;
 
-public partial class DashboardView : UserControl
+public partial class DashboardView : ReactiveUserControl<DashboardViewModel>
 {
     public DashboardView()
     {

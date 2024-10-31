@@ -9,6 +9,7 @@ using ReactiveUI;
 using Splat;
 using EasyFlow.Desktop.Features.Focus.AdjustTimers;
 using EasyFlow.Desktop.Features.Focus.RunningTimer;
+using EasyFlow.Desktop.Features.Settings.General;
 
 namespace EasyFlow.Desktop.Common;
 
@@ -40,6 +41,8 @@ public static class PresentationExtensions
         // Pages
         Locator.CurrentMutable.Register(() => new AdjustTimersView(), typeof(IViewFor<AdjustTimersViewModel>));
         Locator.CurrentMutable.Register(() => new RunningTimerView(), typeof(IViewFor<RunningTimerViewModel>));
+        Locator.CurrentMutable.Register(() => new DashboardView(), typeof(IViewFor<DashboardViewModel>));
+        Locator.CurrentMutable.Register(() => new GeneralSettingsView(), typeof(IViewFor<GeneralSettingsViewModel>));
 
         return services;
     }

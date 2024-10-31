@@ -7,13 +7,13 @@ using ReactiveUI;
 using ReactiveUI.SourceGenerators;
 using SukiUI.Dialogs;
 using System;
-using System.Diagnostics;
+using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 
 namespace EasyFlow.Desktop.Features.Settings.General;
 
-public partial class GeneralSettingsViewModel : ViewModelBase
+public partial class GeneralSettingsViewModel : ActivatableViewModelBase
 {
     private readonly IMediator _mediator;
     private readonly IRestartAppService _restartAppService;
@@ -66,7 +66,7 @@ public partial class GeneralSettingsViewModel : ViewModelBase
 
     public string VolumeLabel => @$"{ConstantTranslation.VolumeSound} {Volume}%";
 
-    public void Activate()
+    public override void HandleActivation(CompositeDisposable d)
     {
         Observable
             .StartAsync(GetSettings)
@@ -77,11 +77,6 @@ public partial class GeneralSettingsViewModel : ViewModelBase
                 IsBreakSoundEnabled = settings.IsBreakSoundEnabled;
                 Volume = settings.SoundVolume;
             });
-    }
-
-    public void Deactivate()
-    {
-        Trace.TraceInformation("Deactivating GeneralSettingsViewModel");
     }
 
     [ReactiveCommand]
