@@ -31,6 +31,9 @@ public sealed partial class TimersViewModel : ViewModelBase
     //[NotifyPropertyChangedFor(nameof(SessionsBeforeLongBreakText))]
     private int _sessionsBeforeLongBreak;
 
+    [ObservableAsProperty] 
+    private string _sessionsBeforeLongBreakText = "0";
+
     public TimersViewModel(
         IMediator mediator,
         GeneralSettings settings,
@@ -55,9 +58,12 @@ public sealed partial class TimersViewModel : ViewModelBase
             .Throttle(TimeSpan.FromMilliseconds(100))
             .Select(_ => System.Reactive.Unit.Default)
             .InvokeCommand(SaveSettingsCommand);
+
+        _sessionsBeforeLongBreakTextHelper = this.WhenAnyValue(vm => vm.SessionsBeforeLongBreak)
+            .Select(sessionsBeforeLongBreak => $"{sessionsBeforeLongBreak} {ConstantTranslation.Sessions}")
+            .ToProperty(this, vm => vm.SessionsBeforeLongBreakText);
     }
 
-    public string SessionsBeforeLongBreakText => $"{SessionsBeforeLongBreak} {ConstantTranslation.Sessions}";
 
     [ReactiveCommand]
     private async Task SaveSettings()

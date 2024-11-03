@@ -66,7 +66,7 @@ public partial class GeneralSettingsViewModel : ActivatableViewModelBase
             .InvokeCommand(UpdateSettingsCommand);
 
         _volumeLabelHelper = this.WhenAnyValue(vm => vm.Volume)
-            .Select(volume => @$"{ConstantTranslation.VolumeSound} {Volume}%")
+            .Select(volume => @$"{ConstantTranslation.VolumeSound} {volume}%")
             .ToProperty(this, vm => vm.VolumeLabel);
     }
 

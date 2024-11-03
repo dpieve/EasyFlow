@@ -28,46 +28,22 @@ public sealed partial class RunningTimerViewModel : ActivatablePageViewModelBase
 
     private CompositeDisposable? _disposables;
 
-    [Reactive]
-    //[NotifyPropertyChangedFor(nameof(ProgressText))]
-    private int _completedTimers = 0;
+    [Reactive] private int _completedTimers = 0;
+    [Reactive] private TimerState _timerState = TimerState.Focus;
+    [Reactive] private int _timersBeforeLongBreak;
+    [Reactive] private bool _isBreak = false;
+    [Reactive] private bool _isRunning;
+    [Reactive] private int _totalSeconds;
+    [Reactive] private int _secondsLeft;
+    [Reactive] private string _timerText = string.Empty;
+    [Reactive] private double _progressValue = 100;
+    [Reactive] private string _selectedTagName = string.Empty;
+    [Reactive] private bool _isFocusDescriptionVisible = true;
+    [Reactive] private string _description = string.Empty;
 
-    [Reactive]
-    //[NotifyPropertyChangedFor(nameof(IsBreak))]
-    private TimerState _timerState = TimerState.Focus;
-
-    [Reactive]
-    //[NotifyPropertyChangedFor(nameof(ProgressText))]
-    private int _timersBeforeLongBreak;
-
-    [Reactive]
-    //[NotifyPropertyChangedFor(nameof(SkipButtonText))]
-    private bool _isBreak = false;
-
-    [Reactive]
-    //[NotifyPropertyChangedFor(nameof(StartButtonIcon))]
-    private bool _isRunning;
-
-    [Reactive]
-    private int _totalSeconds;
-
-    [Reactive]
-    private int _secondsLeft;
-
-    [Reactive]
-    private string _timerText = string.Empty;
-
-    [Reactive]
-    private double _progressValue = 100;
-
-    [Reactive]
-    private string _selectedTagName = string.Empty;
-
-    [Reactive]
-    private bool _isFocusDescriptionVisible = true;
-
-    [Reactive]
-    private string _description = string.Empty;
+    [ObservableAsProperty] private string _progressText = string.Empty;
+    [ObservableAsProperty] private string _skipButtonText = string.Empty;
+    [ObservableAsProperty] private MaterialIconKind _startButtonIcon = MaterialIconKind.Play;
 
     public RunningTimerViewModel(
         IMediator mediator,
@@ -105,13 +81,19 @@ public sealed partial class RunningTimerViewModel : ActivatablePageViewModelBase
             .ObserveOn(RxApp.MainThreadScheduler)
             .Select(_ => System.Reactive.Unit.Default)
             .InvokeCommand(UpdateNotesVisibleCommand);
+
+        _progressTextHelper = this.WhenAnyValue(vm => vm.TimersBeforeLongBreak)
+            .Select(timersBeforeLongBreak => $"{CompletedTimers}/{timersBeforeLongBreak}")
+            .ToProperty(this, vm => vm.ProgressText);
+
+        _skipButtonTextHelper = this.WhenAnyValue(vm => vm.IsBreak)
+            .Select(_ => IsBreak ? ConstantTranslation.SkipToFocus : ConstantTranslation.SkipToBreak)
+            .ToProperty(this, vm => vm.SkipButtonText);
+
+        _startButtonIconHelper = this.WhenAnyValue(vm => vm.IsRunning)
+            .Select(_ => IsRunning ? MaterialIconKind.Pause : MaterialIconKind.Play)
+            .ToProperty(this, vm => vm.StartButtonIcon);
     }
-
-    public string SkipButtonText => IsBreak ? ConstantTranslation.SkipToFocus : ConstantTranslation.SkipToBreak;
-
-    public string ProgressText => $"{CompletedTimers}/{TimersBeforeLongBreak}";
-
-    public MaterialIconKind StartButtonIcon => IsRunning ? MaterialIconKind.Pause : MaterialIconKind.Play;
 
     public override void HandleActivation(CompositeDisposable d)
     {
