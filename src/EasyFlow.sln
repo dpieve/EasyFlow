@@ -21,8 +21,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyFlow.Domain", "EasyFlow
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyFlow.Tests.Unit", "tests\EasyFlow.Tests.Unit\EasyFlow.Tests.Unit.csproj", "{A8ACEA94-0656-4E51-95F6-5C03383430DC}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "presentation", "presentation", "{EBD21CCF-D446-456F-A312-00BB4BEC17D7}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{68107271-F23D-4479-84FE-595A7DABE208}"
 EndProject
 Global
@@ -112,12 +110,10 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{EBFA8512-1EA5-4D8C-B4AC-AB5B48A6D568} = {EBD21CCF-D446-456F-A312-00BB4BEC17D7}
-		{ABC31E74-02FF-46EB-B3B2-4E6AE43B456C} = {EBD21CCF-D446-456F-A312-00BB4BEC17D7}
 		{A8ACEA94-0656-4E51-95F6-5C03383430DC} = {68107271-F23D-4479-84FE-595A7DABE208}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {83CB65B8-011F-4ED7-BCD3-A6CFA935EF7E}
 		RESX_SortFileContentOnSave = True
+		SolutionGuid = {83CB65B8-011F-4ED7-BCD3-A6CFA935EF7E}
 	EndGlobalSection
 EndGlobal
