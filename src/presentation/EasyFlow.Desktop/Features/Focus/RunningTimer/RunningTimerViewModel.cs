@@ -86,6 +86,10 @@ public sealed partial class RunningTimerViewModel : ActivatablePageViewModelBase
             .Select(timersBeforeLongBreak => $"{CompletedTimers}/{timersBeforeLongBreak}")
             .ToProperty(this, vm => vm.ProgressText);
 
+        _progressTextHelper = this.WhenAnyValue(vm => vm.CompletedTimers)
+            .Select(completedTimers => $"{completedTimers}/{TimersBeforeLongBreak}")
+            .ToProperty(this, vm => vm.ProgressText);
+
         _skipButtonTextHelper = this.WhenAnyValue(vm => vm.IsBreak)
             .Select(_ => IsBreak ? ConstantTranslation.SkipToFocus : ConstantTranslation.SkipToBreak)
             .ToProperty(this, vm => vm.SkipButtonText);
@@ -252,7 +256,7 @@ public sealed partial class RunningTimerViewModel : ActivatablePageViewModelBase
                         if (session is not null)
                         {
                             session.Description = notes;
-                            _mediator.Send(new Application.Sessions.Create.Command() { Session = session }).GetAwaiter().GetResult();
+                            _mediator.Send(new Application.Sessions.Edit.Command() { Session = session }).GetAwaiter().GetResult();
                         }
                     },
                     () => IsRunning = previousRunningState))

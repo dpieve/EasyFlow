@@ -11,14 +11,14 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EasyFlow.Infrastructure.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20241022225847_InitialMigration")]
+    [Migration("20241108190546_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "9.0.0-rc.1.24451.1");
+            modelBuilder.HasAnnotation("ProductVersion", "8.0.1");
 
             modelBuilder.Entity("EasyFlow.Domain.Entities.GeneralSettings", b =>
                 {

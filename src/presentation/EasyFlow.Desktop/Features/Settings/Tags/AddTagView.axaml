@@ -15,8 +15,7 @@
 
         <TextBox
             x:Name="TagNameTextBox"
-            Width="250"
-            MaxLength="90"
+            MaxLength="70"
             Text="{Binding TagName}"
             Watermark="Tag name" />
 
