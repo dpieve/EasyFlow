@@ -34,7 +34,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\EasyFlow.Application\EasyFlow.Application.csproj" />
-    <ProjectReference Include="..\..\EasyFlow.Domain\EasyFlow.Domain.csproj" />
   </ItemGroup>
 
   <ItemGroup>
