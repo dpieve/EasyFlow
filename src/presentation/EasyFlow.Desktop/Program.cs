@@ -1,6 +1,5 @@
 ﻿using Avalonia;
 using Avalonia.ReactiveUI;
-using EasyFlow.Desktop;
 using EasyFlow.Desktop.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -17,7 +16,7 @@ using EasyFlow.Application.Common;
 using EasyFlow.Desktop.Common;
 using System.Diagnostics;
 
-namespace EasyFlow;
+namespace EasyFlow.Desktop;
 
 internal static class Program
 {

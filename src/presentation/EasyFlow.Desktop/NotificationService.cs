@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using DesktopNotifications.FreeDesktop;
 using EasyFlow.Desktop.Services;
 
-namespace EasyFlow;
+namespace EasyFlow.Desktop;
 
 public sealed class NotificationService : INotificationService
 {
