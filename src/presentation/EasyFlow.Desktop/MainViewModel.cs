@@ -100,18 +100,6 @@ public partial class MainViewModel : ViewModelBase
             .Subscribe(ChangeTheme);
     }
 
-    private async Task<GeneralSettings> GetSettings()
-    {
-        var result = await _mediator.Send(new Application.Settings.Get.Query());
-
-        if (result.IsSuccess)
-        {
-            return result.Value;
-        }
-
-        return new GeneralSettings();
-    }
-
     public IAvaloniaReadOnlyList<SideMenuViewModelBase> Pages { get; }
     public IAvaloniaReadOnlyList<SukiColorTheme> Themes { get; }
     public IToastService ToastService { get; }
@@ -135,12 +123,9 @@ public partial class MainViewModel : ViewModelBase
     private async Task UpdateSettings()
     {
         var settings = await GetSettings();
-
         settings.SelectedTheme = BaseTheme.ToTheme();
         settings.SelectedColorTheme = SelectedTheme.ToColorTheme();
-
         var prevLanguage = settings.SelectedLanguage;
-
         settings.SelectedLanguage = SelectedLanguage.Code;
 
         var result = await _mediator.Send(new Application.Settings.Edit.Command { Settings = settings });
@@ -165,5 +150,17 @@ public partial class MainViewModel : ViewModelBase
     private void ChangeLanguage(SupportedLanguage selectedLanguage)
     {
         SelectedLanguage = selectedLanguage;
+    }
+
+    private async Task<GeneralSettings> GetSettings()
+    {
+        var result = await _mediator.Send(new Application.Settings.Get.Query());
+
+        if (result.IsSuccess)
+        {
+            return result.Value;
+        }
+
+        return new GeneralSettings();
     }
 }

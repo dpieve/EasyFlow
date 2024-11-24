@@ -82,12 +82,13 @@ public sealed partial class RunningTimerViewModel : ActivatablePageViewModelBase
             .Select(_ => System.Reactive.Unit.Default)
             .InvokeCommand(UpdateNotesVisibleCommand);
 
-        _progressTextHelper = this.WhenAnyValue(vm => vm.TimersBeforeLongBreak)
-            .Select(timersBeforeLongBreak => $"{CompletedTimers}/{timersBeforeLongBreak}")
-            .ToProperty(this, vm => vm.ProgressText);
-
-        _progressTextHelper = this.WhenAnyValue(vm => vm.CompletedTimers)
-            .Select(completedTimers => $"{completedTimers}/{TimersBeforeLongBreak}")
+        _progressTextHelper = this.WhenAnyValue(vm => vm.TimersBeforeLongBreak, vm => vm.CompletedTimers)
+            .Skip(1)
+            .Select(progressValue => $"{progressValue.Item2}/{progressValue.Item1}")
+            .Do(_ =>
+            {
+                Debug.WriteLine("TimersBeforeLongBreak");
+            })
             .ToProperty(this, vm => vm.ProgressText);
 
         _skipButtonTextHelper = this.WhenAnyValue(vm => vm.IsBreak)

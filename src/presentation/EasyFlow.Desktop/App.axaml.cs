@@ -27,9 +27,9 @@ public partial class App : Avalonia.Application
 
     public MainWindow? MainWindow { get; private set; }
 
-    public override void OnFrameworkInitializationCompleted()
+    public override async void OnFrameworkInitializationCompleted()
     {
-        InitializeDb().GetAwaiter().GetResult();
+        await InitializeDb();
 
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {

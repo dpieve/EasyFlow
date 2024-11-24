@@ -31,7 +31,7 @@ public static class PresentationExtensions
         services.AddSingleton(restartAppService);
 
         services.AddSingleton<MainViewModel>();
-        
+
         // Side Menu
         services
             .AddTransient(typeof(SideMenuViewModelBase), typeof(SettingsViewModel))
