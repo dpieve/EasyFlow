@@ -9,7 +9,7 @@
 		<!--Uncomment this target to run on linux. Comment the windows target above.-->
 		<!--<TargetFramework>net8.0</TargetFramework>-->
 		<OutputType>WinExe</OutputType>
-		<Version>1.0.3</Version>
+		<Version>1.0.4</Version>
 		<Nullable>enable</Nullable>
 		<BuiltInComInteropSupport>true</BuiltInComInteropSupport>
 		<Company>Easy Flow</Company>
