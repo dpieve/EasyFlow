@@ -81,7 +81,7 @@ public static class BackupDbQueryHandler
         }
         catch (Exception ex)
         {
-            Log.Error("BackupDb {Error}", ex.Message);
+            Log.Error(ex, "BackupDb {Error}", ex.Message);
             return Result<bool>.Failure(BackupDbErrors.Fail);
         }
     }

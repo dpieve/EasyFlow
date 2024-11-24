@@ -26,11 +26,8 @@
 
 	<ItemGroup>
 		<Content Include="panda.ico" />
+        <AvaloniaResource Include="Assets\**" />
 	</ItemGroup>
-  
-  <ItemGroup>
-    <AvaloniaResource Include="Assets\**" />
-  </ItemGroup>
   
   <ItemGroup>
     <AvaloniaResource Remove="Assets\panda.png" />
@@ -97,10 +94,6 @@
     <Compile Update="Features\Settings\General\DeleteDataView.axaml.cs">
       <DependentUpon>DeleteDataView.axaml</DependentUpon>
     </Compile>
-  </ItemGroup>
-
-  <ItemGroup>
-    <UpToDateCheckInput Remove="Features\Dashboard\DashboardView.axaml" />
   </ItemGroup>
 
   <ItemGroup>

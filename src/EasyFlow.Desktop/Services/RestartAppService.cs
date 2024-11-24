@@ -86,7 +86,7 @@ public sealed partial class RestartAppService : IRestartAppService
         }
         catch (Exception ex)
         {
-            Log.Error("Failed to restart app {Error}", ex.Message);
+            Log.Error(ex, "Failed to restart app {Error}", ex.Message);
         }
     }
 }
