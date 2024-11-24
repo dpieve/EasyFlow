@@ -108,7 +108,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\EasyFlow.Application\EasyFlow.Application.csproj" />
+    <ProjectReference Include="..\EasyFlow.Application\EasyFlow.Application.csproj" />
   </ItemGroup>
 
   <ItemGroup>
