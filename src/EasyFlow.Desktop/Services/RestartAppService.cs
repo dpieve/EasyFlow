@@ -9,6 +9,7 @@ using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using System.Threading.Tasks;
 using ReactiveUI.SourceGenerators;
+
 namespace EasyFlow.Desktop.Services;
 
 public interface IRestartAppService

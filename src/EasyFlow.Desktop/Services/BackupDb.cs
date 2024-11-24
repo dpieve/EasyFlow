@@ -2,7 +2,6 @@
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Platform.Storage;
 using EasyFlow.Application.Common;
-using EasyFlow.Desktop;
 using EasyFlow.Domain.Entities;
 using Serilog;
 using System;
