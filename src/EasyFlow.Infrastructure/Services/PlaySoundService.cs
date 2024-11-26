@@ -1,69 +1,41 @@
 ﻿using EasyFlow.Domain.Entities;
 using EasyFlow.Domain.Services;
-using EasyFlow.Infrastructure.Common;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using NAudio.Wave;
-using System.Diagnostics;
 
 namespace EasyFlow.Infrastructure.Services;
 
 public sealed class PlaySoundService : IPlaySoundService
 {
-    private readonly IDbContextFactory<AppDbContext> _contextFactory;
+    private readonly ILogger<PlaySoundService> _logger;
 
-    public PlaySoundService(IDbContextFactory<AppDbContext> contextFactory)
+    public PlaySoundService(ILogger<PlaySoundService> logger)
     {
-        _contextFactory = contextFactory;
+        _logger = logger;
     }
 
-    public async Task<bool> Play(SoundType type)
+    public async Task<bool> Play(SoundType type, int volume)
     {
         try
         {
-            using var context = await _contextFactory.CreateDbContextAsync();
-
-            var settings = await context.GeneralSettings.FirstAsync();
-
-            if (settings is null)
+            await Task.Run(() =>
             {
-                return false;
-            }
+                var assets = "Assets";
+                var fileName = GetFileName(type);
+                var basePath = Directory.GetCurrentDirectory();
+                var filePath = Path.Combine(basePath, assets, fileName);
 
-            var breakSounds = settings.IsBreakSoundEnabled;
+                WaveOutEvent outputDevice = new();
+                AudioFileReader audioFile = new(filePath);
 
-            if (type == SoundType.Break && !breakSounds)
-            {
-                return false;
-            }
-
-            var workSounds = settings.IsWorkSoundEnabled;
-
-            if (type == SoundType.Work && !workSounds)
-            {
-                return false;
-            }
-
-            var volume = settings.SoundVolume;
-            if (volume == 0)
-            {
-                return false;
-            }
-
-            var assets = "Assets";
-            var fileName = GetFileName(type);
-            var basePath = Directory.GetCurrentDirectory();
-            var filePath = Path.Combine(basePath, assets, fileName);
-
-            WaveOutEvent outputDevice = new();
-            AudioFileReader audioFile = new(filePath);
-
-            outputDevice.Init(audioFile);
-            outputDevice.Volume = volume / 100.0f;
-            outputDevice.Play();
+                outputDevice.Init(audioFile);
+                outputDevice.Volume = volume / 100.0f;
+                outputDevice.Play();
+            });
         }
         catch (Exception ex)
         {
-            Trace.TraceError(ex.Message);
+            _logger.LogError(ex, "Failed to play sound");
             return false;
         }
 
@@ -74,6 +46,6 @@ public sealed class PlaySoundService : IPlaySoundService
     {
         SoundType.Break => "started_break.mp3",
         SoundType.Work => "started_work.mp3",
-        _ => throw new System.NotImplementedException(),
+        _ => throw new NotImplementedException(),
     };
 }

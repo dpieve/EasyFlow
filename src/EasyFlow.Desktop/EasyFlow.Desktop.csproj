@@ -1,0 +1,124 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<!--Uncomment this group to run on window. Comment the linux target below. -->
+	<PropertyGroup Condition=" '$(OS)' == 'Windows_NT' ">
+		<TargetFrameworks>net8.0-windows10.0.17763.0</TargetFrameworks>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<!--Uncomment this target to run on linux. Comment the windows target above.-->
+		<!--<TargetFramework>net8.0</TargetFramework>-->
+		<OutputType>WinExe</OutputType>
+		<Version>1.0.4</Version>
+		<Nullable>enable</Nullable>
+		<BuiltInComInteropSupport>true</BuiltInComInteropSupport>
+		<Company>Easy Flow</Company>
+		<Authors>dpieve</Authors>
+		<Platforms>AnyCPU;x64;x86</Platforms>
+		<LangVersion>latest</LangVersion>
+        <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<ApplicationManifest>app.manifest</ApplicationManifest>
+		<ApplicationIcon>panda.ico</ApplicationIcon>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<Content Include="panda.ico" />
+        <AvaloniaResource Include="Assets\**" />
+	</ItemGroup>
+  
+  <ItemGroup>
+    <AvaloniaResource Remove="Assets\panda.png" />
+    <AvaloniaResource Remove="Assets\Resources.pt-BR.resx" />
+    <AvaloniaResource Remove="Assets\Resources.resx" />
+    <AvaloniaResource Remove="Assets\started_break.mp3" />
+    <AvaloniaResource Remove="Assets\started_work.mp3" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Content Include="Assets\panda.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\started_break.mp3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\started_work.mp3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Avalonia" Version="11.2.0-beta2" />
+    <PackageReference Include="Avalonia.Desktop" Version="11.2.0-beta2" />
+    <PackageReference Include="Avalonia.Fonts.Inter" Version="11.2.0-beta2" />    
+    <!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
+    <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.2.0-beta2" />
+    <PackageReference Include="Avalonia.ReactiveUI" Version="11.2.0-beta2" />
+    <PackageReference Include="Avalonia.Skia" Version="11.2.0-beta2" />
+    <PackageReference Include="DesktopNotifications" Version="1.3.1" />
+    <PackageReference Include="DesktopNotifications.Avalonia" Version="1.3.1" />
+    <PackageReference Include="DesktopNotifications.FreeDesktop" Version="1.3.1" />
+    <PackageReference Include="DesktopNotifications.Windows" Version="1.3.1" />
+    <PackageReference Include="LiveChartsCore.SkiaSharpView.Avalonia" Version="2.0.0-rc3.3" />
+    <PackageReference Include="Material.Icons.Avalonia" Version="2.1.10" />
+    <PackageReference Include="MediatR" Version="12.4.1" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.1" />
+    <PackageReference Include="ReactiveUI.SourceGenerators" Version="2.0.17">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Serilog" Version="4.0.2" />
+    <PackageReference Include="Serilog.Extensions.Logging" Version="8.0.1-dev-10398" />
+    <PackageReference Include="Serilog.Sinks.Debug" Version="3.0.0" />
+    <PackageReference Include="Serilog.Sinks.File" Version="6.0.0" />
+    <PackageReference Include="SonarAnalyzer.CSharp" Version="9.32.0.97167">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Splat.Avalonia.Microsoft.Extensions.DependencyInjection" Version="15.2.22" />
+    <PackageReference Include="Splat.Microsoft.Extensions.DependencyInjection" Version="15.2.22" />
+    <PackageReference Include="SukiUI" Version="6.0.0-beta8" />
+    <PackageReference Include="Velopack" Version="0.0.626" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Features\Focus\AdjustTimers\AdjustTimersView.axaml.cs">
+      <DependentUpon>AdjustTimersView.axaml</DependentUpon>
+    </Compile>
+    <Compile Update="Features\Focus\AdjustTimers\LongBreakSettingsView.axaml.cs">
+      <DependentUpon>LongBreakSettingsView.axaml</DependentUpon>
+    </Compile>
+    <Compile Update="Features\Focus\RunningTimer\RunningTimerView.axaml.cs">
+      <DependentUpon>RunningTimerView.axaml</DependentUpon>
+    </Compile>
+    <Compile Update="Features\Settings\General\DeleteDataView.axaml.cs">
+      <DependentUpon>DeleteDataView.axaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Assets\Resources.resx" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\EasyFlow.Application\EasyFlow.Application.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AvaloniaResource Update="Assets\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </AvaloniaResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Assets\Resources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+</Project>

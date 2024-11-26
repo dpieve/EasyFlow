@@ -1,0 +1,37 @@
+<UserControl
+    x:Class="EasyFlow.Desktop.Features.Settings.Tags.AddTagView"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:assets="clr-namespace:EasyFlow.Desktop.Assets"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:EasyFlow.Desktop.Features.Settings.Tags"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    x:DataType="local:AddTagViewModel"
+    mc:Ignorable="d">
+    <StackPanel Margin="10" Spacing="5">
+        <TextBlock Text="Name" />
+
+        <TextBox
+            x:Name="TagNameTextBox"
+            MaxLength="70"
+            Text="{Binding TagName}"
+            Watermark="Tag name" />
+
+        <StackPanel
+            HorizontalAlignment="Right"
+            Orientation="Horizontal"
+            Spacing="10">
+            <Button
+                Classes="Flat Accent"
+                Command="{Binding OkCommand}"
+                Content="_Ok"
+                HotKey="Enter" />
+            <Button
+                Command="{Binding CancelCommand}"
+                Content="{x:Static assets:Resources.Cancel}"
+                HotKey="Escape" />
+        </StackPanel>
+    </StackPanel>
+</UserControl>

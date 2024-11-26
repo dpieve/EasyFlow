@@ -11,10 +11,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="TagsTests\**" />
+    <EmbeddedResource Remove="TagsTests\**" />
+    <None Remove="TagsTests\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="coverlet.collector" Version="6.0.2">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.0-rc.1.24451.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="9.0.0-rc.1.24451.1" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.11.1" />
     <PackageReference Include="Moq" Version="4.20.72" />
     <PackageReference Include="xunit" Version="2.9.2" />
@@ -26,7 +34,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\EasyFlow.Application\EasyFlow.Application.csproj" />
-    <ProjectReference Include="..\..\EasyFlow.Domain\EasyFlow.Domain.csproj" />
   </ItemGroup>
 
   <ItemGroup>
