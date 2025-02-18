@@ -36,11 +36,6 @@
   <ItemGroup>
     <EmbeddedResource Remove="Assets\Resources.pt-BR.resx" />
   </ItemGroup>
-  
-  <ItemGroup>
-    <None Remove="Assets\panda.png" />
-    <None Remove="Assets\started_work.wav" />
-  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Avalonia" Version="$(AvaloniaVersion)" />
@@ -114,11 +109,5 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-  </ItemGroup>
-
-  <ItemGroup>
-    <AvaloniaResource Update="Assets\started_work.wav">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </AvaloniaResource>
   </ItemGroup>
 </Project>
