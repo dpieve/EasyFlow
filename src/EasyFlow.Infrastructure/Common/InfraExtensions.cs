@@ -1,6 +1,5 @@
 ﻿using EasyFlow.Domain.Entities;
 using EasyFlow.Domain.Services;
-using EasyFlow.Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -20,10 +19,6 @@ public static class InfraExtensions
 #endif
             },
             lifetime: ServiceLifetime.Scoped);
-
-        // Services
-        services.AddScoped<IPlaySoundService, PlaySoundService>();
-
         return services;
     }
 }

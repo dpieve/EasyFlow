@@ -1,10 +1,8 @@
-﻿using System.Runtime.InteropServices;
-using System;
-using DesktopNotifications.Windows;
-using DesktopNotifications;
-using System.Threading.Tasks;
+﻿using DesktopNotifications;
 using DesktopNotifications.FreeDesktop;
+using DesktopNotifications.Windows;
 using EasyFlow.Desktop.Services;
+using System.Runtime.InteropServices;
 
 namespace EasyFlow.Desktop;
 

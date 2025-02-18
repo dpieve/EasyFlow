@@ -10,6 +10,7 @@ using Splat;
 using EasyFlow.Desktop.Features.Focus.AdjustTimers;
 using EasyFlow.Desktop.Features.Focus.RunningTimer;
 using EasyFlow.Desktop.Features.Settings.General;
+using EasyFlow.Domain.Services;
 
 namespace EasyFlow.Desktop.Common;
 
@@ -31,6 +32,8 @@ public static class PresentationExtensions
         services.AddSingleton(restartAppService);
 
         services.AddSingleton<MainViewModel>();
+        
+        services.AddScoped<IPlaySoundService, PlaySoundService>();
 
         // Side Menu
         services
