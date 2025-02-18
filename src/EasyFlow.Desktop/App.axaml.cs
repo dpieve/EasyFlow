@@ -3,6 +3,7 @@ using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Data.Core.Plugins;
 using Avalonia.Markup.Xaml;
 using Avalonia.Media.Imaging;
+using Avalonia.Platform;
 using EasyFlow.Desktop.Common;
 using EasyFlow.Desktop.Services;
 using EasyFlow.Domain.Entities;
@@ -116,11 +117,12 @@ public partial class App : Avalonia.Application
 
     private void RegisterTrayIcon()
     {
+        var icon = new Bitmap(AssetLoader.Open(new Uri("avares://EasyFlow.Desktop/Assets/panda.png")));
         var trayIcon = new TrayIcon
         {
             IsVisible = true,
             Command = ReactiveCommand.Create(Open_Click),
-            Icon = new WindowIcon(new Bitmap("Assets/panda.png")),
+            Icon = new WindowIcon(icon),
             Menu =
             [
                 new NativeMenuItem

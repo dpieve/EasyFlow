@@ -22,26 +22,24 @@
 
 	<PropertyGroup>
 		<ApplicationManifest>app.manifest</ApplicationManifest>
-		<ApplicationIcon>panda.ico</ApplicationIcon>
+		<ApplicationIcon>Assets\panda.ico</ApplicationIcon>
 	</PropertyGroup>
 
 	<ItemGroup>
-		<Content Include="panda.ico" />
         <AvaloniaResource Include="Assets\**" />
 	</ItemGroup>
   
   <ItemGroup>
-    <AvaloniaResource Remove="Assets\panda.png" />
-    <AvaloniaResource Remove="Assets\Resources.pt-BR.resx" />
     <AvaloniaResource Remove="Assets\Resources.resx" />
-    <AvaloniaResource Remove="Assets\started_break.mp3" />
-    <AvaloniaResource Remove="Assets\started_work.mp3" />
   </ItemGroup>
   
   <ItemGroup>
-    <Content Include="Assets\panda.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    <EmbeddedResource Remove="Assets\Resources.pt-BR.resx" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <None Remove="Assets\panda.png" />
+    <None Remove="Assets\started_work.wav" />
   </ItemGroup>
 
   <ItemGroup>
@@ -100,12 +98,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Assets\started_work.mp3">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </EmbeddedResource>
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\EasyFlow.Application\EasyFlow.Application.csproj" />
   </ItemGroup>
 
@@ -125,8 +117,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Assets\started_break.mp3">
+    <AvaloniaResource Update="Assets\started_work.wav">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    </AvaloniaResource>
   </ItemGroup>
 </Project>
