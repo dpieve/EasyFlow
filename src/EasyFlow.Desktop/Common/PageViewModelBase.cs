@@ -1,7 +1,8 @@
 ﻿using ReactiveUI;
 
 namespace EasyFlow.Desktop.Common;
-public class PageViewModelBase(IScreen hostScreen, string urlPathSegment)
+
+public abstract class PageViewModelBase(IScreen hostScreen, string urlPathSegment)
         : ViewModelBase, IRoutableViewModel
 {
     public IScreen HostScreen { get; } = hostScreen;

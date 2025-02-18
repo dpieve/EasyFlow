@@ -10,11 +10,9 @@ using ReactiveUI;
 using ReactiveUI.SourceGenerators;
 using Serilog;
 using SukiUI.Dialogs;
-using System;
 using System.Diagnostics;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
-using System.Threading.Tasks;
 
 namespace EasyFlow.Desktop.Features.Focus.RunningTimer;
 
@@ -60,7 +58,7 @@ public sealed partial class RunningTimerViewModel : ActivatablePageViewModelBase
         _toastService = toastService;
         _dialog = dialog;
         _notificationService = notificationService;
-        
+
         this.WhenAnyValue(vm => vm.SecondsLeft)
             .DistinctUntilChanged()
             .ObserveOn(RxApp.MainThreadScheduler)
@@ -197,7 +195,7 @@ public sealed partial class RunningTimerViewModel : ActivatablePageViewModelBase
                 await GoToNextState(isSkipping: false);
             }
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             Log.Error(ex, "Failed to tick timer {Error}. Going to next state.", ex.Message);
 
@@ -238,7 +236,7 @@ public sealed partial class RunningTimerViewModel : ActivatablePageViewModelBase
     private async Task OpenNotes(Session? session = null)
     {
         try
-        { 
+        {
             var previousRunningState = IsRunning;
             IsRunning = false;
 
@@ -264,7 +262,7 @@ public sealed partial class RunningTimerViewModel : ActivatablePageViewModelBase
                     .TryShow();
             }
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             Log.Error(ex, "Failed to open notes, {Error}", ex.Message);
         }

@@ -2,11 +2,12 @@
 using System.Reactive.Disposables;
 
 namespace EasyFlow.Desktop.Common;
-public class ActivatablePageViewModelBase : PageViewModelBase, IActivatableViewModel
+
+public abstract class ActivatablePageViewModelBase : PageViewModelBase, IActivatableViewModel
 {
     public ViewModelActivator Activator { get; } = new();
 
-    public ActivatablePageViewModelBase(IScreen hostScreen, string urlPathSegment)
+    protected ActivatablePageViewModelBase(IScreen hostScreen, string urlPathSegment)
         : base(hostScreen, urlPathSegment)
     {
         this.WhenActivated(disposables =>
