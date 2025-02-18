@@ -1,6 +1,5 @@
 ﻿using Avalonia.Data.Converters;
 using EasyFlow.Desktop.Features.Focus.RunningTimer;
-using System;
 using System.Globalization;
 
 namespace EasyFlow.Desktop.Converters;

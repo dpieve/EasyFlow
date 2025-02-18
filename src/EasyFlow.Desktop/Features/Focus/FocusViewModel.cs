@@ -2,14 +2,13 @@
 using EasyFlow.Desktop.Features.Focus.AdjustTimers;
 using EasyFlow.Desktop.Services;
 using EasyFlow.Domain.Entities;
+using MediatR;
 using ReactiveUI;
+using ReactiveUI.SourceGenerators;
 using SukiUI.Dialogs;
+using System.Diagnostics;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
-using System.Threading.Tasks;
-using System.Diagnostics;
-using ReactiveUI.SourceGenerators;
-using MediatR;
 
 namespace EasyFlow.Desktop.Features.Focus;
 
@@ -52,7 +51,6 @@ public sealed partial class FocusViewModel : ActivatableSideMenuViewModelBase, I
         }
 
         Trace.TraceInformation("OnActivated FocusViewModel");
-
     }
 
     public override void HandleDeactivation()

@@ -1,4 +1,3 @@
-using Avalonia.Controls;
 using Avalonia.ReactiveUI;
 
 namespace EasyFlow.Desktop.Features.Focus.RunningTimer;

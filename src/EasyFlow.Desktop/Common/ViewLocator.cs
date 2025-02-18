@@ -1,7 +1,5 @@
 using Avalonia.Controls;
 using Avalonia.Controls.Templates;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 
 namespace EasyFlow.Desktop.Common;

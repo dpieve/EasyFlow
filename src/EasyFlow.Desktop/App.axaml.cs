@@ -10,9 +10,7 @@ using EasyFlow.Infrastructure.Common;
 using Microsoft.EntityFrameworkCore;
 using ReactiveUI;
 using Splat;
-using System;
 using System.Diagnostics;
-using System.Threading.Tasks;
 
 namespace EasyFlow.Desktop;
 
@@ -36,7 +34,7 @@ public partial class App : Avalonia.Application
             BindingPlugins.DataValidators.RemoveAt(0);
 
             var mainViewModel = Locator.Current.GetServiceOrThrow<MainViewModel>();
-                
+
             MainWindow = new MainWindow
             {
                 DataContext = mainViewModel

@@ -1,5 +1,4 @@
 ﻿using Material.Icons;
-using ReactiveUI;
 using ReactiveUI.SourceGenerators;
 
 namespace EasyFlow.Desktop.Common;

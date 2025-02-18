@@ -14,6 +14,7 @@ public sealed class Delete
     public sealed class Handler : IRequestHandler<Command, Result<Unit>>
     {
         private readonly DataContext _context;
+
         public Handler(DataContext context)
         {
             _context = context;

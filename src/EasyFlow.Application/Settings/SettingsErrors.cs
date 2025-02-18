@@ -1,6 +1,7 @@
 ﻿using EasyFlow.Application.Common;
 
 namespace EasyFlow.Application.Settings;
+
 public static class SettingsErrors
 {
     public static readonly Error NotFound = new("NotFound",

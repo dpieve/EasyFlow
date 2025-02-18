@@ -1,6 +1,5 @@
 ﻿using Avalonia.Data.Converters;
 using EasyFlow.Desktop.Services;
-using System;
 using System.Globalization;
 
 namespace EasyFlow.Desktop.Converters;

@@ -2,16 +2,11 @@
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Platform.Storage;
 using EasyFlow.Application.Common;
-using EasyFlow.Application.Sessions;
 using EasyFlow.Desktop.Features.Dashboard;
 using MediatR;
 using Serilog;
-using System;
 using System.Globalization;
-using System.IO;
 using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace EasyFlow.Desktop.Services;
 

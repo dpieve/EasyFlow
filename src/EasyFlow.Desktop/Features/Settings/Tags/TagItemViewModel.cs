@@ -4,8 +4,6 @@ using EasyFlow.Domain.Entities;
 using MediatR;
 using ReactiveUI.SourceGenerators;
 using SukiUI.Dialogs;
-using System;
-using System.Threading.Tasks;
 
 namespace EasyFlow.Desktop.Features.Settings.Tags;
 
@@ -33,7 +31,7 @@ public sealed partial class TagItemViewModel : ViewModelBase
         _languageService = languageService;
         _toastService = toastService;
         _dialog = dialog;
-        
+
         Name = tag.Name;
     }
 

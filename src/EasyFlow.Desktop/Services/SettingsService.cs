@@ -1,9 +1,7 @@
 ﻿using EasyFlow.Domain.Entities;
 using MediatR;
 using Microsoft.Extensions.Logging;
-using System;
 using System.Reactive.Subjects;
-using System.Threading.Tasks;
 
 namespace EasyFlow.Desktop.Services;
 
@@ -63,5 +61,4 @@ public sealed partial class SettingsService : ISettingsService
         _generalSettings = generalSettings;
         _settingsSubject.OnNext(generalSettings);
     }
-
 }

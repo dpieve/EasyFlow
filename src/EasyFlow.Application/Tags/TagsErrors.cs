@@ -2,6 +2,7 @@
 using EasyFlow.Domain.Entities;
 
 namespace EasyFlow.Application.Tags;
+
 public static class TagsErrors
 {
     public static readonly Error BadRequest = new("BadRequest",
@@ -10,7 +11,7 @@ public static class TagsErrors
     public static readonly Error NotFound = new("NotFound",
        "Tag was not found");
 
-    public static readonly Error CanNotMoreThanMax = new("CanNotMoreThanMax", 
+    public static readonly Error CanNotMoreThanMax = new("CanNotMoreThanMax",
         $"There is a limit of {Tag.MaxNumTags}");
 
     public static readonly Error CreateFail = new("CreateFail",

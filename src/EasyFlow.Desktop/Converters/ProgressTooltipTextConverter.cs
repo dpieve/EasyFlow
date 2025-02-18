@@ -1,16 +1,16 @@
 ﻿using Avalonia.Data.Converters;
 using EasyFlow.Desktop.Services;
 using Serilog;
-using System;
-using System.Collections.Generic;
 using System.Globalization;
 
 namespace EasyFlow.Desktop.Converters;
+
 public sealed class ProgressTooltipTextConverter : IMultiValueConverter
 {
     public object? Convert(IList<object?> values, Type targetType, object? parameter, CultureInfo culture)
     {
-        try { 
+        try
+        {
             if (values is null)
             {
                 return null;
@@ -35,7 +35,7 @@ public sealed class ProgressTooltipTextConverter : IMultiValueConverter
             var formatted = string.Format(str, completedTimers, beforeLongBreak);
             return formatted;
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             Log.Error(ex, "Failed to convert progress tooltip text");
             return null;

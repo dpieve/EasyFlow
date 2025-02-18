@@ -5,13 +5,9 @@ using MediatR;
 using ReactiveUI;
 using ReactiveUI.SourceGenerators;
 using SukiUI.Dialogs;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
-using System.Threading.Tasks;
 
 namespace EasyFlow.Desktop.Features.Settings.Tags;
 
@@ -21,6 +17,7 @@ public partial class TagsViewModel : ActivatableViewModelBase
     private readonly ILanguageService _languageService;
     private readonly IToastService _toastService;
     private readonly ISukiDialogManager _dialog;
+
     [Reactive]
     private int _numTags;
 
@@ -28,7 +25,7 @@ public partial class TagsViewModel : ActivatableViewModelBase
     private bool _isAddBusy;
 
     public TagsViewModel(
-        IMediator mediator, 
+        IMediator mediator,
         ILanguageService languageService,
         IToastService toastService,
         ISukiDialogManager dialog)

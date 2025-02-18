@@ -2,6 +2,7 @@
 using System.Reactive.Disposables;
 
 namespace EasyFlow.Desktop.Common;
+
 public class ActivatableViewModelBase : ViewModelBase, IActivatableViewModel
 {
     public ViewModelActivator Activator { get; } = new();

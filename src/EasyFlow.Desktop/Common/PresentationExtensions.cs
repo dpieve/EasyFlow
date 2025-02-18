@@ -1,15 +1,16 @@
-﻿using EasyFlow.Desktop.Features.Settings;
-using EasyFlow.Desktop.Services;
-using EasyFlow.Desktop.Features.Dashboard;
+﻿using EasyFlow.Desktop.Features.Dashboard;
 using EasyFlow.Desktop.Features.Focus;
-using Microsoft.Extensions.DependencyInjection;
-using SukiUI.Dialogs;
-using SukiUI.Toasts;
-using ReactiveUI;
-using Splat;
 using EasyFlow.Desktop.Features.Focus.AdjustTimers;
 using EasyFlow.Desktop.Features.Focus.RunningTimer;
+using EasyFlow.Desktop.Features.Settings;
 using EasyFlow.Desktop.Features.Settings.General;
+using EasyFlow.Desktop.Services;
+using EasyFlow.Domain.Services;
+using Microsoft.Extensions.DependencyInjection;
+using ReactiveUI;
+using Splat;
+using SukiUI.Dialogs;
+using SukiUI.Toasts;
 
 namespace EasyFlow.Desktop.Common;
 
@@ -31,6 +32,8 @@ public static class PresentationExtensions
         services.AddSingleton(restartAppService);
 
         services.AddSingleton<MainViewModel>();
+
+        services.AddScoped<IPlaySoundService, PlaySoundService>();
 
         // Side Menu
         services

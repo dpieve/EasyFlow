@@ -1,7 +1,6 @@
 ﻿using Avalonia.Data.Converters;
-using System.Globalization;
-using System;
 using EasyFlow.Desktop.Services;
+using System.Globalization;
 
 namespace EasyFlow.Desktop.Converters;
 
@@ -15,10 +14,13 @@ public sealed class StringFromStringColorTheme : IValueConverter
             {
                 case "Orange":
                     return ConstantTranslation.ThemeOrange;
+
                 case "Red":
                     return ConstantTranslation.ThemeRed;
+
                 case "Green":
                     return ConstantTranslation.ThemeGreen;
+
                 case "Blue":
                     return ConstantTranslation.ThemeBlue;
             }

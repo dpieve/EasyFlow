@@ -2,6 +2,7 @@
 using FluentValidation;
 
 namespace EasyFlow.Application.Sessions;
+
 public sealed class SessionValidator : AbstractValidator<Session>
 {
     public SessionValidator()

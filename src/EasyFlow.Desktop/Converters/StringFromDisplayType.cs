@@ -1,9 +1,6 @@
 ﻿using Avalonia.Data.Converters;
 using EasyFlow.Desktop.Features.Dashboard.DisplayControls;
-using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
 
 namespace EasyFlow.Desktop.Converters;
 

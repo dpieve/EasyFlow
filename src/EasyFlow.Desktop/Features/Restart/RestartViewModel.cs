@@ -2,7 +2,6 @@
 using ReactiveUI;
 using ReactiveUI.SourceGenerators;
 using SukiUI.Dialogs;
-using System;
 using System.Reactive.Linq;
 
 namespace EasyFlow.Desktop.Features.Restart;

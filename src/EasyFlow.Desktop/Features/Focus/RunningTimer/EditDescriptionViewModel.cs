@@ -1,7 +1,6 @@
 ﻿using EasyFlow.Desktop.Common;
 using ReactiveUI.SourceGenerators;
 using SukiUI.Dialogs;
-using System;
 
 namespace EasyFlow.Desktop.Features.Focus.RunningTimer;
 

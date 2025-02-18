@@ -41,7 +41,7 @@ public sealed class Create
                 return Result<Unit>.Failure(TagsErrors.BadRequest);
             }
 
-            var numTags = await _context.Tags.CountAsync(cancellationToken);    
+            var numTags = await _context.Tags.CountAsync(cancellationToken);
             if (numTags > Tag.MaxNumTags)
             {
                 return Result<Unit>.Failure(TagsErrors.CanNotMoreThanMax);

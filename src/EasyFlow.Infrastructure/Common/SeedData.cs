@@ -2,11 +2,11 @@
 using Microsoft.EntityFrameworkCore;
 
 namespace EasyFlow.Infrastructure.Common;
+
 public sealed class Seed
 {
     public static async Task SeedData(DataContext context)
     {
-        
         await SeedTags(context);
         await SeedGeneralSettings(context);
     }
@@ -40,18 +40,18 @@ public sealed class Seed
         }
 
         var settings = new GeneralSettings
-           {
-               IsWorkSoundEnabled = true,
-               IsBreakSoundEnabled = true,
-               WorkDurationMinutes = 25,
-               BreakDurationMinutes = 5,
-               LongBreakDurationMinutes = 10,
-               WorkSessionsBeforeLongBreak = 4,
-               SelectedTheme = Theme.Dark,
-               SelectedColorTheme = ColorTheme.Red,
-               SelectedTagId = 1,
-               SelectedLanguage = "en",
-           };
+        {
+            IsWorkSoundEnabled = true,
+            IsBreakSoundEnabled = true,
+            WorkDurationMinutes = 25,
+            BreakDurationMinutes = 5,
+            LongBreakDurationMinutes = 10,
+            WorkSessionsBeforeLongBreak = 4,
+            SelectedTheme = Theme.Dark,
+            SelectedColorTheme = ColorTheme.Red,
+            SelectedTagId = 1,
+            SelectedLanguage = "en",
+        };
 
         await context.GeneralSettings.AddAsync(settings);
         await context.SaveChangesAsync();

@@ -25,7 +25,6 @@ public sealed class RestartDatabase
 
         public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
         {
-
             var result = await _context.Database.EnsureDeletedAsync(cancellationToken);
 
             if (!result)

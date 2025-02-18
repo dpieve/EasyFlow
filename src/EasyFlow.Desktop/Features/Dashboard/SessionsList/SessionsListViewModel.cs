@@ -3,12 +3,8 @@ using EasyFlow.Domain.Entities;
 using MediatR;
 using ReactiveUI;
 using ReactiveUI.SourceGenerators;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
 using System.Reactive.Linq;
-using System.Threading.Tasks;
 
 namespace EasyFlow.Desktop.Features.Dashboard.SessionsList;
 
@@ -16,6 +12,7 @@ public sealed partial class SessionsListViewModel : ViewModelBase
 {
     [Reactive]
     private bool _isSessionsListVisible;
+
     private readonly IMediator _mediator;
 
     public SessionsListViewModel(IMediator mediator)
@@ -63,7 +60,7 @@ public sealed partial class SessionsListViewModel : ViewModelBase
 
 public sealed partial class SessionListItem : ViewModelBase
 {
-    private readonly Func<int,Task>? _deletedRow;
+    private readonly Func<int, Task>? _deletedRow;
     private readonly IMediator _mediator;
 
     [Reactive] private bool _isEditing;
@@ -77,7 +74,7 @@ public sealed partial class SessionListItem : ViewModelBase
         Session = session;
         _deletedRow = deletedRow;
         _mediator = mediator;
-        
+
         ConclusionDate = session.FinishedDate;
         SessionType = session.SessionType;
         Tag = session.Tag ?? throw new ArgumentNullException(nameof(session));
@@ -91,6 +88,7 @@ public sealed partial class SessionListItem : ViewModelBase
             .Select(_ => System.Reactive.Unit.Default)
             .InvokeCommand(UpdateSessionCommand);
     }
+
     public Session Session { get; init; }
     public DateTime ConclusionDate { get; }
     public SessionType SessionType { get; }
@@ -118,7 +116,7 @@ public sealed partial class SessionListItem : ViewModelBase
     [ReactiveCommand]
     private async Task UpdateSession()
     {
-        if (string.IsNullOrEmpty(TypingDescription) 
+        if (string.IsNullOrEmpty(TypingDescription)
             || string.IsNullOrWhiteSpace(TypingDescription)
             || Description == TypingDescription)
         {

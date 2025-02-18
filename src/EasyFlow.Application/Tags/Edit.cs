@@ -57,6 +57,4 @@ public sealed class Edit
             return success ? Result<Unit>.Success(Unit.Value) : Result<Unit>.Failure(TagsErrors.EditFail);
         }
     }
-
 }
-
