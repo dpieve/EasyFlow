@@ -1,10 +1,10 @@
 ﻿using Avalonia.Data.Converters;
 using Avalonia.Styling;
 using EasyFlow.Desktop.Services;
-using System;
 using System.Globalization;
 
 namespace EasyFlow.Desktop.Converters;
+
 public class StringFromThemeVariant : IValueConverter
 {
     public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)

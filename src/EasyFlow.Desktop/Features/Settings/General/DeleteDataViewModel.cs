@@ -3,8 +3,6 @@ using EasyFlow.Desktop.Common;
 using MediatR;
 using ReactiveUI.SourceGenerators;
 using SukiUI.Dialogs;
-using System;
-using System.Threading.Tasks;
 
 namespace EasyFlow.Desktop.Features.Settings.General;
 
@@ -47,8 +45,8 @@ public sealed partial class DeleteDataViewModel : ViewModelBase
         Close();
     }
 
-    private void Close() 
+    private void Close()
     {
         _dialog.Dismiss();
-    } 
+    }
 }

@@ -10,11 +10,7 @@ using ReactiveUI.SourceGenerators;
 using SukiUI;
 using SukiUI.Dialogs;
 using SukiUI.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reactive.Linq;
-using System.Threading.Tasks;
 
 namespace EasyFlow.Desktop;
 
@@ -57,7 +53,7 @@ public partial class MainViewModel : ViewModelBase
         DialogManager = dialogManager;
         _notificationService = notificationService;
         _theme = SukiTheme.GetInstance();
-        
+
         Themes = _theme.ColorThemes;
 
         var settings = GetSettings().GetAwaiter().GetResult();
@@ -109,7 +105,7 @@ public partial class MainViewModel : ViewModelBase
     {
         _theme.ChangeColorTheme(theme);
     }
-    
+
     public void ShowStillRunningNotification()
     {
         if (showStillRunning)

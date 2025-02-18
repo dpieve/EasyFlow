@@ -4,8 +4,6 @@ using EasyFlow.Domain.Entities;
 using MediatR;
 using ReactiveUI.SourceGenerators;
 using SukiUI.Dialogs;
-using System;
-using System.Threading.Tasks;
 
 namespace EasyFlow.Desktop.Features.Settings.Tags;
 
@@ -51,8 +49,8 @@ public sealed partial class AddTagViewModel : ViewModelBase
     {
         _tag.Name = TagName;
 
-        var result = _isEditing ? 
-                        await _mediator.Send(new Application.Tags.Edit.Command { Tag = _tag }) : 
+        var result = _isEditing ?
+                        await _mediator.Send(new Application.Tags.Edit.Command { Tag = _tag }) :
                         await _mediator.Send(new Application.Tags.Create.Command { Tag = _tag });
 
         if (result.IsSuccess)
@@ -67,7 +65,7 @@ public sealed partial class AddTagViewModel : ViewModelBase
             if (error == ConstantTranslation.CanNotMoreThanMax)
             {
                 error += $" {Tag.MaxNumTags}";
-            }    
+            }
 
             _toastService.Display(_languageService.GetString("Failure"), error, Avalonia.Controls.Notifications.NotificationType.Information);
         }

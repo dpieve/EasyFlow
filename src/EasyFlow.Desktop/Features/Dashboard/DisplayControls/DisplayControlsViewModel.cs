@@ -6,13 +6,9 @@ using EasyFlow.Domain.Entities;
 using MediatR;
 using ReactiveUI;
 using ReactiveUI.SourceGenerators;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.Linq;
 using System.Reactive.Linq;
-using System.Threading.Tasks;
 
 namespace EasyFlow.Desktop.Features.Dashboard.DisplayControls;
 
@@ -89,7 +85,7 @@ public sealed partial class DisplayControlsViewModel : ViewModelBase
                SelectedFilterPeriod = FilterPeriod.FromNumDays(settings.DashboardFilterPeriod) ?? FilterPeriod.Days7;
                SelectedTag = tags.Find(t => t.Id == settings.SelectedTag?.Id);
                SelectedSessionType = settings.DashboardSessionType;
-               SelectedDisplayType = (DisplayType) settings.DashboardDisplayType;
+               SelectedDisplayType = (DisplayType)settings.DashboardDisplayType;
            });
     }
 

@@ -1,5 +1,4 @@
 ﻿using EasyFlow.Domain.Entities;
-using EasyFlow.Domain.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 

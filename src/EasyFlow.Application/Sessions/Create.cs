@@ -47,7 +47,7 @@ public sealed class Create
             }
 
             var session = request.Session;
-            
+
             var existingTag = await _context.Tags.FirstAsync(t => t.Id == session.TagId, cancellationToken);
             session.Tag = existingTag;
 
@@ -58,5 +58,3 @@ public sealed class Create
         }
     }
 }
-
-

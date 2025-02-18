@@ -1,6 +1,7 @@
 ﻿using EasyFlow.Application.Common;
 
 namespace EasyFlow.Application.Sessions;
+
 public static partial class SessionsErrors
 {
     public static readonly Error CreateFail = new("CreateFail",

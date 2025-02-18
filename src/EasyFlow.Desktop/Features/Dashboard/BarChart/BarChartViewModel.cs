@@ -7,10 +7,7 @@ using LiveChartsCore.SkiaSharpView;
 using LiveChartsCore.SkiaSharpView.Painting;
 using ReactiveUI.SourceGenerators;
 using SkiaSharp;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
 
 namespace EasyFlow.Desktop.Features.Dashboard.BarChart;
 

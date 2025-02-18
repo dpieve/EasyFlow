@@ -4,12 +4,9 @@ using EasyFlow.Desktop.Services;
 using EasyFlow.Domain.Entities;
 using MediatR;
 using ReactiveUI;
-using Serilog;
-using System;
-using System.Linq;
-using System.Reactive.Linq;
-using System.Threading.Tasks;
 using ReactiveUI.SourceGenerators;
+using Serilog;
+using System.Reactive.Linq;
 
 namespace EasyFlow.Desktop.Features.Focus.AdjustTimers;
 
@@ -18,6 +15,7 @@ public sealed partial class TimersViewModel : ViewModelBase
     private readonly IMediator _mediator;
     private readonly ILanguageService _languageService;
     private readonly IToastService _toastService;
+
     [Reactive]
     private int _workMinutes;
 
@@ -31,7 +29,7 @@ public sealed partial class TimersViewModel : ViewModelBase
     //[NotifyPropertyChangedFor(nameof(SessionsBeforeLongBreakText))]
     private int _sessionsBeforeLongBreak;
 
-    [ObservableAsProperty] 
+    [ObservableAsProperty]
     private string _sessionsBeforeLongBreakText = "0";
 
     public TimersViewModel(
@@ -63,7 +61,6 @@ public sealed partial class TimersViewModel : ViewModelBase
             .Select(sessionsBeforeLongBreak => $"{sessionsBeforeLongBreak} {ConstantTranslation.Sessions}")
             .ToProperty(this, vm => vm.SessionsBeforeLongBreakText);
     }
-
 
     [ReactiveCommand]
     private async Task SaveSettings()

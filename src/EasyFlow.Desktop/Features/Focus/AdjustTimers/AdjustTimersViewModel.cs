@@ -1,20 +1,16 @@
 ﻿using DynamicData;
 using EasyFlow.Application.Common;
 using EasyFlow.Desktop.Common;
+using EasyFlow.Desktop.Features.Focus.RunningTimer;
 using EasyFlow.Desktop.Services;
 using EasyFlow.Domain.Entities;
 using MediatR;
 using ReactiveUI;
-using SukiUI.Dialogs;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Reactive.Linq;
-using System.Threading.Tasks;
 using ReactiveUI.SourceGenerators;
+using SukiUI.Dialogs;
+using System.Collections.ObjectModel;
 using System.Reactive.Disposables;
-using EasyFlow.Desktop.Features.Focus.RunningTimer;
+using System.Reactive.Linq;
 
 namespace EasyFlow.Desktop.Features.Focus.AdjustTimers;
 
@@ -44,7 +40,7 @@ public sealed partial class AdjustTimersViewModel : ActivatablePageViewModelBase
         _toastService = toastService;
         _dialog = dialog;
         _notificationService = notificationService;
-        
+
         Timers = new TimersViewModel(_mediator, generalSettings, _languageService, _toastService);
 
         this.WhenAnyValue(vm => vm.SelectedTag)

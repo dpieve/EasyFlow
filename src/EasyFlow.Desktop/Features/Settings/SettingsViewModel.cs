@@ -1,7 +1,7 @@
-﻿using EasyFlow.Desktop.Services;
-using EasyFlow.Desktop.Common;
+﻿using EasyFlow.Desktop.Common;
 using EasyFlow.Desktop.Features.Settings.General;
 using EasyFlow.Desktop.Features.Settings.Tags;
+using EasyFlow.Desktop.Services;
 using MediatR;
 using SukiUI.Dialogs;
 

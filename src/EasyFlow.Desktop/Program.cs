@@ -1,20 +1,17 @@
 ﻿using Avalonia;
 using Avalonia.ReactiveUI;
-using EasyFlow.Desktop.Services;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Splat.Microsoft.Extensions.DependencyInjection;
-using Splat;
-using System;
-using System.Threading;
-using Velopack;
-using ReactiveUI;
-using Serilog;
-using System.IO;
-using EasyFlow.Infrastructure.Common;
 using EasyFlow.Application.Common;
 using EasyFlow.Desktop.Common;
+using EasyFlow.Desktop.Services;
+using EasyFlow.Infrastructure.Common;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using ReactiveUI;
+using Serilog;
+using Splat;
+using Splat.Microsoft.Extensions.DependencyInjection;
 using System.Diagnostics;
+using Velopack;
 
 namespace EasyFlow.Desktop;
 
@@ -38,7 +35,6 @@ internal static class Program
             }
 
             AppInit(args);
-
         }
         finally
         {

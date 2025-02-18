@@ -1,7 +1,6 @@
 using Avalonia.Controls;
 using Avalonia.Controls.Templates;
 using Avalonia.Interactivity;
-using System.Linq;
 
 namespace EasyFlow.Desktop.Features.Focus.AdjustTimers;
 

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 
 namespace EasyFlow.Application.Common;
+
 public class MappingProfiles : Profile
 {
     public MappingProfiles()

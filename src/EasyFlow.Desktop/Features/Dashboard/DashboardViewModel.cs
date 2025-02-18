@@ -1,17 +1,15 @@
-﻿using EasyFlow.Desktop.Features.Dashboard;
-using EasyFlow.Desktop.Features.Dashboard.DisplayControls;
-using EasyFlow.Desktop.Services;
-using EasyFlow.Desktop.Common;
+﻿using EasyFlow.Desktop.Common;
+using EasyFlow.Desktop.Features.Dashboard;
 using EasyFlow.Desktop.Features.Dashboard.BarChart;
+using EasyFlow.Desktop.Features.Dashboard.DisplayControls;
 using EasyFlow.Desktop.Features.Dashboard.SessionsList;
+using EasyFlow.Desktop.Services;
 using MediatR;
 using ReactiveUI;
+using ReactiveUI.SourceGenerators;
 using System.Diagnostics;
-using System.Linq;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
-using System.Threading.Tasks;
-using ReactiveUI.SourceGenerators;
 
 namespace EasyFlow.Desktop.Features.Dashboard;
 
@@ -40,7 +38,7 @@ public partial class DashboardViewModel : ActivatableSideMenuViewModelBase
         _mediator = mediator;
         _languageService = languageService;
         _toastService = toastService;
-        
+
         DisplayControls = new DisplayControlsViewModel(_mediator, _languageService, _toastService);
         BarChart = new BarChartViewModel(_languageService);
         SessionsList = new SessionsListViewModel(mediator);

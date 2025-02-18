@@ -3,6 +3,7 @@ using ReactiveUI;
 using System.Reactive.Disposables;
 
 namespace EasyFlow.Desktop.Common;
+
 public class ActivatableSideMenuViewModelBase : SideMenuViewModelBase, IActivatableViewModel
 {
     public ViewModelActivator Activator { get; } = new();
@@ -23,7 +24,7 @@ public class ActivatableSideMenuViewModelBase : SideMenuViewModelBase, IActivata
     public virtual void HandleActivation(CompositeDisposable d)
     {
     }
-    
+
     public virtual void HandleDeactivation()
     {
     }

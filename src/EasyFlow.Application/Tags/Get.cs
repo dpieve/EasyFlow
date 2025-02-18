@@ -15,6 +15,7 @@ public sealed class Get
     public sealed class Handler : IRequestHandler<Query, Result<List<Tag>>>
     {
         private readonly DataContext _context;
+
         public Handler(DataContext context)
         {
             _context = context;

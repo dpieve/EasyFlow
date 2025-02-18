@@ -21,7 +21,7 @@ public sealed class Edit
             RuleFor(x => x.Session).NotNull().SetValidator(new SessionValidator());
         }
     }
-    
+
     public sealed class Handler : IRequestHandler<Command, Result<Unit>>
     {
         private readonly DataContext _context;
@@ -55,5 +55,4 @@ public sealed class Edit
             return result ? Result<Unit>.Success(Unit.Value) : Result<Unit>.Failure(SessionsErrors.EditFail);
         }
     }
-
 }

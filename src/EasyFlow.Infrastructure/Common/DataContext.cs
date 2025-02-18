@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 
 namespace EasyFlow.Infrastructure.Common;
+
 /// <summary>
 /// Add new items to the database
 /// (1) Open the Package Manager Console and go to EasyFlow.Infrastructure project.

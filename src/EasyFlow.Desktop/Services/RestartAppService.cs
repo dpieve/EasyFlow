@@ -1,14 +1,12 @@
 ﻿using EasyFlow.Desktop.Features.Restart;
 using ReactiveUI;
+using ReactiveUI.SourceGenerators;
 using Serilog;
 using SukiUI.Dialogs;
-using System;
 using System.Diagnostics;
 using System.Reactive;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
-using System.Threading.Tasks;
-using ReactiveUI.SourceGenerators;
 
 namespace EasyFlow.Desktop.Services;
 
@@ -27,7 +25,7 @@ public sealed partial class RestartAppService : IRestartAppService
     {
         _toastService = toastService;
         _dialog = dialog;
-        
+
         _restart
             .ObserveOn(RxApp.MainThreadScheduler)
             .InvokeCommand(RestartAppCommand);
@@ -68,9 +66,9 @@ public sealed partial class RestartAppService : IRestartAppService
                     UseShellExecute = false,
                     RedirectStandardOutput = false,
                     RedirectStandardError = false,
-                    CreateNoWindow = true 
+                    CreateNoWindow = true
                 };
-                 
+
                 Process.Start(startInfo);
             }
             else if (OperatingSystem.IsLinux())

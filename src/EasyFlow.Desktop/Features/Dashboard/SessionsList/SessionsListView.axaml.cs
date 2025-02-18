@@ -1,5 +1,4 @@
 using Avalonia.Controls;
-using System.Linq;
 
 namespace EasyFlow.Desktop.Features.Dashboard.SessionsList;
 

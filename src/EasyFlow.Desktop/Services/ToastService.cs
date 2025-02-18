@@ -1,6 +1,5 @@
 ﻿using Avalonia.Controls.Notifications;
 using SukiUI.Toasts;
-using System;
 
 namespace EasyFlow.Desktop.Services;
 

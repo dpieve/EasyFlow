@@ -6,10 +6,8 @@ using MediatR;
 using ReactiveUI;
 using ReactiveUI.SourceGenerators;
 using SukiUI.Dialogs;
-using System;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
-using System.Threading.Tasks;
 
 namespace EasyFlow.Desktop.Features.Settings.General;
 
@@ -20,6 +18,7 @@ public partial class GeneralSettingsViewModel : ActivatableViewModelBase
     private readonly ILanguageService _languageService;
     private readonly IToastService _toastService;
     private readonly ISukiDialogManager _dialog;
+
     [Reactive]
     private bool _isFocusDescriptionEnabled;
 
@@ -42,8 +41,8 @@ public partial class GeneralSettingsViewModel : ActivatableViewModelBase
     private string _volumeLabel = "0";
 
     public GeneralSettingsViewModel(
-        IMediator mediator, 
-        IRestartAppService restartAppService, 
+        IMediator mediator,
+        IRestartAppService restartAppService,
         ILanguageService languageService,
         IToastService toastService,
         ISukiDialogManager dialog)

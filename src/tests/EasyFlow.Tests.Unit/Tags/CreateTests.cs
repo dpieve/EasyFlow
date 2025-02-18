@@ -21,7 +21,7 @@ public sealed class CreateTests : IDisposable
             .Options;
 
         _context = new DataContext(options);
-        
+
         _validatorMock = new Mock<IValidator<Create.Command>>();
 
         _handler = new Create.Handler(_context, _validatorMock.Object);
@@ -31,7 +31,7 @@ public sealed class CreateTests : IDisposable
     public async Task Handler_ShouldReturnFailure_WhenNameIsEmpty()
     {
         // Arrange
-        var command = new Create.Command { Tag = new() { Name = string.Empty} };
+        var command = new Create.Command { Tag = new() { Name = string.Empty } };
 
         _validatorMock.Setup(v => v.ValidateAsync(command, It.IsAny<CancellationToken>()))
             .ReturnsAsync(new ValidationResult(new[] { new ValidationFailure("Tag", "Tag name is required") }));
