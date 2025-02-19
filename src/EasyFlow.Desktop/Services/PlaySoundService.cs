@@ -1,4 +1,5 @@
-﻿using EasyFlow.Domain.Entities;
+﻿using Avalonia.Platform;
+using EasyFlow.Domain.Entities;
 using EasyFlow.Domain.Services;
 using Microsoft.Extensions.Logging;
 using NAudio.Wave;
@@ -24,18 +25,18 @@ internal sealed class PlaySoundService : IPlaySoundService
             {
                 if (!_sounds.TryGetValue(type, out var cachedSound))
                 {
-                    var assets = "Assets";
-                    var fileName = GetFileName(type);
-                    var basePath = Directory.GetCurrentDirectory();
-                    var filePath = Path.Combine(basePath, assets, fileName);
-                    cachedSound = new CachedSound(filePath);
+                    cachedSound = new CachedSound(type);
                     _sounds.TryAdd(type, cachedSound);
                 }
-
                 WaveOutEvent outputDevice = new() { Volume = volume / 100.0f };
-
-                outputDevice.Init(new CachedSoundSampleProvider(cachedSound));
+                MemoryStream stream = new(cachedSound.SoundData);
+                outputDevice.Init(new WaveFileReader(stream));
                 outputDevice.Play();
+                outputDevice.PlaybackStopped += (sender, args) =>
+                {
+                    outputDevice.Dispose();
+                    stream.Dispose();
+                };
             });
         }
         catch (Exception ex)
@@ -46,55 +47,26 @@ internal sealed class PlaySoundService : IPlaySoundService
 
         return true;
     }
-
-    private static string GetFileName(SoundType type) => type switch
-    {
-        SoundType.Break => "started_break.mp3",
-        SoundType.Work => "started_work.mp3",
-        _ => throw new NotImplementedException(),
-    };
 }
 
 internal sealed class CachedSound
 {
-    public float[] AudioData { get; private set; }
-    public WaveFormat WaveFormat { get; private set; }
+    public byte[] SoundData { get; }
 
-    public CachedSound(string audioFileName)
+    public CachedSound(SoundType type)
     {
-        using var audioFileReader = new AudioFileReader(audioFileName);
-        WaveFormat = audioFileReader.WaveFormat;
-        var wholeFile = new List<float>((int)(audioFileReader.Length / 4));
-        var readBuffer = new float[audioFileReader.WaveFormat.SampleRate * audioFileReader.WaveFormat.Channels];
-        int samplesRead;
-        while ((samplesRead = audioFileReader.Read(readBuffer, 0, readBuffer.Length)) > 0)
-        {
-            wholeFile.AddRange(readBuffer.Take(samplesRead));
-        }
-        AudioData = [.. wholeFile];
-    }
-}
-
-internal sealed class CachedSoundSampleProvider : ISampleProvider
-{
-    private readonly CachedSound _cachedSound;
-    private int _position;
-
-    public CachedSoundSampleProvider(CachedSound cachedSound)
-    {
-        _cachedSound = cachedSound;
+        Uri uri = new($"avares://EasyFlow.Desktop/Assets/{GetFileName(type)}");
+        using Stream assetStream = AssetLoader.Open(uri);
+        using MemoryStream memoryStream = new();
+        assetStream.CopyTo(memoryStream);
+        memoryStream.Seek(0, 0);
+        SoundData = memoryStream.ToArray();
     }
 
-    public int Read(float[] buffer, int offset, int count)
+    private static string GetFileName(SoundType type) => type switch
     {
-        var availableSamples = _cachedSound.AudioData.Length - _position;
-        var samplesToCopy = Math.Min(availableSamples, count);
-        Memory<float> src = new(_cachedSound.AudioData, _position, samplesToCopy);
-        Memory<float> dst = new(buffer, offset, count);
-        src.TryCopyTo(dst);
-        _position += samplesToCopy;
-        return samplesToCopy;
-    }
-
-    public WaveFormat WaveFormat { get { return _cachedSound.WaveFormat; } }
+        SoundType.Break => "started_break.wav",
+        SoundType.Work => "started_work.wav",
+        _ => throw new NotImplementedException(),
+    };
 }
