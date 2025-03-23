@@ -15,98 +15,100 @@
         <StreamGeometry x:Key="arrow_left_icon">M12.7347,4.20949 C13.0332,3.92233 13.508,3.93153 13.7952,4.23005 C14.0823,4.52857 14.0731,5.00335 13.7746,5.29051 L5.50039,13.25 L24.2532,13.25 C24.6674,13.25 25.0032,13.5858 25.0032,13.9999982 C25.0032,14.4142 24.6674,14.75 24.2532,14.75 L5.50137,14.75 L13.7746,22.7085 C14.0731,22.9957 14.0823,23.4705 13.7952,23.769 C13.508,24.0675 13.0332,24.0767 12.7347,23.7896 L3.30673,14.7202 C2.89776,14.3268 2.89776,13.6723 3.30673,13.2788 L12.7347,4.20949 Z</StreamGeometry>
     </UserControl.Resources>
 
-	<UserControl.Styles>
-		<Style Selector="Button.Selected">
-			<Setter Property="Background" Value="{DynamicResource ToggleButtonBackgroundChecked}" />
-		</Style>
-	</UserControl.Styles>
-	
-    <Grid RowDefinitions="auto, auto">
+    <UserControl.Styles>
+        <Style Selector="Button.Selected">
+            <Setter Property="Background" Value="{DynamicResource ToggleButtonBackgroundChecked}" />
+        </Style>
+    </UserControl.Styles>
 
-        <!--  TITLE  -->
+    <ScrollViewer>
 
-        <StackPanel
-            Grid.Row="0"
-            Margin="0,0,0,20"
-            Orientation="Horizontal"
-            Spacing="20">
-            <Button Background="Transparent" Command="{Binding OnBackCommand}">
-                <PathIcon
-                    Width="25"
-                    Height="25"
-                    Data="{StaticResource arrow_left_icon}" />
-            </Button>
-            <TextBlock
-                VerticalAlignment="Center"
-                FontSize="20"
-                FontWeight="Bold"
-                Text="Notifications" />
-        </StackPanel>
+        <Grid RowDefinitions="auto, auto">
 
-        <!--  CONTROLS  -->
+            <!--  TITLE  -->
 
-        <StackPanel
-            Grid.Row="1"
-            Margin="30,20,0,0"
-            Spacing="15">
-
-            <Grid ColumnDefinitions="*, auto">
+            <StackPanel
+                Grid.Row="0"
+                Margin="0,0,0,20"
+                Orientation="Horizontal"
+                Spacing="20">
+                <Button Background="Transparent" Command="{Binding OnBackCommand}">
+                    <PathIcon
+                        Width="25"
+                        Height="25"
+                        Data="{StaticResource arrow_left_icon}" />
+                </Button>
                 <TextBlock
-                    Grid.Column="0"
                     VerticalAlignment="Center"
-                    FontSize="16"
-                    Text="Notification on completion"
-                    TextWrapping="Wrap" />
-                <ToggleSwitch Grid.Column="1" IsChecked="{Binding NotificationOnCompletionEnabled, Mode=TwoWay}" />
-            </Grid>
-
-            <Grid ColumnDefinitions="*, auto">
-                <TextBlock
-                    Grid.Column="0"
-                    VerticalAlignment="Center"
-                    FontSize="16"
-                    Text="Notification after a skipped session"
-                    TextWrapping="Wrap" />
-                <ToggleSwitch Grid.Column="1" IsChecked="{Binding NotificationWhenSkippingSession, Mode=TwoWay}" />
-            </Grid>
-
-			<Separator Height="2" Margin="0,10,0,10"/>
-			
-            <StackPanel Spacing="10">
-                <TextBlock
-                    Grid.Row="0"
-                    FontSize="16"
-                    Text="Alarm on completion" />
-
-                <StackPanel
-                    Grid.Row="1"
-                    Orientation="Horizontal"
-                    Spacing="1">
-                    <Button
-                        x:Name="Sound1Button"
-                        Command="{Binding SelectSound1Command}"
-                        Content="Sound 1"
-                        Classes="Selected"
-                        CornerRadius="5,0,0,5" />
-                    <Button
-                        x:Name="Sound2Button"
-                        Command="{Binding SelectSound2Command}"
-                        Content="Sound 2" />
-                    <Button
-                        x:Name="MuteButton"
-                        Command="{Binding SelectMuteCommand}"
-                        Content="Mute"
-                        CornerRadius="0,5,5,0" />
-                </StackPanel>
+                    FontSize="20"
+                    FontWeight="Bold"
+                    Text="Notifications" />
             </StackPanel>
 
-            <cc:LabelsSlider
-                LeftText="Alarm volume"
-                RightText="{Binding Volume, StringFormat='{}{0} %'}"
-                SliderValue="{Binding Volume, Mode=TwoWay}" />
+            <!--  CONTROLS  -->
 
-        </StackPanel>
+            <StackPanel
+                Grid.Row="1"
+                Margin="20"
+                Spacing="15">
 
+                <Grid ColumnDefinitions="*, auto">
+                    <TextBlock
+                        Grid.Column="0"
+                        VerticalAlignment="Center"
+                        FontSize="16"
+                        Text="Notification on completion"
+                        TextWrapping="Wrap" />
+                    <ToggleSwitch Grid.Column="1" IsChecked="{Binding NotificationOnCompletionEnabled, Mode=TwoWay}" />
+                </Grid>
 
-    </Grid>
+                <Grid ColumnDefinitions="*, auto">
+                    <TextBlock
+                        Grid.Column="0"
+                        VerticalAlignment="Center"
+                        FontSize="16"
+                        Text="Notification after a skipped session"
+                        TextWrapping="Wrap" />
+                    <ToggleSwitch Grid.Column="1" IsChecked="{Binding NotificationWhenSkippingSession, Mode=TwoWay}" />
+                </Grid>
+
+                <Separator Height="2" Margin="0,10,0,10" />
+
+                <StackPanel Spacing="10">
+                    <TextBlock
+                        Grid.Row="0"
+                        FontSize="16"
+                        Text="Alarm on completion" />
+
+                    <StackPanel
+                        Grid.Row="1"
+                        Orientation="Horizontal"
+                        Spacing="1">
+                        <Button
+                            x:Name="Sound1Button"
+                            Classes="Selected"
+                            Command="{Binding SelectSound1Command}"
+                            Content="Sound 1"
+                            CornerRadius="5,0,0,5" />
+                        <Button
+                            x:Name="Sound2Button"
+                            Command="{Binding SelectSound2Command}"
+                            Content="Sound 2" />
+                        <Button
+                            x:Name="MuteButton"
+                            Command="{Binding SelectMuteCommand}"
+                            Content="Mute"
+                            CornerRadius="0,5,5,0" />
+                    </StackPanel>
+                </StackPanel>
+
+                <cc:LabelsSlider
+                    LeftText="Alarm volume"
+                    RightText="{Binding Volume, StringFormat='{}{0} %'}"
+                    SliderValue="{Binding Volume, Mode=TwoWay}" />
+
+            </StackPanel>
+
+        </Grid>
+    </ScrollViewer>
 </UserControl>

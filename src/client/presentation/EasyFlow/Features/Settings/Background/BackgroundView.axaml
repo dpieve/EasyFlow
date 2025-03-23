@@ -21,90 +21,92 @@
         </Style>
     </UserControl.Styles>
 
-    <Grid RowDefinitions="auto, auto">
+    <ScrollViewer>
 
-        <!--  TITLE  -->
+        <Grid RowDefinitions="auto, auto">
 
-        <StackPanel
-            Grid.Row="0"
-            Margin="0,0,0,20"
-            Orientation="Horizontal"
-            Spacing="20">
-            <Button Background="Transparent" Command="{Binding OnBackCommand}">
-                <PathIcon
-                    Width="25"
-                    Height="25"
-                    Data="{StaticResource arrow_left_icon}" />
-            </Button>
-            <TextBlock
-                VerticalAlignment="Center"
-                FontSize="20"
-                FontWeight="Bold"
-                Text="Background" />
-        </StackPanel>
+            <!--  TITLE  -->
 
-        <!--  CONTROLS  -->
+            <StackPanel
+                Grid.Row="0"
+                Margin="0,0,0,20"
+                Orientation="Horizontal"
+                Spacing="20">
+                <Button Background="Transparent" Command="{Binding OnBackCommand}">
+                    <PathIcon
+                        Width="25"
+                        Height="25"
+                        Data="{StaticResource arrow_left_icon}" />
+                </Button>
+                <TextBlock
+                    VerticalAlignment="Center"
+                    FontSize="20"
+                    FontWeight="Bold"
+                    Text="Background" />
+            </StackPanel>
 
-        <StackPanel
-            Grid.Row="1"
-            Margin="30,20,0,0"
-            Spacing="15">
+            <!--  CONTROLS  -->
 
-            <TextBlock
-                FontSize="16"
-                FontWeight="DemiBold"
-                Text="Select a background" />
+            <StackPanel
+                Grid.Row="1"
+                Margin="20"
+                Spacing="15">
 
-            <WrapPanel>
-                <ToggleButton
-                    x:Name="Background1Button"
-                    Command="{Binding OnSelectBackgroundCommand}"
-                    CommandParameter="1">
-                    <Border
-                        Width="70"
-                        Height="40"
-                        BorderBrush="Transparent"
-                        BorderThickness="1"
-                        CornerRadius="5">
-                        <Border.Background>
-                            <ImageBrush Source="/Assets/background1.png" />
-                        </Border.Background>
-                    </Border>
-                </ToggleButton>
+                <TextBlock
+                    FontSize="16"
+                    FontWeight="DemiBold"
+                    Text="Select a background" />
 
-                <ToggleButton
-                    x:Name="Background2Button"
-                    Command="{Binding OnSelectBackgroundCommand}"
-                    CommandParameter="2">
-                    <Border
-                        Width="70"
-                        Height="40"
-                        BorderBrush="Transparent"
-                        BorderThickness="1"
-                        CornerRadius="5">
-                        <Border.Background>
-                            <ImageBrush Source="/Assets/background2.png" />
-                        </Border.Background>
-                    </Border>
-                </ToggleButton>
+                <WrapPanel>
+                    <ToggleButton
+                        x:Name="Background1Button"
+                        Command="{Binding OnSelectBackgroundCommand}"
+                        CommandParameter="1">
+                        <Border
+                            Width="70"
+                            Height="40"
+                            BorderBrush="Transparent"
+                            BorderThickness="1"
+                            CornerRadius="5">
+                            <Border.Background>
+                                <ImageBrush Source="/Assets/background1.png" />
+                            </Border.Background>
+                        </Border>
+                    </ToggleButton>
 
-                <ToggleButton
-                    x:Name="Background3Button"
-                    Command="{Binding OnSelectBackgroundCommand}"
-                    CommandParameter="3">
-                    <Border
-                        Width="70"
-                        Height="40"
-                        BorderBrush="Transparent"
-                        BorderThickness="1"
-                        CornerRadius="5">
-                        <Border.Background>
-                            <ImageBrush Source="/Assets/background3.png" />
-                        </Border.Background>
-                    </Border>
-                </ToggleButton>
-            </WrapPanel>
-        </StackPanel>
+                    <ToggleButton
+                        x:Name="Background2Button"
+                        Command="{Binding OnSelectBackgroundCommand}"
+                        CommandParameter="2">
+                        <Border
+                            Width="70"
+                            Height="40"
+                            BorderBrush="Transparent"
+                            BorderThickness="1"
+                            CornerRadius="5">
+                            <Border.Background>
+                                <ImageBrush Source="/Assets/background2.png" />
+                            </Border.Background>
+                        </Border>
+                    </ToggleButton>
 
-    </Grid>
+                    <ToggleButton
+                        x:Name="Background3Button"
+                        Command="{Binding OnSelectBackgroundCommand}"
+                        CommandParameter="3">
+                        <Border
+                            Width="70"
+                            Height="40"
+                            BorderBrush="Transparent"
+                            BorderThickness="1"
+                            CornerRadius="5">
+                            <Border.Background>
+                                <ImageBrush Source="/Assets/background3.png" />
+                            </Border.Background>
+                        </Border>
+                    </ToggleButton>
+                </WrapPanel>
+            </StackPanel>
+        </Grid>
+    </ScrollViewer>
 </UserControl>

@@ -27,59 +27,62 @@
 
     </UserControl.Styles>
 
-    <Grid RowDefinitions="auto,auto,auto,auto,auto,auto" Margin="0,40,0,0">
-        <Button Grid.Row="0" Command="{Binding OnFocusTimeCommand}">
-            <StackPanel Orientation="Horizontal" Spacing="10">
-                <PathIcon
-                    Width="15"
-                    Height="15"
-                    Data="{StaticResource concentration_time_icon}" />
-                <TextBlock Text="Focus" />
-            </StackPanel>
-        </Button>
-        <Button Grid.Row="1" Command="{Binding OnNotificationsCommand}">
-            <StackPanel Orientation="Horizontal" Spacing="10">
-                <PathIcon
-                    Width="15"
-                    Height="15"
-                    Data="{StaticResource notifications_icon}" />
-                <TextBlock Text="Notifications" />
-            </StackPanel>
-        </Button>
-        <Button Grid.Row="2" Command="{Binding OnTagsCommand}">
-            <StackPanel Orientation="Horizontal" Spacing="10">
-                <PathIcon
-                    Width="15"
-                    Height="15"
-                    Data="{StaticResource tags_icon}" />
-                <TextBlock Text="Tags" />
-            </StackPanel>
-        </Button>
+    <ScrollViewer>
 
-        <Button Grid.Row="3" Command="{Binding OnBackgroundCommand}">
-            <StackPanel Orientation="Horizontal" Spacing="10">
-                <PathIcon
-                    Width="15"
-                    Height="15"
-                    Data="{StaticResource background_icon}" />
-                <TextBlock Text="Background" />
-            </StackPanel>
-        </Button>
+        <Grid Margin="0,40,0,0" RowDefinitions="auto,auto,auto,auto,auto,auto">
+            <Button Grid.Row="0" Command="{Binding OnFocusTimeCommand}">
+                <StackPanel Orientation="Horizontal" Spacing="10">
+                    <PathIcon
+                        Width="15"
+                        Height="15"
+                        Data="{StaticResource concentration_time_icon}" />
+                    <TextBlock Text="Focus" />
+                </StackPanel>
+            </Button>
+            <Button Grid.Row="1" Command="{Binding OnNotificationsCommand}">
+                <StackPanel Orientation="Horizontal" Spacing="10">
+                    <PathIcon
+                        Width="15"
+                        Height="15"
+                        Data="{StaticResource notifications_icon}" />
+                    <TextBlock Text="Notifications" />
+                </StackPanel>
+            </Button>
+            <Button Grid.Row="2" Command="{Binding OnTagsCommand}">
+                <StackPanel Orientation="Horizontal" Spacing="10">
+                    <PathIcon
+                        Width="15"
+                        Height="15"
+                        Data="{StaticResource tags_icon}" />
+                    <TextBlock Text="Tags" />
+                </StackPanel>
+            </Button>
 
-        <Button Grid.Row="4" Command="{Binding OnReportCommand}">
-            <StackPanel Orientation="Horizontal" Spacing="10">
-                <PathIcon
-                    Width="15"
-                    Height="15"
-                    Data="{StaticResource report_icon}" />
-                <TextBlock Text="Report" />
-            </StackPanel>
-        </Button>
+            <Button Grid.Row="3" Command="{Binding OnBackgroundCommand}">
+                <StackPanel Orientation="Horizontal" Spacing="10">
+                    <PathIcon
+                        Width="15"
+                        Height="15"
+                        Data="{StaticResource background_icon}" />
+                    <TextBlock Text="Background" />
+                </StackPanel>
+            </Button>
 
-        <TextBlock
-            Grid.Row="5"
-            Margin="10,10,0,0"
-            Foreground="Yellow"
-            Text="{Binding ErrorMessage}" />
-    </Grid>
+            <Button Grid.Row="4" Command="{Binding OnReportCommand}">
+                <StackPanel Orientation="Horizontal" Spacing="10">
+                    <PathIcon
+                        Width="15"
+                        Height="15"
+                        Data="{StaticResource report_icon}" />
+                    <TextBlock Text="Report" />
+                </StackPanel>
+            </Button>
+
+            <TextBlock
+                Grid.Row="5"
+                Margin="10,10,0,0"
+                Foreground="Yellow"
+                Text="{Binding ErrorMessage}" />
+        </Grid>
+    </ScrollViewer>
 </UserControl>

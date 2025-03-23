@@ -16,124 +16,127 @@
         <StreamGeometry x:Key="edit_icon">M27.3138 4.68622C28.8759 6.24832 28.8759 8.78098 27.3138 10.3431L12.5409 25.116C11.9001 25.7568 11.0972 26.2114 10.218 26.4312L5.63602 27.5767C4.90364 27.7598 4.24025 27.0964 4.42335 26.364L5.56885 21.782C5.78864 20.9028 6.24323 20.0999 6.88402 19.4591L21.6569 4.68622C23.219 3.12412 25.7517 3.12412 27.3138 4.68622ZM20.2426 8.92865L8.29824 20.8734C7.91376 21.2578 7.641 21.7396 7.50913 22.2671L6.76786 25.2322L9.73295 24.4909C10.2604 24.359 10.7422 24.0863 11.1267 23.7018L23.0706 11.7566L20.2426 8.92865ZM23.0712 6.10043L21.6566 7.51465L24.4846 10.3426L25.8996 8.92886C26.6806 8.14781 26.6806 6.88148 25.8996 6.10043C25.1185 5.31939 23.8522 5.31939 23.0712 6.10043Z</StreamGeometry>
     </UserControl.Resources>
 
-    <Grid RowDefinitions="auto, auto">
+    <ScrollViewer>
 
-        <!--  TITLE  -->
+        <Grid RowDefinitions="auto, auto">
 
-        <StackPanel
-            Grid.Row="0"
-            Margin="0,0,0,20"
-            Orientation="Horizontal"
-            Spacing="20">
-            <Button Background="Transparent" Command="{Binding OnBackCommand}">
-                <PathIcon
-                    Width="25"
-                    Height="25"
-                    Data="{StaticResource arrow_left_icon}" />
-            </Button>
-            <TextBlock
-                VerticalAlignment="Center"
-                FontSize="20"
-                FontWeight="Bold"
-                Text="Tags" />
-        </StackPanel>
+            <!--  TITLE  -->
 
-		<!-- CONTROLS -->
-		
-        <StackPanel 
-			Grid.Row="1"
-			Margin="30,20,0,0"
-			Spacing="15">
-			
-            <Grid ColumnDefinitions="*, auto">
-                <TextBox
-                    Grid.Column="0"
-                    Margin="0,0,10,0"
-                    HorizontalAlignment="Stretch"
-                    VerticalContentAlignment="Center"
-                    FontSize="16"
-                    MaxLength="20"
-                    Text="{Binding Name}" />
-                <Button
-                    Grid.Column="1"
-                    Background="{DynamicResource ToggleButtonBackgroundChecked}"
-                    FontSize="16"
-                    Command="{Binding OnAddCommand}"
-                    Content="Add" />
-            </Grid>
+            <StackPanel
+                Grid.Row="0"
+                Margin="0,0,0,20"
+                Orientation="Horizontal"
+                Spacing="20">
+                <Button Background="Transparent" Command="{Binding OnBackCommand}">
+                    <PathIcon
+                        Width="25"
+                        Height="25"
+                        Data="{StaticResource arrow_left_icon}" />
+                </Button>
+                <TextBlock
+                    VerticalAlignment="Center"
+                    FontSize="20"
+                    FontWeight="Bold"
+                    Text="Tags" />
+            </StackPanel>
 
-            <TextBlock
-                FontWeight="Light"
-                Foreground="Yellow"
-                IsVisible="{Binding ErrorMessage, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"
-                Text="{Binding ErrorMessage}" />
+            <!--  CONTROLS  -->
 
-            <ScrollViewer VerticalScrollBarVisibility="Auto">
-                <ListBox
-                    Height="300"
-                    Background="Transparent"
-                    ItemsSource="{Binding Tags}"
-                    ScrollViewer.IsScrollChainingEnabled="True"
-                    SelectionChanged="ListBox_SelectionChanged">
+            <StackPanel
+                Grid.Row="1"
+                Margin="20"
+                Spacing="15">
 
-                    <ListBox.Styles>
-                        <Style Selector="ListBoxItem >> StackPanel Button">
-                            <Setter Property="IsVisible" Value="False" />
-                        </Style>
+                <Grid ColumnDefinitions="*, auto">
+                    <TextBox
+                        Grid.Column="0"
+                        Margin="0,0,10,0"
+                        HorizontalAlignment="Stretch"
+                        VerticalContentAlignment="Center"
+                        FontSize="16"
+                        MaxLength="20"
+                        Text="{Binding Name}" />
+                    <Button
+                        Grid.Column="1"
+                        Background="{DynamicResource ToggleButtonBackgroundChecked}"
+                        Command="{Binding OnAddCommand}"
+                        Content="Add"
+                        FontSize="16" />
+                </Grid>
 
-                        <Style Selector="ListBoxItem:pointerover >> StackPanel Button, ListBoxItem:selected >> StackPanel Button">
-                            <Setter Property="IsVisible" Value="True" />
-                        </Style>
-                    </ListBox.Styles>
+                <TextBlock
+                    FontWeight="Light"
+                    Foreground="Yellow"
+                    IsVisible="{Binding ErrorMessage, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"
+                    Text="{Binding ErrorMessage}" />
 
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <Grid ColumnDefinitions="*, auto">
-                                <TextBlock
-                                    Grid.Column="0"
-                                    VerticalAlignment="Center"
-                                    FontSize="14"
-                                    IsVisible="{Binding !IsEditing}"
-                                    Text="{Binding Name}" />
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <ListBox
+                        Height="300"
+                        Background="Transparent"
+                        ItemsSource="{Binding Tags}"
+                        ScrollViewer.IsScrollChainingEnabled="True"
+                        SelectionChanged="ListBox_SelectionChanged">
 
-                                <TextBox
-                                    Grid.Column="0"
-                                    VerticalAlignment="Center"
-                                    FontSize="14"
-                                    IsVisible="{Binding IsEditing}"
-                                    LostFocus="TextBox_LostFocus"
-                                    Text="{Binding TypingName}" />
+                        <ListBox.Styles>
+                            <Style Selector="ListBoxItem >> StackPanel Button">
+                                <Setter Property="IsVisible" Value="False" />
+                            </Style>
 
-                                <StackPanel
-                                    Grid.Column="1"
-                                    Orientation="Horizontal"
-                                    Spacing="5">
+                            <Style Selector="ListBoxItem:pointerover >> StackPanel Button, ListBoxItem:selected >> StackPanel Button">
+                                <Setter Property="IsVisible" Value="True" />
+                            </Style>
+                        </ListBox.Styles>
 
-                                    <Button Command="{Binding OnEditCommand}">
-                                        <PathIcon
-                                            Width="18"
-                                            Height="18"
-                                            Data="{StaticResource edit_icon}" />
-                                    </Button>
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Grid ColumnDefinitions="*, auto">
+                                    <TextBlock
+                                        Grid.Column="0"
+                                        VerticalAlignment="Center"
+                                        FontSize="14"
+                                        IsVisible="{Binding !IsEditing}"
+                                        Text="{Binding Name}" />
+
+                                    <TextBox
+                                        Grid.Column="0"
+                                        VerticalAlignment="Center"
+                                        FontSize="14"
+                                        IsVisible="{Binding IsEditing}"
+                                        LostFocus="TextBox_LostFocus"
+                                        Text="{Binding TypingName}" />
+
+                                    <StackPanel
+                                        Grid.Column="1"
+                                        Orientation="Horizontal"
+                                        Spacing="5">
+
+                                        <Button Command="{Binding OnEditCommand}">
+                                            <PathIcon
+                                                Width="18"
+                                                Height="18"
+                                                Data="{StaticResource edit_icon}" />
+                                        </Button>
 
 
-                                    <Button Command="{Binding OnDeleteCommand}">
-                                        <PathIcon
-                                            Width="18"
-                                            Height="18"
-                                            Data="{StaticResource delete_icon}" />
-                                    </Button>
-                                </StackPanel>
-                            </Grid>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
+                                        <Button Command="{Binding OnDeleteCommand}">
+                                            <PathIcon
+                                                Width="18"
+                                                Height="18"
+                                                Data="{StaticResource delete_icon}" />
+                                        </Button>
+                                    </StackPanel>
+                                </Grid>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
 
-            </ScrollViewer>
+                </ScrollViewer>
 
-        </StackPanel>
+            </StackPanel>
 
-    </Grid>
+        </Grid>
+    </ScrollViewer>
 
 
 </UserControl>
