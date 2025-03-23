@@ -9,6 +9,12 @@ public static class DependencyInjection
     {
         services.AddSingleton<IPlaySoundService, PlaySoundAndroid>();
         services.AddSingleton<INotificationService, NotificationAndroid>();
+
+        services.AddSingleton<AppDataJson>();
+        services.AddSingleton<ITagService, TagServiceJson>();
+        services.AddSingleton<ISessionService, SessionServiceJson>();
+        services.AddSingleton<ISettingsService, SettingsServiceJson>();
+
         return services;
     }
 }
