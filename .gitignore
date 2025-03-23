@@ -3,8 +3,6 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
-*.zip
-
 # User-specific files
 *.rsuser
 *.suo
@@ -454,6 +452,3 @@ $RECYCLE.BIN/
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
-/src/EasyFlow/Migrations
-/src/EasyFlow.Installer/EasyFlow.Installer.wapproj
-/src/EasyFlow.Installer/Package.appxmanifest
