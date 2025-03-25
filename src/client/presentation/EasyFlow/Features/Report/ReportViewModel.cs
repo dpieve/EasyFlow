@@ -60,8 +60,6 @@ public sealed partial class ReportViewModel : ViewModelBase
 
     private void Update(List<Session> sessions)
     {
-        Debug.WriteLine("Update");
-
         Sessions.Clear();
 
         foreach (var session in sessions)

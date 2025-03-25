@@ -2,6 +2,7 @@
     x:Class="EasyFlow.Features.Report.ReportView"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="clr-namespace:EasyFlow.CustomControls;assembly=EasyFlow"
     xmlns:converters="clr-namespace:EasyFlow.Converters;assembly=EasyFlow"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:entities="clr-namespace:EasyFlow.Domain.Entities;assembly=EasyFlow.Domain"
@@ -142,7 +143,7 @@
                         SelectedIndex="0"
                         SelectedItem="{Binding SelectedFilterPeriod, Mode=TwoWay}" />
 
-                    <TextBox
+                    <controls:KeyboardTextBox
                         Width="300"
                         Margin="0,15,15,0"
                         Text="{Binding FilterText}"

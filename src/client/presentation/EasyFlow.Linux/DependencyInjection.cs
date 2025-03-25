@@ -14,6 +14,8 @@ public static class DependencyInjection
         services.AddSingleton<ITagService, TagServiceJson>();
         services.AddSingleton<ISessionService, SessionServiceJson>();
         services.AddSingleton<ISettingsService, SettingsServiceJson>();
+
+        services.AddSingleton<ICustomVirtualKeyboard, CustomVirtualKeyboard>();
         return services;
     }
 }
