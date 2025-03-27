@@ -27,7 +27,7 @@
     <PackageReference Include="HotAvalonia.Extensions" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" />
     <PackageReference Include="Microsoft.Extensions.Hosting" />
-    <PackageReference Include="NAudio" />
+    <PackageReference Include="NetCoreAudio" />
     <PackageReference Include="ReactiveUI.SourceGenerators">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -50,11 +50,47 @@
     </ItemGroup>
 
     <ItemGroup>
+      <AvaloniaResource Update="Assets\aud1.wav">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </AvaloniaResource>
+      <AvaloniaResource Update="Assets\aud2.wav">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </AvaloniaResource>
+      <AvaloniaResource Update="Assets\audio1.wav">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </AvaloniaResource>
+      <AvaloniaResource Update="Assets\audio2.wav">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </AvaloniaResource>
+    </ItemGroup>
+
+    <ItemGroup>
       <Compile Update="CustomControls\LabelsSlider.axaml.cs">
         <DependentUpon>LabelsSlider.axaml</DependentUpon>
       </Compile>
       <Compile Update="Features\Settings\FocusTime\FocusTimeView.axaml.cs">
         <DependentUpon>FocusTimeView.axaml</DependentUpon>
       </Compile>
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Update="Assets\aud1.wav">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="Assets\aud2.wav">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="aud1.wav">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="aud2.wav">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="Audios\aud1.wav">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="Audios\aud2.wav">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
     </ItemGroup>	
 </Project>

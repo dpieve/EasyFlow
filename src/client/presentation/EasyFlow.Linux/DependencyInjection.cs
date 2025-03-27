@@ -1,4 +1,5 @@
 ﻿using EasyFlow.Domain.Services;
+using EasyFlow.Services.Desktop;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace EasyFlow.Linux;

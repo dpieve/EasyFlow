@@ -7,16 +7,19 @@ Welcome to the EasyFlow documentation.
 - [EasyFlow Documentation](#easyflow-documentation)
   - [Table of Contents](#table-of-contents)
   - [Usage](#usage)
-    - [Installing EasyFlow](#starting-easyflow)
+    - [Running on Linux](#running-on-linux)
     - [Data Handling](#data-handling)
 
 ## Usage
 
-### Installing EasyFlow
+### Running on Linux
 
-**Launch the Application:**
+- Linux sounds implementation depends on ALSA architecture (read [NetCoreAudio](https://www.nuget.org/packages/NetCoreAudio/2.0.0)). Therefore, the machine needs to have the utilities installed.
 
-Downloads are available in the official [page](dpieve.github.io/EasyFlow/).
+Run the following command or the equivalent for your system:
+```bash
+sudo apt-get install alsa-utils
+```
 
 ### Data Handling
 
@@ -24,4 +27,4 @@ EasyFlow respects your privacy. It does not collect or store any personal data. 
 
 **Delete data:**
 
-- Go to **Settings** and click on the button **Delete data**. This will delete the database and restart the software.
+Close the app and delete the .json file.

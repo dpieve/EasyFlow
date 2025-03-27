@@ -12,6 +12,7 @@ using EasyFlow.Features.Settings.FocusTime;
 using EasyFlow.Features.Settings.HomeSettings;
 using EasyFlow.Features.Settings.Notifications;
 using EasyFlow.Features.Settings.Tags;
+using EasyFlow.Services.Desktop;
 using HotAvalonia;
 using Splat;
 using System;
@@ -85,17 +86,18 @@ public partial class App : Application
         var pomodoroVm = new PomodoroViewModel(settingsVm, playSoundService, notificationService, sessionService);
         var reportVm = new ReportViewModel(sessionService);
 
-        var vm = new MainViewModel(settingsVm, 
-            pomodoroVm, 
-            reportVm, 
-            homeVm, 
+        var vm = new MainViewModel(settingsVm,
+            pomodoroVm,
+            reportVm,
+            homeVm,
             focusVm,
             notificationsVm,
-            tagsVm, 
-            backgroundVm, 
-            playSoundService, 
-            notificationService, 
+            tagsVm,
+            backgroundVm,
+            playSoundService,
+            notificationService,
             sessionService);
         return vm;
     }
-}
+
+   }
