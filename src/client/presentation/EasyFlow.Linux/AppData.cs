@@ -12,12 +12,16 @@ namespace EasyFlow.Linux;
 
 public sealed class AppDataJson
 {
-    private const string _filePath = "easyflow.json";
+    // path:
+    // /home/YourUser/.config/easyflow.json
+    private string _filePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "easyflow.json");
+    
     private int _nextSessionId = 1;
     private int _nextTagId = 1;
 
     public AppDataJson()
     {
+        Console.WriteLine(_filePath);
     }
 
     public List<Session> Sessions { get; set; } = new();
@@ -49,7 +53,7 @@ public sealed class AppDataJson
         }
         catch (Exception ex)
         {
-            Debug.WriteLine(ex.Message);
+            Console.WriteLine(ex.Message);
         }
     }
 
@@ -62,11 +66,14 @@ public sealed class AppDataJson
                 WriteIndented = true,
             };
             var jsonData = JsonSerializer.Serialize(this, options);
+
+            Console.WriteLine("Saving to " + _filePath);
+
             File.WriteAllText(_filePath, jsonData);
         }
         catch (Exception ex)
         {
-            Debug.WriteLine(ex.Message);
+            Console.WriteLine(ex.Message);
         }
     }
 

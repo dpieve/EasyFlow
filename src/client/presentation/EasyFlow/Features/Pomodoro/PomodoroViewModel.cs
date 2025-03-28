@@ -159,6 +159,9 @@ public sealed partial class PomodoroViewModel : ViewModelBase, IActivatableViewM
     [ReactiveCommand]
     private async Task SessionChanged((SessionType previous, SessionType current) sessionType)
     {
+        var oldTimerTicking = IsTimerTicking;
+        IsTimerTicking = false;
+
         Debug.WriteLine($"Session changed from {sessionType.previous} to {sessionType.current}!");
 
         await CompletedSession(sessionType.previous, _isSkippingSession);
@@ -166,6 +169,8 @@ public sealed partial class PomodoroViewModel : ViewModelBase, IActivatableViewM
         SetupSession(SessionType);
 
         _isSkippingSession = false;
+
+        IsTimerTicking = oldTimerTicking;
     }
 
     private async Task CompletedSession(SessionType sessionType, bool isSkippingSession)
@@ -188,8 +193,8 @@ public sealed partial class PomodoroViewModel : ViewModelBase, IActivatableViewM
 
         if (!isSkippingSession || NotificationWhenSkippingSession)
         {
-            await SessionCompletedNotification(sessionType);
-            await SessionCompletedSound();
+            SessionCompletedNotification(sessionType);
+            SessionCompletedSound();
         }
 
         if (!isSkippingSession || SaveProgressWhenSkippingSession)
@@ -208,6 +213,8 @@ public sealed partial class PomodoroViewModel : ViewModelBase, IActivatableViewM
         }
 
         _isSkippingSession = false;
+
+        Debug.WriteLine("TIMER TICK COMPLETED");
 
         if (SessionType == SessionType.Pomodoro)
         {
@@ -251,8 +258,7 @@ public sealed partial class PomodoroViewModel : ViewModelBase, IActivatableViewM
         SessionType = SessionType.LongBreak;
     }
 
-    [ReactiveCommand]
-    private async Task SessionCompletedSound()
+    private void SessionCompletedSound()
     {
         var sound = Settings.Notifications.SelectedSound;
         if (sound == Sound.None)
@@ -262,7 +268,7 @@ public sealed partial class PomodoroViewModel : ViewModelBase, IActivatableViewM
 
         var volume = Settings.Notifications.Volume;
 
-        await _playSoundService.Play(sound, volume);
+        _ = Task.Run(() => _playSoundService.Play(sound, volume));
     }
 
     [ReactiveCommand]
@@ -289,28 +295,35 @@ public sealed partial class PomodoroViewModel : ViewModelBase, IActivatableViewM
         }
     }
 
-    [ReactiveCommand]
-    private async Task SessionCompletedNotification(SessionType sessionType)
+    private void SessionCompletedNotification(SessionType sessionType)
     {
         if (!NotificationOnCompletion)
         {
             return;
         }
 
+        string title = string.Empty;
+        string msg = string.Empty;
+
         switch (sessionType)
         {
             case SessionType.Pomodoro:
-                await _notificationService.ShowNotification("Pomodoro completed", "Time for a break!");
+                title = "Pomodoro completed";
+                msg = "Time for a break!";
                 break;
 
             case SessionType.ShortBreak:
-                await _notificationService.ShowNotification("Break completed", "Time to focus!");
+                title = "Break completed";
+                msg = "Time to focus!";
                 break;
 
             case SessionType.LongBreak:
-                await _notificationService.ShowNotification("Long break completed", "Time to focus!");
+                title = "Long break completed";
+                msg = "Time to focus!";
                 break;
         }
+
+        _ = Task.Run(() => _notificationService.ShowNotification(title, msg));
     }
 
     [ReactiveCommand]

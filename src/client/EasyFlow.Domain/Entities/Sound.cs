@@ -11,8 +11,8 @@ public static class SoundExtensions
 {
     public static string GetFileName(this Sound type) => type switch
     {
-        Sound.Audio1 => "aud1.wav",
-        Sound.Audio2 => "aud2.wav",
+        Sound.Audio1 => "audio1.wav",
+        Sound.Audio2 => "audio2.wav",
         _ => throw new NotImplementedException(),
     };
 }

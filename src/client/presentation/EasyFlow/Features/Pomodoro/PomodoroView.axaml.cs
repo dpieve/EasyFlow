@@ -34,6 +34,8 @@ public partial class PomodoroView : ReactiveUserControl<PomodoroViewModel>
             this.WhenAnyValue(v => v.ViewModel!.SessionType)
                 .Subscribe(s =>
                 {
+                    Debug.WriteLine("View: SessionType = " + s);
+
                     switch (s)
                     {
                         case SessionType.Pomodoro:
