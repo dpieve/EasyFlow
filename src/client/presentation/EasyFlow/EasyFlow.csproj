@@ -15,7 +15,7 @@
     <AvaloniaResource Remove="Assets\audio1.wav" />
     <AvaloniaResource Remove="Assets\audio2.wav" />
   </ItemGroup>
-
+  
   <ItemGroup>
     <PackageReference Include="Avalonia" />
     <PackageReference Include="Avalonia.Controls.DataGrid" />
@@ -26,10 +26,10 @@
     <PackageReference Include="Avalonia.Diagnostics">
       <IncludeAssets Condition="'$(Configuration)' != 'Debug'">None</IncludeAssets>
       <PrivateAssets Condition="'$(Configuration)' != 'Debug'">All</PrivateAssets>
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>none</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Avalonia.ReactiveUI" />
-    <PackageReference Include="HotAvalonia" />
-    <PackageReference Include="HotAvalonia.Extensions" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" />
     <PackageReference Include="Microsoft.Extensions.Hosting" />
     <PackageReference Include="NetCoreAudio" />
@@ -39,18 +39,8 @@
     </PackageReference>
   </ItemGroup>
 
-    <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
-	  <DefineConstants>$(DefineConstants);ENABLE_XAML_HOT_RELOAD</DefineConstants>
-    </PropertyGroup>
-
     <ItemGroup>
-	  <PackageReference Condition="$(DefineConstants.Contains(ENABLE_XAML_HOT_RELOAD))" Include="Avalonia.Markup.Xaml.Loader" Version="$(AvaloniaVersion)" />
-	  <PackageReference Condition="$(DefineConstants.Contains(ENABLE_XAML_HOT_RELOAD))" Include="HotAvalonia" Version="2.1.0" />
-	  <PackageReference Include="HotAvalonia.Extensions" Version="2.1.0" PrivateAssets="All" />
 	  <PackageReference Include="Splat.Microsoft.Extensions.DependencyInjection" />
-    </ItemGroup>
-
-    <ItemGroup>
       <ProjectReference Include="..\..\EasyFlow.Domain\EasyFlow.Domain.csproj" />
     </ItemGroup>
 
@@ -61,13 +51,7 @@
       <None Update="Assets\audio2.wav">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
-      <None Update="Assets\audio1.wav">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Update="Assets\audio2.wav">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-    </ItemGroup>
+     </ItemGroup>
 
     <ItemGroup>
       <Compile Update="CustomControls\LabelsSlider.axaml.cs">
@@ -77,25 +61,5 @@
         <DependentUpon>FocusTimeView.axaml</DependentUpon>
       </Compile>
     </ItemGroup>
-
-    <ItemGroup>
-      <None Update="Assets\audio1.wav">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="Assets\audio2.wav">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="aud1.wav">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Update="aud2.wav">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Update="Audios\aud1.wav">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Update="Audios\aud2.wav">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-    </ItemGroup>	
+	
 </Project>

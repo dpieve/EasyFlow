@@ -12,8 +12,6 @@ using EasyFlow.Features.Settings.FocusTime;
 using EasyFlow.Features.Settings.HomeSettings;
 using EasyFlow.Features.Settings.Notifications;
 using EasyFlow.Features.Settings.Tags;
-using EasyFlow.Services.Desktop;
-using HotAvalonia;
 using Splat;
 using System;
 using System.Diagnostics;
@@ -25,11 +23,6 @@ public partial class App : Application
 {
     public override void Initialize()
     {
-        if (OperatingSystem.IsWindows())
-        {
-            this.EnableHotReload();
-        }
-
         AvaloniaXamlLoader.Load(this);
 
         AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
