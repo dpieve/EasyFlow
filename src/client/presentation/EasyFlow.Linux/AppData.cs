@@ -2,20 +2,27 @@
 using EasyFlow.Domain.Services;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace EasyFlow.Linux;
 
+[JsonSerializable(typeof(AppDataJson))]
+[JsonSerializable(typeof(List<Session>))]
+[JsonSerializable(typeof(List<Tag>))]
+[JsonSerializable(typeof(AppSettings))]
 public sealed class AppDataJson
 {
-    // path:
-    // /home/YourUser/.config/easyflow.json
-    private string _filePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "easyflow.json");
-    
+    private readonly JsonSerializerOptions _options = new(JsonSerializerDefaults.General)
+    {
+        WriteIndented = true
+    };
+
+    private string _filePath = "easyflow.json";
+
     private int _nextSessionId = 1;
     private int _nextTagId = 1;
 
@@ -35,7 +42,7 @@ public sealed class AppDataJson
             if (File.Exists(_filePath))
             {
                 var jsonData = File.ReadAllText(_filePath);
-                var appData = JsonSerializer.Deserialize<AppDataJson>(jsonData);
+                var appData = JsonSerializer.Deserialize<AppDataJson>(jsonData, AppJsonContext.Default.AppDataJson);
                 Sessions = appData?.Sessions ?? [];
                 Tags = appData?.Tags ?? [];
                 Settings = appData?.Settings ?? defaultSettings;
@@ -65,7 +72,7 @@ public sealed class AppDataJson
             {
                 WriteIndented = true,
             };
-            var jsonData = JsonSerializer.Serialize(this, options);
+            var jsonData = JsonSerializer.Serialize(this, AppJsonContext.Default.AppDataJson);
 
             Console.WriteLine("Saving to " + _filePath);
 
@@ -81,6 +88,14 @@ public sealed class AppDataJson
 
     public int GetNextTagId() => _nextTagId++;
 }
+
+[JsonSourceGenerationOptions(WriteIndented = true)]
+[JsonSerializable(typeof(AppDataJson))]
+[JsonSerializable(typeof(List<Session>))]
+[JsonSerializable(typeof(List<Tag>))]
+[JsonSerializable(typeof(AppSettings))]
+public partial class AppJsonContext : JsonSerializerContext
+{ }
 
 public sealed class SessionServiceJson : ISessionService
 {
