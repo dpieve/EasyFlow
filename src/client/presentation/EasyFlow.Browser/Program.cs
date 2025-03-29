@@ -1,14 +1,17 @@
 ﻿using Avalonia;
 using Avalonia.Browser;
 using Avalonia.ReactiveUI;
-using EasyFlow;
-using EasyFlow.Browser;
 using EasyFlow.Common;
 using Microsoft.Extensions.Hosting;
 using ReactiveUI;
 using Splat;
 using Splat.Microsoft.Extensions.DependencyInjection;
+using System.Runtime.Versioning;
 using System.Threading.Tasks;
+
+[assembly: SupportedOSPlatform("browser")]
+
+namespace EasyFlow.Browser;
 
 internal sealed partial class Program
 {

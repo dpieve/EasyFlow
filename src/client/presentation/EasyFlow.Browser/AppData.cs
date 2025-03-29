@@ -26,7 +26,7 @@ public partial class StorageApi
 [SupportedOSPlatform("browser")]
 public sealed class AppDataJson
 {
-    private string _key = "EasyFlowData";
+    //private string _key = "EasyFlowData";
     private int _nextSessionId = 1;
     private int _nextTagId = 1;
 
@@ -41,44 +41,46 @@ public sealed class AppDataJson
     public List<Tag> Tags { get; set; } = new();
     public AppSettings? Settings { get; set; }
 
+#pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
     public async Task LoadData(List<Tag> defaultTags, AppSettings defaultSettings)
+#pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
     {
         try
         {
-            if (!_isInitialized)
-            {
-                await JSHost.ImportAsync("StorageApi", "/StorageJs.js");
-                _isInitialized = true;
-            }
-            StorageApi.LogValue("Loading Data from JS");
+            //if (!_isInitialized)
+            //{
+            //    await JSHost.ImportAsync("StorageApi", "/StorageJs.js");
+            //    _isInitialized = true;
+            //}
+            //StorageApi.LogValue("Loading Data from JS");
 
-            var jsonData = StorageApi.GetItem(_key);
+            //var jsonData = StorageApi.GetItem(_key);
 
-            StorageApi.LogValue($"Data loaded: >{jsonData}<");
+            //StorageApi.LogValue($"Data loaded: >{jsonData}<");
 
-            if (!string.IsNullOrEmpty(jsonData))
-            {
-                StorageApi.LogValue("trying to deserialize");
+            //if (!string.IsNullOrEmpty(jsonData))
+            //{
+            //    StorageApi.LogValue("trying to deserialize");
 
-                var appData = JsonSerializer.Deserialize<AppDataJson>(jsonData);
+            //    var appData = JsonSerializer.Deserialize<AppDataJson>(jsonData);
 
-                StorageApi.LogValue($"Data deserialized: {appData}");
+            //    StorageApi.LogValue($"Data deserialized: {appData}");
 
-                Sessions = appData?.Sessions ?? [];
-                Tags = appData?.Tags ?? [];
-                Settings = appData?.Settings ?? defaultSettings;
-                _nextSessionId = Sessions.Count != 0 ? Sessions.Max(s => s.Id) + 1 : 1;
-                _nextTagId = Tags.Count != 0 ? Tags.Max(t => t.Id) + 1 : 1;
-            }
-            else
-            {
+            //    Sessions = appData?.Sessions ?? [];
+            //    Tags = appData?.Tags ?? [];
+            //    Settings = appData?.Settings ?? defaultSettings;
+            //    _nextSessionId = Sessions.Count != 0 ? Sessions.Max(s => s.Id) + 1 : 1;
+            //    _nextTagId = Tags.Count != 0 ? Tags.Max(t => t.Id) + 1 : 1;
+            //}
+            //else
+            //{
                 Sessions = new();
                 Tags = [.. defaultTags];
                 Settings = defaultSettings;
 
-                StorageApi.LogValue("Saving default data");
+                //StorageApi.LogValue("Saving default data");
                 SaveData();
-            }
+            //}
         }
         catch (Exception ex)
         {
@@ -101,15 +103,15 @@ public sealed class AppDataJson
                 return;
             }
 
-            var options = new JsonSerializerOptions
-            {
-                WriteIndented = true,
-            };
-            var jsonData = JsonSerializer.Serialize(this, options);
+            //var options = new JsonSerializerOptions
+            //{
+            //    WriteIndented = true,
+            //};
+            //var jsonData = JsonSerializer.Serialize(this, options);
 
-            StorageApi.LogValue($"Saving data: {jsonData}");
+            //StorageApi.LogValue($"Saving data: {jsonData}");
 
-            StorageApi.SetItem(_key, jsonData);
+            //StorageApi.SetItem(_key, jsonData);
         }
         catch (Exception ex)
         {
