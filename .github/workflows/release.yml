@@ -5,7 +5,6 @@ on:
 
 jobs:
   publish-windows:
-    if: ${{ github.event.inputs.platform == 'windows' || github.event.inputs.platform == 'all' }}
     runs-on: windows-latest
     steps:
       - name: Checkout
@@ -29,7 +28,6 @@ jobs:
           path: ./upload
 
   publish-linux:
-    if: ${{ github.event.inputs.platform == 'linux' || github.event.inputs.platform == 'all' }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -62,7 +60,6 @@ jobs:
           path: ./upload
 
   publish-android:
-    if: ${{ github.event.inputs.platform == 'android' || github.event.inputs.platform == 'all' }}
     runs-on: windows-latest
     steps:
       - name: Checkout
