@@ -23,10 +23,10 @@ jobs:
         dotnet-version: 9.0.x
     
     - name: Restore workloads
-      run: dotnet workload restore
+      run: dotnet workload restore --project src/
     
     - name: Install WASM tools
-      run: dotnet workload install wasm-tools
+      run: dotnet workload install wasm-tools --project src/
     
     - name: Restore dependencies
       run: dotnet restore src/
