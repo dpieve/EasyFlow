@@ -14,6 +14,9 @@ on:
           - 'android'
           - 'all'
 
+env:
+  DOTNET_VERSION: '9.x'
+
 jobs:
   windows:
     if: ${{ github.event.inputs.platform == 'windows' || github.event.inputs.platform == 'all' }}
@@ -49,11 +52,11 @@ jobs:
       - name: Make upload directory
         run: mkdir upload
 
-      - name: Install .NET 9.0
-        run: |
-            sudo apt-get update
-            sudo apt-get install -y dotnet-sdk-9.0
-
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+        
       - name: Publish linux-x64
         run: dotnet publish src/client/presentation/EasyFlow.Linux -r linux-x64 -c Release --sc /p:PublishSingleFile=true /p:IncludeNativeLibrariesForSelfExtract=true -o ./publish/linux64
       
@@ -78,6 +81,11 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4.1.1
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
 
       - name: CD Android
         run: cd ./src/client/presentation/EasyFlow.Android
