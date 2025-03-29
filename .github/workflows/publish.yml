@@ -90,9 +90,6 @@ jobs:
       - name: CD Android
         run: cd ./src/client/presentation/EasyFlow.Android
 
-      - name: Restore Dependencies
-        run: dotnet restore
-
       - name: Publish Android
         run: dotnet publish -c Release -f net9.0-android --no-restore -o ./publish -p:RuntimeIdentifier=android-arm64
 
