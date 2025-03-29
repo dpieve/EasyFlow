@@ -49,6 +49,11 @@ jobs:
       - name: Make upload directory
         run: mkdir upload
 
+      - name: Install .NET 9.0
+        run: |
+            sudo apt-get update
+            sudo apt-get install -y dotnet-sdk-9.0
+
       - name: Publish linux-x64
         run: dotnet publish src/client/presentation/EasyFlow.Linux -r linux-x64 -c Release --sc /p:PublishSingleFile=true /p:IncludeNativeLibrariesForSelfExtract=true -o ./publish/linux64
       
