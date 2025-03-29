@@ -1,21 +1,6 @@
-name: Publish
+name: Release
 
-on:
-  workflow_dispatch:
-    inputs:
-      platform:
-        description: 'Platform to publish'
-        required: true
-        default: 'all'
-        type: choice
-        options:
-          - 'windows'
-          - 'linux'
-          - 'android'
-          - 'all'
-
-env:
-  DOTNET_VERSION: '9.x'
+on: workflow_dispatch
 
 jobs:
   publish-windows:
@@ -98,3 +83,32 @@ jobs:
         with:
           name: android
           path: ./publish/*Signed.apk
+
+  draft-release:
+    needs: [ publish-windows, publish-linux, publish-android ]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download windows Artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: windows
+
+      - name: Download linux Artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: linux
+
+      - name: Download android Artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: android
+
+      - name: Release
+        uses: softprops/action-gh-release@v2
+        if: github.event_name == 'workflow_dispatch'
+        with:
+          generate_release_notes: true
+          draft: true
+          files: |
+            *.zip
+            *.apk
