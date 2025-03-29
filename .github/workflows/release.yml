@@ -3,6 +3,9 @@ name: Release
 on: 
   workflow_dispatch:
 
+env:
+  DOTNET_VERSION: '9.x'
+
 jobs:
   publish-windows:
     runs-on: windows-latest
