@@ -7,6 +7,18 @@
   </PropertyGroup>
 
   <PropertyGroup>
+	<Version>2.0.0</Version>
+	<Authors>dpieve</Authors>
+	<Company>EasyFlow</Company>
+	<Product>EasyFlow</Product>
+	<Copyright>© EasyFlow. All rights reserved.</Copyright>
+	<Description>Productivity App</Description>
+	<PackageTags>cross-platform,productivity,pomodoro</PackageTags>
+	<PackageLicenseExpression>MIT</PackageLicenseExpression>
+	<RepositoryUrl>https://github.com/dpieve/EasyFlow</RepositoryUrl>
+  </PropertyGroup>	
+	
+  <PropertyGroup>
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <ApplicationIcon>panda.ico</ApplicationIcon>
   </PropertyGroup>
