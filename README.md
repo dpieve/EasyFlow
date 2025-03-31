@@ -20,7 +20,7 @@ Check it out: [dpieve.github.io/EasyFocus/](https://dpieve.github.io/EasyFocus/)
 
 ## Installation
 
-For installation instructions and usage documentation, please visit EasyFocu's [page](https://dpieve.github.io/EasyFocus/).
+For installation instructions and usage documentation, please visit our [page](https://dpieve.github.io/EasyFocus/).
 
 ## Build
 
