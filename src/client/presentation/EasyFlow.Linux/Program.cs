@@ -6,6 +6,7 @@ using ReactiveUI;
 using Splat;
 using Splat.Microsoft.Extensions.DependencyInjection;
 using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 
@@ -15,6 +16,26 @@ internal sealed class Program
 {
     [STAThread]
     public static int Main(string[] args)
+    {
+        var mutex = new Mutex(false, typeof(Program).FullName);
+
+        try
+        {
+            if (!mutex.WaitOne(TimeSpan.FromSeconds(3), true))
+            {
+                Trace.TraceInformation($"Another instance is already running. Exiting...");
+                return 1;
+            }
+
+            return Run(args);
+        }
+        finally
+        {
+            mutex.ReleaseMutex();
+        }
+    }
+
+    public static int Run(string[] args)
     {
         var host = BuildHost();
 

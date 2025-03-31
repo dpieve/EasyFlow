@@ -2,6 +2,6 @@
   "profiles": {
     "EasyFlow.Windows": {
       "commandName": "Project"
-    }  
+    }
   }
 }
