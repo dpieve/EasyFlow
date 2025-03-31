@@ -1,0 +1,11 @@
+{
+  "profiles": {
+    "EasyFocus.Linux": {
+      "commandName": "Project"
+    },
+    "EasyFocus.WSL": {
+      "commandName": "WSL2",
+      "distributionName": ""
+    }
+  }
+}

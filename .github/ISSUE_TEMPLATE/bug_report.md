@@ -23,6 +23,9 @@ A clear and concise description of what you expected to happen.
 **Setup**
  [x] Windows
  [ ] Linux
+ [ ] Browser
+ [ ] Android
+ [ ] Other
 
 **Additional context**
 Add any other context about the problem here.

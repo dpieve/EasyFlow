@@ -1,15 +1,15 @@
-# EasyFlow
+# EasyFocus
 
-[![Build Status](https://github.com/dpieve/EasyFlow/actions/workflows/build.yml/badge.svg)](https://github.com/dpieve/EasyFlow/actions/workflows/build.yml)
+[![Build Status](https://github.com/dpieve/EasyFocus/actions/workflows/build.yml/badge.svg)](https://github.com/dpieve/EasyFocus/actions/workflows/build.yml)
 
-EasyFlow is a cross-platform productivity application designed to help you focus using the pomodoro technique.
+EasyFocus is a cross-platform productivity application designed to help you focus using the pomodoro technique.
 
 The application is built with C# and [AvaloniaUI](https://avaloniaui.net/).
 
-> "To help me stay focused and productive while working from home, I built EasyFlow. 
+> "To help me stay focused and productive while working from home, I built the EasyFocus app. 
 A tool that tracks time, respects privacy and lets me easily see what I’ve accomplished." - dpieve.
 
-Check it out: [dpieve.github.io/EasyFlow/](https://dpieve.github.io/EasyFlow/)
+Check it out: [dpieve.github.io/EasyFocus/](https://dpieve.github.io/EasyFocus/)
 
 ## Features
 
@@ -20,15 +20,15 @@ Check it out: [dpieve.github.io/EasyFlow/](https://dpieve.github.io/EasyFlow/)
 
 ## Installation
 
-For installation instructions and usage documentation, please visit EasyFlow's [page](https://dpieve.github.io/EasyFlow/).
+For installation instructions and usage documentation, please visit EasyFocu's [page](https://dpieve.github.io/EasyFocus/).
 
-## Build instructions
+## Build
 
 1) Clone the repository.
   
 ```bash
-    git clone https://github.com/dpieve/EasyFlow.git
-    cd EasyFlow
+    git clone https://github.com/dpieve/EasyFocus.git
+    cd EasyFocus
 ```
   
 2) Open the solution (.sln).
@@ -39,7 +39,7 @@ For installation instructions and usage documentation, please visit EasyFlow's [
   
 ## Contributions
 
-Feel free to open an [issue](https://github.com/dpieve/EasyFlow/issues) or a Pull Request.
+Feel free to open an [issue](https://github.com/dpieve/EasyFocus/issues) or a Pull Request.
 
 Read the `CONTRIBUTION.MD` for more details.
 

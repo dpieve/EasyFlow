@@ -1,0 +1,20 @@
+<UserControl
+    x:Class="EasyFocus.Features.Settings.SettingsView"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:common="clr-namespace:EasyFocus.Common"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="clr-namespace:EasyFocus.Features.Settings"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    x:DataType="vm:SettingsViewModel"
+    mc:Ignorable="d">
+
+    <ContentControl Content="{Binding CurrentViewModel}">
+        <ContentControl.ContentTemplate>
+            <common:ViewLocator />
+        </ContentControl.ContentTemplate>
+    </ContentControl>
+
+</UserControl>

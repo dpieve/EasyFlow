@@ -1,0 +1,79 @@
+<Window
+    x:Class="EasyFocus.Features.MainWindow"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:views="clr-namespace:EasyFocus.Features"
+    xmlns:vm="using:EasyFocus.Features"
+    x:Name="mainWindow"
+    Title="EasyFocus"
+    Width="1366"
+    Height="768"
+    d:DesignHeight="768"
+    d:DesignWidth="1366"
+    x:DataType="views:MainWindow"
+    Background="Transparent"
+    DoubleTapped="Window_DoubleTapped"
+    ExtendClientAreaChromeHints="NoChrome"
+    ExtendClientAreaTitleBarHeightHint="-1"
+    ExtendClientAreaToDecorationsHint="True"
+    Icon="/Assets/panda.ico"
+    KeyDown="Window_KeyDown"
+    PointerPressed="Window_PointerPressed"
+    SizeChanged="Window_SizeChanged"
+    TransparencyLevelHint="AcrylicBlur"
+    WindowStartupLocation="CenterScreen"
+    WindowState="Normal"
+    mc:Ignorable="d">
+
+    <Window.Styles>
+        <Style Selector="Button.TitleBar">
+            <Setter Property="Padding" Value="7" />
+            <Setter Property="CornerRadius" Value="100" />
+            <Setter Property="HorizontalAlignment" Value="Right" />
+        </Style>
+    </Window.Styles>
+
+    <Panel>
+        <ExperimentalAcrylicBorder IsHitTestVisible="False">
+            <ExperimentalAcrylicBorder.Material>
+                <ExperimentalAcrylicMaterial
+                    BackgroundSource="Digger"
+                    MaterialOpacity="0.65"
+                    TintColor="Black"
+                    TintOpacity="1" />
+            </ExperimentalAcrylicBorder.Material>
+        </ExperimentalAcrylicBorder>
+
+        <Grid>
+
+            <views:MainView />
+            <StackPanel
+                x:Name="TitleBarButtons"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Top"
+                Orientation="Horizontal">
+                <Button
+                    x:Name="CloseButton"
+                    Margin="15,15,0,15"
+                    Background="#ff5f5a"
+                    Classes="TitleBar"
+                    Click="Button_Close_Click" />
+                <Button
+                    x:Name="MinimizeButton"
+                    Margin="10,15,0,15"
+                    Background="#febd2f"
+                    Classes="TitleBar"
+                    Click="Button_Minimize_Click" />
+                <Button
+                    x:Name="MaximizeButton"
+                    Margin="10,15,0,15"
+                    Background="#28c740"
+                    Classes="TitleBar"
+                    Click="Button_Maximize_Click" />
+            </StackPanel>
+
+        </Grid>
+    </Panel>
+</Window>

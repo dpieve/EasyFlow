@@ -1,0 +1,300 @@
+﻿using EasyFocus.Domain.Entities;
+using EasyFocus.Domain.Services;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Runtime.InteropServices.JavaScript;
+using System.Runtime.Versioning;
+using System.Threading.Tasks;
+
+namespace EasyFocus.Browser;
+
+public partial class StorageApi
+{
+    [JSImport("logValue", "StorageApi")]
+    public static partial void LogValue(string message);
+
+    [JSImport("getStorageItem", "StorageApi")]
+    public static partial string? GetItem(string key);
+
+    [JSImport("setStorageItem", "StorageApi")]
+    public static partial void SetItem(string key, string value);
+}
+
+[SupportedOSPlatform("browser")]
+public sealed class AppDataJson
+{
+    //private string _key = "EasyFocusData";
+    private int _nextSessionId = 1;
+
+    private int _nextTagId = 1;
+
+    private bool _isInitialized = false;
+
+    public AppDataJson()
+    {
+    }
+
+    public bool Loaded = false;
+    public List<Session> Sessions { get; set; } = new();
+    public List<Tag> Tags { get; set; } = new();
+    public AppSettings? Settings { get; set; }
+
+#pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
+
+    public async Task LoadData(List<Tag> defaultTags, AppSettings defaultSettings)
+#pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
+    {
+        try
+        {
+            //if (!_isInitialized)
+            //{
+            //    await JSHost.ImportAsync("StorageApi", "/StorageJs.js");
+            //    _isInitialized = true;
+            //}
+            //StorageApi.LogValue("Loading Data from JS");
+
+            //var jsonData = StorageApi.GetItem(_key);
+
+            //StorageApi.LogValue($"Data loaded: >{jsonData}<");
+
+            //if (!string.IsNullOrEmpty(jsonData))
+            //{
+            //    StorageApi.LogValue("trying to deserialize");
+
+            //    var appData = JsonSerializer.Deserialize<AppDataJson>(jsonData);
+
+            //    StorageApi.LogValue($"Data deserialized: {appData}");
+
+            //    Sessions = appData?.Sessions ?? [];
+            //    Tags = appData?.Tags ?? [];
+            //    Settings = appData?.Settings ?? defaultSettings;
+            //    _nextSessionId = Sessions.Count != 0 ? Sessions.Max(s => s.Id) + 1 : 1;
+            //    _nextTagId = Tags.Count != 0 ? Tags.Max(t => t.Id) + 1 : 1;
+            //}
+            //else
+            //{
+            Sessions = new();
+            Tags = [.. defaultTags];
+            Settings = defaultSettings;
+
+            //StorageApi.LogValue("Saving default data");
+            SaveData();
+            //}
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine(ex.Message);
+            StorageApi.LogValue(ex.Message);
+        }
+        finally
+        {
+            Loaded = true;
+        }
+    }
+
+    public void SaveData()
+    {
+        try
+        {
+            if (!_isInitialized)
+            {
+                return;
+            }
+
+            //var options = new JsonSerializerOptions
+            //{
+            //    WriteIndented = true,
+            //};
+            //var jsonData = JsonSerializer.Serialize(this, options);
+
+            //StorageApi.LogValue($"Saving data: {jsonData}");
+
+            //StorageApi.SetItem(_key, jsonData);
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine(ex.Message);
+        }
+    }
+
+    public int GetNextSessionId() => _nextSessionId++;
+
+    public int GetNextTagId() => _nextTagId++;
+}
+
+public sealed class SessionServiceJson : ISessionService
+{
+    private readonly AppDataJson _appData;
+
+    public SessionServiceJson(AppDataJson appData)
+    {
+        _appData = appData;
+    }
+
+    public Task<Session> AddAsync(Session session)
+    {
+        session.Id = _appData.GetNextSessionId();
+        _appData.Sessions.Add(session);
+        _appData.SaveData();
+        return Task.FromResult(session);
+    }
+
+    public Task<bool> DeleteAsync(Session session)
+    {
+        var result = _appData.Sessions.Remove(session);
+        _appData.SaveData();
+        return Task.FromResult(result);
+    }
+
+    public Task<Session?> GetSessionAsync(int id)
+    {
+        var session = _appData.Sessions.Find(s => s.Id == id);
+        return Task.FromResult(session);
+    }
+
+    public Task<List<Session>> GetSessionsAsync()
+    {
+        return Task.FromResult(_appData.Sessions);
+    }
+
+    public Task<bool> UpdateAsync(Session session)
+    {
+        var index = _appData.Sessions.FindIndex(s => s.Id == session.Id);
+        if (index >= 0)
+        {
+            _appData.Sessions[index] = session;
+            _appData.SaveData();
+            return Task.FromResult(true);
+        }
+        return Task.FromResult(false);
+    }
+}
+
+public sealed class TagServiceJson : ITagService
+{
+    private readonly AppDataJson _appData;
+
+    public TagServiceJson(AppDataJson appData)
+    {
+        _appData = appData;
+    }
+
+    public Task<Tag> AddTagAsync(Tag tag)
+    {
+        tag.Id = _appData.GetNextTagId();
+        _appData.Tags.Add(tag);
+        _appData.SaveData();
+        return Task.FromResult(tag);
+    }
+
+    public Task<bool> DeleteTagAsync(Tag tag)
+    {
+        var result = _appData.Tags.Remove(tag);
+        _appData.SaveData();
+        return Task.FromResult(result);
+    }
+
+    public bool DeleteTag(Tag tag)
+    {
+        var result = _appData.Tags.Remove(tag);
+        _appData.SaveData();
+        return true;
+    }
+
+    public Task<Tag?> GetTagAsync(int id)
+    {
+        var tag = _appData.Tags.Find(t => t.Id == id);
+        return Task.FromResult(tag);
+    }
+
+    public Task<List<Tag>> GetTagsAsync()
+    {
+        return Task.FromResult(_appData.Tags);
+    }
+
+    public Task<bool> UpdateTagAsync(Tag tag)
+    {
+        var index = _appData.Tags.FindIndex(t => t.Id == tag.Id);
+        if (index >= 0)
+        {
+            _appData.Tags[index] = tag;
+            _appData.SaveData();
+            return Task.FromResult(true);
+        }
+        return Task.FromResult(false);
+    }
+}
+
+public sealed class SettingsServiceJson : ISettingsService
+{
+    private readonly AppDataJson _appData;
+
+    public SettingsServiceJson(AppDataJson appData)
+    {
+        _appData = appData;
+    }
+
+    public Task<AppSettings> AddSettingsAsync(AppSettings settings)
+    {
+        throw new NotImplementedException();
+    }
+
+    public bool DeleteSettings(AppSettings settings)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<bool> DeleteSettingsAsync(AppSettings settings)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<List<AppSettings>> GetSettingsAsync()
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<AppSettings?> GetSettingsAsync(int id)
+    {
+        return Task.FromResult(_appData.Settings);
+    }
+
+    public async Task Initialize()
+    {
+        var defaultTags = new List<Tag>
+          {
+              Tag.CreateTag("Work", 1),
+              Tag.CreateTag("Study", 2),
+              Tag.CreateTag("Chores", 3)
+          };
+
+        var defaultSettings = new AppSettings(
+            id: 1,
+            selectedTag: defaultTags.First(),
+            selectedPomodoro: 25,
+            selectedShortBreak: 5,
+            selectedLongBreak: 10,
+            pomodorosBeforeLongBreak: 4,
+            autoStartPomodoros: true,
+            autoStartBreaks: true,
+            saveSkippedSessions: false,
+            notificationOnCompletion: true,
+            notificationAfterSkippedSessions: false,
+            alarmVolume: 50,
+            alarmSound: Sound.Audio1,
+            backgroundPath: "background1.png",
+            showTodaySessions: true
+            );
+
+        await _appData.LoadData(defaultTags, defaultSettings);
+    }
+
+    public Task<bool> UpdateSettingsAsync(AppSettings settings)
+    {
+        _appData.Settings = settings;
+        _appData.SaveData();
+        return Task.FromResult(true);
+    }
+}

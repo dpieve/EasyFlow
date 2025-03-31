@@ -1,0 +1,229 @@
+<UserControl
+    x:Class="EasyFocus.Features.Pomodoro.PomodoroView"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:common="clr-namespace:EasyFocus.Common"
+    xmlns:converters="clr-namespace:EasyFocus.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="clr-namespace:EasyFocus.Features.Pomodoro"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    x:DataType="vm:PomodoroViewModel"
+    Background="Transparent"
+    PointerPressed="UserControl_PointerPressed_1"
+    mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <converters:FormattedTimeFromSecondsConverter x:Key="FormattedTimeFromSeconds" />
+        <converters:SettingsIconFromToggleButtonConverter x:Key="SettingsIconFromToggleButton" />
+        <StreamGeometry x:Key="settings_open_icon">M2 4.5C2 4.22386 2.22386 4 2.5 4H17.5C17.7761 4 18 4.22386 18 4.5C18 4.77614 17.7761 5 17.5 5H2.5C2.22386 5 2 4.77614 2 4.5Z M2 9.5C2 9.22386 2.22386 9 2.5 9H17.5C17.7761 9 18 9.22386 18 9.5C18 9.77614 17.7761 10 17.5 10H2.5C2.22386 10 2 9.77614 2 9.5Z M2.5 14C2.22386 14 2 14.2239 2 14.5C2 14.7761 2.22386 15 2.5 15H17.5C17.7761 15 18 14.7761 18 14.5C18 14.2239 17.7761 14 17.5 14H2.5Z</StreamGeometry>
+        <StreamGeometry x:Key="settings_close_icon">M 16.6 4.4 C 16.9 4.7 16.9 5.2 16.6 5.5 L 11.6 11.5 L 16.6 17.5 C 16.9 17.8 16.9 18.3 16.6 18.6 C 16.3 18.9 15.8 18.9 15.5 18.6 L 10.5 12.6 L 5.5 18.6 C 5.2 18.9 4.7 18.9 4.4 18.6 C 4.1 18.3 4.1 17.8 4.4 17.5 L 9.4 11.5 L 4.4 5.5 C 4.1 5.2 4.1 4.7 4.4 4.4 C 4.7 4.1 5.2 4.1 5.5 4.4 L 10.5 10.4 L 15.5 4.4 C 15.8 4.1 16.3 4.1 16.6 4.4 Z</StreamGeometry>
+        <StreamGeometry x:Key="restart_icon">M5.50999526,3.31842271 C5.12151573,3.31842271 4.80046129,3.60710385 4.74965,3.9816481 L4.74264499,4.08577298 L4.74264499,6.97963208 C4.74264499,7.36811161 5.03132614,7.68916605 5.40587038,7.73997735 L5.50999526,7.74698235 L8.40385436,7.74698235 C8.82765021,7.74698235 9.17120463,7.40342793 9.17120463,6.97963208 C9.17120463,6.59115255 8.88252349,6.27009811 8.50797925,6.21928681 L8.40385436,6.21228181 L7.42512053,6.21182461 C10.3377833,3.87107476 14.6073963,4.05209336 17.3101833,6.75488039 C20.2069829,9.65167996 20.2069829,14.34832 17.3101833,17.2451196 C14.4133838,20.1419192 9.71674369,20.1419192 6.81994412,17.2451196 C5.05698183,15.4821573 4.31886614,12.9925923 4.78189684,10.58925 C4.86207142,10.173107 4.58971523,9.77076216 4.17357228,9.69058758 C3.75742932,9.610413 3.35508446,9.88276918 3.27490988,10.2989121 C2.71652434,13.1971899 3.60781134,16.2033812 5.73474696,18.3303168 C9.23088437,21.8264542 14.8992431,21.8264542 18.3953805,18.3303168 C21.8915179,14.8341794 21.8915179,9.16582064 18.3953805,5.66968323 C15.0747703,2.34907304 9.7945807,2.18235834 6.27720505,5.16953912 L6.27734554,4.08577298 C6.27734554,3.66197713 5.93379112,3.31842271 5.50999526,3.31842271 Z</StreamGeometry>
+    </UserControl.Resources>
+
+    <UserControl.Styles>
+        <Style Selector="Button.SessionType">
+            <Setter Property="Padding" Value="15" />
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="FontSize" Value="20" />
+            <Setter Property="Background" Value="Transparent" />
+        </Style>
+
+        <Style Selector="ToggleButton.StartButton">
+            <Style Selector="^:unchecked">
+                <Setter Property="Content" Value="START" />
+            </Style>
+            <Style Selector="^:checked">
+                <Setter Property="Content" Value="STOP" />
+            </Style>
+        </Style>
+
+        <Style Selector="ToggleButton.Settings">
+            <Style Selector="^:unchecked">
+                <Setter Property="Background" Value="Transparent" />
+            </Style>
+            <Style Selector="^:checked /template/ ContentPresenter#PART_ContentPresenter">
+                <Setter Property="Background" Value="Transparent" />
+            </Style>
+        </Style>
+
+        <Style Selector="ToggleButton.Settings:checked > PathIcon">
+            <Setter Property="RenderTransform">
+                <Setter.Value>
+                    <ScaleTransform ScaleX="0.7" ScaleY="0.7" />
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style Selector="ComboBox.TagsComboBox">
+            <Style Selector="^:pointerover /template/ Border#Background">
+                <Setter Property="Background" Value="#20FFFFFF" />
+            </Style>
+        </Style>
+    </UserControl.Styles>
+
+    <Grid>
+
+        <Grid RowDefinitions="*, *, *, auto">
+
+            <Viewbox
+                Grid.Row="0"
+                Stretch="Uniform"
+                StretchDirection="DownOnly">
+
+                <!--  TOP MENU  -->
+                <StackPanel
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Stretch"
+                    Orientation="Horizontal"
+                    Spacing="5">
+                    <Button
+                        x:Name="PomodoroSessionButton"
+                        Classes="SessionType"
+                        Command="{Binding PomodoroSessionCommand}"
+                        Content="{Binding PomodorosCompleted, StringFormat='{}{0} pomodoros'}" />
+                    <Button
+                        x:Name="ShortBreakSessionButton"
+                        Classes="SessionType"
+                        Command="{Binding ShortBreakSessionCommand}"
+                        Content="{Binding ShortBreaksCompleted, StringFormat='{}{0} breaks'}" />
+                    <Button
+                        x:Name="LongBreakSessionButton"
+                        Classes="SessionType"
+                        Command="{Binding LongBreakSessionCommand}"
+                        Content="{Binding LongBreaksCompleted, StringFormat='{}{0} long breaks'}" />
+                </StackPanel>
+
+            </Viewbox>
+
+            <!--  TIMER  -->
+            <Viewbox
+                Grid.Row="1"
+                Stretch="Uniform"
+                StretchDirection="DownOnly">
+
+                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Stretch">
+                    <Button
+                        x:Name="PomodoroTimerButton"
+                        Padding="20,10,20,10"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Bottom"
+                        Background="Transparent"
+                        Click="Button_Click"
+                        Content="{Binding SecondsLeft, Converter={StaticResource FormattedTimeFromSeconds}}"
+                        CornerRadius="10"
+                        FontSize="190"
+                        FontWeight="Bold" />
+
+                    <ComboBox
+                        Padding="15"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        HorizontalContentAlignment="Center"
+                        VerticalContentAlignment="Center"
+                        Background="Transparent"
+                        BorderBrush="Transparent"
+                        BorderThickness="0"
+                        Classes="TagsComboBox"
+                        FontSize="25"
+                        ItemsSource="{Binding Tags}"
+                        SelectedIndex="1"
+                        SelectedItem="{Binding SelectedTag, Mode=TwoWay}">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Name}" />
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+
+                </StackPanel>
+            </Viewbox>
+
+            <!--  CONTROLS  -->
+            <Viewbox
+                Grid.Row="2"
+                Stretch="Uniform"
+                StretchDirection="DownOnly">
+                <StackPanel
+                    Margin="0,0,0,30"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Stretch"
+                    Orientation="Horizontal">
+                    <ToggleButton
+                        HorizontalContentAlignment="Center"
+						VerticalContentAlignment="Center"
+						Width="150"
+                        Padding="14,12,14,12"
+                        Classes="StartButton"
+                        FontSize="20"
+                        FontWeight="DemiBold"
+                        IsChecked="{Binding IsTimerTicking, Mode=TwoWay}" />
+                    <Button
+                        Margin="5,0,0,0"
+                        Padding="12"
+                        Background="Transparent"
+                        Command="{Binding RestartCommand}"
+                        FontSize="20"
+                        FontWeight="DemiBold"
+                        ToolTip.Placement="RightEdgeAlignedTop"
+                        ToolTip.Tip="Restart all counters">
+                        <PathIcon
+                            Width="25"
+                            Height="25"
+                            Data="{StaticResource restart_icon}" />
+                    </Button>
+                </StackPanel>
+            </Viewbox>
+
+            <ProgressBar
+                x:Name="SessionsProgressBar"
+                Grid.Row="3"
+                Foreground="LightGray"
+                Maximum="{Binding Settings.FocusTime.PomodoroSessionsBeforeLongBreak}"
+                Minimum="0"
+                Opacity="0.3"
+                ProgressTextFormat="{}{0}/{3}"
+                ShowProgressText="True"
+                ToolTip.Tip="Before long break" />
+        </Grid>
+
+        <!--  SETTINGS  -->
+        <Border
+            x:Name="SettingsPanel"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Top"
+            Background="#181a1b"
+            BoxShadow="1 1 5 0 #181a1b"
+            CornerRadius="30,0,0,30"
+            IsVisible="{Binding #SettingsButton.IsChecked}">
+            <ContentControl
+                Width="330"
+                Margin="30,55,40,55"
+                Content="{Binding Settings}">
+                <ContentControl.ContentTemplate>
+                    <common:ViewLocator />
+                </ContentControl.ContentTemplate>
+            </ContentControl>
+        </Border>
+
+        <ToggleButton
+            x:Name="SettingsButton"
+			Padding="10"
+            Margin="0,50,30,0"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Top"
+            HorizontalContentAlignment="Center"
+            VerticalContentAlignment="Center"
+            Classes="Settings"
+            IsChecked="{Binding ShowingSettings, Mode=TwoWay}">
+            <PathIcon
+                Width="23"
+                Height="23"
+                Data="{Binding $parent.IsChecked, Converter={StaticResource SettingsIconFromToggleButton}}" />
+        </ToggleButton>
+
+
+    </Grid>
+
+</UserControl>

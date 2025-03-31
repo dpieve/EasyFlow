@@ -1,0 +1,53 @@
+﻿.avalonia-splash {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background: #1a1a1a;
+    font-family: Arial, sans-serif;
+    align-items: center;
+    pointer-events: none;
+    display: flex;
+    justify-content: center;
+    color: #ff4c4c;
+    flex-direction: column;
+}
+
+    .avalonia-splash.splash-close {
+        transition: opacity 200ms, display 200ms;
+        display: none;
+        opacity: 0;
+    }
+
+.logo {
+    font-size: 3.0rem;
+    font-weight: bold;
+    letter-spacing: 2px;
+}
+
+.loading-bar-container {
+    width: 120px;
+    height: 5px;
+    margin-top: 17px;
+    background: rgba(255, 76, 76, 0.3);
+    overflow: hidden;
+    position: relative;
+    border-radius: 5px;
+}
+
+.loading-bar {
+    width: 40px;
+    height: 5px;
+    background: #ff4c4c;
+    position: absolute;
+    animation: loading 1s infinite linear;
+}
+
+@keyframes loading {
+    from {
+        left: -30px;
+    }
+
+    to {
+        left: 100px;
+    }
+}

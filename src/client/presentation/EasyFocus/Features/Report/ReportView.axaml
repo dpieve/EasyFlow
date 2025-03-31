@@ -1,0 +1,307 @@
+<UserControl
+    x:Class="EasyFocus.Features.Report.ReportView"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="clr-namespace:EasyFocus.CustomControls;assembly=EasyFocus"
+    xmlns:converters="clr-namespace:EasyFocus.Converters;assembly=EasyFocus"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:entities="clr-namespace:EasyFocus.Domain.Entities;assembly=EasyFocus.Domain"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="clr-namespace:EasyFocus.Features.Report"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    x:DataType="vm:ReportViewModel"
+    mc:Ignorable="d">
+
+    <Design.DataContext>
+        <vm:ReportViewModel />
+    </Design.DataContext>
+
+    <UserControl.Resources>
+        <converters:StringFromDateTimeConverter x:Key="StringFromDateTimeConverter" />
+        <converters:FormattedTimeFromSecondsConverter x:Key="FormattedTimeFromSecondsConverter" />
+        <converters:SessionTypesToFriendlyStringsConverter x:Key="SessionTypesToFriendlyStringsConverter" />
+        <converters:SessionTypeToFriendlyStringConverter x:Key="SessionTypeToFriendlyStringConverter" />
+        <converters:FormattedTimeStatsFromSecondsConverter x:Key="FormattedTimeStatsFromSecondsConverter" />
+        <StreamGeometry x:Key="home_icon">M21.6062 5.85517C23.0048 4.71494 24.9952 4.71494 26.3938 5.85517L39.5688 16.5966C40.4736 17.3342 41 18.4492 41 19.628V39.1134C41 41.2599 39.2875 43 37.175 43H32.075C29.9625 43 28.25 41.2599 28.25 39.1134V29.7492C28.25 29.0337 27.6792 28.4536 26.975 28.4536H21.025C20.3208 28.4536 19.75 29.0337 19.75 29.7492V39.1134C19.75 41.2599 18.0375 43 15.925 43H10.825C8.71251 43 7 41.2599 7 39.1134V19.628C7 18.4493 7.52645 17.3342 8.43124 16.5966L21.6062 5.85517ZM24.7979 7.87612C24.3317 7.49604 23.6683 7.49604 23.2021 7.87612L10.0271 18.6175C9.72548 18.8634 9.55 19.2351 9.55 19.628V39.1134C9.55 39.8289 10.1208 40.4089 10.825 40.4089H15.925C16.6292 40.4089 17.2 39.8289 17.2 39.1134V29.7492C17.2 27.6027 18.9125 25.8626 21.025 25.8626H26.975C29.0875 25.8626 30.8 27.6027 30.8 29.7492V39.1134C30.8 39.8289 31.3708 40.4089 32.075 40.4089H37.175C37.8792 40.4089 38.45 39.8289 38.45 39.1134V19.628C38.45 19.2351 38.2745 18.8634 37.9729 18.6175L24.7979 7.87612Z</StreamGeometry>
+    </UserControl.Resources>
+
+    <UserControl.Background>
+        <SolidColorBrush Opacity="0.8" Color="Black" />
+    </UserControl.Background>
+
+    <UserControl.Styles>
+
+        <Style Selector="TextBlock.StatsTitle">
+            <Setter Property="HorizontalAlignment" Value="Center" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="FontSize" Value="16" />
+            <Setter Property="FontWeight" Value="DemiBold" />
+        </Style>
+
+        <Style Selector="TextBlock.Stats">
+            <Setter Property="HorizontalAlignment" Value="Center" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="FontSize" Value="25" />
+            <Setter Property="FontWeight" Value="Bold" />
+        </Style>
+    </UserControl.Styles>
+
+    <ScrollViewer>
+
+        <Grid>
+
+            <StackPanel
+                Margin="5,50,5,5"
+                HorizontalAlignment="Center"
+                Orientation="Vertical"
+                Spacing="15">
+
+                <!--  TITLE  -->
+
+                <TextBlock
+                    FontSize="25"
+                    FontWeight="Bold"
+                    Text="Report" />
+
+                <!--  CONTROLS  -->
+
+                <Grid ColumnDefinitions="*, *, *">
+
+                    <Border
+                        Padding="10"
+                        Background="#272a2c"
+                        CornerRadius="5"
+                        ToolTip.Tip="Total focus time">
+                        <StackPanel
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Spacing="5">
+                            <TextBlock Classes="StatsTitle" Text="FOCUS" />
+
+                            <ScrollViewer HorizontalScrollBarVisibility="Auto">
+                                <TextBlock Classes="Stats" Text="{Binding TotalFocusSeconds, Converter={StaticResource FormattedTimeStatsFromSecondsConverter}}" />
+                            </ScrollViewer>
+                        </StackPanel>
+                    </Border>
+
+                    <Border
+                        Grid.Column="1"
+                        Margin="10,0,0,0"
+                        Padding="10"
+                        Background="#272a2c"
+                        CornerRadius="5"
+                        ToolTip.Tip="Total break time">
+                        <StackPanel
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Spacing="5">
+                            <TextBlock Classes="StatsTitle" Text="BREAKS" />
+
+                            <ScrollViewer HorizontalScrollBarVisibility="Auto">
+                                <TextBlock Classes="Stats" Text="{Binding TotalBreakSeconds, Converter={StaticResource FormattedTimeStatsFromSecondsConverter}}" />
+                            </ScrollViewer>
+                        </StackPanel>
+                    </Border>
+
+                    <Border
+                        Grid.Column="2"
+                        Margin="10,0,0,0"
+                        Padding="10"
+                        Background="#272a2c"
+                        CornerRadius="5"
+                        ToolTip.Tip="Completed focus sessions">
+                        <StackPanel
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Spacing="5">
+                            <TextBlock Classes="StatsTitle" Text="SESSIONS" />
+
+                            <ScrollViewer HorizontalScrollBarVisibility="Auto">
+                                <TextBlock Classes="Stats" Text="{Binding TotalSessions}" />
+                            </ScrollViewer>
+                        </StackPanel>
+                    </Border>
+
+                </Grid>
+
+
+                <!--  DISPLAY SETTINGS  -->
+
+                <WrapPanel VerticalAlignment="Center" Orientation="Horizontal">
+                    <ComboBox
+                        Width="150"
+                        Margin="0,15,15,0"
+                        ItemsSource="{Binding SessionTypes, Converter={StaticResource SessionTypesToFriendlyStringsConverter}}"
+                        SelectedItem="{Binding SelectedSessionType, Mode=TwoWay, Converter={StaticResource SessionTypeToFriendlyStringConverter}}" />
+
+                    <ComboBox
+                        Width="150"
+                        Margin="0,15,15,0"
+                        DisplayMemberBinding="{Binding Text}"
+                        ItemsSource="{x:Static entities:FilterPeriod.Filters}"
+                        SelectedIndex="0"
+                        SelectedItem="{Binding SelectedFilterPeriod, Mode=TwoWay}" />
+
+                    <controls:KeyboardTextBox
+                        Width="300"
+                        Margin="0,15,15,0"
+                        Text="{Binding FilterText}"
+                        Watermark="Search for a session" />
+
+                </WrapPanel>
+
+                <!--  DATA  -->
+                <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+
+                    <DataGrid
+                        x:Name="SessionsDataGrid"
+                        Width="650"
+                        Height="300"
+                        HorizontalAlignment="Left"
+                        CanUserReorderColumns="False"
+                        CanUserResizeColumns="True"
+                        CanUserSortColumns="False"
+                        ItemsSource="{Binding Sessions}"
+                        SelectedItem="{Binding SelectedSessionRow, Mode=TwoWay}"
+                        SelectionChanged="DataGrid_SelectionChanged">
+
+                        <DataGrid.Columns>
+
+                            <!--  DATE  -->
+                            <DataGridTemplateColumn Header="Date">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                                            <TextBlock
+                                                Margin="0,0,10,0"
+                                                Text="{Binding FinishedDate, Converter={StaticResource StringFromDateTimeConverter}}"
+                                                TextWrapping="Wrap" />
+                                        </ScrollViewer>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
+                            <!--  TAG  -->
+                            <DataGridTemplateColumn Header="Tag">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                                            <TextBlock
+                                                Margin="0,0,10,0"
+                                                HorizontalAlignment="Center"
+                                                Text="{Binding TagName}"
+                                                TextWrapping="Wrap" />
+                                        </ScrollViewer>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
+                            <!--  SESSION TYPE  -->
+                            <DataGridTemplateColumn Header="Session Type">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                                            <TextBlock
+                                                Margin="0,0,10,0"
+                                                HorizontalAlignment="Center"
+                                                Text="{Binding SessionType, Converter={StaticResource SessionTypeToFriendlyStringConverter}}"
+                                                TextWrapping="Wrap" />
+                                        </ScrollViewer>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
+                            <!--  COMPLETED  -->
+                            <DataGridTemplateColumn Header="Completed Time">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                                            <TextBlock
+                                                Margin="0,0,10,0"
+                                                HorizontalAlignment="Center"
+                                                Text="{Binding CompletedSeconds, Converter={StaticResource FormattedTimeFromSecondsConverter}}"
+                                                TextWrapping="Wrap" />
+                                        </ScrollViewer>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
+                            <!--  DURATION  -->
+                            <DataGridTemplateColumn Header="Duration Time">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                                            <TextBlock
+                                                Margin="0,0,10,0"
+                                                HorizontalAlignment="Center"
+                                                Text="{Binding DurationSeconds, Converter={StaticResource FormattedTimeFromSecondsConverter}}"
+                                                TextWrapping="Wrap" />
+                                        </ScrollViewer>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
+                            <!--  DESCRIPTION  -->
+                            <DataGridTemplateColumn Width="320" Header="Description">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <ScrollViewer
+                                            DoubleTapped="ScrollViewer_DoubleTapped"
+                                            HorizontalScrollBarVisibility="Auto"
+                                            VerticalScrollBarVisibility="Auto">
+                                            <ScrollViewer.ContextMenu>
+                                                <ContextMenu>
+                                                    <MenuItem Command="{Binding EditDescriptionCommand}" Header="Edit" />
+                                                    <MenuItem Command="{Binding DeleteRowCommand}" Header="Delete" />
+                                                </ContextMenu>
+                                            </ScrollViewer.ContextMenu>
+
+                                            <Grid Width="310" Margin="5">
+                                                <TextBlock
+                                                    IsVisible="{Binding !IsEditing}"
+                                                    Text="{Binding Description}"
+                                                    TextAlignment="Justify"
+                                                    TextWrapping="Wrap" />
+
+                                                <TextBox
+                                                    IsVisible="{Binding IsEditing}"
+                                                    LostFocus="TextBox_LostFocus"
+                                                    Text="{Binding TypingDescription}"
+                                                    TextWrapping="Wrap" />
+                                            </Grid>
+
+                                        </ScrollViewer>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
+                        </DataGrid.Columns>
+
+                    </DataGrid>
+
+                </ScrollViewer>
+
+
+            </StackPanel>
+
+            <!--  GO BACK  -->
+
+            <Button
+                Margin="0,50,30,0"
+                Padding="10"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Top"
+                HorizontalContentAlignment="Center"
+                VerticalContentAlignment="Center"
+                Command="{Binding OnBackCommand}"
+                ToolTip.Tip="Go back">
+                <PathIcon
+                    Width="23"
+                    Height="23"
+                    Data="{StaticResource home_icon}" />
+            </Button>
+        </Grid>
+    </ScrollViewer>
+
+</UserControl>
