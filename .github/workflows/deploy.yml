@@ -1,8 +1,8 @@
 name: Deploy to GitHub Pages
 
 env:
-  PROJECT_PATH: src/client/presentation/EasyFlow.Browser/EasyFlow.Browser.csproj
-  OUTPUT_PATH: src/client/presentation/EasyFlow.Browser/bin/Release/net9.0-browser/publish/wwwroot
+  PROJECT_PATH: src/client/presentation/EasyFocus.Browser/EasyFocus.Browser.csproj
+  OUTPUT_PATH: src/client/presentation/EasyFocus.Browser/bin/Release/net9.0-browser/publish/wwwroot
 on:
   workflow_dispatch:
 
@@ -25,7 +25,7 @@ jobs:
         run: dotnet publish $PROJECT_PATH -c Release --nologo
 
       - name: Change base-tag in index.html
-        run: sed -i 's#<base href="/" />#<base href="/EasyFlow/" />#g' $OUTPUT_PATH/index.html
+        run: sed -i 's#<base href="/" />#<base href="/EasyFocus/" />#g' $OUTPUT_PATH/index.html
 
       - name: copy index.html to 404.html
         run: cp $OUTPUT_PATH/index.html $OUTPUT_PATH/404.html

@@ -5,6 +5,7 @@ on:
 
 env:
   DOTNET_VERSION: '9.x'
+  PRESENTATION_PATH: src/client/presentation
 
 jobs:
   publish-windows:
@@ -17,12 +18,12 @@ jobs:
         run: mkdir upload
 
       - name: Publish win-x64
-        run: dotnet publish src/client/presentation/EasyFlow.Windows -r win-x64 -c Release --sc /p:PublishSingleFile=true /p:IncludeNativeLibrariesForSelfExtract=true -o ./publish/win64
+        run: dotnet publish $PRESENTATION_PATH/EasyFocus.Windows -r win-x64 -c Release --sc /p:PublishSingleFile=true /p:IncludeNativeLibrariesForSelfExtract=true -o ./publish/win64
 
       - name: Zip win-x64
         run: |
           $files = Get-ChildItem -Path ./publish/win64/* -Recurse -Exclude *.pdb
-          Compress-Archive -Path $files.FullName -DestinationPath ./upload/EasyFlow.win-x64.zip
+          Compress-Archive -Path $files.FullName -DestinationPath ./upload/EasyFocus.win-x64.zip
 
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v4.3.1
@@ -45,16 +46,16 @@ jobs:
           dotnet-version: ${{ env.DOTNET_VERSION }}
         
       - name: Publish linux-x64
-        run: dotnet publish src/client/presentation/EasyFlow.Linux -r linux-x64 -c Release --sc /p:PublishSingleFile=true /p:IncludeNativeLibrariesForSelfExtract=true -o ./publish/linux64
+        run: dotnet publish $PRESENTATION_PATH/EasyFocus.Linux -r linux-x64 -c Release --sc /p:PublishSingleFile=true /p:IncludeNativeLibrariesForSelfExtract=true -o ./publish/linux64
       
       - name: Zip linux-x64
-        run: zip -j -r ./upload/EasyFlow.linux-x64.zip ./publish/linux64 -x "*.pdb"
+        run: zip -j -r ./upload/EasyFocus.linux-x64.zip ./publish/linux64 -x "*.pdb"
 
       - name: Publish linux-arm64
-        run: dotnet publish src/client/presentation/EasyFlow.Linux -c Release -o ./publish/linuxarm64 -r linux-arm64 -p:PublishReadyToRun=true -p:PublishSingleFile=true -p:PublishTrimmed=true --self-contained true -p:IncludeNativeLibrariesForSelfExtract=true
+        run: dotnet publish $PRESENTATION_PATH/EasyFocus.Linux -c Release -o ./publish/linuxarm64 -r linux-arm64 -p:PublishReadyToRun=true -p:PublishSingleFile=true -p:PublishTrimmed=true --self-contained true -p:IncludeNativeLibrariesForSelfExtract=true
 
       - name: Zip linux-arm64
-        run: zip -j -r ./upload/EasyFlow.linux-arm64.zip ./publish/linuxarm64 -x "*.pdb"
+        run: zip -j -r ./upload/EasyFocus.linux-arm64.zip ./publish/linuxarm64 -x "*.pdb"
 
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v4.3.1
@@ -74,10 +75,10 @@ jobs:
           dotnet-version: ${{ env.DOTNET_VERSION }}
 
       - name: Restore dependencies
-        run: dotnet restore src/client/presentation/EasyFlow.Android
+        run: dotnet restore $PRESENTATION_PATH/EasyFocus.Android
      
       - name: Publish Android
-        run: dotnet publish src/client/presentation/EasyFlow.Android -c Release -f net9.0-android --no-restore -o ./publish -p:RuntimeIdentifier=android-arm64
+        run: dotnet publish $PRESENTATION_PATH/EasyFocus.Android -c Release -f net9.0-android --no-restore -o ./publish -p:RuntimeIdentifier=android-arm64
 
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v4.3.1
