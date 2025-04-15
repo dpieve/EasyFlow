@@ -6,9 +6,20 @@ using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices.JavaScript;
 using System.Runtime.Versioning;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace EasyFocus.Browser;
+
+[JsonSourceGenerationOptions(WriteIndented = true)]
+[JsonSerializable(typeof(AppDataJson))]
+[JsonSerializable(typeof(Session))]
+[JsonSerializable(typeof(Tag))]
+[JsonSerializable(typeof(AppSettings))]
+public partial class AppDataJsonContext : JsonSerializerContext
+{
+}
 
 public partial class StorageApi
 {
@@ -25,7 +36,7 @@ public partial class StorageApi
 [SupportedOSPlatform("browser")]
 public sealed class AppDataJson
 {
-    //private string _key = "EasyFocusData";
+    private readonly string _key = "EasyFocusData";
     private int _nextSessionId = 1;
 
     private int _nextTagId = 1;
@@ -41,47 +52,39 @@ public sealed class AppDataJson
     public List<Tag> Tags { get; set; } = new();
     public AppSettings? Settings { get; set; }
 
-#pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
-
     public async Task LoadData(List<Tag> defaultTags, AppSettings defaultSettings)
-#pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
     {
         try
         {
-            //if (!_isInitialized)
-            //{
-            //    await JSHost.ImportAsync("StorageApi", "/StorageJs.js");
-            //    _isInitialized = true;
-            //}
-            //StorageApi.LogValue("Loading Data from JS");
+            if (!_isInitialized)
+            {
+                await JSHost.ImportAsync("StorageApi", "/StorageJs.js");
+                _isInitialized = true;
+            }
+            StorageApi.LogValue("Loading Data.");
 
-            //var jsonData = StorageApi.GetItem(_key);
+            var jsonData = StorageApi.GetItem(_key);
 
-            //StorageApi.LogValue($"Data loaded: >{jsonData}<");
+            if (!string.IsNullOrEmpty(jsonData))
+            {
+                StorageApi.LogValue("Trying to deserialize.");
 
-            //if (!string.IsNullOrEmpty(jsonData))
-            //{
-            //    StorageApi.LogValue("trying to deserialize");
+                var appData = JsonSerializer.Deserialize(jsonData, AppDataJsonContext.Default.AppDataJson);
 
-            //    var appData = JsonSerializer.Deserialize<AppDataJson>(jsonData);
+                Sessions = appData?.Sessions ?? [];
+                Tags = appData?.Tags ?? [];
+                Settings = appData?.Settings ?? defaultSettings;
+                _nextSessionId = Sessions.Count != 0 ? Sessions.Max(s => s.Id) + 1 : 1;
+                _nextTagId = Tags.Count != 0 ? Tags.Max(t => t.Id) + 1 : 1;
+            }
+            else
+            {
+                Sessions = new();
+                Tags = [.. defaultTags];
+                Settings = defaultSettings;
 
-            //    StorageApi.LogValue($"Data deserialized: {appData}");
-
-            //    Sessions = appData?.Sessions ?? [];
-            //    Tags = appData?.Tags ?? [];
-            //    Settings = appData?.Settings ?? defaultSettings;
-            //    _nextSessionId = Sessions.Count != 0 ? Sessions.Max(s => s.Id) + 1 : 1;
-            //    _nextTagId = Tags.Count != 0 ? Tags.Max(t => t.Id) + 1 : 1;
-            //}
-            //else
-            //{
-            Sessions = new();
-            Tags = [.. defaultTags];
-            Settings = defaultSettings;
-
-            //StorageApi.LogValue("Saving default data");
-            SaveData();
-            //}
+                SaveData();
+            }
         }
         catch (Exception ex)
         {
@@ -103,15 +106,15 @@ public sealed class AppDataJson
                 return;
             }
 
-            //var options = new JsonSerializerOptions
-            //{
-            //    WriteIndented = true,
-            //};
-            //var jsonData = JsonSerializer.Serialize(this, options);
+            var options = new JsonSerializerOptions
+            {
+                WriteIndented = true,
+            };
 
-            //StorageApi.LogValue($"Saving data: {jsonData}");
+            var jsonData = JsonSerializer.Serialize(this, AppDataJsonContext.Default.AppDataJson);
 
-            //StorageApi.SetItem(_key, jsonData);
+            StorageApi.SetItem(_key, jsonData);
+            StorageApi.LogValue("Saved data.");
         }
         catch (Exception ex)
         {
