@@ -3,10 +3,10 @@ using Android.Content.PM;
 using Avalonia;
 using Avalonia.Android;
 using Avalonia.ReactiveUI;
-using EasyFocus;
 using EasyFocus.Common;
 using Microsoft.Extensions.Hosting;
 using ReactiveUI;
+using Serilog;
 using Splat;
 using Splat.Microsoft.Extensions.DependencyInjection;
 
@@ -26,6 +26,17 @@ public class MainActivity : AvaloniaMainActivity<App>
               .ConfigureServices((_, services) =>
               {
                   services.UseMicrosoftDependencyResolver();
+
+                  Log.Logger = new LoggerConfiguration()
+#if DEBUG
+                        .MinimumLevel.Verbose()
+#else
+                        .MinimumLevel.Information()
+#endif
+                        .Enrich.FromLogContext()
+                        .WriteTo.Debug()
+                        .CreateLogger();
+
                   var resolver = Locator.CurrentMutable;
                   resolver.InitializeSplat();
                   resolver.InitializeReactiveUI();

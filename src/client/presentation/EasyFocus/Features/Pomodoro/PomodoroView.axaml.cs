@@ -4,8 +4,8 @@ using Avalonia.ReactiveUI;
 using Avalonia.VisualTree;
 using EasyFocus.Domain.Entities;
 using ReactiveUI;
+using Serilog;
 using System;
-using System.Diagnostics;
 using System.Reactive.Disposables;
 
 namespace EasyFocus.Features.Pomodoro;
@@ -20,7 +20,7 @@ public partial class PomodoroView : ReactiveUserControl<PomodoroViewModel>
         {
             if (ViewModel is null)
             {
-                Debug.WriteLine("VIEWMODEL IS NULL");
+                Log.Fatal("PomodoroViewModel is null");
                 return;
             }
 
@@ -34,28 +34,8 @@ public partial class PomodoroView : ReactiveUserControl<PomodoroViewModel>
             this.WhenAnyValue(v => v.ViewModel!.SessionType)
                 .Subscribe(s =>
                 {
-                    Debug.WriteLine("View: SessionType = " + s);
-
-                    switch (s)
-                    {
-                        case SessionType.Pomodoro:
-                            PomodoroSessionButton.Background = Brushes.Red;
-                            ShortBreakSessionButton.Background = Brushes.Transparent;
-                            LongBreakSessionButton.Background = Brushes.Transparent;
-                            break;
-
-                        case SessionType.ShortBreak:
-                            PomodoroSessionButton.Background = Brushes.Transparent;
-                            ShortBreakSessionButton.Background = Brushes.Red;
-                            LongBreakSessionButton.Background = Brushes.Transparent;
-                            break;
-
-                        case SessionType.LongBreak:
-                            PomodoroSessionButton.Background = Brushes.Transparent;
-                            ShortBreakSessionButton.Background = Brushes.Transparent;
-                            LongBreakSessionButton.Background = Brushes.Red;
-                            break;
-                    }
+                    SetSessionBackground(s);
+                    Log.Debug("View: Selected SessionType = {SessionType}", s);
                 })
                 .DisposeWith(d);
 
@@ -68,46 +48,41 @@ public partial class PomodoroView : ReactiveUserControl<PomodoroViewModel>
         });
     }
 
-    private void UserControl_PointerPressed_1(object? sender, Avalonia.Input.PointerPressedEventArgs e)
+    private void SetSessionBackground(SessionType currentSession)
     {
-        if (SettingsButton.IsChecked == false)
+        switch (currentSession)
         {
-            return;
+            case SessionType.Pomodoro:
+                PomodoroSessionButton.Background = Brushes.Red;
+                ShortBreakSessionButton.Background = Brushes.Transparent;
+                LongBreakSessionButton.Background = Brushes.Transparent;
+                break;
+
+            case SessionType.ShortBreak:
+                PomodoroSessionButton.Background = Brushes.Transparent;
+                ShortBreakSessionButton.Background = Brushes.Red;
+                LongBreakSessionButton.Background = Brushes.Transparent;
+                break;
+
+            case SessionType.LongBreak:
+                PomodoroSessionButton.Background = Brushes.Transparent;
+                ShortBreakSessionButton.Background = Brushes.Transparent;
+                LongBreakSessionButton.Background = Brushes.Red;
+                break;
         }
-
-        var clickedBorderElement = e.Source as Decorator;
-        if (clickedBorderElement is not null)
-        {
-            var decoratorSettingsPanel = SettingsPanel as Decorator;
-            if (clickedBorderElement == decoratorSettingsPanel)
-            {
-                Debug.WriteLine("Clicked on the settings border");
-                return;
-            }
-
-            Debug.WriteLine("Clicked on a border outside");
-            SettingsButton.IsChecked = false;
-            return;
-        }
-
-        var clickedElement = e.Source as Control;
-        if (clickedElement is null)
-        {
-            return;
-        }
-
-        var isAncestor = SettingsPanel.IsVisualAncestorOf(clickedElement);
-        if (isAncestor)
-        {
-            Debug.WriteLine("Clicked on the settings items");
-            return;
-        }
-
-        SettingsButton.IsChecked = false;
-        Debug.WriteLine("Clicked outside, closing settings");
     }
 
-    private void Button_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+    private void Pomodoro_PointerPressed(object? sender, Avalonia.Input.PointerPressedEventArgs e)
+    {
+        CloseSettingsIfClickedOutside(e);
+    }
+
+    private void PomodoroTimerButton_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+    {
+        ToggleSettings();
+    }
+
+    private void ToggleSettings()
     {
         SettingsButton.IsChecked = !SettingsButton.IsChecked;
 
@@ -120,5 +95,43 @@ public partial class PomodoroView : ReactiveUserControl<PomodoroViewModel>
 
             ViewModel.Settings.HomeSettings.OnFocusTimeCommand.Execute().Subscribe();
         }
+    }
+
+    private void CloseSettingsIfClickedOutside(Avalonia.Input.PointerPressedEventArgs e)
+    {
+        if (SettingsButton.IsChecked == false)
+        {
+            return;
+        }
+
+        var clickedBorderElement = e.Source as Decorator;
+        if (clickedBorderElement is not null)
+        {
+            var decoratorSettingsPanel = SettingsPanel as Decorator;
+            if (clickedBorderElement == decoratorSettingsPanel)
+            {
+                Log.Debug("Clicked on the settings");
+                return;
+            }
+
+            Log.Debug("Clicked outside the settings");
+            SettingsButton.IsChecked = false;
+            return;
+        }
+
+        if (e.Source is not Control clickedElement)
+        {
+            return;
+        }
+
+        bool isAncestor = SettingsPanel.IsVisualAncestorOf(clickedElement);
+        if (isAncestor)
+        {
+            Log.Debug("Clicked on the settings items");
+            return;
+        }
+
+        SettingsButton.IsChecked = false;
+        Log.Debug("Clicked outside the settings");
     }
 }

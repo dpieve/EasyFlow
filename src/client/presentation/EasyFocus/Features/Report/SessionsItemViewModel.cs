@@ -3,8 +3,9 @@ using EasyFocus.Domain.Entities;
 using EasyFocus.Domain.Services;
 using ReactiveUI;
 using ReactiveUI.SourceGenerators;
+using Serilog;
 using System;
-using System.Diagnostics;
+
 using System.Reactive;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
@@ -55,13 +56,13 @@ public sealed partial class SessionItemViewModel : ViewModelBase
     [ReactiveCommand]
     private void DeleteRow()
     {
-        Debug.WriteLine("DeleteRow");
+        Log.Debug("DeleteRow");
     }
 
     [ReactiveCommand]
     private void EditDescription()
     {
-        Debug.WriteLine("EditRow");
+        Log.Debug("EditRow");
 
         TypingDescription = Description;
         IsEditing = true;
@@ -70,7 +71,7 @@ public sealed partial class SessionItemViewModel : ViewModelBase
     [ReactiveCommand]
     private async Task UpdateSession()
     {
-        Debug.WriteLine("UpdateSession");
+        Log.Debug("UpdateSession");
         Description = TypingDescription;
 
         Session.Description = Description;

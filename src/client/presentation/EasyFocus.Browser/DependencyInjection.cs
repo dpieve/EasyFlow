@@ -1,5 +1,4 @@
-﻿using EasyFocus.Browser;
-using EasyFocus.Domain.Services;
+﻿using EasyFocus.Domain.Services;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace EasyFocus.Browser;

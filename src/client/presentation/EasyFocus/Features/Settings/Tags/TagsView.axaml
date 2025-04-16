@@ -49,7 +49,7 @@
                 Spacing="15">
 
                 <Grid ColumnDefinitions="*, auto">
-                    <controls:KeyboardTextBox
+                    <TextBox
                         Grid.Column="0"
                         Margin="0,0,10,0"
                         HorizontalAlignment="Stretch"

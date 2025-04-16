@@ -37,6 +37,8 @@
     <PackageReference Include="DesktopNotifications" />
     <PackageReference Include="DesktopNotifications.Avalonia" />
     <PackageReference Include="DesktopNotifications.Windows" />
+    <PackageReference Include="Serilog.Sinks.Debug" />
+    <PackageReference Include="Serilog.Sinks.File" />
   </ItemGroup>
 
   <ItemGroup>

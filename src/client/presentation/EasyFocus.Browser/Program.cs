@@ -2,8 +2,10 @@
 using Avalonia.Browser;
 using Avalonia.ReactiveUI;
 using EasyFocus.Common;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using ReactiveUI;
+using Serilog;
 using Splat;
 using Splat.Microsoft.Extensions.DependencyInjection;
 using System.Runtime.Versioning;
@@ -26,6 +28,19 @@ internal sealed partial class Program
                .ConfigureServices((_, services) =>
                {
                    services.UseMicrosoftDependencyResolver();
+
+                   Log.Logger = new LoggerConfiguration()
+#if DEBUG
+                        .MinimumLevel.Verbose()
+#else
+                        .MinimumLevel.Information()
+#endif
+                        .Enrich.FromLogContext()
+                        .WriteTo.Debug()
+                        .CreateLogger();
+
+                   services.AddLogging(loggingBuilder => loggingBuilder.AddSerilog(dispose: true));
+
                    var resolver = Locator.CurrentMutable;
                    resolver.InitializeSplat();
                    resolver.InitializeReactiveUI();

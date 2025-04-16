@@ -1,4 +1,6 @@
-﻿using EasyFocus.Features.Pomodoro;
+﻿using EasyFocus.Common;
+using EasyFocus.Domain.Services;
+using EasyFocus.Features.Pomodoro;
 using EasyFocus.Features.Report;
 using EasyFocus.Features.Settings;
 using EasyFocus.Features.Settings.Background;
@@ -6,10 +8,9 @@ using EasyFocus.Features.Settings.FocusTime;
 using EasyFocus.Features.Settings.HomeSettings;
 using EasyFocus.Features.Settings.Notifications;
 using EasyFocus.Features.Settings.Tags;
-using EasyFocus.Common;
-using EasyFocus.Domain.Services;
 using ReactiveUI;
 using ReactiveUI.SourceGenerators;
+using Serilog;
 using System;
 using System.Reactive;
 using System.Reactive.Linq;
@@ -39,7 +40,6 @@ public sealed partial class MainViewModel : ViewModelBase
         Pomodoro = pomodoro ?? new PomodoroViewModel(Settings, playSound, notificationService, sessionService);
         Report = report ?? new ReportViewModel(sessionService);
 
-        // CurrentViewModel = Report;
         CurrentViewModel = Pomodoro;
 
         this.WhenAnyValue(vm => vm.Settings.Background.SelectedBackground)
@@ -63,11 +63,8 @@ public sealed partial class MainViewModel : ViewModelBase
 
         Report.OnBackCommand
             .ObserveOn(RxApp.MainThreadScheduler)
-            .Subscribe(_ =>
-            {
-                Pomodoro.ShowingSettings = false;
-                CurrentViewModel = Pomodoro;
-            });
+            .Select(_ => Unit.Default)
+            .InvokeCommand(NavigateToPomodoroCommand);
     }
 
     [ReactiveCommand]
@@ -75,5 +72,16 @@ public sealed partial class MainViewModel : ViewModelBase
     {
         await Report.Reload();
         CurrentViewModel = Report;
+
+        Log.Debug("Go to Report");
+    }
+
+    [ReactiveCommand]
+    private void NavigateToPomodoro()
+    {
+        Pomodoro.ShowingSettings = false;
+        CurrentViewModel = Pomodoro;
+
+        Log.Debug("Go to Pomodoro");
     }
 }

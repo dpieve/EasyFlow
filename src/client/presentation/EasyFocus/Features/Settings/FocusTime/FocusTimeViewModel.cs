@@ -3,7 +3,8 @@ using EasyFocus.Domain.Entities;
 using EasyFocus.Domain.Services;
 using ReactiveUI;
 using ReactiveUI.SourceGenerators;
-using System.Diagnostics;
+using Serilog;
+
 using System.Reactive;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
@@ -59,7 +60,7 @@ public sealed partial class FocusTimeViewModel : ViewModelBase
     [ReactiveCommand]
     private void OnBack()
     {
-        Debug.WriteLine("Focus Time OnBack");
+        Log.Debug("Focus Time OnBack");
     }
 
     [ReactiveCommand]

@@ -4,10 +4,11 @@ using EasyFocus.Domain.Entities;
 using EasyFocus.Domain.Services;
 using ReactiveUI;
 using ReactiveUI.SourceGenerators;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
+
 using System.Linq;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
@@ -55,7 +56,7 @@ public sealed partial class ReportViewModel : ViewModelBase
     [ReactiveCommand]
     private void OnBack()
     {
-        Debug.WriteLine("Report OnBack");
+        Log.Debug("Report OnBack");
     }
 
     private void Update(List<Session> sessions)

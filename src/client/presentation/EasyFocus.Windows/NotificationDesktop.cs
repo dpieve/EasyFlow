@@ -1,8 +1,9 @@
 ﻿using DesktopNotifications;
 using DesktopNotifications.Windows;
 using EasyFocus.Domain.Services;
+using Serilog;
 using System;
-using System.Diagnostics;
+
 using System.Threading.Tasks;
 
 namespace EasyFocus.Windows;
@@ -20,7 +21,7 @@ public sealed class NotificationDesktop : INotificationService
         }
         catch (Exception ex)
         {
-            Debug.WriteLine(ex.Message);
+            Log.Debug(ex.Message);
         }
     }
 
@@ -38,7 +39,7 @@ public sealed class NotificationDesktop : INotificationService
         }
         catch (Exception ex)
         {
-            Debug.WriteLine(ex.Message);
+            Log.Debug(ex.Message);
         }
     }
 

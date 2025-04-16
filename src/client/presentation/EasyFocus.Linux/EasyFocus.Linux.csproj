@@ -36,6 +36,8 @@
     </PackageReference>
     <PackageReference Include="Avalonia.LinuxFramebuffer" />
     <PackageReference Include="DesktopNotifications.FreeDesktop" />
+    <PackageReference Include="Serilog.Sinks.Debug" />
+    <PackageReference Include="Serilog.Sinks.File" />
   </ItemGroup>
 
   <ItemGroup>

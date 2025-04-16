@@ -1,6 +1,6 @@
 ﻿using EasyFocus.Common;
 using ReactiveUI.SourceGenerators;
-using System.Diagnostics;
+using Serilog;
 
 namespace EasyFocus.Features.Settings.HomeSettings;
 
@@ -17,21 +17,21 @@ public sealed partial class HomeSettingsViewModel : ViewModelBase
     [ReactiveCommand]
     private void OnFocusTime()
     {
-        Debug.WriteLine("On Focus Time");
+        Log.Debug("On Focus Time");
         Clean();
     }
 
     [ReactiveCommand]
     private void OnNotifications()
     {
-        Debug.WriteLine("On Notifications Time");
+        Log.Debug("On Notifications Time");
         Clean();
     }
 
     [ReactiveCommand]
     private bool OnReport()
     {
-        Debug.WriteLine("On Report Time");
+        Log.Debug("On Report Time");
 
         if (!CanOpenReport)
         {
@@ -46,14 +46,14 @@ public sealed partial class HomeSettingsViewModel : ViewModelBase
     [ReactiveCommand]
     private void OnTags()
     {
-        Debug.WriteLine("On Tags");
+        Log.Debug("On Tags");
         Clean();
     }
 
     [ReactiveCommand]
     private void OnBackground()
     {
-        Debug.WriteLine("On Background");
+        Log.Debug("On Background");
         Clean();
     }
 

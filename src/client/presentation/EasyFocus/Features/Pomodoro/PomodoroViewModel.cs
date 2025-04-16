@@ -1,14 +1,14 @@
-﻿using EasyFocus.Features.Settings;
-using EasyFocus.Features.Settings.Tags;
-using EasyFocus.Common;
+﻿using EasyFocus.Common;
 using EasyFocus.Domain.Entities;
 using EasyFocus.Domain.Services;
+using EasyFocus.Features.Settings;
+using EasyFocus.Features.Settings.Tags;
 using ReactiveUI;
 using ReactiveUI.SourceGenerators;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Linq;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
@@ -19,7 +19,7 @@ namespace EasyFocus.Features.Pomodoro;
 public sealed partial class PomodoroViewModel : ViewModelBase, IActivatableViewModel
 {
 #if DEBUG
-    private const int _minutesToSecondsFactor = 1;
+    private const int _minutesToSecondsFactor = 1; // for testing, minutes = seconds.
 #else
     private const int _minutesToSecondsFactor = 60;
 #endif
@@ -159,10 +159,10 @@ public sealed partial class PomodoroViewModel : ViewModelBase, IActivatableViewM
     [ReactiveCommand]
     private async Task SessionChanged((SessionType previous, SessionType current) sessionType)
     {
-        var oldTimerTicking = IsTimerTicking;
-        IsTimerTicking = false;
+        Log.Information($"Session changed from {sessionType.previous} to {sessionType.current}!");
 
-        Debug.WriteLine($"Session changed from {sessionType.previous} to {sessionType.current}!");
+        bool oldTimerTicking = IsTimerTicking;
+        IsTimerTicking = false;
 
         await CompletedSession(sessionType.previous, _isSkippingSession);
 
@@ -212,9 +212,9 @@ public sealed partial class PomodoroViewModel : ViewModelBase, IActivatableViewM
             return;
         }
 
-        _isSkippingSession = false;
+        Log.Information("Timer tick completed");
 
-        Debug.WriteLine("TIMER TICK COMPLETED");
+        _isSkippingSession = false;
 
         if (SessionType == SessionType.Pomodoro)
         {
@@ -242,6 +242,8 @@ public sealed partial class PomodoroViewModel : ViewModelBase, IActivatableViewM
     {
         _isSkippingSession = true;
         SessionType = SessionType.Pomodoro;
+
+        Log.Information("Go to Pomodoro Session");
     }
 
     [ReactiveCommand]
@@ -249,6 +251,8 @@ public sealed partial class PomodoroViewModel : ViewModelBase, IActivatableViewM
     {
         _isSkippingSession = true;
         SessionType = SessionType.ShortBreak;
+
+        Log.Information("Go to short break");
     }
 
     [ReactiveCommand]
@@ -256,6 +260,8 @@ public sealed partial class PomodoroViewModel : ViewModelBase, IActivatableViewM
     {
         _isSkippingSession = true;
         SessionType = SessionType.LongBreak;
+
+        Log.Information("Go to long break");
     }
 
     private void SessionCompletedSound()
@@ -269,6 +275,8 @@ public sealed partial class PomodoroViewModel : ViewModelBase, IActivatableViewM
         var volume = Settings.Notifications.Volume;
 
         _ = Task.Run(() => _playSoundService.Play(sound, volume));
+
+        Log.Information("Play sound, volume = {volume}", volume);
     }
 
     [ReactiveCommand]
@@ -324,6 +332,8 @@ public sealed partial class PomodoroViewModel : ViewModelBase, IActivatableViewM
         }
 
         _ = Task.Run(() => _notificationService.ShowNotification(title, msg));
+
+        Log.Information("Show notification: {title}, {msg}", title, msg);
     }
 
     [ReactiveCommand]
@@ -334,6 +344,8 @@ public sealed partial class PomodoroViewModel : ViewModelBase, IActivatableViewM
         ShortBreaksCompleted = 0;
         LongBreaksCompleted = 0;
         SetupSession(SessionType);
+
+        Log.Information("Restart Pomodoros");
     }
 
     [ReactiveCommand]
@@ -355,7 +367,7 @@ public sealed partial class PomodoroViewModel : ViewModelBase, IActivatableViewM
             _ => throw new NotImplementedException()
         };
 
-        var completedSeconds = durationSeconds - SecondsLeft;
+        int completedSeconds = durationSeconds - SecondsLeft;
 
         if (completedSeconds < 3)
         {
@@ -370,6 +382,6 @@ public sealed partial class PomodoroViewModel : ViewModelBase, IActivatableViewM
         var session = Session.CreateSession(durationSeconds, completedSeconds, sessionType, SelectedTag.Tag);
         await _sessionService.AddAsync(session);
 
-        Debug.WriteLine("Saved progress");
+        Log.Information("Session saved: {session}", session.DurationSeconds);
     }
 }

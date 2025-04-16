@@ -1,6 +1,8 @@
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
+using EasyFocus.Common;
+using EasyFocus.Domain.Services;
 using EasyFocus.Features;
 using EasyFocus.Features.Pomodoro;
 using EasyFocus.Features.Report;
@@ -10,11 +12,9 @@ using EasyFocus.Features.Settings.FocusTime;
 using EasyFocus.Features.Settings.HomeSettings;
 using EasyFocus.Features.Settings.Notifications;
 using EasyFocus.Features.Settings.Tags;
-using EasyFocus.Common;
-using EasyFocus.Domain.Services;
+using Serilog;
 using Splat;
 using System;
-using System.Diagnostics;
 using System.Threading.Tasks;
 
 namespace EasyFocus;
@@ -57,7 +57,7 @@ public partial class App : Application
     private static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
     {
         var exception = e.ExceptionObject as Exception;
-        Trace.TraceError($"Unhandled Exception: {exception?.Message}");
+        Log.Fatal(exception, "Unhandled Exception: {Message}", exception?.Message);
     }
 
     private static async Task<MainViewModel> CreateMainViewModel()

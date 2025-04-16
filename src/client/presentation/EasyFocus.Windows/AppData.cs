@@ -1,8 +1,9 @@
 ﻿using EasyFocus.Domain.Entities;
 using EasyFocus.Domain.Services;
+using Serilog;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
+
 using System.IO;
 using System.Linq;
 using System.Text.Json;
@@ -49,7 +50,7 @@ public sealed class AppDataJson
         }
         catch (Exception ex)
         {
-            Debug.WriteLine(ex.Message);
+            Log.Debug(ex.Message);
         }
     }
 
@@ -66,7 +67,7 @@ public sealed class AppDataJson
         }
         catch (Exception ex)
         {
-            Debug.WriteLine(ex.Message);
+            Log.Debug(ex.Message);
         }
     }
 

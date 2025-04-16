@@ -1,13 +1,15 @@
 ﻿using Avalonia;
 using Avalonia.ReactiveUI;
-using EasyFocus;
 using EasyFocus.Common;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using ReactiveUI;
+using Serilog;
 using Splat;
 using Splat.Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Threading;
 
@@ -68,6 +70,20 @@ internal sealed class Program
             .ConfigureServices((_, services) =>
             {
                 services.UseMicrosoftDependencyResolver();
+
+                Log.Logger = new LoggerConfiguration()
+
+#if DEBUG
+                    .MinimumLevel.Verbose()
+#else
+                                    .MinimumLevel.Information()
+#endif
+                    .Enrich.FromLogContext()
+                    .WriteTo.Debug()
+                    .WriteTo.File(Path.Combine("logs", "logs.txt"), rollingInterval: RollingInterval.Day)
+                    .CreateLogger();
+
+                services.AddLogging(loggingBuilder => loggingBuilder.AddSerilog(dispose: true));
 
                 var resolver = Locator.CurrentMutable;
                 resolver.InitializeSplat();

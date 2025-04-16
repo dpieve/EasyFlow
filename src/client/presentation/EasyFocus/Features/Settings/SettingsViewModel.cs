@@ -1,9 +1,9 @@
-﻿using EasyFocus.Features.Settings.Background;
+﻿using EasyFocus.Common;
+using EasyFocus.Features.Settings.Background;
 using EasyFocus.Features.Settings.FocusTime;
 using EasyFocus.Features.Settings.HomeSettings;
 using EasyFocus.Features.Settings.Notifications;
 using EasyFocus.Features.Settings.Tags;
-using EasyFocus.Common;
 using ReactiveUI;
 using ReactiveUI.SourceGenerators;
 using System;

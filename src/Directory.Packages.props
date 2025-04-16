@@ -34,6 +34,12 @@
     <PackageVersion Include="NAudio" Version="2.2.1" />
     <PackageVersion Include="NetCoreAudio" Version="2.0.0" />
     <PackageVersion Include="ReactiveUI.SourceGenerators" Version="2.1.27" />
+    <PackageVersion Include="Serilog" Version="4.2.0" />
+    <PackageVersion Include="Serilog.Extensions" Version="8.0.3" />
+    <PackageVersion Include="Serilog.Extensions.Logging" Version="9.0.1" />
+    <PackageVersion Include="Serilog.Sinks.BrowserConsole" Version="8.0.0" />
+    <PackageVersion Include="Serilog.Sinks.Debug" Version="3.0.0" />
+    <PackageVersion Include="Serilog.Sinks.File" Version="6.0.0" />
     <PackageVersion Include="Splat.Microsoft.Extensions.DependencyInjection" Version="15.3.1" />
     <PackageVersion Include="Xamarin.AndroidX.Core.SplashScreen" Version="1.0.1.1" />
   </ItemGroup>

@@ -3,7 +3,8 @@ using EasyFocus.Domain.Entities;
 using EasyFocus.Domain.Services;
 using ReactiveUI;
 using ReactiveUI.SourceGenerators;
-using System.Diagnostics;
+using Serilog;
+
 using System.Reactive;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
@@ -31,13 +32,13 @@ public sealed partial class BackgroundViewModel : ViewModelBase
     [ReactiveCommand]
     private void OnBack()
     {
-        Debug.WriteLine("Background OnBack");
+        Log.Debug("Background OnBack");
     }
 
     [ReactiveCommand]
     private void OnSelectBackground(string backgroundId)
     {
-        Debug.WriteLine($"Background OnSelectBackground {backgroundId}");
+        Log.Debug($"Background OnSelectBackground {backgroundId}");
 
         SelectedBackground = $"background{backgroundId}.png";
     }

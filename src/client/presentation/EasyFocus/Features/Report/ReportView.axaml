@@ -143,7 +143,7 @@
                         SelectedIndex="0"
                         SelectedItem="{Binding SelectedFilterPeriod, Mode=TwoWay}" />
 
-                    <controls:KeyboardTextBox
+                    <TextBox
                         Width="300"
                         Margin="0,15,15,0"
                         Text="{Binding FilterText}"
