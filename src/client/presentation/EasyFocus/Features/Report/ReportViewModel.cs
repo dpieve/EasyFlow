@@ -8,8 +8,8 @@ using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-
 using System.Linq;
+using System.Reactive;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 
@@ -25,6 +25,8 @@ public sealed partial class ReportViewModel : ViewModelBase
     [Reactive] private SessionType _selectedSessionType;
     [Reactive] private string _filterText = string.Empty;
 
+    [Reactive] private bool _emptySessions;
+
     [Reactive] private SessionItemViewModel? _selectedSessionRow;
     private readonly ISessionService _sessionService;
 
@@ -37,10 +39,8 @@ public sealed partial class ReportViewModel : ViewModelBase
         this.WhenAnyValue(vm => vm.SelectedSessionType,
                               vm => vm.SelectedFilterPeriod,
                               vm => vm.FilterText)
-                 .Select(_ => CreateDisplaySettings())
-                 .Select(displaySettings => Observable.FromAsync(() => LoadData(displaySettings)))
-                 .Concat()
-                 .Subscribe(Update);
+                 .Select(_ => Unit.Default)
+                 .InvokeCommand(ReloadCommand);
     }
 
     public ObservableCollection<SessionItemViewModel> Sessions { get; } = [];
@@ -75,6 +75,8 @@ public sealed partial class ReportViewModel : ViewModelBase
             .Sum(s => s.Session.CompletedSeconds);
 
         TotalSessions = Sessions.Where(s => s.SessionType == SessionType.Pomodoro).Count();
+
+        EmptySessions = Sessions.Count == 0;
     }
 
     private DisplaySettings CreateDisplaySettings()
