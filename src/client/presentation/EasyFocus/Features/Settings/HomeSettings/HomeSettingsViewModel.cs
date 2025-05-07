@@ -1,63 +1,77 @@
 ﻿using EasyFocus.Common;
+using EasyFocus.Domain.Services;
+using ReactiveUI;
 using ReactiveUI.SourceGenerators;
 using Serilog;
+using System.Reactive.Disposables;
 
 namespace EasyFocus.Features.Settings.HomeSettings;
 
-public sealed partial class HomeSettingsViewModel : ViewModelBase
+public sealed partial class HomeSettingsViewModel : ViewModelBase, IActivatableViewModel
 {
+    private readonly IBrowserService _browserService;
+
     [Reactive] private string _errorMessage = string.Empty;
 
-    public HomeSettingsViewModel()
+    public ViewModelActivator Activator { get; } = new();
+
+    public HomeSettingsViewModel(IBrowserService browserService)
     {
+        _browserService = browserService;
+        this.WhenActivated(Activated);
+    }
+    private void Activated(CompositeDisposable d)
+    {
+        ErrorMessage = string.Empty;
     }
 
-    public bool CanOpenReport => true; // OperatingSystem.IsWindows() || OperatingSystem.IsLinux() || OperatingSystem.IsMacOS();
 
     [ReactiveCommand]
     private void OnFocusTime()
     {
         Log.Debug("On Focus Time");
-        Clean();
     }
 
     [ReactiveCommand]
     private void OnNotifications()
     {
         Log.Debug("On Notifications Time");
-        Clean();
     }
 
     [ReactiveCommand]
-    private bool OnReport()
+    private void OnReport()
     {
         Log.Debug("On Report Time");
-
-        if (!CanOpenReport)
-        {
-            ErrorMessage = "Report only supported on Desktop";
-            return false;
-        }
-
-        Clean();
-        return CanOpenReport;
     }
 
     [ReactiveCommand]
     private void OnTags()
     {
         Log.Debug("On Tags");
-        Clean();
     }
 
     [ReactiveCommand]
     private void OnBackground()
     {
         Log.Debug("On Background");
-        Clean();
     }
 
-    private void Clean()
+    [ReactiveCommand]
+    private void OnSupportFeedback()
+    {
+        var url = "https://github.com/dpieve/EasyFocus/issues";
+        bool opened = _browserService.OpenUrl(url);
+        if (opened)
+        {
+            ErrorMessage = "Write on Github. Thank you!";
+        }
+        else
+        {
+            ErrorMessage = "Failed to open Github. Please visit " + url;
+        }
+    }
+
+    public void CleanMessage()
     {
         ErrorMessage = string.Empty;
     }

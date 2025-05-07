@@ -19,7 +19,7 @@ namespace EasyFocus.Features.Pomodoro;
 public sealed partial class PomodoroViewModel : ViewModelBase, IActivatableViewModel
 {
 #if DEBUG
-    private const int _minutesToSecondsFactor = 1; // for testing, minutes = seconds.
+    private const int _minutesToSecondsFactor = 1; // for testing: minutes = seconds.
 #else
     private const int _minutesToSecondsFactor = 60;
 #endif
@@ -44,27 +44,24 @@ public sealed partial class PomodoroViewModel : ViewModelBase, IActivatableViewM
     private readonly IPlaySoundService _playSoundService;
     private readonly INotificationService _notificationService;
     private readonly ISessionService _sessionService;
-    private readonly BrowserTitleService? _browserTile;
+    private readonly IBrowserService _browserService;
 
     public PomodoroViewModel(
         SettingsViewModel settings,
         IPlaySoundService playSoundService,
         INotificationService notificationService,
-        ISessionService sessionService)
+        ISessionService sessionService,
+        IBrowserService browserService)
     {
         Settings = settings;
         _appSettings = Settings.FocusTime.Settings;
         _playSoundService = playSoundService;
         _notificationService = notificationService;
         _sessionService = sessionService;
+        _browserService = browserService;
 
         SessionType = SessionType.Pomodoro;
         SelectedTag = Tags.FirstOrDefault();
-
-        if (OperatingSystem.IsBrowser())
-        {
-            _browserTile = new BrowserTitleService();
-        }
 
         Observable.Interval(TimeSpan.FromSeconds(1))
             .Where(_ => IsTimerTicking)
@@ -100,7 +97,6 @@ public sealed partial class PomodoroViewModel : ViewModelBase, IActivatableViewM
             .InvokeCommand(SessionChangedCommand);
 
         this.WhenAnyValue(vm => vm.SecondsLeft)
-            .Where(_ => _browserTile is not null)
             .InvokeCommand(UpdateBrowserTitleCommand);
 
         this.WhenAnyValue(vm => vm.Settings.FocusTime.ShowTodaySession)
@@ -351,10 +347,7 @@ public sealed partial class PomodoroViewModel : ViewModelBase, IActivatableViewM
     [ReactiveCommand]
     private async Task UpdateBrowserTitle(int secondsLeft)
     {
-        if (_browserTile is not null && OperatingSystem.IsBrowser())
-        {
-            await _browserTile.Update(secondsLeft, IsTimerTicking);
-        }
+        await _browserService.UpdateTitleAsync(secondsLeft, IsTimerTicking);
     }
 
     private async Task SaveProgress(SessionType sessionType)
