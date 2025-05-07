@@ -4,6 +4,7 @@ using ReactiveUI;
 using ReactiveUI.SourceGenerators;
 using Serilog;
 using System.Reactive.Disposables;
+using System.Threading.Tasks;
 
 namespace EasyFocus.Features.Settings.HomeSettings;
 
@@ -57,10 +58,10 @@ public sealed partial class HomeSettingsViewModel : ViewModelBase, IActivatableV
     }
 
     [ReactiveCommand]
-    private void OnSupportFeedback()
+    private async Task OnSupportFeedback()
     {
         var url = "https://github.com/dpieve/EasyFocus/issues";
-        bool opened = _browserService.OpenUrl(url);
+        bool opened = await _browserService.OpenUrlAsync(url);
         if (opened)
         {
             ErrorMessage = "Write on Github. Thank you!";

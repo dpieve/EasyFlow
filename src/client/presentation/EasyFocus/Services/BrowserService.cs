@@ -1,7 +1,6 @@
 ﻿using EasyFocus.Domain.Services;
 using System;
 using System.Diagnostics;
-using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.JavaScript;
 using System.Threading.Tasks;
 
@@ -11,31 +10,61 @@ public partial class BrowserTitleApi
 {
     [JSImport("setBrowserTitle", "BrowserTitleApi")]
     public static partial void SetBrowserTitle(string title);
+
+    [JSImport("logValue", "BrowserTitleApi")]
+    public static partial void LogValue(string message);
+
+    [JSImport("openUrl", "BrowserTitleApi")]
+    public static partial void OpenUrl(string url);
 }
 
 public sealed class BrowserService : IBrowserService
 {
     private bool _isInitialized = false;
 
-    public bool OpenUrl(string url)
+    public async Task<bool> OpenUrlAsync(string url)
     {
-        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+        try
         {
-            Process.Start(new ProcessStartInfo
+            if (OperatingSystem.IsBrowser())
             {
-                FileName = url,
-                UseShellExecute = true
-            });
+                if (!_isInitialized)
+                {
+                    await JSHost.ImportAsync("BrowserTitleApi", "/TitleJs.js");
+                    _isInitialized = true;
+                }
+
+                BrowserTitleApi.OpenUrl(url);
+
+                return true;
+            }
+
+            if (OperatingSystem.IsWindows())
+            {
+                Process.Start(new ProcessStartInfo
+                {
+                    FileName = url,
+                    UseShellExecute = true
+                });
+
+                return true;
+            }
+
+            if (OperatingSystem.IsLinux())
+            {
+                Process.Start("xdg-open", url);
+
+                return true;
+            }
+
+            if (OperatingSystem.IsMacOS())
+            {
+                Process.Start("open", url);
+
+                return true;
+            }
         }
-        else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
-        {
-            Process.Start("xdg-open", url);
-        }
-        else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
-        {
-            Process.Start("open", url);
-        }
-        else
+        catch (Exception)
         {
             return false;
         }

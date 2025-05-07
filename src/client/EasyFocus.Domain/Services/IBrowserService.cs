@@ -4,5 +4,5 @@ public interface IBrowserService
 {
     public Task UpdateTitleAsync(int secondsLeft, bool started);
 
-    public bool OpenUrl(string url);
+    public Task<bool> OpenUrlAsync(string url);
 }
