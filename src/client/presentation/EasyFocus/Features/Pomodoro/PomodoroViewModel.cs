@@ -114,6 +114,10 @@ public sealed partial class PomodoroViewModel : ViewModelBase, IActivatableViewM
                 }
             });
 
+        this.WhenAnyValue(vm => vm.ShowingSettings)
+            .Where(s => !s)
+            .Subscribe(_ => Settings.Restart());
+
         this.WhenActivated(Activated);
     }
 
