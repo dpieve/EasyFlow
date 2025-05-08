@@ -87,6 +87,7 @@ public sealed partial class PomodoroViewModel : ViewModelBase, IActivatableViewM
             .Subscribe(p => SecondsLeft = p);
 
         this.WhenAnyValue(vm => vm.SelectedTag)
+            .Skip(1)
             .DistinctUntilChanged()
             .Do(tag =>
             {

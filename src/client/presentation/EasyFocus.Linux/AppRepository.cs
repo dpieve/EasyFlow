@@ -9,7 +9,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
-namespace EasyFocus.Windows;
+namespace EasyFocus.Linux;
 
 public sealed class AppRepository : IAppRepository
 {
@@ -28,7 +28,7 @@ public sealed class AppRepository : IAppRepository
 
     public async Task LoadData(List<Tag> defaultTags, AppSettings defaultSettings)
     {
-       try
+        try
         {
             if (File.Exists(_key))
             {

@@ -1,5 +1,5 @@
 ﻿using DesktopNotifications;
-using DesktopNotifications.Windows;
+using DesktopNotifications.FreeDesktop;
 using EasyFocus.Domain.Services;
 using NetCoreAudio;
 using Serilog;
@@ -7,7 +7,7 @@ using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
 
-namespace EasyFocus.Windows;
+namespace EasyFocus.Linux;
 
 public class AppHelpersApi : IAppHelpersApi
 {
@@ -15,7 +15,7 @@ public class AppHelpersApi : IAppHelpersApi
 
     public AppHelpersApi(INotificationManager? notificationManager = null)
     {
-        _notificationManager = notificationManager ?? new WindowsNotificationManager();
+        _notificationManager = notificationManager ?? new FreeDesktopNotificationManager();
         _notificationManager.Initialize();
     }
 
@@ -80,13 +80,9 @@ public class AppHelpersApi : IAppHelpersApi
     {
         try
         {
-            Process.Start(new ProcessStartInfo
-            {
-                FileName = url,
-                UseShellExecute = true
-            });
+            Process.Start("xdg-open", url);
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             Log.Error(ex.Message);
             return Task.FromResult(false);
@@ -102,6 +98,6 @@ public class AppHelpersApi : IAppHelpersApi
 
     public Task SetStorageItem(string key, string value)
     {
-        return Task.CompletedTask;
+        return Task.FromResult(string.Empty);
     }
 }
