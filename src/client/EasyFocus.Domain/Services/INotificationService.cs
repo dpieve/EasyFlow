@@ -2,5 +2,5 @@
 
 public interface INotificationService
 {
-    public Task ShowNotification(string title, string message);
+    public Task Show(string title, string message);
 }

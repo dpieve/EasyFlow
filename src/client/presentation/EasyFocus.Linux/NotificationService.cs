@@ -1,20 +1,20 @@
 ﻿using DesktopNotifications;
-using DesktopNotifications.Windows;
+using DesktopNotifications.FreeDesktop;
 using EasyFocus.Domain.Services;
 using Serilog;
 using System;
 
 using System.Threading.Tasks;
 
-namespace EasyFocus.Windows;
+namespace EasyFocus.Linux;
 
-public sealed class NotificationDesktop : INotificationService
+public sealed class NotificationService : INotificationService
 {
     private readonly INotificationManager _notificationManager;
 
-    public NotificationDesktop(INotificationManager? notificationManager = null)
+    public NotificationService(INotificationManager? notificationManager = null)
     {
-        _notificationManager = notificationManager ?? new WindowsNotificationManager();
+        _notificationManager = notificationManager ?? new FreeDesktopNotificationManager();
         try
         {
             _notificationManager.Initialize();
@@ -25,7 +25,7 @@ public sealed class NotificationDesktop : INotificationService
         }
     }
 
-    public async Task ShowNotification(string title, string message)
+    public async Task Show(string title, string message)
     {
         try
         {

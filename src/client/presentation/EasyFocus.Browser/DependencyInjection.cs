@@ -1,19 +1,15 @@
-﻿using EasyFocus.Domain.Services;
+﻿using EasyFocus.Domain.Repositories;
+using EasyFocus.Domain.Services;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace EasyFocus.Browser;
 
 public static class DependencyInjection
 {
-    public static IServiceCollection AddBrowser(this IServiceCollection services)
+    public static IServiceCollection AddPlatform(this IServiceCollection services)
     {
-        services.AddSingleton<IPlaySoundService, PlaySoundBrowser>();
-        services.AddSingleton<INotificationService, NotificationBrowser>();
-
-        services.AddSingleton<AppDataJson>();
-        services.AddSingleton<ITagService, TagServiceJson>();
-        services.AddSingleton<ISessionService, SessionServiceJson>();
-        services.AddSingleton<ISettingsService, SettingsServiceJson>();
+        services.AddSingleton<IAppHelpersApi, AppHelpersApi>();
+        services.AddSingleton<IAppRepository, AppRepository>();
         return services;
     }
 }

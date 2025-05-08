@@ -1,13 +1,7 @@
 ﻿using EasyFocus.Common;
-using EasyFocus.Domain.Services;
 using EasyFocus.Features.Pomodoro;
 using EasyFocus.Features.Report;
 using EasyFocus.Features.Settings;
-using EasyFocus.Features.Settings.Background;
-using EasyFocus.Features.Settings.FocusTime;
-using EasyFocus.Features.Settings.HomeSettings;
-using EasyFocus.Features.Settings.Notifications;
-using EasyFocus.Features.Settings.Tags;
 using ReactiveUI;
 using ReactiveUI.SourceGenerators;
 using Serilog;

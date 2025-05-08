@@ -8,13 +8,13 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddPlatform(this IServiceCollection services)
     {
-        services.AddSingleton<IPlaySoundService, PlaySoundDesktop>();
+        services.AddSingleton<IAudioService, PlaySoundDesktop>();
         services.AddSingleton<INotificationService, NotificationDesktop>();
 
         services.AddSingleton<AppDataJson>();
         services.AddSingleton<ITagService, TagServiceJson>();
         services.AddSingleton<ISessionService, SessionServiceJson>();
-        services.AddSingleton<ISettingsService, SettingsServiceJson>();
+        services.AddSingleton<IAppSettingsService, SettingsServiceJson>();
         return services;
     }
 }

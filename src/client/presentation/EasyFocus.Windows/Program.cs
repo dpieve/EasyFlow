@@ -1,6 +1,5 @@
 ﻿using Avalonia;
 using Avalonia.ReactiveUI;
-using EasyFocus.Common;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using ReactiveUI;

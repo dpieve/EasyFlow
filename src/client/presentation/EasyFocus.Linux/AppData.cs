@@ -200,7 +200,7 @@ public sealed class TagServiceJson : ITagService
     }
 }
 
-public sealed class SettingsServiceJson : ISettingsService
+public sealed class SettingsServiceJson : IAppSettingsService
 {
     private readonly AppDataJson _appData;
 

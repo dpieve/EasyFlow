@@ -36,6 +36,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "project", "project", "{3DA9
 		..\README.md = ..\README.md
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyFocus.Application", "client\EasyFocus.Application\EasyFocus.Application.csproj", "{688C3E09-0337-44C0-816D-1E0672C7EA3C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -76,6 +78,10 @@ Global
 		{164C9835-EC72-48F6-9B03-422676E4E9F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{164C9835-EC72-48F6-9B03-422676E4E9F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{164C9835-EC72-48F6-9B03-422676E4E9F1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{688C3E09-0337-44C0-816D-1E0672C7EA3C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{688C3E09-0337-44C0-816D-1E0672C7EA3C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{688C3E09-0337-44C0-816D-1E0672C7EA3C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{688C3E09-0337-44C0-816D-1E0672C7EA3C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -90,9 +96,10 @@ Global
 		{EBFA8512-1EA5-4D8C-B4AC-AB5B48A6D568} = {08613193-64FF-4CAC-AA2A-2D57B322888D}
 		{DC30BCCC-EE98-494A-9E4A-5B2069D4FFCC} = {2F884AF3-57B8-4B58-BBBB-39F8B27B4731}
 		{164C9835-EC72-48F6-9B03-422676E4E9F1} = {1691F84F-0150-4CC9-97BA-12CB3190645E}
+		{688C3E09-0337-44C0-816D-1E0672C7EA3C} = {2F884AF3-57B8-4B58-BBBB-39F8B27B4731}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		FileExplorer = ..\
 		SolutionGuid = {83CB65B8-011F-4ED7-BCD3-A6CFA935EF7E}
+		FileExplorer = ..\
 	EndGlobalSection
 EndGlobal

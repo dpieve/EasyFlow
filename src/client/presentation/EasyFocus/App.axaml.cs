@@ -1,4 +1,3 @@
-using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 using EasyFocus.Common;
@@ -19,7 +18,7 @@ using System.Threading.Tasks;
 
 namespace EasyFocus;
 
-public partial class App : Application
+public partial class App : Avalonia.Application
 {
     public override void Initialize()
     {
@@ -61,10 +60,10 @@ public static class  Bootstrap
 {
     public static async Task<MainViewModel> CreateMainViewModel()
     {
-        var settingsService = Locator.Current.GetServiceOrThrow<ISettingsService>();
+        var settingsService = Locator.Current.GetServiceOrThrow<IAppSettingsService>();
         await settingsService.Initialize(); // Seed Data
 
-        var playSoundService = Locator.Current.GetServiceOrThrow<IPlaySoundService>();
+        var playSoundService = Locator.Current.GetServiceOrThrow<IAudioService>();
         var notificationService = Locator.Current.GetServiceOrThrow<INotificationService>();
         var sessionService = Locator.Current.GetServiceOrThrow<ISessionService>();
         var tagsService = Locator.Current.GetServiceOrThrow<ITagService>();

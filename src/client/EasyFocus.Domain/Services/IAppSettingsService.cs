@@ -2,7 +2,7 @@
 
 namespace EasyFocus.Domain.Services;
 
-public interface ISettingsService
+public interface IAppSettingsService
 {
     public Task<List<AppSettings>> GetSettingsAsync();
 

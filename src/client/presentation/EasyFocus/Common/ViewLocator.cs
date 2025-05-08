@@ -46,7 +46,7 @@ public class ViewLocator : IDataTemplate
             nameof(NotificationsViewModel) => new NotificationsView() { DataContext = data },
             nameof(TagsViewModel) => new TagsView() { DataContext = data },
             nameof(SettingsViewModel) => new SettingsView() { DataContext = data },
-            _ => new TextBlock { Text = $"No View For {name}." },
+            _ => new TextBlock { Text = $"No View For {name}. Verify the ViewLocator.", TextWrapping = Avalonia.Media.TextWrapping.Wrap },
         };
 
         _controlCache.Add(name, res);
