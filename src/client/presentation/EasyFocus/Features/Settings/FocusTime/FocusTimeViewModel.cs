@@ -13,7 +13,7 @@ namespace EasyFocus.Features.Settings.FocusTime;
 
 public sealed partial class FocusTimeViewModel : ViewModelBase
 {
-    private readonly ISettingsService _settingsService;
+    private readonly IAppSettingsService _settingsService;
 
     [Reactive] private int _pomodoro;
     [Reactive] private int _break;
@@ -24,7 +24,7 @@ public sealed partial class FocusTimeViewModel : ViewModelBase
     [Reactive] private bool _saveProgressWhenSkippingSession;
     [Reactive] private bool _showTodaySession;
 
-    public FocusTimeViewModel(AppSettings settings, ISettingsService settingsService)
+    public FocusTimeViewModel(AppSettings settings, IAppSettingsService settingsService)
     {
         Settings = settings;
         _settingsService = settingsService;

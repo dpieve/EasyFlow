@@ -1,7 +1,6 @@
 ﻿using Avalonia;
 using Avalonia.Browser;
 using Avalonia.ReactiveUI;
-using EasyFocus.Common;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using ReactiveUI;
@@ -46,7 +45,7 @@ internal sealed partial class Program
                    resolver.InitializeReactiveUI();
 
                    services
-                       .AddBrowser()
+                       .AddPlatform()
                        .AddPresentation();
                })
                .Build();

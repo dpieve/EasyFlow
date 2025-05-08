@@ -1,13 +1,7 @@
 ﻿using EasyFocus.Common;
-using EasyFocus.Domain.Services;
 using EasyFocus.Features.Pomodoro;
 using EasyFocus.Features.Report;
 using EasyFocus.Features.Settings;
-using EasyFocus.Features.Settings.Background;
-using EasyFocus.Features.Settings.FocusTime;
-using EasyFocus.Features.Settings.HomeSettings;
-using EasyFocus.Features.Settings.Notifications;
-using EasyFocus.Features.Settings.Tags;
 using ReactiveUI;
 using ReactiveUI.SourceGenerators;
 using Serilog;
@@ -26,19 +20,11 @@ public sealed partial class MainViewModel : ViewModelBase
     public MainViewModel(
         SettingsViewModel settings,
         PomodoroViewModel pomodoro,
-        ReportViewModel report,
-        HomeSettingsViewModel homeSettings,
-        FocusTimeViewModel focusTime,
-        NotificationsViewModel notifications,
-        TagsViewModel tags,
-        BackgroundViewModel background,
-        IPlaySoundService playSound,
-        INotificationService notificationService,
-        ISessionService sessionService)
+        ReportViewModel report)
     {
-        Settings = settings ?? new SettingsViewModel(homeSettings, focusTime, notifications, tags, background);
-        Pomodoro = pomodoro ?? new PomodoroViewModel(Settings, playSound, notificationService, sessionService);
-        Report = report ?? new ReportViewModel(sessionService);
+        Settings = settings;
+        Pomodoro = pomodoro;
+        Report = report;
 
         CurrentViewModel = Pomodoro;
 
@@ -56,7 +42,6 @@ public sealed partial class MainViewModel : ViewModelBase
     private void ListenToEvents()
     {
         Pomodoro.Settings.HomeSettings.OnReportCommand
-            .Where(r => r == true)
             .ObserveOn(RxApp.MainThreadScheduler)
             .Select(_ => Unit.Default)
             .InvokeCommand(NavigateToReportCommand);

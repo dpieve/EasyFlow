@@ -1,4 +1,3 @@
-using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 using EasyFocus.Common;
@@ -19,7 +18,7 @@ using System.Threading.Tasks;
 
 namespace EasyFocus;
 
-public partial class App : Application
+public partial class App : Avalonia.Application
 {
     public override void Initialize()
     {
@@ -30,11 +29,7 @@ public partial class App : Application
 
     public override async void OnFrameworkInitializationCompleted()
     {
-        // Seed data
-        var settingsService = Locator.Current.GetServiceOrThrow<ISettingsService>();
-        await settingsService.Initialize();
-
-        var mainViewModel = await CreateMainViewModel();
+        var mainViewModel = await Bootstrap.CreateMainViewModel();
 
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
@@ -59,37 +54,34 @@ public partial class App : Application
         var exception = e.ExceptionObject as Exception;
         Log.Fatal(exception, "Unhandled Exception: {Message}", exception?.Message);
     }
+}
 
-    private static async Task<MainViewModel> CreateMainViewModel()
+public static class  Bootstrap
+{
+    public static async Task<MainViewModel> CreateMainViewModel()
     {
-        var settingsService = Locator.Current.GetServiceOrThrow<ISettingsService>();
-        var playSoundService = Locator.Current.GetServiceOrThrow<IPlaySoundService>();
+        var settingsService = Locator.Current.GetServiceOrThrow<IAppSettingsService>();
+        await settingsService.Initialize(); // Seed Data
+
+        var playSoundService = Locator.Current.GetServiceOrThrow<IAudioService>();
         var notificationService = Locator.Current.GetServiceOrThrow<INotificationService>();
         var sessionService = Locator.Current.GetServiceOrThrow<ISessionService>();
         var tagsService = Locator.Current.GetServiceOrThrow<ITagService>();
-
+        var browserService = Locator.Current.GetServiceOrThrow<IBrowserService>();
         var appSettings = await settingsService.GetSettingsAsync(1) ?? throw new InvalidOperationException("Settings can't be null");
 
-        var homeVm = new HomeSettingsViewModel();
+        var homeVm = new HomeSettingsViewModel(browserService);
         var focusVm = new FocusTimeViewModel(appSettings, settingsService);
         var notificationsVm = new NotificationsViewModel(appSettings, settingsService);
         var tagsVm = new TagsViewModel(tagsService);
         var backgroundVm = new BackgroundViewModel(appSettings, settingsService);
         var settingsVm = new SettingsViewModel(homeVm, focusVm, notificationsVm, tagsVm, backgroundVm);
-        var pomodoroVm = new PomodoroViewModel(settingsVm, playSoundService, notificationService, sessionService);
+        var pomodoroVm = new PomodoroViewModel(settingsVm, playSoundService, notificationService, sessionService, browserService);
         var reportVm = new ReportViewModel(sessionService);
 
-        var vm = new MainViewModel(settingsVm,
+        return new MainViewModel(
+            settingsVm,
             pomodoroVm,
-            reportVm,
-            homeVm,
-            focusVm,
-            notificationsVm,
-            tagsVm,
-            backgroundVm,
-            playSoundService,
-            notificationService,
-            sessionService);
-        return vm;
+            reportVm);
     }
 }

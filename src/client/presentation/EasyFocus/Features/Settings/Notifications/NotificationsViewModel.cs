@@ -19,9 +19,9 @@ public sealed partial class NotificationsViewModel : ViewModelBase
     [Reactive] private bool _notificationWhenSkippingSession;
 
     private AppSettings _appSettings;
-    private readonly ISettingsService _settingsServices;
+    private readonly IAppSettingsService _settingsServices;
 
-    public NotificationsViewModel(AppSettings settings, ISettingsService settingsServices)
+    public NotificationsViewModel(AppSettings settings, IAppSettingsService settingsServices)
     {
         _appSettings = settings;
         _settingsServices = settingsServices;

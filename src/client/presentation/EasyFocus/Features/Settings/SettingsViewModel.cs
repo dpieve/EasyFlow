@@ -39,6 +39,12 @@ public sealed partial class SettingsViewModel : ViewModelBase
     public TagsViewModel Tags { get; }
     public BackgroundViewModel Background { get; }
 
+    public void Restart()
+    {
+        HomeSettings.CleanMessage();
+        CurrentViewModel = HomeSettings;
+    }
+
     private void ListenToEvents()
     {
         HomeSettings.OnFocusTimeCommand

@@ -45,6 +45,13 @@
             <Setter Property="FontSize" Value="25" />
             <Setter Property="FontWeight" Value="Bold" />
         </Style>
+
+        <Style Selector="TextBlock.Data">
+            <Setter Property="HorizontalAlignment" Value="Center" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="TextWrapping" Value="Wrap" />
+            <Setter Property="Margin" Value="5" />
+        </Style>
     </UserControl.Styles>
 
     <ScrollViewer>
@@ -151,8 +158,30 @@
 
                 </WrapPanel>
 
+                <StackPanel
+                    Margin="0,25,0,0"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    IsVisible="{Binding EmptySessions}"
+                    Spacing="20">
+                    <TextBlock
+                        HorizontalAlignment="Center"
+                        FontSize="24"
+                        FontWeight="Bold"
+                        Text="Go Focus!"
+                        TextWrapping="WrapWithOverflow" />
+                    <TextBlock
+                        HorizontalAlignment="Center"
+                        FontSize="20"
+                        Text="There's no data for the selected settings."
+                        TextWrapping="WrapWithOverflow" />
+                </StackPanel>
+
                 <!--  DATA  -->
-                <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                <ScrollViewer
+                    HorizontalScrollBarVisibility="Auto"
+                    IsVisible="{Binding !EmptySessions}"
+                    VerticalScrollBarVisibility="Auto">
 
                     <DataGrid
                         x:Name="SessionsDataGrid"
@@ -174,9 +203,9 @@
                                     <DataTemplate>
                                         <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
                                             <TextBlock
-                                                Margin="0,0,10,0"
+                                                Classes="Data"
                                                 Text="{Binding FinishedDate, Converter={StaticResource StringFromDateTimeConverter}}"
-                                                TextWrapping="Wrap" />
+                                                ToolTip.Tip="Day/Month/Year Hour:Minute" />
                                         </ScrollViewer>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
@@ -187,11 +216,7 @@
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-                                            <TextBlock
-                                                Margin="0,0,10,0"
-                                                HorizontalAlignment="Center"
-                                                Text="{Binding TagName}"
-                                                TextWrapping="Wrap" />
+                                            <TextBlock Classes="Data" Text="{Binding TagName}" />
                                         </ScrollViewer>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
@@ -202,11 +227,7 @@
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-                                            <TextBlock
-                                                Margin="0,0,10,0"
-                                                HorizontalAlignment="Center"
-                                                Text="{Binding SessionType, Converter={StaticResource SessionTypeToFriendlyStringConverter}}"
-                                                TextWrapping="Wrap" />
+                                            <TextBlock Classes="Data" Text="{Binding SessionType, Converter={StaticResource SessionTypeToFriendlyStringConverter}}" />
                                         </ScrollViewer>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
@@ -217,11 +238,7 @@
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-                                            <TextBlock
-                                                Margin="0,0,10,0"
-                                                HorizontalAlignment="Center"
-                                                Text="{Binding CompletedSeconds, Converter={StaticResource FormattedTimeFromSecondsConverter}}"
-                                                TextWrapping="Wrap" />
+                                            <TextBlock Classes="Data" Text="{Binding CompletedSeconds, Converter={StaticResource FormattedTimeFromSecondsConverter}}" />
                                         </ScrollViewer>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
@@ -232,11 +249,7 @@
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-                                            <TextBlock
-                                                Margin="0,0,10,0"
-                                                HorizontalAlignment="Center"
-                                                Text="{Binding DurationSeconds, Converter={StaticResource FormattedTimeFromSecondsConverter}}"
-                                                TextWrapping="Wrap" />
+                                            <TextBlock Classes="Data" Text="{Binding DurationSeconds, Converter={StaticResource FormattedTimeFromSecondsConverter}}" />
                                         </ScrollViewer>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
@@ -259,10 +272,11 @@
 
                                             <Grid Width="310" Margin="5">
                                                 <TextBlock
+                                                    HorizontalAlignment="Left"
+                                                    Classes="Data"
                                                     IsVisible="{Binding !IsEditing}"
                                                     Text="{Binding Description}"
-                                                    TextAlignment="Justify"
-                                                    TextWrapping="Wrap" />
+                                                    TextAlignment="Justify" />
 
                                                 <TextBox
                                                     IsVisible="{Binding IsEditing}"

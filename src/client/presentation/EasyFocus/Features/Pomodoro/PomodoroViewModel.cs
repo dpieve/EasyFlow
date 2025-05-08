@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Reactive;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
@@ -19,7 +20,7 @@ namespace EasyFocus.Features.Pomodoro;
 public sealed partial class PomodoroViewModel : ViewModelBase, IActivatableViewModel
 {
 #if DEBUG
-    private const int _minutesToSecondsFactor = 1; // for testing, minutes = seconds.
+    private const int _minutesToSecondsFactor = 1; // for testing: minutes = seconds.
 #else
     private const int _minutesToSecondsFactor = 60;
 #endif
@@ -40,31 +41,26 @@ public sealed partial class PomodoroViewModel : ViewModelBase, IActivatableViewM
 
     [Reactive] private bool _smallWindowMode;
 
-    private readonly AppSettings _appSettings;
-    private readonly IPlaySoundService _playSoundService;
+    private readonly IAudioService _playSoundService;
     private readonly INotificationService _notificationService;
     private readonly ISessionService _sessionService;
-    private readonly BrowserTitleService? _browserTile;
+    private readonly IBrowserService _browserService;
 
     public PomodoroViewModel(
         SettingsViewModel settings,
-        IPlaySoundService playSoundService,
+        IAudioService playSoundService,
         INotificationService notificationService,
-        ISessionService sessionService)
+        ISessionService sessionService,
+        IBrowserService browserService)
     {
         Settings = settings;
-        _appSettings = Settings.FocusTime.Settings;
         _playSoundService = playSoundService;
         _notificationService = notificationService;
         _sessionService = sessionService;
+        _browserService = browserService;
 
         SessionType = SessionType.Pomodoro;
-        SelectedTag = Tags.FirstOrDefault();
-
-        if (OperatingSystem.IsBrowser())
-        {
-            _browserTile = new BrowserTitleService();
-        }
+        SelectedTag = Tags.FirstOrDefault(t => t.Tag.Id == Settings.FocusTime.Settings.SelectedTag.Id);
 
         Observable.Interval(TimeSpan.FromSeconds(1))
             .Where(_ => IsTimerTicking)
@@ -91,8 +87,15 @@ public sealed partial class PomodoroViewModel : ViewModelBase, IActivatableViewM
             .Subscribe(p => SecondsLeft = p);
 
         this.WhenAnyValue(vm => vm.SelectedTag)
-            .Where(tag => tag is null)
-            .Subscribe(_ => SelectedTag = Tags.FirstOrDefault());
+            .Skip(1)
+            .DistinctUntilChanged()
+            .Do(tag =>
+            {
+                SelectedTag = tag is null ? Tags[0] : SelectedTag;
+                Settings.FocusTime.Settings.SelectedTag = SelectedTag?.Tag!;
+            })
+            .Select(_ => Unit.Default)
+            .InvokeCommand(Settings.FocusTime.SaveChangesCommand);
 
         this.WhenAnyValue(vm => vm.SessionType)
             .Buffer(2, 1)
@@ -100,7 +103,6 @@ public sealed partial class PomodoroViewModel : ViewModelBase, IActivatableViewM
             .InvokeCommand(SessionChangedCommand);
 
         this.WhenAnyValue(vm => vm.SecondsLeft)
-            .Where(_ => _browserTile is not null)
             .InvokeCommand(UpdateBrowserTitleCommand);
 
         this.WhenAnyValue(vm => vm.Settings.FocusTime.ShowTodaySession)
@@ -108,15 +110,17 @@ public sealed partial class PomodoroViewModel : ViewModelBase, IActivatableViewM
             .Select(_ => Observable.StartAsync(LoadTodaySessions))
             .Concat()
             .ObserveOn(RxApp.MainThreadScheduler)
+            .Where(_ => Settings.FocusTime.ShowTodaySession)
             .Subscribe(sessions =>
             {
-                if (_appSettings.ShowTodaySessions)
-                {
-                    PomodorosCompleted = sessions.Count(s => s.SessionType == SessionType.Pomodoro);
-                    ShortBreaksCompleted = sessions.Count(s => s.SessionType == SessionType.ShortBreak);
-                    LongBreaksCompleted = sessions.Count(s => s.SessionType == SessionType.LongBreak);
-                }
+                PomodorosCompleted = sessions.Count(s => s.SessionType == SessionType.Pomodoro);
+                ShortBreaksCompleted = sessions.Count(s => s.SessionType == SessionType.ShortBreak);
+                LongBreaksCompleted = sessions.Count(s => s.SessionType == SessionType.LongBreak);
             });
+
+        this.WhenAnyValue(vm => vm.ShowingSettings)
+            .Where(s => !s)
+            .Subscribe(_ => Settings.Restart());
 
         this.WhenActivated(Activated);
     }
@@ -137,17 +141,18 @@ public sealed partial class PomodoroViewModel : ViewModelBase, IActivatableViewM
 
     private void Activated(CompositeDisposable d)
     {
-        Observable.StartAsync(LoadTodaySessions)
+        if (Settings.FocusTime.ShowTodaySession)
+        {
+            Observable.StartAsync(LoadTodaySessions)
             .ObserveOn(RxApp.MainThreadScheduler)
+            .Where(_ => Settings.FocusTime.ShowTodaySession)
             .Subscribe(sessions =>
             {
-                if (_appSettings.ShowTodaySessions)
-                {
-                    PomodorosCompleted = sessions.Count(s => s.SessionType == SessionType.Pomodoro);
-                    ShortBreaksCompleted = sessions.Count(s => s.SessionType == SessionType.ShortBreak);
-                    LongBreaksCompleted = sessions.Count(s => s.SessionType == SessionType.LongBreak);
-                }
+                PomodorosCompleted = sessions.Count(s => s.SessionType == SessionType.Pomodoro);
+                ShortBreaksCompleted = sessions.Count(s => s.SessionType == SessionType.ShortBreak);
+                LongBreaksCompleted = sessions.Count(s => s.SessionType == SessionType.LongBreak);
             });
+        }
     }
 
     private async Task<List<Session>> LoadTodaySessions()
@@ -331,7 +336,7 @@ public sealed partial class PomodoroViewModel : ViewModelBase, IActivatableViewM
                 break;
         }
 
-        _ = Task.Run(() => _notificationService.ShowNotification(title, msg));
+        _ = Task.Run(() => _notificationService.Show(title, msg));
 
         Log.Information("Show notification: {title}, {msg}", title, msg);
     }
@@ -351,10 +356,7 @@ public sealed partial class PomodoroViewModel : ViewModelBase, IActivatableViewM
     [ReactiveCommand]
     private async Task UpdateBrowserTitle(int secondsLeft)
     {
-        if (_browserTile is not null && OperatingSystem.IsBrowser())
-        {
-            await _browserTile.Update(secondsLeft, IsTimerTicking);
-        }
+        await _browserService.UpdateTitleAsync(secondsLeft, IsTimerTicking);
     }
 
     private async Task SaveProgress(SessionType sessionType)

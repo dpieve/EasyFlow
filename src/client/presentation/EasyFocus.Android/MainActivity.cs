@@ -3,7 +3,6 @@ using Android.Content.PM;
 using Avalonia;
 using Avalonia.Android;
 using Avalonia.ReactiveUI;
-using EasyFocus.Common;
 using Microsoft.Extensions.Hosting;
 using ReactiveUI;
 using Serilog;

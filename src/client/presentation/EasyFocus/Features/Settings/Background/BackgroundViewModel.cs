@@ -14,10 +14,10 @@ namespace EasyFocus.Features.Settings.Background;
 public sealed partial class BackgroundViewModel : ViewModelBase
 {
     private AppSettings _settings;
-    private readonly ISettingsService _settingsService;
+    private readonly IAppSettingsService _settingsService;
     [Reactive] private string _selectedBackground;
 
-    public BackgroundViewModel(AppSettings settings, ISettingsService settingsService)
+    public BackgroundViewModel(AppSettings settings, IAppSettingsService settingsService)
     {
         _settings = settings;
         _settingsService = settingsService;

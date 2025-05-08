@@ -43,7 +43,10 @@
 
     <ItemGroup>
 	  <PackageReference Include="Splat.Microsoft.Extensions.DependencyInjection" />
-      <ProjectReference Include="..\..\EasyFocus.Domain\EasyFocus.Domain.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\EasyFocus.Application\EasyFocus.Application.csproj" />
     </ItemGroup>
 
     <ItemGroup>
