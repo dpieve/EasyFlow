@@ -7,16 +7,14 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:entities="clr-namespace:EasyFocus.Domain.Entities;assembly=EasyFocus.Domain"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:vm="clr-namespace:EasyFocus.Features.Report"
-    d:DesignHeight="450"
-    d:DesignWidth="800"
+    xmlns:mockups="clr-namespace:EasyFocus.Resources.Mockups;assembly=EasyFocus"
     xmlns:res="clr-namespace:EasyFocus.Resources"
+    xmlns:vm="clr-namespace:EasyFocus.Features.Report"
+    d:DesignHeight="768"
+    d:DesignWidth="1366"
+    d:DataContext="{x:Static mockups:LivePreviewMockup.ReportViewModel}"
     x:DataType="vm:ReportViewModel"
     mc:Ignorable="d">
-
-    <Design.DataContext>
-        <vm:ReportViewModel />
-    </Design.DataContext>
 
     <UserControl.Resources>
         <converters:StringFromDateTimeConverter x:Key="StringFromDateTimeConverter" />

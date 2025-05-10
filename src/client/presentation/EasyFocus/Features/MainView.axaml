@@ -3,33 +3,30 @@
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:common="clr-namespace:EasyFocus.Common"
+    xmlns:converters="clr-namespace:EasyFocus.Converters;assembly=EasyFocus"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:res="clr-namespace:EasyFocus.Resources.Mockups;assembly=EasyFocus"
     xmlns:vm="clr-namespace:EasyFocus.Features"
+    d:DataContext="{x:Static res:LivePreviewMockup.MainViewModel}"
     d:DesignHeight="768"
     d:DesignWidth="1366"
-    xmlns:converters="clr-namespace:EasyFocus.Converters;assembly=EasyFocus"
     x:DataType="vm:MainViewModel"
     mc:Ignorable="d">
-	<Design.DataContext>
-		<vm:MainViewModel />
-	</Design.DataContext>
 
-	<UserControl.Resources>
-		<converters:StringToImageBrushConverter x:Key="StringToImageConverter" />
-	</UserControl.Resources>
+    <UserControl.Resources>
+        <converters:StringToImageBrushConverter x:Key="StringToImageConverter" />
+    </UserControl.Resources>
 
-	<UserControl.Background>
-		<ImageBrush 
-			Stretch="UniformToFill"
-			Source="{Binding SelectedBackground, Converter={StaticResource StringToImageConverter}}" />
-	</UserControl.Background>
+    <UserControl.Background>
+        <ImageBrush Source="{Binding SelectedBackground, Converter={StaticResource StringToImageConverter}}" Stretch="UniformToFill" />
+    </UserControl.Background>
 
-	<Grid>
-		<ContentControl Content="{Binding CurrentViewModel}">
-			<ContentControl.ContentTemplate>
-				<common:ViewLocator />
-			</ContentControl.ContentTemplate>
-		</ContentControl>
-	</Grid>
+    <Grid>
+        <ContentControl Content="{Binding CurrentViewModel}">
+            <ContentControl.ContentTemplate>
+                <common:ViewLocator />
+            </ContentControl.ContentTemplate>
+        </ContentControl>
+    </Grid>
 </UserControl>

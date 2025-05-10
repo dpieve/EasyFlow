@@ -6,8 +6,10 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:res="clr-namespace:EasyFocus.Resources"
     xmlns:vm="using:EasyFocus.Features.Settings.HomeSettings"
-    d:DesignHeight="450"
-    d:DesignWidth="800"
+    xmlns:mockups="clr-namespace:EasyFocus.Resources.Mockups;assembly=EasyFocus"
+    d:DataContext="{x:Static mockups:LivePreviewMockup.HomeSettingsViewModel}"
+    d:DesignHeight="500"
+    d:DesignWidth="330"
     x:DataType="vm:HomeSettingsViewModel"
     mc:Ignorable="d">
 

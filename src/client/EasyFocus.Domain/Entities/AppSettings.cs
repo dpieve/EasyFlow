@@ -38,4 +38,26 @@ public sealed class AppSettings
         BackgroundPath = backgroundPath;
         ShowTodaySessions = showTodaySessions;
     }
+
+    public static AppSettings CreateDefault()
+    {
+        var tags = Tag.CreateDefaultTags();
+        return new AppSettings(
+            id: 1,
+            selectedTag: tags.First(),
+            selectedPomodoro: 25,
+            selectedShortBreak: 5,
+            selectedLongBreak: 10,
+            pomodorosBeforeLongBreak: 4,
+            autoStartPomodoros: true,
+            autoStartBreaks: true,
+            saveSkippedSessions: false,
+            notificationOnCompletion: true,
+            notificationAfterSkippedSessions: false,
+            alarmVolume: 50,
+            alarmSound: Sound.Audio1,
+            backgroundPath: "background1.png",
+            showTodaySessions: true
+            );
+    }
 }

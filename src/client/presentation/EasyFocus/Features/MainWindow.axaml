@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:res="clr-namespace:EasyFocus.Resources.Mockups;assembly=EasyFocus"
     xmlns:views="clr-namespace:EasyFocus.Features"
     xmlns:vm="using:EasyFocus.Features"
     x:Name="mainWindow"
@@ -24,9 +25,10 @@
     SizeChanged="Window_SizeChanged"
     TransparencyLevelHint="AcrylicBlur"
     WindowStartupLocation="CenterScreen"
+    d:DataContext="{x:Static res:LivePreviewMockup.MainViewModel}"
     WindowState="Normal"
     mc:Ignorable="d">
-
+	
     <Window.Styles>
         <Style Selector="Button.TitleBar">
             <Setter Property="Padding" Value="7" />

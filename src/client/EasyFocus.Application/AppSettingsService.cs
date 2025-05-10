@@ -40,31 +40,8 @@ public sealed class AppSettingsService : IAppSettingsService
 
     public async Task Initialize()
     {
-        var defaultTags = new List<Tag>
-          {
-              Tag.CreateTag("Work", 1),
-              Tag.CreateTag("Study", 2),
-              Tag.CreateTag("Chores", 3)
-          };
-
-        var defaultSettings = new AppSettings(
-            id: 1,
-            selectedTag: defaultTags.First(),
-            selectedPomodoro: 25,
-            selectedShortBreak: 5,
-            selectedLongBreak: 10,
-            pomodorosBeforeLongBreak: 4,
-            autoStartPomodoros: true,
-            autoStartBreaks: true,
-            saveSkippedSessions: false,
-            notificationOnCompletion: true,
-            notificationAfterSkippedSessions: false,
-            alarmVolume: 50,
-            alarmSound: Sound.Audio1,
-            backgroundPath: "background1.png",
-            showTodaySessions: true
-            );
-
+        var defaultTags = Tag.CreateDefaultTags();
+        var defaultSettings = AppSettings.CreateDefault();
         await _appRepository.LoadData(defaultTags, defaultSettings);
     }
 

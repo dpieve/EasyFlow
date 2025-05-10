@@ -4,10 +4,12 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:vm="clr-namespace:EasyFocus.Features.Settings.Background"
-    d:DesignHeight="450"
+    xmlns:mockups="clr-namespace:EasyFocus.Resources.Mockups;assembly=EasyFocus"
     xmlns:res="clr-namespace:EasyFocus.Resources"
-    d:DesignWidth="800"
+    xmlns:vm="clr-namespace:EasyFocus.Features.Settings.Background"
+    d:DataContext="{x:Static mockups:LivePreviewMockup.BackgroundViewModel}"
+    d:DesignHeight="500"
+    d:DesignWidth="330"
     x:DataType="vm:BackgroundViewModel"
     mc:Ignorable="d">
 

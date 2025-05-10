@@ -5,16 +5,18 @@
     xmlns:cc="clr-namespace:EasyFocus.CustomControls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:vm="clr-namespace:EasyFocus.Features.Settings.FocusTime"
-    d:DesignHeight="400"
+    xmlns:mockups="clr-namespace:EasyFocus.Resources.Mockups;assembly=EasyFocus"
     xmlns:res="clr-namespace:EasyFocus.Resources"
-    d:DesignWidth="500"
+    xmlns:vm="clr-namespace:EasyFocus.Features.Settings.FocusTime"
+    d:DataContext="{x:Static mockups:LivePreviewMockup.FocusTimeViewModel}"
+    d:DesignHeight="500"
+    d:DesignWidth="330"
     x:DataType="vm:FocusTimeViewModel"
     mc:Ignorable="d">
 
     <ScrollViewer>
 
-        <Grid RowDefinitions="auto, auto" >
+        <Grid RowDefinitions="auto, auto">
 
             <!--  TITLE  -->
 
@@ -37,11 +39,11 @@
             </StackPanel>
 
             <!--  CONTROLS  -->
-			
-        <StackPanel
-            Grid.Row="1"
-            Margin="20"
-            Spacing="15">
+
+            <StackPanel
+                Grid.Row="1"
+                Margin="20"
+                Spacing="15">
 
                 <cc:LabelsSlider
                     Grid.Row="0"
