@@ -10,6 +10,10 @@
         <common:ViewLocator />
     </Application.DataTemplates>
 
+	<Application.Resources>
+		<FontFamily x:Key="RobotoFont">avares://EasyFocus/Assets/Fonts/Roboto#Roboto Condensed</FontFamily>
+	</Application.Resources>
+
     <Application.Styles>
         <FluentTheme />
         <StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Fluent.xaml" />
@@ -32,7 +36,9 @@
 
         <Style Selector="TextBlock">
             <Setter Property="Foreground" Value="#d6d3cd" />
+			<Setter Property="FontFamily" Value="{StaticResource RobotoFont}" />
         </Style>
 
     </Application.Styles>
+
 </Application>

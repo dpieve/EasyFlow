@@ -1,3 +1,4 @@
+using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 using EasyFocus.Common;
@@ -11,6 +12,7 @@ using EasyFocus.Features.Settings.FocusTime;
 using EasyFocus.Features.Settings.HomeSettings;
 using EasyFocus.Features.Settings.Notifications;
 using EasyFocus.Features.Settings.Tags;
+using EasyFocus.Resources.Mockups;
 using Serilog;
 using Splat;
 using System;
@@ -60,8 +62,14 @@ public static class  Bootstrap
 {
     public static async Task<MainViewModel> CreateMainViewModel()
     {
+        // Live Preview Registration.
+        if (Design.IsDesignMode)
+        {
+            LivePreviewMockup.Register();
+        }
+
         var settingsService = Locator.Current.GetServiceOrThrow<IAppSettingsService>();
-        await settingsService.Initialize(); // Seed Data
+        await settingsService.Initialize(); // Seed Data.
 
         var playSoundService = Locator.Current.GetServiceOrThrow<IAudioService>();
         var notificationService = Locator.Current.GetServiceOrThrow<INotificationService>();

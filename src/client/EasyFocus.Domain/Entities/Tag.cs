@@ -19,4 +19,14 @@ public sealed class Tag
             Name = name
         };
     }
+
+    public static List<Tag> CreateDefaultTags()
+    {
+        return
+        [
+            CreateTag("Work", 1),
+            CreateTag("Study", 2),
+            CreateTag("Chores", 3)
+        ];
+    }
 }

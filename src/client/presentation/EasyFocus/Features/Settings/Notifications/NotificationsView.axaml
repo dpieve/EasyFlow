@@ -5,15 +5,14 @@
     xmlns:cc="clr-namespace:EasyFocus.CustomControls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:mockups="clr-namespace:EasyFocus.Resources.Mockups;assembly=EasyFocus"
+    xmlns:res="clr-namespace:EasyFocus.Resources"
     xmlns:vm="clr-namespace:EasyFocus.Features.Settings.Notifications"
-    d:DesignHeight="450"
-    d:DesignWidth="800"
+    d:DataContext="{x:Static mockups:LivePreviewMockup.NotificationsViewModel}"
+    d:DesignHeight="500"
+    d:DesignWidth="330"
     x:DataType="vm:NotificationsViewModel"
     mc:Ignorable="d">
-
-    <UserControl.Resources>
-        <StreamGeometry x:Key="arrow_left_icon">M12.7347,4.20949 C13.0332,3.92233 13.508,3.93153 13.7952,4.23005 C14.0823,4.52857 14.0731,5.00335 13.7746,5.29051 L5.50039,13.25 L24.2532,13.25 C24.6674,13.25 25.0032,13.5858 25.0032,13.9999982 C25.0032,14.4142 24.6674,14.75 24.2532,14.75 L5.50137,14.75 L13.7746,22.7085 C14.0731,22.9957 14.0823,23.4705 13.7952,23.769 C13.508,24.0675 13.0332,24.0767 12.7347,23.7896 L3.30673,14.7202 C2.89776,14.3268 2.89776,13.6723 3.30673,13.2788 L12.7347,4.20949 Z</StreamGeometry>
-    </UserControl.Resources>
 
     <UserControl.Styles>
         <Style Selector="Button.Selected">
@@ -36,7 +35,8 @@
                     <PathIcon
                         Width="25"
                         Height="25"
-                        Data="{StaticResource arrow_left_icon}" />
+                        Data="{x:Static res:AppIcons.ArrowLeft}" />
+
                 </Button>
                 <TextBlock
                     VerticalAlignment="Center"
