@@ -4,10 +4,10 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:res="clr-namespace:EasyFocus.Resources"
     xmlns:vm="using:EasyFocus.Features.Settings.HomeSettings"
     d:DesignHeight="450"
     d:DesignWidth="800"
-    xmlns:res="clr-namespace:EasyFocus.Resources"
     x:DataType="vm:HomeSettingsViewModel"
     mc:Ignorable="d">
 
@@ -17,76 +17,75 @@
             <Setter Property="HorizontalAlignment" Value="Stretch" />
             <Setter Property="Background" Value="Transparent" />
         </Style>
+
+        <Style Selector="StackPanel > PathIcon">
+            <Setter Property="Width" Value="20" />
+            <Setter Property="Height" Value="20" />
+        </Style>
+
+        <Style Selector="StackPanel.Button > TextBlock">
+            <Setter Property="FontSize" Value="18" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="TextWrapping" Value="WrapWithOverflow" />
+        </Style>
+
+        <Style Selector="StackPanel.Button">
+            <Setter Property="Spacing" Value="12" />
+            <Setter Property="Orientation" Value="Horizontal" />
+        </Style>
     </UserControl.Styles>
 
     <ScrollViewer>
-        <Grid RowDefinitions="auto, auto">
-            <StackPanel Grid.Row="1" Margin="20,40,20,20">
-                <Button Command="{Binding OnFocusTimeCommand}">
-                    <StackPanel Orientation="Horizontal" Spacing="10">
-                        <PathIcon
-                            Width="15"
-                            Height="15"
-                            Data="{x:Static res:AppIcons.Concentration}" />
-                        <TextBlock Text="Focus" />
-                    </StackPanel>
-                </Button>
-                <Button Command="{Binding OnNotificationsCommand}">
-                    <StackPanel Orientation="Horizontal" Spacing="10">
-                        <PathIcon
-                            Width="15"
-                            Height="15"
-                            Data="{x:Static res:AppIcons.Notifications}" />
-                        <TextBlock Text="Notifications" />
-                    </StackPanel>
-                </Button>
-                <Button Command="{Binding OnTagsCommand}">
-                    <StackPanel Orientation="Horizontal" Spacing="10">
-                        <PathIcon
-                            Width="15"
-                            Height="15"
-                            Data="{x:Static res:AppIcons.Tag}" />
-                        <TextBlock Text="Tags" />
-                    </StackPanel>
-                </Button>
+        <StackPanel Margin="20,40,20,20">
 
-                <Button Command="{Binding OnBackgroundCommand}">
-                    <StackPanel Orientation="Horizontal" Spacing="10">
-                        <PathIcon
-                            Width="15"
-                            Height="15"
-                            Data="{x:Static res:AppIcons.Background}" />
-                        <TextBlock Text="Background" />
-                    </StackPanel>
-                </Button>
+            <Button Command="{Binding OnFocusTimeCommand}">
+                <StackPanel Classes="Button">
+                    <PathIcon Data="{x:Static res:AppIcons.Concentration}" />
+                    <TextBlock Text="Focus" />
+                </StackPanel>
+            </Button>
 
-                <Button Command="{Binding OnReportCommand}">
-                    <StackPanel Orientation="Horizontal" Spacing="10">
-                        <PathIcon
-                            Width="15"
-                            Height="15"
-                            Data="{x:Static res:AppIcons.Report}" />
-                        <TextBlock Text="Report" />
-                    </StackPanel>
-                </Button>
+            <Button Command="{Binding OnNotificationsCommand}">
+                <StackPanel Classes="Button">
+                    <PathIcon Data="{x:Static res:AppIcons.Notifications}" />
+                    <TextBlock Text="Notifications" />
+                </StackPanel>
+            </Button>
 
-                <Button x:Name="SupportFeedbackButton" Command="{Binding OnSupportFeedbackCommand}">
-                    <StackPanel Orientation="Horizontal" Spacing="10">
-                        <PathIcon
-                            Width="15"
-                            Height="15"
-                            Data="{x:Static res:AppIcons.Feedback}" />
-                        <TextBlock Text="Support &amp; Feedback" />
-                    </StackPanel>
-                </Button>
+            <Button Command="{Binding OnTagsCommand}">
+                <StackPanel Classes="Button">
+                    <PathIcon Data="{x:Static res:AppIcons.Tag}" />
+                    <TextBlock Text="Tags" />
+                </StackPanel>
+            </Button>
 
-                <TextBlock
-                    Margin="10,10,0,0"
-                    Foreground="Yellow"
-                    Text="{Binding ErrorMessage}"
-					TextWrapping="WrapWithOverflow"/>
-            </StackPanel>
+            <Button Command="{Binding OnBackgroundCommand}">
+                <StackPanel Classes="Button">
+                    <PathIcon Data="{x:Static res:AppIcons.Background}" />
+                    <TextBlock Text="Background" />
+                </StackPanel>
+            </Button>
 
-        </Grid>
+            <Button Command="{Binding OnReportCommand}">
+                <StackPanel Classes="Button">
+                    <PathIcon Data="{x:Static res:AppIcons.Report}" />
+                    <TextBlock Text="Report" />
+                </StackPanel>
+            </Button>
+
+            <Button x:Name="SupportFeedbackButton" Command="{Binding OnSupportFeedbackCommand}">
+                <StackPanel Classes="Button">
+                    <PathIcon Data="{x:Static res:AppIcons.Feedback}" />
+                    <TextBlock Text="Support &amp; Feedback" />
+                </StackPanel>
+            </Button>
+
+            <TextBlock
+                Margin="10,10,0,0"
+                Foreground="Yellow"
+                Text="{Binding ErrorMessage}"
+                TextWrapping="WrapWithOverflow" />
+        </StackPanel>
+
     </ScrollViewer>
 </UserControl>
