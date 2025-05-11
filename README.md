@@ -9,7 +9,7 @@ The application is built with C# and [AvaloniaUI](https://avaloniaui.net/).
 > "To help me stay focused and productive while working from home, I built the EasyFocus app. 
 A tool that tracks time, respects privacy and lets me easily see what I’ve accomplished." - dpieve.
 
-Check it out: [dpieve.github.io/EasyFocus/](https://dpieve.github.io/EasyFocus/)
+Check it out [here](https://dpieve.github.io/EasyFocus/info.html).
 
 ## Features
 
