@@ -30,6 +30,12 @@ jobs:
       - name: copy index.html to 404.html
         run: cp $OUTPUT_PATH/index.html $OUTPUT_PATH/404.html
 
+      - name: Copy info page to output
+        run: |
+          cp docs/easyfocus-screenshot.png $OUTPUT_PATH/
+          cp docs/info.html $OUTPUT_PATH/
+          cp docs/styles.css $OUTPUT_PATH/
+
       - name: Add .nojekyll file
         run: touch $OUTPUT_PATH/.nojekyll
 
