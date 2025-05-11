@@ -18,9 +18,9 @@ Check it out: [dpieve.github.io/EasyFocus/](https://dpieve.github.io/EasyFocus/)
 * **Notifications**: Enable or disable notifications for your sessions to suit your preference.
 * **Stats**: Visualize your progress over time.
 
-## Installation
+## Documentation
 
-For installation instructions and usage documentation, please visit our [page](https://dpieve.github.io/EasyFocus/).
+For instructions, please visit our [page](https://dpieve.github.io/EasyFocus/info.html).
 
 ## Build
 
@@ -41,5 +41,5 @@ For installation instructions and usage documentation, please visit our [page](h
 
 Feel free to open an [issue](https://github.com/dpieve/EasyFocus/issues) or a Pull Request.
 
-Read the `CONTRIBUTION.MD` for more details.
+Read the [contributing](https://github.com/dpieve/EasyFocus/blob/main/CONTRIBUTING.md) for more details.
 
