@@ -3,6 +3,9 @@ name: Release
 on: 
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 env:
   DOTNET_VERSION: '9.x'
 
@@ -88,6 +91,8 @@ jobs:
   draft-release:
     needs: [ publish-windows, publish-linux, publish-android ]
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - name: Download windows Artifacts
         uses: actions/download-artifact@v4
