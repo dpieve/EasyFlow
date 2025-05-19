@@ -14,7 +14,5 @@ Open an issue in case you find any bugs to the latest released version, if you h
 2) Make changes in your Fork.
 3) Create a Pull Request (read how 
 [here](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request-from-a-fork)). 
-
-* Select to merge your branch to the base `dev` branch. The `main` branch is for released versions.
    
 * Explain the changes and how they contribute to the project.
